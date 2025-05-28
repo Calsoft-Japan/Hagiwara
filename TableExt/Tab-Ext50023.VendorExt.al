@@ -1,0 +1,175 @@
+tableextension 50023 "Vendor Ext" extends "Vendor"
+{
+    fields
+    {
+        field(50000; "Shipping Terms"; Text[100])
+        {
+            Description = 'HG10.00.02 NJ 01/06/2017';
+        }
+        field(50001; "Company Address"; Text[100])
+        {
+            Caption = 'Company Address';
+            Description = 'SKLV6.0';
+        }
+        field(50002; "Company Address 2"; Text[100])
+        {
+            Caption = 'Company Address 2';
+            Description = 'SKLV6.0';
+        }
+        field(50003; "Business Type"; Text[50])
+        {
+            Caption = 'Business Type';
+            Description = 'SKLV6.0';
+        }
+        field(50004; "Business Class"; Text[70])
+        {
+            Caption = 'Business Class';
+            Description = 'SKLV6.0';
+        }
+        field(50005; "Owner Name"; Text[50])
+        {
+            Caption = 'Owner Name';
+            Description = 'SKLV6.0';
+        }
+        field(50006; "Corp. Registration No."; Text[30])
+        {
+            Caption = 'Corp. Registration No.';
+            Description = 'SKLV6.0';
+
+        }
+        field(50007; "ID No. KR"; Text[13])
+        {
+            Caption = 'ID No.';
+            Description = 'SKLV6.0';
+        }
+        field(50008; "Issue Type"; Option)
+        {
+            Caption = 'Issue Type';
+            Description = 'SKLV6.0';
+            OptionCaption = 'By Transaction,By Period';
+            OptionMembers = ByTransaction,ByPeriod;
+        }
+        field(50009; "Business Category"; Option)
+        {
+            Caption = 'Business Category';
+            Description = 'SKLV6.0';
+            OptionCaption = 'Corporate,Personal Corporate,Person';
+            OptionMembers = Corporate,"Personal Corporate",Person;
+        }
+        field(50010; "Incoterm Code"; Code[20])
+        {
+            Description = 'HG10.00.02 NJ 01/06/2017';
+        }
+        field(50011; "VAT Category Type Name"; Text[50])
+        {
+            Caption = 'VAT Category Type Name';
+            Description = 'SKLV6.0';
+        }
+        field(50012; "Credit Card"; Boolean)
+        {
+            Caption = 'Credit Card';
+            Description = 'SKLV6.0';
+
+        }
+        field(50013; "Credit Card Code"; Code[10])
+        {
+            Caption = 'Credit Card Code';
+            Description = 'SKLV6.0';
+        }
+        field(50014; "Credit Card No."; Text[30])
+        {
+            Caption = 'Credit Card No.';
+            Description = 'SKLV6.0';
+        }
+        field(50020; "Incoterm Location"; Text[50])
+        {
+            Description = 'HG10.00.02 NJ 01/06/2017';
+        }
+        field(50021; "VAT Category Type Code KR"; Code[10])
+        {
+            Caption = 'VAT Category Type Code';
+            Description = 'SKLV6.0';
+
+        }
+        field(50030; "Company Name KR"; Text[50])
+        {
+            Caption = 'Company Name';
+            Description = 'SKLV6.0';
+        }
+        field(50040; "Manufacturer Code"; Code[10])
+        {
+            Caption = 'Manufacturer Code';
+            Description = 'CS051';
+        }
+        field(50050; "ORE Ship-to Code"; Code[50])
+        {
+            Description = 'CS060';
+        }
+        field(50051; "ORE Reverse Routing Address"; Code[40])
+        {
+            Caption = 'ORE Reverse Routing Address (NoneSD)';
+            Description = 'CS060,CS103';
+        }
+        field(50052; "Excluded in ORE Collection"; Boolean)
+        {
+            Description = 'CS060';
+        }
+        field(50053; "ORE Reverse Routing Address SD"; Code[40])
+        {
+            Caption = 'ORE Reverse Routing Address (SD)';
+            Description = 'CS073,CS103';
+        }
+        field(50054; "Hagiwara Group"; Code[10])
+        {
+            Description = 'CS082';
+        }
+        field(60001; "Familiar Name"; Code[20])
+        {
+            Caption = 'Familiar Name';
+            Description = 'HG10.00.02 NJ 01/06/2017';
+            Editable = true;
+        }
+        field(60004; "Pay-to Address"; Text[50])
+        {
+            Caption = 'Pay-to Address';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+
+        }
+        field(60005; "Pay-to Address 2"; Text[50])
+        {
+            Caption = 'Pay-to Address 2';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+
+        }
+        field(60006; "Pay-to City"; Text[30])
+        {
+            Caption = 'Pay-to City';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+            //This property is currently not supported
+            //TestTableRelation = false;
+
+        }
+        field(60007; "Pay-to Post Code"; Code[20])
+        {
+            Caption = 'Pay-to Post Code';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+            //This property is currently not supported
+            //TestTableRelation = false;
+
+        }
+        field(60008; "Pay-to County"; Text[30])
+        {
+            Caption = 'Pay-to County';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+        }
+        field(60009; "Pay-to Country/Region Code"; Code[10])
+        {
+            Caption = 'Pay-to Country/Region Code';
+            Description = 'HG10.00.10 NJ 10/04/2018';
+        }
+        field(60010; "Exclude Check"; Boolean)
+        {
+            Description = 'HG10.00.10 NJ 10/04/2018';
+        }
+    }
+}

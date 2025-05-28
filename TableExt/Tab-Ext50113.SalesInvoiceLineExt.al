@@ -1,0 +1,38 @@
+tableextension 50113 "Sales Invoice Line Ext" extends "Sales Invoice Line"
+{
+    fields
+    {
+        field(50010;"Customer Order No.";Text[35])
+        {
+            Description = '//30';
+        }
+        field(50011;"Customer Item No.";Code[20])
+        {
+            // cleaned
+        }
+        field(50012;"Parts No.";Code[40])
+        {
+            Description = '//20110427 from X30';
+        }
+        field(50013;Rank;Code[15])
+        {
+            // cleaned
+        }
+        field(50014;Products;Text[20])
+        {
+            // cleaned
+        }
+        field(50020;"OEM No.";Code[20])
+        {
+            // cleaned
+        }
+        field(50021;"OEM Name";Text[50])
+        {
+            // cleaned
+        }
+        field(50539;"Salesperson Code";Code[10])
+        {
+            Description = '//20121203 Enhanceents';
+        }
+    }
+}
