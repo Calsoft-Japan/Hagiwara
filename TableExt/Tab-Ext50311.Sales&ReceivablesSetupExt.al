@@ -2,7 +2,7 @@ tableextension 50311 "Sales & Receivables Setup Ext" extends "Sales & Receivable
 {
     fields
     {
-        field(50001;"Final Custormer No.";Code[10])
+        field(50001; "Final Custormer No."; Code[10])
         {
             // cleaned
         }

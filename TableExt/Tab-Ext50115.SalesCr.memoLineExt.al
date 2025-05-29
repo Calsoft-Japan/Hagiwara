@@ -2,31 +2,31 @@ tableextension 50115 "Sales Cr.Memo Line Ext" extends "Sales Cr.Memo Line"
 {
     fields
     {
-        field(50011;"Customer Item No.";Code[20])
+        field(50011; "Customer Item No."; Code[20])
         {
             // cleaned
         }
-        field(50012;"Parts No.";Code[40])
+        field(50012; "Parts No."; Code[40])
         {
             Description = '//20110427 from X30';
         }
-        field(50013;Rank;Code[15])
+        field(50013; Rank; Code[15])
         {
             // cleaned
         }
-        field(50014;Products;Text[20])
+        field(50014; Products; Text[20])
         {
             // cleaned
         }
-        field(50020;"OEM No.";Code[20])
+        field(50020; "OEM No."; Code[20])
         {
             // cleaned
         }
-        field(50021;"OEM Name";Text[50])
+        field(50021; "OEM Name"; Text[50])
         {
             // cleaned
         }
-        field(50539;"Salesperson Code";Code[10])
+        field(50539; "Salesperson Code"; Code[10])
         {
             Description = '//20121203 Enhanceents';
         }
