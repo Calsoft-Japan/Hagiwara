@@ -1,4 +1,4 @@
-// table 50026 "Item Location Variant Buffer"
+// table 50039 "Item Location Variant Buffer"
 // {
 //     fields
 //     {

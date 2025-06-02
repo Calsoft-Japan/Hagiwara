@@ -1,504 +1,504 @@
-table 50023 "Temp Cashflow Report Tbl"
+table 50036 "Temp Cashflow Report Tbl"
 {
     fields
     {
-        field(1;"Record Type";Option)
+        field(1; "Record Type"; Option)
         {
             OptionMembers = Cust,Vend;
         }
-        field(10;"No.";Code[20])
+        field(10; "No."; Code[20])
         {
             Description = 'Customer / Vendor No.';
         }
-        field(15;Name;Text[50])
+        field(15; Name; Text[50])
         {
             // cleaned
         }
-        field(20;"Past Due Amt";Decimal)
+        field(20; "Past Due Amt"; Decimal)
         {
             // cleaned
         }
-        field(30;"Week 1 Amt";Decimal)
+        field(30; "Week 1 Amt"; Decimal)
         {
             // cleaned
         }
-        field(40;"Week 2 Amt";Decimal)
+        field(40; "Week 2 Amt"; Decimal)
         {
             // cleaned
         }
-        field(50;"Week 3 Amt";Decimal)
+        field(50; "Week 3 Amt"; Decimal)
         {
             // cleaned
         }
-        field(60;"Week 4 Amt";Decimal)
+        field(60; "Week 4 Amt"; Decimal)
         {
             // cleaned
         }
-        field(70;"Week 5 Amt";Decimal)
+        field(70; "Week 5 Amt"; Decimal)
         {
             // cleaned
         }
-        field(80;"Week 6 Amt";Decimal)
+        field(80; "Week 6 Amt"; Decimal)
         {
             // cleaned
         }
-        field(90;"Week 7 Amt";Decimal)
+        field(90; "Week 7 Amt"; Decimal)
         {
             // cleaned
         }
-        field(100;"Week 8 Amt";Decimal)
+        field(100; "Week 8 Amt"; Decimal)
         {
             // cleaned
         }
-        field(110;"Week 9 Amt";Decimal)
+        field(110; "Week 9 Amt"; Decimal)
         {
             // cleaned
         }
-        field(120;"Week 10 Amt";Decimal)
+        field(120; "Week 10 Amt"; Decimal)
         {
             // cleaned
         }
-        field(130;"Week 11 Amt";Decimal)
+        field(130; "Week 11 Amt"; Decimal)
         {
             // cleaned
         }
-        field(140;"Week 12 Amt";Decimal)
+        field(140; "Week 12 Amt"; Decimal)
         {
             // cleaned
         }
-        field(150;"Week 13 Amt";Decimal)
+        field(150; "Week 13 Amt"; Decimal)
         {
             // cleaned
         }
-        field(160;"Week 14 Amt";Decimal)
+        field(160; "Week 14 Amt"; Decimal)
         {
             // cleaned
         }
-        field(170;"Week 15 Amt";Decimal)
+        field(170; "Week 15 Amt"; Decimal)
         {
             // cleaned
         }
-        field(180;"Week 16 Amt";Decimal)
+        field(180; "Week 16 Amt"; Decimal)
         {
             // cleaned
         }
-        field(190;"Week 17 Amt";Decimal)
+        field(190; "Week 17 Amt"; Decimal)
         {
             // cleaned
         }
-        field(200;"Week 18 Amt";Decimal)
+        field(200; "Week 18 Amt"; Decimal)
         {
             // cleaned
         }
-        field(210;"Week 19 Amt";Decimal)
+        field(210; "Week 19 Amt"; Decimal)
         {
             // cleaned
         }
-        field(220;"Week 20 Amt";Decimal)
+        field(220; "Week 20 Amt"; Decimal)
         {
             // cleaned
         }
-        field(230;"Week 21 Amt";Decimal)
+        field(230; "Week 21 Amt"; Decimal)
         {
             // cleaned
         }
-        field(240;"Week 22 Amt";Decimal)
+        field(240; "Week 22 Amt"; Decimal)
         {
             // cleaned
         }
-        field(250;"Week 23 Amt";Decimal)
+        field(250; "Week 23 Amt"; Decimal)
         {
             // cleaned
         }
-        field(260;"Week 24 Amt";Decimal)
+        field(260; "Week 24 Amt"; Decimal)
         {
             // cleaned
         }
-        field(270;"Week 25 Amt";Decimal)
+        field(270; "Week 25 Amt"; Decimal)
         {
             // cleaned
         }
-        field(280;"Week 26 Amt";Decimal)
+        field(280; "Week 26 Amt"; Decimal)
         {
             // cleaned
         }
-        field(290;"Week 27 Amt";Decimal)
+        field(290; "Week 27 Amt"; Decimal)
         {
             // cleaned
         }
-        field(300;"Week 28 Amt";Decimal)
+        field(300; "Week 28 Amt"; Decimal)
         {
             // cleaned
         }
-        field(310;"Week 29 Amt";Decimal)
+        field(310; "Week 29 Amt"; Decimal)
         {
             // cleaned
         }
-        field(319;"Week 30 Amt";Decimal)
+        field(319; "Week 30 Amt"; Decimal)
         {
             // cleaned
         }
-        field(320;"Week 31 Amt";Decimal)
+        field(320; "Week 31 Amt"; Decimal)
         {
             // cleaned
         }
-        field(321;"Week 32 Amt";Decimal)
+        field(321; "Week 32 Amt"; Decimal)
         {
             // cleaned
         }
-        field(322;"Week 33 Amt";Decimal)
+        field(322; "Week 33 Amt"; Decimal)
         {
             // cleaned
         }
-        field(323;"Week 34 Amt";Decimal)
+        field(323; "Week 34 Amt"; Decimal)
         {
             // cleaned
         }
-        field(324;"Week 35 Amt";Decimal)
+        field(324; "Week 35 Amt"; Decimal)
         {
             // cleaned
         }
-        field(325;"Week 36 Amt";Decimal)
+        field(325; "Week 36 Amt"; Decimal)
         {
             // cleaned
         }
-        field(326;"Week 37 Amt";Decimal)
+        field(326; "Week 37 Amt"; Decimal)
         {
             // cleaned
         }
-        field(327;"Week 38 Amt";Decimal)
+        field(327; "Week 38 Amt"; Decimal)
         {
             // cleaned
         }
-        field(328;"Week 39 Amt";Decimal)
+        field(328; "Week 39 Amt"; Decimal)
         {
             // cleaned
         }
-        field(330;"Future Amt";Decimal)
+        field(330; "Future Amt"; Decimal)
         {
             // cleaned
         }
-        field(340;"Week 40 Amt";Decimal)
+        field(340; "Week 40 Amt"; Decimal)
         {
             // cleaned
         }
-        field(341;"Week 41 Amt";Decimal)
+        field(341; "Week 41 Amt"; Decimal)
         {
             // cleaned
         }
-        field(342;"Week 42 Amt";Decimal)
+        field(342; "Week 42 Amt"; Decimal)
         {
             // cleaned
         }
-        field(343;"Week 43 Amt";Decimal)
+        field(343; "Week 43 Amt"; Decimal)
         {
             // cleaned
         }
-        field(344;"Week 44 Amt";Decimal)
+        field(344; "Week 44 Amt"; Decimal)
         {
             // cleaned
         }
-        field(345;"Week 45 Amt";Decimal)
+        field(345; "Week 45 Amt"; Decimal)
         {
             // cleaned
         }
-        field(346;"Week 46 Amt";Decimal)
+        field(346; "Week 46 Amt"; Decimal)
         {
             // cleaned
         }
-        field(347;"Week 47 Amt";Decimal)
+        field(347; "Week 47 Amt"; Decimal)
         {
             // cleaned
         }
-        field(348;"Week 48 Amt";Decimal)
+        field(348; "Week 48 Amt"; Decimal)
         {
             // cleaned
         }
-        field(349;"Week 49 Amt";Decimal)
+        field(349; "Week 49 Amt"; Decimal)
         {
             // cleaned
         }
-        field(350;"Week 50 Amt";Decimal)
+        field(350; "Week 50 Amt"; Decimal)
         {
             // cleaned
         }
-        field(351;"Week 51 Amt";Decimal)
+        field(351; "Week 51 Amt"; Decimal)
         {
             // cleaned
         }
-        field(352;"Week 52 Amt";Decimal)
+        field(352; "Week 52 Amt"; Decimal)
         {
             // cleaned
         }
-        field(353;"Week 53 Amt";Decimal)
+        field(353; "Week 53 Amt"; Decimal)
         {
             // cleaned
         }
-        field(354;"Week 54 Amt";Decimal)
+        field(354; "Week 54 Amt"; Decimal)
         {
             // cleaned
         }
-        field(355;"Week 55 Amt";Decimal)
+        field(355; "Week 55 Amt"; Decimal)
         {
             // cleaned
         }
-        field(356;"Week 56 Amt";Decimal)
+        field(356; "Week 56 Amt"; Decimal)
         {
             // cleaned
         }
-        field(357;"Week 57 Amt";Decimal)
+        field(357; "Week 57 Amt"; Decimal)
         {
             // cleaned
         }
-        field(358;"Week 58 Amt";Decimal)
+        field(358; "Week 58 Amt"; Decimal)
         {
             // cleaned
         }
-        field(359;"Week 59 Amt";Decimal)
+        field(359; "Week 59 Amt"; Decimal)
         {
             // cleaned
         }
-        field(400;"Week 60 Amt";Decimal)
+        field(400; "Week 60 Amt"; Decimal)
         {
             // cleaned
         }
-        field(401;"Week 61 Amt";Decimal)
+        field(401; "Week 61 Amt"; Decimal)
         {
             // cleaned
         }
-        field(402;"Week 62 Amt";Decimal)
+        field(402; "Week 62 Amt"; Decimal)
         {
             // cleaned
         }
-        field(403;"Week 63 Amt";Decimal)
+        field(403; "Week 63 Amt"; Decimal)
         {
             // cleaned
         }
-        field(404;"Week 64 Amt";Decimal)
+        field(404; "Week 64 Amt"; Decimal)
         {
             // cleaned
         }
-        field(405;"Week 65 Amt";Decimal)
+        field(405; "Week 65 Amt"; Decimal)
         {
             // cleaned
         }
-        field(406;"Week 66 Amt";Decimal)
+        field(406; "Week 66 Amt"; Decimal)
         {
             // cleaned
         }
-        field(407;"Week 67 Amt";Decimal)
+        field(407; "Week 67 Amt"; Decimal)
         {
             // cleaned
         }
-        field(408;"Week 68 Amt";Decimal)
+        field(408; "Week 68 Amt"; Decimal)
         {
             // cleaned
         }
-        field(409;"Week 69 Amt";Decimal)
+        field(409; "Week 69 Amt"; Decimal)
         {
             // cleaned
         }
-        field(410;"Week 70 Amt";Decimal)
+        field(410; "Week 70 Amt"; Decimal)
         {
             // cleaned
         }
-        field(411;"Week 71 Amt";Decimal)
+        field(411; "Week 71 Amt"; Decimal)
         {
             // cleaned
         }
-        field(412;"Week 72 Amt";Decimal)
+        field(412; "Week 72 Amt"; Decimal)
         {
             // cleaned
         }
-        field(413;"Week 73 Amt";Decimal)
+        field(413; "Week 73 Amt"; Decimal)
         {
             // cleaned
         }
-        field(414;"Week 74 Amt";Decimal)
+        field(414; "Week 74 Amt"; Decimal)
         {
             // cleaned
         }
-        field(415;"Week 75 Amt";Decimal)
+        field(415; "Week 75 Amt"; Decimal)
         {
             // cleaned
         }
-        field(416;"Week 76 Amt";Decimal)
+        field(416; "Week 76 Amt"; Decimal)
         {
             // cleaned
         }
-        field(417;"Week 77 Amt";Decimal)
+        field(417; "Week 77 Amt"; Decimal)
         {
             // cleaned
         }
-        field(418;"Week 78 Amt";Decimal)
+        field(418; "Week 78 Amt"; Decimal)
         {
             // cleaned
         }
-        field(419;"Week 79 Amt";Decimal)
+        field(419; "Week 79 Amt"; Decimal)
         {
             // cleaned
         }
-        field(420;"Week 80 Amt";Decimal)
+        field(420; "Week 80 Amt"; Decimal)
         {
             // cleaned
         }
-        field(421;"Week 81 Amt";Decimal)
+        field(421; "Week 81 Amt"; Decimal)
         {
             // cleaned
         }
-        field(422;"Week 82 Amt";Decimal)
+        field(422; "Week 82 Amt"; Decimal)
         {
             // cleaned
         }
-        field(423;"Week 83 Amt";Decimal)
+        field(423; "Week 83 Amt"; Decimal)
         {
             // cleaned
         }
-        field(424;"Week 84 Amt";Decimal)
+        field(424; "Week 84 Amt"; Decimal)
         {
             // cleaned
         }
-        field(425;"Week 85 Amt";Decimal)
+        field(425; "Week 85 Amt"; Decimal)
         {
             // cleaned
         }
-        field(426;"Week 86 Amt";Decimal)
+        field(426; "Week 86 Amt"; Decimal)
         {
             // cleaned
         }
-        field(427;"Week 87 Amt";Decimal)
+        field(427; "Week 87 Amt"; Decimal)
         {
             // cleaned
         }
-        field(428;"Week 88 Amt";Decimal)
+        field(428; "Week 88 Amt"; Decimal)
         {
             // cleaned
         }
-        field(429;"Week 89 Amt";Decimal)
+        field(429; "Week 89 Amt"; Decimal)
         {
             // cleaned
         }
-        field(430;"Week 90 Amt";Decimal)
+        field(430; "Week 90 Amt"; Decimal)
         {
             // cleaned
         }
-        field(431;"Week 91 Amt";Decimal)
+        field(431; "Week 91 Amt"; Decimal)
         {
             // cleaned
         }
-        field(432;"Week 92 Amt";Decimal)
+        field(432; "Week 92 Amt"; Decimal)
         {
             // cleaned
         }
-        field(433;"Week 93 Amt";Decimal)
+        field(433; "Week 93 Amt"; Decimal)
         {
             // cleaned
         }
-        field(444;"Week 94 Amt";Decimal)
+        field(444; "Week 94 Amt"; Decimal)
         {
             // cleaned
         }
-        field(445;"Week 95 Amt";Decimal)
+        field(445; "Week 95 Amt"; Decimal)
         {
             // cleaned
         }
-        field(446;"Week 96 Amt";Decimal)
+        field(446; "Week 96 Amt"; Decimal)
         {
             // cleaned
         }
-        field(447;"Week 97 Amt";Decimal)
+        field(447; "Week 97 Amt"; Decimal)
         {
             // cleaned
         }
-        field(448;"Week 98 Amt";Decimal)
+        field(448; "Week 98 Amt"; Decimal)
         {
             // cleaned
         }
-        field(449;"Week 99 Amt";Decimal)
+        field(449; "Week 99 Amt"; Decimal)
         {
             // cleaned
         }
-        field(450;"Week 100 Amt";Decimal)
+        field(450; "Week 100 Amt"; Decimal)
         {
             // cleaned
         }
-        field(451;"Week 101 Amt";Decimal)
+        field(451; "Week 101 Amt"; Decimal)
         {
             // cleaned
         }
-        field(452;"Week 102 Amt";Decimal)
+        field(452; "Week 102 Amt"; Decimal)
         {
             // cleaned
         }
-        field(453;"Week 103 Amt";Decimal)
+        field(453; "Week 103 Amt"; Decimal)
         {
             // cleaned
         }
-        field(454;"Week 104 Amt";Decimal)
+        field(454; "Week 104 Amt"; Decimal)
         {
             // cleaned
         }
-        field(455;"Week 105 Amt";Decimal)
+        field(455; "Week 105 Amt"; Decimal)
         {
             // cleaned
         }
-        field(456;"Week 106 Amt";Decimal)
+        field(456; "Week 106 Amt"; Decimal)
         {
             // cleaned
         }
-        field(457;"Week 107 Amt";Decimal)
+        field(457; "Week 107 Amt"; Decimal)
         {
             // cleaned
         }
-        field(458;"Week 108 Amt";Decimal)
+        field(458; "Week 108 Amt"; Decimal)
         {
             // cleaned
         }
-        field(459;"Week 109 Amt";Decimal)
+        field(459; "Week 109 Amt"; Decimal)
         {
             // cleaned
         }
-        field(460;"Week 110 Amt";Decimal)
+        field(460; "Week 110 Amt"; Decimal)
         {
             // cleaned
         }
-        field(461;"Week 111 Amt";Decimal)
+        field(461; "Week 111 Amt"; Decimal)
         {
             // cleaned
         }
-        field(462;"Week 112 Amt";Decimal)
+        field(462; "Week 112 Amt"; Decimal)
         {
             // cleaned
         }
-        field(463;"Week 113 Amt";Decimal)
+        field(463; "Week 113 Amt"; Decimal)
         {
             // cleaned
         }
-        field(464;"Week 114 Amt";Decimal)
+        field(464; "Week 114 Amt"; Decimal)
         {
             // cleaned
         }
-        field(465;"Week 115 Amt";Decimal)
+        field(465; "Week 115 Amt"; Decimal)
         {
             // cleaned
         }
-        field(466;"Week 116 Amt";Decimal)
+        field(466; "Week 116 Amt"; Decimal)
         {
             // cleaned
         }
-        field(467;"Week 117 Amt";Decimal)
+        field(467; "Week 117 Amt"; Decimal)
         {
             // cleaned
         }
-        field(468;"Week 118 Amt";Decimal)
+        field(468; "Week 118 Amt"; Decimal)
         {
             // cleaned
         }
-        field(469;"Week 119 Amt";Decimal)
+        field(469; "Week 119 Amt"; Decimal)
         {
             // cleaned
         }
-        field(470;"Week 120 Amt";Decimal)
+        field(470; "Week 120 Amt"; Decimal)
         {
             // cleaned
         }
