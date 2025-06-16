@@ -116,7 +116,6 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
         field(50020; "Other Non Deductive List"; Option)
         {
             Description = 'SKLV6.0';
-            OptionCaption = '—¹„ÏŽ°,Œ÷“Ôˆ×ŒŒŒ¡ ‘ª“ËŠ¨,—‘ªˆ•¯ŒŒŽ¸,Ï˜Ô–ÝÀ°…Ø ˆ•¯ŒŒŽ¸,Ï×ˆ•¯ŒŒŽ¸,Š»‘ª„ÔŒ³ŒŒŽ¸';
             OptionMembers = Nothing,Receive,Fiction,Reuse,Inventory,PayBad;
         }
         field(50021; "Credit Card No."; Text[30])

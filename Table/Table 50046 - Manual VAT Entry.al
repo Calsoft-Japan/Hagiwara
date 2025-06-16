@@ -63,7 +63,6 @@ table 50046 "Manual VAT Entry"
         field(14; "Non Deductive List"; Option)
         {
             Caption = 'Non Deductive List';
-            OptionCaption = '—¹„ÏŽ°,—šÍø €ËÏ‹Ï—¸ ‘´†Þ,‹ÏŽð· ý‡“ Ž°„’ ‘÷“Ë,Š±…ŽðÔ Œ­—ý’Ô’ð €ˆ¯ ‰¸ »‘÷,ˆÒŒŒ‹ÏŽð· ý‡“…˜ —,°•Ôˆ•¯ŒŒŽ¸ Ž˜Š¨Ð‹ÓŒ¡ —,…Ø‡Ÿý ˆ•¯ŒŒŽ¸,„ÔŒ³“‚Š¨ ‰ÃŠŒŒŽ¸,‚‚Šž(˜»€Ã)ŒŒŽ¸ ÏÐ‹Ó —,‘ó„ÔŠ± ý‡“ ˆ•¯ŒŒŽ¸';
             OptionMembers = D01,D02,D03,D04,D05,D06,D07,D08,D09,D10,D11,D12;
         }
         field(15; "Payment Type"; Option)
@@ -136,7 +135,6 @@ table 50046 "Manual VAT Entry"
         field(29; "Other Non Deductive List"; Option)
         {
             Caption = 'Other Deductive List';
-            OptionCaption = '—¹„ÏŽ°,Œ÷“Ôˆ×ŒŒŒ¡ ‘ª“ËŠ¨,—‘ªˆ•¯ŒŒŽ¸,Ï˜Ô–ÝÀ°…Ø ˆ•¯ŒŒŽ¸,Ï×ˆ•¯ŒŒŽ¸,Š»‘ª„ÔŒ³ŒŒŽ¸';
             OptionMembers = Nothing,Receive,Fiction,Reuse,Inventory,PayBad;
         }
         field(30; "Source Type"; Option)

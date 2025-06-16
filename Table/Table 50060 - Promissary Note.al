@@ -125,8 +125,7 @@ table 50060 "Promissary Note"
         field(35; "P.Note Type"; Option)
         {
             Caption = 'P. Note Type';
-            OptionCaption = 'ŽÊŒ®ŽØ,Àí……ŽØ,íÐŒ÷—Ñ,—Ñ‘÷ŽØ,„Ï‘’Œ÷—Ñ,€Ë•ˆŽØ1,€Ë•ˆŽØ2';
-            OptionMembers = "ŽÊŒ®ŽØ","Àí……ŽØ","íÐŒ÷—Ñ","—Ñ‘÷ŽØ","„Ï‘’Œ÷—Ñ","€Ë•ˆŽØ1","€Ë•ˆŽØ2";
+            OptionMembers = "";
         }
         field(36; "P.Note Month"; Integer)
         {
