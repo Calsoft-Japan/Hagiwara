@@ -20,5 +20,4 @@ rad.json
 cache_*
 ~$*
 .vscode/
-app.json
 launch.json
