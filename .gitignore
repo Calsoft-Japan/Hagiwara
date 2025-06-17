@@ -21,3 +21,4 @@ cache_*
 ~$*
 .vscode/
 app.json
+launch.json
