@@ -1,0 +1,3968 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:DataSourceID>29669129-9dc1-4ec7-8725-fe365aeb31d1</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix2">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>7.44095in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.99213in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle1">
+                          <ReportItems>
+                            <Textbox Name="Textbox2">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto" />
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox2</rd:DefaultName>
+                              <Left>3.01575in</Left>
+                              <Height>0.01042in</Height>
+                              <Width>0.01042in</Width>
+                              <Visibility>
+                                <Hidden>=code.setdata(
+Cstr(Fields!Vendor_Name.Value) + Chr(177) +
+Cstr(Fields!GLAccountNo.Value) + Chr(177) +
+Cstr(Fields!GLAccountName.Value) + Chr(177) +
+Cstr(Fields!DeptName.Value)
+,1)</Hidden>
+                              </Visibility>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Rectangle Name="Vendor_GroupFooter_2">
+                              <ReportItems>
+                                <Textbox Name="SumYear_2_">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value EvaluationMode="Auto">=sum(Fields!SumYear_2_.Value)</Value>
+                                          <Style>
+                                            <FontSize>7pt</FontSize>
+                                            <Format>=Last(Fields!SumYear_2_Format.Value)</Format>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <rd:DefaultName>Textbox1000000086</rd:DefaultName>
+                                  <Top>0cm</Top>
+                                  <Left>14.6cm</Left>
+                                  <Height>0.443cm</Height>
+                                  <Width>1.7cm</Width>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <PaddingTop>2pt</PaddingTop>
+                                    <PaddingBottom>2pt</PaddingBottom>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="SumYear_1_">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value EvaluationMode="Auto">=Code.BlankZero(sum(Fields!SumYear_1_.Value))</Value>
+                                          <Style>
+                                            <FontSize>7pt</FontSize>
+                                            <Format>=Last(Fields!SumYear_1_Format.Value)</Format>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <rd:DefaultName>Textbox1000000087</rd:DefaultName>
+                                  <Top>0cm</Top>
+                                  <Left>11.2cm</Left>
+                                  <Height>0.443cm</Height>
+                                  <Width>1.6cm</Width>
+                                  <ZIndex>1</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <PaddingTop>2pt</PaddingTop>
+                                    <PaddingBottom>2pt</PaddingBottom>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Balance1">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value EvaluationMode="Auto">=Last(Fields!Balance1.Value)</Value>
+                                          <Style>
+                                            <FontSize>7pt</FontSize>
+                                            <Format>=Last(Fields!Balance1Format.Value)</Format>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>Right</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <rd:DefaultName>Textbox1000000088</rd:DefaultName>
+                                  <Top>0cm</Top>
+                                  <Left>17cm</Left>
+                                  <Height>0.443cm</Height>
+                                  <Width>1.8cm</Width>
+                                  <ZIndex>2</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <PaddingTop>2pt</PaddingTop>
+                                    <PaddingBottom>2pt</PaddingBottom>
+                                  </Style>
+                                </Textbox>
+                                <Textbox Name="Caption_Control1000000093">
+                                  <KeepTogether>true</KeepTogether>
+                                  <Paragraphs>
+                                    <Paragraph>
+                                      <TextRuns>
+                                        <TextRun>
+                                          <Value EvaluationMode="Auto">=Last(Fields!Caption_Control1000000093.Value)</Value>
+                                          <Style>
+                                            <FontSize>7pt</FontSize>
+                                          </Style>
+                                        </TextRun>
+                                      </TextRuns>
+                                      <Style>
+                                        <TextAlign>General</TextAlign>
+                                      </Style>
+                                    </Paragraph>
+                                  </Paragraphs>
+                                  <rd:DefaultName>Textbox1000000093</rd:DefaultName>
+                                  <Top>0cm</Top>
+                                  <Left>0.1cm</Left>
+                                  <Height>0.443cm</Height>
+                                  <Width>2.4cm</Width>
+                                  <ZIndex>3</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <PaddingTop>2pt</PaddingTop>
+                                    <PaddingBottom>2pt</PaddingBottom>
+                                  </Style>
+                                </Textbox>
+                                <Rectangle Name="Rectangle_1000000080">
+                                  <Top>0.53cm</Top>
+                                  <Left>0.05cm</Left>
+                                  <Height>0.05cm</Height>
+                                  <Width>18.8cm</Width>
+                                  <ZIndex>4</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <BottomBorder>
+                                      <Style>Solid</Style>
+                                    </BottomBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000081">
+                                  <Top>0cm</Top>
+                                  <Left>14.5cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>5</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000082">
+                                  <Top>0cm</Top>
+                                  <Left>16.3cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>6</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000083">
+                                  <Top>0cm</Top>
+                                  <Left>18.8cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>7</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000084">
+                                  <Top>0cm</Top>
+                                  <Left>17cm</Left>
+                                  <Height>0.6cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>8</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000085">
+                                  <Top>0cm</Top>
+                                  <Left>11.1cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>9</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000089">
+                                  <Top>0cm</Top>
+                                  <Left>2.5cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>10</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000094">
+                                  <Top>0cm</Top>
+                                  <Left>0cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>11</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000047">
+                                  <Top>0cm</Top>
+                                  <Left>9.3cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>12</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                                <Rectangle Name="Rectangle_1000000050">
+                                  <Top>0cm</Top>
+                                  <Left>12.8cm</Left>
+                                  <Height>0.63cm</Height>
+                                  <Width>0.05cm</Width>
+                                  <ZIndex>13</ZIndex>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                      <Width>0.5pt</Width>
+                                    </Border>
+                                    <RightBorder>
+                                      <Style>Solid</Style>
+                                    </RightBorder>
+                                  </Style>
+                                </Rectangle>
+                              </ReportItems>
+                              <KeepTogether>true</KeepTogether>
+                              <Top>0.74409in</Top>
+                              <Height>0.24803in</Height>
+                              <Width>7.42126in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Rectangle>
+                            <Tablix Name="Tablix1">
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>7.42126in</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.63cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="Vendor_Ledger_Entry_Header_3">
+                                            <ReportItems>
+                                              <Textbox Name="Caption_Control1000000029">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Caption_Control1000000029.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>General</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000029</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>2.6cm</Left>
+                                                <Height>0.5cm</Height>
+                                                <Width>4.8cm</Width>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2.4pt</PaddingTop>
+                                                  <PaddingBottom>2.4pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="FirstBalance">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!FirstBalance.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!FirstBalanceFormat.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000030</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>17.1cm</Left>
+                                                <Height>0.5cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2.4pt</PaddingTop>
+                                                  <PaddingBottom>2.4pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="FirstStatus">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!FirstStatus.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000071</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>16.4cm</Left>
+                                                <Height>0.5cm</Height>
+                                                <Width>0.6cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2.4pt</PaddingTop>
+                                                  <PaddingBottom>2.4pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Rectangle Name="Rectangle_1000000024">
+                                                <Top>0cm</Top>
+                                                <Left>12.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000025">
+                                                <Top>0cm</Top>
+                                                <Left>9.3cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000026">
+                                                <Top>0cm</Top>
+                                                <Left>8.1cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000027">
+                                                <Top>0cm</Top>
+                                                <Left>18.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000028">
+                                                <Top>0.53cm</Top>
+                                                <Left>0.05cm</Left>
+                                                <Height>0.05cm</Height>
+                                                <Width>18.8cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <BottomBorder>
+                                                    <Style>Solid</Style>
+                                                  </BottomBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000031">
+                                                <Top>0cm</Top>
+                                                <Left>2.5cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>8</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000032">
+                                                <Top>0cm</Top>
+                                                <Left>1.2cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>9</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000033">
+                                                <Top>0cm</Top>
+                                                <Left>0.6cm</Left>
+                                                <Height>0.62cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>10</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000034">
+                                                <Top>0cm</Top>
+                                                <Left>0cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>11</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000067">
+                                                <Top>0cm</Top>
+                                                <Left>17cm</Left>
+                                                <Height>0.6cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>12</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000041">
+                                                <Top>0cm</Top>
+                                                <Left>16.3cm</Left>
+                                                <Height>0.6cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>13</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000052">
+                                                <Top>0cm</Top>
+                                                <Left>7.4cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>14</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                            </ReportItems>
+                                            <KeepTogether>true</KeepTogether>
+                                            <ZIndex>96</ZIndex>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                            </Style>
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.63cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="Vendor_Ledger_Entry_Body_4">
+                                            <ReportItems>
+                                              <Textbox Name="FORMAT__Posting_Date__0__Day__">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!FORMAT__Posting_Date__0__Day__.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000131</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>0.7cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>0.5cm</Width>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="ExRate">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!ExRate.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!ExRateFormat.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000011</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>8.2cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.1cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="CAmt">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!CAmt.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!CAmtFormat.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000053</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>12.9cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.6cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="DAmt">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!DAmt.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!DAmtFormat.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000046</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>9.4cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="BalanceStatus">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!BalanceStatus.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000064</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>16.4cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>0.6cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Balance1_Control1000000133">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Balance1_Control1000000133.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!Balance1_Control1000000133Format.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000133</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>17.1cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="FORMAT__Posting_Date__0__Month__">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!FORMAT__Posting_Date__0__Month__.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000132</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>0.1cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>0.5cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="VoucherNo">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!VoucherNo.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000130</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>1.3cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.2cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Desc">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Desc.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000129</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>2.6cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>4.8cm</Width>
+                                                <ZIndex>8</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Vendor_Ledger_Entry___Currency_Code__">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Vendor_Ledger_Entry___Currency_Code__.Value</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000059</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>7.5cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>0.6cm</Width>
+                                                <ZIndex>9</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Credit_Amount__LCY___">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Credit_Amount__LCY___.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!Credit_Amount__LCY___Format.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000127</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>14.6cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>10</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Debit_Amount__LCY___">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Debit_Amount__LCY___.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Fields!Debit_Amount__LCY___Format.Value</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000128</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>11.2cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>11</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Rectangle Name="Rectangle_1000000126">
+                                                <Top>0cm</Top>
+                                                <Left>18.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>12</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000058">
+                                                <Top>0cm</Top>
+                                                <Left>7.4cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>13</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000125">
+                                                <Top>0cm</Top>
+                                                <Left>16.3cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>14</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000124">
+                                                <Top>0cm</Top>
+                                                <Left>14.5cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>15</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000134">
+                                                <Top>0cm</Top>
+                                                <Left>0cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>16</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000068">
+                                                <Top>0cm</Top>
+                                                <Left>17cm</Left>
+                                                <Height>0.6cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>17</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000123">
+                                                <Top>0cm</Top>
+                                                <Left>8.1cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>18</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000042">
+                                                <Top>0cm</Top>
+                                                <Left>11.1cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>19</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000043">
+                                                <Top>0cm</Top>
+                                                <Left>9.3cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>20</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000044">
+                                                <Top>0cm</Top>
+                                                <Left>12.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>21</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000122">
+                                                <Top>0cm</Top>
+                                                <Left>2.5cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>22</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000121">
+                                                <Top>0cm</Top>
+                                                <Left>1.2cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>23</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000120">
+                                                <Top>0cm</Top>
+                                                <Left>0.6cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>24</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000118">
+                                                <Top>0.53cm</Top>
+                                                <Left>0.05cm</Left>
+                                                <Height>0.05cm</Height>
+                                                <Width>18.8cm</Width>
+                                                <ZIndex>25</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <BottomBorder>
+                                                    <Style>Solid</Style>
+                                                  </BottomBorder>
+                                                </Style>
+                                              </Rectangle>
+                                            </ReportItems>
+                                            <KeepTogether>true</KeepTogether>
+                                            <ZIndex>96</ZIndex>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                            </Style>
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.63cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="Vendor_Ledger_Entry_Footer_5">
+                                            <ReportItems>
+                                              <Textbox Name="Caption_Control1000000007">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Last(Fields!Caption_Control1000000007.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>General</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000007</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>0.1cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>2.4cm</Width>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Debit_Amount__LCY____Control1000000008">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(sum(Fields!Debit_Amount__LCY____Control1000000008.Value))</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Last(Fields!Debit_Amount__LCY____Control1000000008Format.Value)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000008</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>11.2cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.6cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Credit_Amount__LCY____Control1000000009">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=sum(Fields!Credit_Amount__LCY____Control1000000009.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Last(Fields!Credit_Amount__LCY____Control1000000009Format.Value)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000009</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>14.6cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="Balance1_Control1000000010">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=last(Fields!Balance1_Control1000000010.Value)</Value>
+                                                        <Style>
+                                                          <FontSize>7pt</FontSize>
+                                                          <Format>=Last(Fields!Balance1_Control1000000010Format.Value)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <rd:DefaultName>Textbox1000000010</rd:DefaultName>
+                                                <Top>0cm</Top>
+                                                <Left>17.1cm</Left>
+                                                <Height>0.443cm</Height>
+                                                <Width>1.7cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                  <PaddingTop>2pt</PaddingTop>
+                                                  <PaddingBottom>2pt</PaddingBottom>
+                                                </Style>
+                                              </Textbox>
+                                              <Rectangle Name="Rectangle_1000000000">
+                                                <Top>0cm</Top>
+                                                <Left>0cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000001">
+                                                <Top>0cm</Top>
+                                                <Left>2.5cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000002">
+                                                <Top>0cm</Top>
+                                                <Left>11.1cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000003">
+                                                <Top>0cm</Top>
+                                                <Left>14.5cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000004">
+                                                <Top>0cm</Top>
+                                                <Left>16.3cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>8</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000005">
+                                                <Top>0.53cm</Top>
+                                                <Left>0.05cm</Left>
+                                                <Height>0.05cm</Height>
+                                                <Width>18.8cm</Width>
+                                                <ZIndex>9</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <BottomBorder>
+                                                    <Style>Solid</Style>
+                                                  </BottomBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000006">
+                                                <Top>0cm</Top>
+                                                <Left>18.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>10</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000069">
+                                                <Top>0cm</Top>
+                                                <Left>17cm</Left>
+                                                <Height>0.6cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>11</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000049">
+                                                <Top>0cm</Top>
+                                                <Left>12.8cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>12</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                              <Rectangle Name="Rectangle_1000000048">
+                                                <Top>0cm</Top>
+                                                <Left>9.3cm</Left>
+                                                <Height>0.63cm</Height>
+                                                <Width>0.05cm</Width>
+                                                <ZIndex>13</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                  <RightBorder>
+                                                    <Style>Solid</Style>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Rectangle>
+                                            </ReportItems>
+                                            <KeepTogether>true</KeepTogether>
+                                            <ZIndex>96</ZIndex>
+                                            <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
+                                            </Style>
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember />
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <Visibility>
+                                      <Hidden>=iif(Fields!Caption_Control1000000029.Value = "", true, false)</Hidden>
+                                    </Visibility>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <Group Name="Vendor_Ledger_Entry_Details" />
+                                    <Visibility>
+                                      <Hidden>=iif((Fields!FORMAT__Posting_Date__0__Month__.Value = "") AND (Fields!Vendor_Ledger_Entry___Currency_Code__.Value = ""), true, false)</Hidden>
+                                    </Visibility>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <Visibility>
+                                      <Hidden>=iif(Last(Fields!Caption_Control1000000007.Value) = "", true, false)</Hidden>
+                                    </Visibility>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <DataSetName>DataSet_Result</DataSetName>
+                              <Height>1.89cm</Height>
+                              <Width>7.42126in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Tablix>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Details">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Vendor__No___23.Value</GroupExpression>
+                    </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
+                  </Group>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Height>0.99213in</Height>
+            <Width>7.44095in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>2.52001cm</Height>
+        <Style />
+      </Body>
+      <Width>18.90001cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>3.40001cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="FORMAT_MaxDate_0__Month_2__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Month_2__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000115</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>11cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.4cm</Width>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000114">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000114.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000114</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>11.4cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.3cm</Width>
+              <ZIndex>1</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Curr_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Curr_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000051</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>7.5cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>2</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000119">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000119.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000119</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>10.7cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.3cm</Width>
+              <ZIndex>3</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="FORMAT_MaxDate_0__Year4__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Year4__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000140</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>9.5cm</Left>
+              <Height>0.423cm</Height>
+              <Width>1.2cm</Width>
+              <ZIndex>4</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="S_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!S_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000141</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>8.9cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>5</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000142">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000142.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000142</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>8.6cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.3cm</Width>
+              <ZIndex>6</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="FORMAT_MinDate_0__Day__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Day__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000143</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>8cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>7</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000144">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000144.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000144</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>7.7cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.3cm</Width>
+              <ZIndex>8</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="FORMAT_MinDate_0__Month_2__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Month_2__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000145</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>6.9cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.8cm</Width>
+              <ZIndex>9</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000146">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000146.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000146</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>6.5cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.4cm</Width>
+              <ZIndex>10</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="FORMAT_MinDate_0__Year4__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Year4__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000147</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>5.2cm</Left>
+              <Height>0.423cm</Height>
+              <Width>1.3cm</Width>
+              <ZIndex>11</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CompanyName">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!CompanyName.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000148</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>0cm</Left>
+              <Height>0.423cm</Height>
+              <Width>5.1cm</Width>
+              <ZIndex>12</ZIndex>
+              <Visibility>
+                <Hidden>=iif((First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;""),false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000151">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000151.Value</Value>
+                      <Style>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000151</rd:DefaultName>
+              <Top>0.00001cm</Top>
+              <Left>5.3cm</Left>
+              <Height>0.846cm</Height>
+              <Width>7.5cm</Width>
+              <ZIndex>13</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>3pt</PaddingTop>
+                <PaddingBottom>3pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DeptName">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Code.GetData(4,1)</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000152</rd:DefaultName>
+              <Top>1.20001cm</Top>
+              <Left>15.6cm</Left>
+              <Height>0.423cm</Height>
+              <Width>2.3cm</Width>
+              <ZIndex>14</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000153">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000153.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000153</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>16.4cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>15</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="GLAccountNo">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Code.GetData(2,1)</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000155</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>8.6cm</Left>
+              <Height>0.5cm</Height>
+              <Width>1.4cm</Width>
+              <ZIndex>16</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="G_L_AccountCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!G_L_AccountCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000156</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>6.5cm</Left>
+              <Height>0.5cm</Height>
+              <Width>2.1cm</Width>
+              <ZIndex>17</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000012">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000012.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000012</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>8.2cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.1cm</Width>
+              <ZIndex>18</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Exc__Rt_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Exc__Rt_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000023</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>8.2cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.1cm</Width>
+              <ZIndex>19</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Amt_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Amt_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000035</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>11.2cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.6cm</Width>
+              <ZIndex>20</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="For__Curr__Caption_Control1000000038">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!For__Curr__Caption_Control1000000038.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000038</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>12.9cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.7cm</Width>
+              <ZIndex>21</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Amt_Caption_Control1000000039">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Amt_Caption_Control1000000039.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000039</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>14.7cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.5cm</Width>
+              <ZIndex>22</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000045">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000045.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000045</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>7.5cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>23</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="FORMAT_MaxDate_0__Day__">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Day__.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000113</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>11.7cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.5cm</Width>
+              <ZIndex>24</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000112">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000112.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000112</rd:DefaultName>
+              <Top>1.10001cm</Top>
+              <Left>12.2cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.3cm</Width>
+              <ZIndex>25</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.8pt</PaddingTop>
+                <PaddingBottom>1.8pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="GLAccountName">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Code.GetData(3,1)</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000060</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>10.1cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5.4cm</Width>
+              <ZIndex>26</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Globals_PageNumber">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Globals!PageNumber</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000110</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>17.35cm</Left>
+              <Height>0.5cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>27</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="BalanceCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!BalanceCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000070</rd:DefaultName>
+              <Top>2.75001cm</Top>
+              <Left>17.1cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.8cm</Width>
+              <ZIndex>28</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="For__Curr__Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!For__Curr__Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000073</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>9.4cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.7cm</Width>
+              <ZIndex>29</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Page__Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Page__Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000111</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>15.6cm</Left>
+              <Height>0.5cm</Height>
+              <Width>1.7cm</Width>
+              <ZIndex>30</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="VoucherCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!VoucherCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000075</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>1.3cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.2cm</Width>
+              <ZIndex>31</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!DCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000076</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>0.7cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.5cm</Width>
+              <ZIndex>32</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="MCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!MCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000077</rd:DefaultName>
+              <Top>2.75001cm</Top>
+              <Left>0.05cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.5cm</Width>
+              <ZIndex>33</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000079</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>17.1cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.75cm</Width>
+              <ZIndex>34</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Credit_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Credit_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000095</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>12.9cm</Left>
+              <Height>0.4cm</Height>
+              <Width>3.4cm</Width>
+              <ZIndex>35</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="ExplanationCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!ExplanationCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000074</rd:DefaultName>
+              <Top>2.80001cm</Top>
+              <Left>2.6cm</Left>
+              <Height>0.4cm</Height>
+              <Width>4.9cm</Width>
+              <ZIndex>36</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="S________Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!S________Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000097</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>2.6cm</Left>
+              <Height>0.4cm</Height>
+              <Width>4.9cm</Width>
+              <ZIndex>37</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000098">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000098.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000098</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>1.3cm</Left>
+              <Height>0.4cm</Height>
+              <Width>1.2cm</Width>
+              <ZIndex>38</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000102">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000102.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000102</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>0.7cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.5cm</Width>
+              <ZIndex>39</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Caption_Control1000000103">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000103.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000103</rd:DefaultName>
+              <Top>2.25001cm</Top>
+              <Left>0.05cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.5cm</Width>
+              <ZIndex>40</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Vendor_Name">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Code.GetData(1,1)</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000108</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>1.2cm</Left>
+              <Height>0.5cm</Height>
+              <Width>5cm</Width>
+              <ZIndex>41</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="VendorCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!VendorCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000109</rd:DefaultName>
+              <Top>1.70001cm</Top>
+              <Left>0cm</Left>
+              <Height>0.492cm</Height>
+              <Width>1.2cm</Width>
+              <ZIndex>42</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>2.4pt</PaddingTop>
+                <PaddingBottom>2.4pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Debit_Caption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Debit_Caption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000096</rd:DefaultName>
+              <Top>2.30001cm</Top>
+              <Left>9.4cm</Left>
+              <Height>0.4cm</Height>
+              <Width>3.4cm</Width>
+              <ZIndex>43</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Bottom</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Rectangle Name="Rectangle_1000000015">
+              <Top>2.30001cm</Top>
+              <Left>16.3cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>44</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000016">
+              <Top>2.30001cm</Top>
+              <Left>7.4cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>45</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000040">
+              <Top>2.80001cm</Top>
+              <Left>14.6cm</Left>
+              <Height>0.55cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>46</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000017">
+              <Top>2.30001cm</Top>
+              <Left>12.8cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>47</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000018">
+              <Top>2.30001cm</Top>
+              <Left>8.1cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>48</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000037">
+              <Top>2.80001cm</Top>
+              <Left>11.1cm</Left>
+              <Height>0.55cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>49</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000036">
+              <Top>2.70001cm</Top>
+              <Left>9.3cm</Left>
+              <Height>0.05cm</Height>
+              <Width>7cm</Width>
+              <ZIndex>50</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000019">
+              <Top>2.30001cm</Top>
+              <Left>2.5cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>51</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000021">
+              <Top>2.25001cm</Top>
+              <Left>0.6cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>52</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000013">
+              <Top>2.20001cm</Top>
+              <Left>9.3cm</Left>
+              <Height>1.2cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>53</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000022">
+              <Top>3.30001cm</Top>
+              <Left>0.05cm</Left>
+              <Height>0.05cm</Height>
+              <Width>18.85cm</Width>
+              <ZIndex>54</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000154">
+              <Top>2.25001cm</Top>
+              <Left>18.87355cm</Left>
+              <Height>1.07944cm</Height>
+              <Width>0.02646cm</Width>
+              <ZIndex>55</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000104">
+              <Top>2.20001cm</Top>
+              <Left>0.05cm</Left>
+              <Height>0.05cm</Height>
+              <Width>18.85cm</Width>
+              <ZIndex>56</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000150">
+              <Top>0.80001cm</Top>
+              <Left>5.3cm</Left>
+              <Height>0.05cm</Height>
+              <Width>7.5cm</Width>
+              <ZIndex>57</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000149">
+              <Top>0.90001cm</Top>
+              <Left>5.3cm</Left>
+              <Height>0.05cm</Height>
+              <Width>7.5cm</Width>
+              <ZIndex>58</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <BottomBorder>
+                  <Style>Solid</Style>
+                </BottomBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000078">
+              <Top>2.25001cm</Top>
+              <Left>0cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>59</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000020">
+              <Top>2.30001cm</Top>
+              <Left>1.2cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>60</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+            <Rectangle Name="Rectangle_1000000014">
+              <Top>2.30001cm</Top>
+              <Left>17cm</Left>
+              <Height>1.1cm</Height>
+              <Width>0.05cm</Width>
+              <ZIndex>61</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                  <Width>0.5pt</Width>
+                </Border>
+                <RightBorder>
+                  <Style>Solid</Style>
+                </RightBorder>
+              </Style>
+            </Rectangle>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <LeftMargin>1.5cm</LeftMargin>
+        <RightMargin>0cm</RightMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+
+Shared offset as Integer
+Shared newPage as Object
+Shared currentgroup1 as Object
+Shared currentgroup2 as Object
+Public Function GetGroupPageNumber(NewPage as Boolean, pagenumber as Integer) as Object
+  If NewPage
+    offset = pagenumber - 1
+  End If
+  Return pagenumber - offset
+End Function
+
+Public Function IsNewPage(groups as Object) As Boolean
+newPage = FALSE
+dim group1 as Object
+dim group2 as Object
+group1=CStr(Choose(1,Split(CStr(groups),Chr(177))))
+group2=CStr(Choose(2,Split(CStr(groups),Chr(177))))
+If Not (group1 = currentgroup1)
+    newPage = TRUE
+    currentgroup1 = group1
+    currentgroup2 = group2
+    ELSE
+      If Not (group2 = currentgroup2)
+        newPage = TRUE
+        currentgroup2 = group2
+     End If
+  End If
+  Return newPage
+End Function
+
+Shared Data1 as Object
+Shared Data2 as Object
+
+Public Function GetData(Num as Integer, Group as integer) as Object
+if Group = 1 then
+   Return Cstr(Choose(Num, Split(Cstr(Data1),Chr(177))))
+End If
+
+if Group = 2 then
+   Return Cstr(Choose(Num, Split(Cstr(Data2),Chr(177))))
+End If
+End Function
+
+Public Function SetData(NewData as Object,Group as integer)
+  If Group = 1 and NewData &lt;&gt; "" Then
+      Data1 = NewData
+  End If
+  If Group = 2 and NewData &lt;&gt; "" Then
+      Data2 = NewData
+  End If
+
+  Return True
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>81229db9-35cc-4d45-ac51-f8e72e25b4d6</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Vendor__No___23">
+          <DataField>Vendor__No___23</DataField>
+        </Field>
+        <Field Name="BalanceCaption">
+          <DataField>BalanceCaption</DataField>
+        </Field>
+        <Field Name="For__Curr__Caption">
+          <DataField>For__Curr__Caption</DataField>
+        </Field>
+        <Field Name="ExplanationCaption">
+          <DataField>ExplanationCaption</DataField>
+        </Field>
+        <Field Name="VoucherCaption">
+          <DataField>VoucherCaption</DataField>
+        </Field>
+        <Field Name="DCaption">
+          <DataField>DCaption</DataField>
+        </Field>
+        <Field Name="MCaption">
+          <DataField>MCaption</DataField>
+        </Field>
+        <Field Name="Caption">
+          <DataField>Caption</DataField>
+        </Field>
+        <Field Name="Credit_Caption">
+          <DataField>Credit_Caption</DataField>
+        </Field>
+        <Field Name="Debit_Caption">
+          <DataField>Debit_Caption</DataField>
+        </Field>
+        <Field Name="S________Caption">
+          <DataField>S________Caption</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000098">
+          <DataField>Caption_Control1000000098</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000102">
+          <DataField>Caption_Control1000000102</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000103">
+          <DataField>Caption_Control1000000103</DataField>
+        </Field>
+        <Field Name="Vendor_Name">
+          <DataField>Vendor_Name</DataField>
+        </Field>
+        <Field Name="VendorCaption">
+          <DataField>VendorCaption</DataField>
+        </Field>
+        <Field Name="Page__Caption">
+          <DataField>Page__Caption</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000112">
+          <DataField>Caption_Control1000000112</DataField>
+        </Field>
+        <Field Name="FORMAT_MaxDate_0__Day__">
+          <DataField>FORMAT_MaxDate_0__Day__</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000114">
+          <DataField>Caption_Control1000000114</DataField>
+        </Field>
+        <Field Name="FORMAT_MaxDate_0__Month_2__">
+          <DataField>FORMAT_MaxDate_0__Month_2__</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000119">
+          <DataField>Caption_Control1000000119</DataField>
+        </Field>
+        <Field Name="FORMAT_MaxDate_0__Year4__">
+          <DataField>FORMAT_MaxDate_0__Year4__</DataField>
+        </Field>
+        <Field Name="S_Caption">
+          <DataField>S_Caption</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000142">
+          <DataField>Caption_Control1000000142</DataField>
+        </Field>
+        <Field Name="FORMAT_MinDate_0__Day__">
+          <DataField>FORMAT_MinDate_0__Day__</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000144">
+          <DataField>Caption_Control1000000144</DataField>
+        </Field>
+        <Field Name="FORMAT_MinDate_0__Month_2__">
+          <DataField>FORMAT_MinDate_0__Month_2__</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000146">
+          <DataField>Caption_Control1000000146</DataField>
+        </Field>
+        <Field Name="FORMAT_MinDate_0__Year4__">
+          <DataField>FORMAT_MinDate_0__Year4__</DataField>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000151">
+          <DataField>Caption_Control1000000151</DataField>
+        </Field>
+        <Field Name="DeptName">
+          <DataField>DeptName</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000153">
+          <DataField>Caption_Control1000000153</DataField>
+        </Field>
+        <Field Name="GLAccountNo">
+          <DataField>GLAccountNo</DataField>
+        </Field>
+        <Field Name="G_L_AccountCaption">
+          <DataField>G_L_AccountCaption</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000012">
+          <DataField>Caption_Control1000000012</DataField>
+        </Field>
+        <Field Name="Exc__Rt_Caption">
+          <DataField>Exc__Rt_Caption</DataField>
+        </Field>
+        <Field Name="Amt_Caption">
+          <DataField>Amt_Caption</DataField>
+        </Field>
+        <Field Name="For__Curr__Caption_Control1000000038">
+          <DataField>For__Curr__Caption_Control1000000038</DataField>
+        </Field>
+        <Field Name="Amt_Caption_Control1000000039">
+          <DataField>Amt_Caption_Control1000000039</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000045">
+          <DataField>Caption_Control1000000045</DataField>
+        </Field>
+        <Field Name="Curr_Caption">
+          <DataField>Curr_Caption</DataField>
+        </Field>
+        <Field Name="GLAccountName">
+          <DataField>GLAccountName</DataField>
+        </Field>
+        <Field Name="SumYear_2_">
+          <DataField>SumYear_2_</DataField>
+        </Field>
+        <Field Name="SumYear_2_Format">
+          <DataField>SumYear_2_Format</DataField>
+        </Field>
+        <Field Name="SumYear_1_">
+          <DataField>SumYear_1_</DataField>
+        </Field>
+        <Field Name="SumYear_1_Format">
+          <DataField>SumYear_1_Format</DataField>
+        </Field>
+        <Field Name="Balance1">
+          <DataField>Balance1</DataField>
+        </Field>
+        <Field Name="Balance1Format">
+          <DataField>Balance1Format</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000093">
+          <DataField>Caption_Control1000000093</DataField>
+        </Field>
+        <Field Name="Vendor_Ledger_Entry__Vendor_No___25">
+          <DataField>Vendor_Ledger_Entry__Vendor_No___25</DataField>
+        </Field>
+        <Field Name="Vendor_Ledger_Entry__Posting_Date__25">
+          <DataField>Vendor_Ledger_Entry__Posting_Date__25</DataField>
+        </Field>
+        <Field Name="Vendor_Ledger_Entry__Currency_Code__25">
+          <DataField>Vendor_Ledger_Entry__Currency_Code__25</DataField>
+        </Field>
+        <Field Name="Vendor_Ledger_EntryHeader1SectionVisible">
+          <DataField>Vendor_Ledger_EntryHeader1SectionVisible</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000029">
+          <DataField>Caption_Control1000000029</DataField>
+        </Field>
+        <Field Name="FirstBalance">
+          <DataField>FirstBalance</DataField>
+        </Field>
+        <Field Name="FirstBalanceFormat">
+          <DataField>FirstBalanceFormat</DataField>
+        </Field>
+        <Field Name="FirstStatus">
+          <DataField>FirstStatus</DataField>
+        </Field>
+        <Field Name="Credit_Amount__LCY___">
+          <DataField>Credit_Amount__LCY___</DataField>
+        </Field>
+        <Field Name="Credit_Amount__LCY___Format">
+          <DataField>Credit_Amount__LCY___Format</DataField>
+        </Field>
+        <Field Name="Debit_Amount__LCY___">
+          <DataField>Debit_Amount__LCY___</DataField>
+        </Field>
+        <Field Name="Debit_Amount__LCY___Format">
+          <DataField>Debit_Amount__LCY___Format</DataField>
+        </Field>
+        <Field Name="Desc">
+          <DataField>Desc</DataField>
+        </Field>
+        <Field Name="VoucherNo">
+          <DataField>VoucherNo</DataField>
+        </Field>
+        <Field Name="FORMAT__Posting_Date__0__Day__">
+          <DataField>FORMAT__Posting_Date__0__Day__</DataField>
+        </Field>
+        <Field Name="FORMAT__Posting_Date__0__Month__">
+          <DataField>FORMAT__Posting_Date__0__Month__</DataField>
+        </Field>
+        <Field Name="Balance1_Control1000000133">
+          <DataField>Balance1_Control1000000133</DataField>
+        </Field>
+        <Field Name="Balance1_Control1000000133Format">
+          <DataField>Balance1_Control1000000133Format</DataField>
+        </Field>
+        <Field Name="BalanceStatus">
+          <DataField>BalanceStatus</DataField>
+        </Field>
+        <Field Name="DAmt">
+          <DataField>DAmt</DataField>
+        </Field>
+        <Field Name="DAmtFormat">
+          <DataField>DAmtFormat</DataField>
+        </Field>
+        <Field Name="CAmt">
+          <DataField>CAmt</DataField>
+        </Field>
+        <Field Name="CAmtFormat">
+          <DataField>CAmtFormat</DataField>
+        </Field>
+        <Field Name="ExRate">
+          <DataField>ExRate</DataField>
+        </Field>
+        <Field Name="ExRateFormat">
+          <DataField>ExRateFormat</DataField>
+        </Field>
+        <Field Name="Vendor_Ledger_Entry___Currency_Code__">
+          <DataField>Vendor_Ledger_Entry___Currency_Code__</DataField>
+        </Field>
+        <Field Name="Caption_Control1000000007">
+          <DataField>Caption_Control1000000007</DataField>
+        </Field>
+        <Field Name="Debit_Amount__LCY____Control1000000008">
+          <DataField>Debit_Amount__LCY____Control1000000008</DataField>
+        </Field>
+        <Field Name="Debit_Amount__LCY____Control1000000008Format">
+          <DataField>Debit_Amount__LCY____Control1000000008Format</DataField>
+        </Field>
+        <Field Name="Credit_Amount__LCY____Control1000000009">
+          <DataField>Credit_Amount__LCY____Control1000000009</DataField>
+        </Field>
+        <Field Name="Credit_Amount__LCY____Control1000000009Format">
+          <DataField>Credit_Amount__LCY____Control1000000009Format</DataField>
+        </Field>
+        <Field Name="Balance1_Control1000000010">
+          <DataField>Balance1_Control1000000010</DataField>
+        </Field>
+        <Field Name="Balance1_Control1000000010Format">
+          <DataField>Balance1_Control1000000010Format</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
