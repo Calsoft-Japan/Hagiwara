@@ -2,10 +2,10 @@ tableextension 55802 "Value Entry Ext" extends "Value Entry"
 {
     fields
     {
-        field(50000; "Item Description"; Text[80])
+        /*field(50000; "Item Description"; Text[80])
         {
             // cleaned
-        }
+        }*/
         field(50001; "Customer Item No."; Code[50])
         {
             // cleaned

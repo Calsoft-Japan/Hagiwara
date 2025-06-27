@@ -47,10 +47,10 @@ tableextension 50032 "Item Ledger Entry Ext" extends "Item Ledger Entry"
         {
             Caption = 'SBU';
         }
-        field(50035; "Item Description"; Text[50])
+        /*field(50035; "Item Description"; Text[50])
         {
             Editable = false;
-        }
+        }*/
         field(50036; "Customer Item No."; Code[20])
         {
             Description = 'CS034';
