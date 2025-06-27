@@ -1,18 +1,18 @@
-pageextension 559305 SalesOrderListExt extends "Sales Order List"
+pageextension 50020 GeneralLedgerEntriesExt extends "General Ledger Entries"
 {
     layout
     {
         addlast(Content)
         {
-            field("Ship"; Rec."Ship")
+            field("System-Created Entry"; Rec."System-Created Entry")
             {
                 ApplicationArea = all;
             }
-            field("Amount_LCY"; Rec."Amount_LCYY")
+            field("Debit Amount"; Rec."Debit Amount")
             {
                 ApplicationArea = all;
             }
-            field("Amount"; Rec."Amount")
+            field("Credit Amount"; Rec."Credit Amount")
             {
                 ApplicationArea = all;
             }

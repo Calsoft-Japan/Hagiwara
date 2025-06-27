@@ -1,25 +1,41 @@
-pageextension 50000 Pag-Ext50516.SalesLinesExtExt extends "Pag-Ext50516.SalesLinesExt"
+pageextension 50516 SalesLinesExt extends "Sales Lines"
 {
     layout
     {
         addlast(Content)
         {
-                field("OrderDate"; Rec."ORDER DATE") 
-                {
-                    ApplicationArea = all;
-                }
-                field("Products"; Rec."PRODUCTS") 
-                {
-                    ApplicationArea = all;
-                }
-                field("Rank"; Rec."RANK") 
-                {
-                    ApplicationArea = all;
-                }
-                field("LineAmtExclVAT_LCY"; Rec."LINE AMT EXCL V A T_ L C Y") 
-                {
-                    ApplicationArea = all;
-                }
+            field("OrderDate"; Rec."OrderDate")
+            {
+                ApplicationArea = all;
+            }
+            field("Products"; Rec."Products")
+            {
+                ApplicationArea = all;
+            }
+            field("Rank"; Rec."Rank")
+            {
+                ApplicationArea = all;
+            }
+            field("LineAmtExclVAT_LCY"; Rec."LineAmtExclVAT_LCY")
+            {
+                ApplicationArea = all;
+            }
+            field("Fully Reserved"; Rec."Fully Reserved")
+            {
+                ApplicationArea = all;
+            }
+            field("Qty. Shipped Not Invoiced"; Rec."Qty. Shipped Not Invoiced")
+            {
+                ApplicationArea = all;
+            }
+            field("Shipped Not Invoiced (LCY)"; Rec."Shipped Not Invoiced (LCY)")
+            {
+                ApplicationArea = all;
+            }
+            field("Shipped Not Invoiced Cost(LCY)"; Rec."Shipped Not Invoiced Cost(LCY)")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 }

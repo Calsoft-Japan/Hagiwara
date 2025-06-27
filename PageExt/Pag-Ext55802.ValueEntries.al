@@ -1,34 +1,14 @@
-pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
+pageextension 55802 ValueEntriesExt extends "Value Entries"
 {
     layout
     {
         addlast(Content)
         {
-            field("Source No."; Rec."Source No.")
+            field("Customer No."; Rec."Customer No.")
             {
                 ApplicationArea = all;
             }
-            field("External Document No."; Rec."External Document No.")
-            {
-                ApplicationArea = all;
-            }
-            field("Customer Item No."; Rec."Customer Item No.")
-            {
-                ApplicationArea = all;
-            }
-            field("CO No."; Rec."CO No.")
-            {
-                ApplicationArea = all;
-            }
-            field("Serial No."; Rec."Serial No.")
-            {
-                ApplicationArea = all;
-            }
-            field("ITE Collected"; Rec."ITE Collected")
-            {
-                ApplicationArea = all;
-            }
-            field("ITE Manually"; Rec."ITE Manually")
+            field("Vendor No."; Rec."Vendor No.")
             {
                 ApplicationArea = all;
             }
@@ -36,7 +16,27 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
             {
                 ApplicationArea = all;
             }
-            field("Applies-to Entry"; Rec."Applies-to Entry")
+            field("Customer Name"; Rec."Customer Name")
+            {
+                ApplicationArea = all;
+            }
+            field("Vendor Name"; Rec."Vendor Name")
+            {
+                ApplicationArea = all;
+            }
+            field("Item Description"; Rec."Item Description")
+            {
+                ApplicationArea = all;
+            }
+            field("Customer Item No."; Rec."Customer Item No.")
+            {
+                ApplicationArea = all;
+            }
+            field("Customer Familiar Name"; Rec."Customer Familiar Name")
+            {
+                ApplicationArea = all;
+            }
+            field("Vendor Familiar Name"; Rec."Vendor Familiar Name")
             {
                 ApplicationArea = all;
             }

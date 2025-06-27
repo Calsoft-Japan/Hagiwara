@@ -1,14 +1,14 @@
-pageextension 50498 ReservationExt extends "Reservation"
+pageextension 55814 ItemChargeAssignmentSalesExt extends "Item Charge Assignment Sales"
 {
     layout
     {
         addlast(Content)
         {
-            field("Products"; Rec."Products")
+            field("Posting Date"; Rec."Posting Date")
             {
                 ApplicationArea = all;
             }
-            field("Rank"; Rec."Rank")
+            field("External Document No."; Rec."External Document No.")
             {
                 ApplicationArea = all;
             }

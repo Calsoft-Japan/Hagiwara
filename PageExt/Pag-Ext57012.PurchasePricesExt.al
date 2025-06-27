@@ -1,26 +1,25 @@
-pageextension 55703 LocationCardExt extends "Location Card"
-{
+pageextension 57012 PurchasePricesExt extends "Purchase Prices"
     layout
     {
         addlast(Content)
         {
-            field("Attention2"; Rec."ATTENTION2")
+            field("ORE Debit Cost"; Rec."ORE Debit Cost")
             {
                 ApplicationArea = all;
             }
-            field("Attention1"; Rec."ATTENTION1")
+            field("Ship&Debit Flag"; Rec."Ship&Debit Flag")
             {
                 ApplicationArea = all;
             }
-            field("County"; Rec."COUNTY")
+            field("PC. Currency Code"; Rec."PC. Currency Code")
             {
                 ApplicationArea = all;
             }
-            field("Use As FCA In-Transit"; Rec."Use As FCA In-Transit")
+            field("PC. Direct Unit Cost"; Rec."PC. Direct Unit Cost")
             {
                 ApplicationArea = all;
             }
-            field("CC"; Rec."CC")
+            field("PC. Update Price"; Rec."PC. Update Price")
             {
                 ApplicationArea = all;
             }

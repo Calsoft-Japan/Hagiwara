@@ -1,14 +1,14 @@
-pageextension 50498 ReservationExt extends "Reservation"
+pageextension 55824 SalesShipmentLinesExt extends "Sales Shipment Lines"
 {
     layout
     {
         addlast(Content)
         {
-            field("Products"; Rec."Products")
+            field("Posting Date"; Rec."Posting Date")
             {
                 ApplicationArea = all;
             }
-            field("Rank"; Rec."Rank")
+            field("External Document No."; Rec."External Document No.")
             {
                 ApplicationArea = all;
             }

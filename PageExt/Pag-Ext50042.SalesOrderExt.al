@@ -1,17 +1,17 @@
-pageextension 50000 Pag-Ext50042.SalesOrderExtExt extends "Pag-Ext50042.SalesOrderExt"
+pageextension 50042 SalesOrderExt extends "Sales Order"
 {
     layout
     {
         addlast(Content)
         {
-                field("To"; Rec."TO") 
-                {
-                    ApplicationArea = all;
-                }
-                field("From"; Rec."FROM") 
-                {
-                    ApplicationArea = all;
-                }
+            field("To"; Rec."To")
+            {
+                ApplicationArea = all;
+            }
+            field("From"; Rec."From")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 }

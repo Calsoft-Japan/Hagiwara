@@ -1,18 +1,18 @@
-pageextension 559305 SalesOrderListExt extends "Sales Order List"
+pageextension 50018 GLAccountListExt extends "G/L Account List"
 {
     layout
     {
         addlast(Content)
         {
-            field("Ship"; Rec."Ship")
+            field("Debit Amount"; Rec."Debit Amount")
             {
                 ApplicationArea = all;
             }
-            field("Amount_LCY"; Rec."Amount_LCYY")
+            field("Credit Amount"; Rec."Credit Amount")
             {
                 ApplicationArea = all;
             }
-            field("Amount"; Rec."Amount")
+            field("Totaling"; Rec."Totaling")
             {
                 ApplicationArea = all;
             }
