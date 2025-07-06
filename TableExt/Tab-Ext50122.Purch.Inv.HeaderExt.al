@@ -57,6 +57,7 @@ tableextension 50122 "Purch. Inv. Header Ext" extends "Purch. Inv. Header"
         }
         field(50010; "Incoterm Code"; Code[20])
         {
+            TableRelation = Incoterm;
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
         field(50020; "Incoterm Location"; Text[50])

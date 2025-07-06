@@ -12,6 +12,7 @@ table 50053 "ORE Message Collection ORDCHG"
         }
         field(3; "Message Status"; Option)
         {
+            TableRelation = "ORE Message History"."Message Status" WHERE("Entry No." = FIELD("History Entry No."));
             OptionCaption = 'Ready,Cancelled,Sent';
             OptionMembers = Ready,Cancelled,Sent;
         }

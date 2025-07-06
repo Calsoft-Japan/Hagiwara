@@ -58,6 +58,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
         field(50010; "Incoterm Code"; Code[20])
         {
+            TableRelation = Incoterm;
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
         field(50011; "VAT Category Type Name"; Text[50])
@@ -98,6 +99,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
         field(50040; "Manufacturer Code"; Code[10])
         {
+            TableRelation = Manufacturer;
             Caption = 'Manufacturer Code';
             Description = 'CS051';
         }
@@ -143,19 +145,21 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
         field(60006; "Pay-to City"; Text[30])
         {
+            TableRelation = IF ("Pay-to Country/Region Code" = CONST()) "Post Code".City
+            ELSE IF ("Pay-to Country/Region Code" = FILTER(<> '')) "Post Code".City WHERE("Country/Region Code" = FIELD("Pay-to Country/Region Code"));
             Caption = 'Pay-to City';
             Description = 'HG10.00.10 NJ 10/04/2018';
             //This property is currently not supported
             //TestTableRelation = false;
-
         }
         field(60007; "Pay-to Post Code"; Code[20])
         {
+            TableRelation = IF ("Pay-to Country/Region Code" = CONST()) "Post Code"
+            ELSE IF ("Pay-to Country/Region Code" = FILTER(<> '')) "Post Code" WHERE("Country/Region Code" = FIELD("Pay-to Country/Region Code"));
             Caption = 'Pay-to Post Code';
             Description = 'HG10.00.10 NJ 10/04/2018';
             //This property is currently not supported
             //TestTableRelation = false;
-
         }
         field(60008; "Pay-to County"; Text[30])
         {
@@ -164,6 +168,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
         field(60009; "Pay-to Country/Region Code"; Code[10])
         {
+            TableRelation = "Country/Region";
             Caption = 'Pay-to Country/Region Code';
             Description = 'HG10.00.10 NJ 10/04/2018';
         }

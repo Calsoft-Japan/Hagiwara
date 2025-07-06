@@ -8,6 +8,7 @@ table 50037 "Tracking Specification-Scans"
         }
         field(2; "Item No."; Code[20])
         {
+            TableRelation = Item;
             // cleaned
         }
         field(4; "Quantity (Base)"; Decimal)
@@ -71,6 +72,12 @@ table 50037 "Tracking Specification-Scans"
         }
         field(50002; "Total Quantity"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Tracking Specification-Scans"."Quantity (Base)" WHERE("Source ID" = FIELD("Source ID"),
+                                                                                     "Source Type" = FIELD("Source Type"),
+                                                                                     "Source Subtype" = FIELD("Source Subtype"),
+                                                                                     "Source Batch Name" = FIELD("Source Batch Name"),
+                                                                                     "Source Ref. No." = FIELD("Source Ref. No.")));
             Description = 'flow field for totals';
         }
         field(50003; "Qty Scanned"; Text[14])

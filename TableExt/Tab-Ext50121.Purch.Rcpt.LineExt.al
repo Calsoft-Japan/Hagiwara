@@ -4,6 +4,8 @@ tableextension 50121 "Purch. Rcpt. Line Ext" extends "Purch. Rcpt. Line"
     {
         field(50000; "Receipt Date"; Date)
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Purch. Rcpt. Header"."Posting Date" WHERE("No." = FIELD("Document No.")));
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
         field(50010; "Customer Item No."; Code[20])
@@ -104,10 +106,15 @@ tableextension 50121 "Purch. Rcpt. Line Ext" extends "Purch. Rcpt. Line"
         }
         field(50527; "Purchaser Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203 Enhanced';
         }
         field(50528; "External Document No."; Code[35])
         {
+            FieldClass = FlowField;
+            CalcFormula = Max("Value Entry"."External Document No." WHERE("Document No." = FIELD("Document No."),
+                                                                          "Document Type" = CONST("Purchase Receipt"),
+                                                                          Adjustment = CONST(FALSE)));
             Description = '//CS077';
         }
         field(50617; "Country/Region of Origin Code"; Code[10])

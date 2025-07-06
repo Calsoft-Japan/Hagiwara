@@ -20,6 +20,8 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         }
         field(50014; Products; Text[20])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item.Products WHERE("No." = FIELD("No.")));
             // cleaned
         }
         field(50016; "SO No."; Code[30])
@@ -107,6 +109,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         }
         field(50527; "Purchaser Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203 Enhanced';
         }
         field(50530; "Previous Document Date"; Date)

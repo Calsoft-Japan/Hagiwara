@@ -4,6 +4,8 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
     {
         field(50000; "Vendor Item Number"; Text[40])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item."Vendor Item No." WHERE("No." = FIELD("No.")));
             Description = 'HG10.00.02 NJ 01/06/2017';
             Editable = false;
         }
@@ -29,7 +31,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
         field(50020; "OEM No."; Code[20])
         {
-
+            TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
         }
         field(50021; "OEM Name"; Text[50])
         {
@@ -97,10 +99,18 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
         field(50520; "Shipped Quantity"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Sales Shipment Line".Quantity WHERE("No." = FIELD("No."),
+                                                                   "Order No." = FIELD("Document No."),
+                                                                   "Line No." = FIELD("Line No."),
+                                                                   Type = FIELD(Type),
+                                                                   "Location Code" = FIELD("Location Code"),
+                                                                   "Posting Date" = FIELD("Date Filter")));
             // cleaned
         }
         field(50521; "Date Filter"; Date)
         {
+            FieldClass = FlowFilter;
             // cleaned
         }
         field(50522; "JC Collection Date"; Date)
@@ -113,6 +123,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
         field(50524; "Actual Customer No."; Code[20])
         {
+            TableRelation = Customer."No." WHERE("No." = FIELD("Actual Customer No."));
             // cleaned
         }
         field(50525; "Vendor Cust. Code"; Code[13])
@@ -147,6 +158,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
         field(50539; "Salesperson Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             // cleaned
         }
         field(50540; "Original Doc. No."; Code[20])
@@ -185,6 +197,8 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
         field(50548; "Manufacturer Code"; Code[10])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item."Manufacturer Code" WHERE("No." = FIELD("No.")));
             Description = 'CS033';
         }
         field(50550; "Line Amount to ship"; Decimal)

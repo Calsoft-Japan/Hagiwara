@@ -20,6 +20,7 @@ tableextension 50125 "Purch. Cr. Memo Line Ext" extends "Purch. Cr. Memo Line"
         }
         field(50015; "Purchaser Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203';
         }
         field(50063; "Goods Arrival Date"; Date)

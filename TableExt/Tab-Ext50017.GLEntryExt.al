@@ -12,6 +12,7 @@ tableextension 50017 "G/L Entry Ext" extends "G/L Entry"
         }
         field(50002; "Currency Code"; Code[10])
         {
+            TableRelation = Currency.Code;
             Description = 'ACW1.01CHP1.00';
         }
         field(50003; "FC Debit Amount"; Decimal)

@@ -71,6 +71,7 @@ tableextension 50110 "Sales Shipment Header Ext" extends "Sales Shipment Header"
         }
         field(50064; "Final Customer No."; Code[20])
         {
+            TableRelation = "Final Customer" WHERE("Customer No." = FIELD("Sell-to Customer No."));
             Caption = 'No.';
             Editable = false;
         }

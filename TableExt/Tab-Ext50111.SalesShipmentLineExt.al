@@ -4,6 +4,8 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
     {
         field(50000; "Order Date"; Date)
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Sales Shipment Header"."Order Date" WHERE("No." = FIELD("Document No.")));
             Description = 'HG10.00.02 NJ 01/06/2017';
             Editable = false;
         }
@@ -29,6 +31,7 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         }
         field(50020; "OEM No."; Code[20])
         {
+            TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
             // cleaned
         }
         field(50021; "OEM Name"; Text[50])
@@ -126,6 +129,7 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         }
         field(50539; "Salesperson Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203 Enhanceents';
         }
         field(50540; "Original Doc. No."; Code[20])
@@ -146,6 +150,10 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         }
         field(50544; "External Document No."; Code[35])
         {
+            FieldClass = FlowField;
+            CalcFormula = Max("Value Entry"."External Document No." WHERE("Document No." = FIELD("Document No."),
+                                                                          "Document Type" = CONST("Sales Shipment"),
+                                                                          Adjustment = CONST(FALSE)));
             Description = '//CS077';
         }
         field(50550; "Qty to Ship (2nd UOM)"; Decimal)

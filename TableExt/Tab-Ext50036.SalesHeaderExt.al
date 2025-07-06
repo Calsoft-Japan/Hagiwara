@@ -57,7 +57,7 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         }
         field(50010; "OEM No."; Code[20])
         {
-
+            TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
         }
         field(50011; "OEM Name"; Text[50])
         {
@@ -150,8 +150,8 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         }
         field(50064; "Final Customer No."; Code[20])
         {
+            TableRelation = "Final Customer" WHERE("Customer No." = FIELD("Sell-to Customer No."));
             Caption = 'No.';
-
         }
         field(50065; "Final Customer Name"; Text[50])
         {
@@ -171,26 +171,38 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         }
         field(50069; "Qty Invoiced"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Sales Line"."Quantity Invoiced" WHERE("Document No." = FIELD("No.")));
             Description = '//20140808 Siak Hui';
         }
         field(50070; "Qty Ordered"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Sales Line".Quantity WHERE("Document No." = FIELD("No.")));
             Description = '//20140808 Siak Hui';
         }
         field(50071; "Qty Outstanding (Actual)"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Sales Line"."Outstanding Quantity (Actual)" WHERE("Document No." = FIELD("No.")));
             Description = '//20140808 Siak Hui';
         }
         field(50072; "Order Count"; Integer)
         {
+            FieldClass = FlowField;
+            CalcFormula = Count("Sales Line" WHERE("Document No." = FIELD("No."), Type = FILTER(Item)));
             Description = '//20140808 Siak Hui';
         }
         field(50073; "Full Shipped Count"; Integer)
         {
+            FieldClass = FlowField;
+            CalcFormula = Count("Sales Line" WHERE("Document No." = FIELD("No."), Type = FILTER(Item), "Outstanding Quantity (Actual)" = CONST(0)));
             Description = '//20140808 Siak Hui';
         }
         field(50074; "Qty Shipped"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Sales Line"."Quantity Shipped" WHERE("Document No." = FIELD("No.")));
             Description = '//20140808 Siak Hui';
         }
         field(50075; "Shipment Tracking Date"; Date)

@@ -10,6 +10,7 @@ tableextension 50015 "G/L Account Ext" extends "G/L Account"
         }
         field(50002; "Foereign Currency"; Code[10])
         {
+            TableRelation = Currency.Code;
             Caption = 'Currency';
         }
         field(50003; "Complementary Acc. Type"; Option)

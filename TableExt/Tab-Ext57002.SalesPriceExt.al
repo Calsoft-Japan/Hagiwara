@@ -11,6 +11,7 @@ tableextension 57002 "Sales Price Ext" extends "Sales Price"
         }
         field(50022; "Renesas Report Unit Price Cur."; Code[10])
         {
+            TableRelation = Currency.Code;
             Description = 'CS089';
         }
     }

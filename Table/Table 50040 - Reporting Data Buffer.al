@@ -57,6 +57,7 @@ table 50040 "Reporting Data Buffer"
         }
         field(14; "Currency Code"; Code[10])
         {
+            TableRelation = Currency;
             Caption = 'Currency Code';
         }
         field(15; "Line Amount"; Decimal)
@@ -102,6 +103,7 @@ table 50040 "Reporting Data Buffer"
         }
         field(24; "Global Dimension 2 Code"; Code[20])
         {
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(2));
             CaptionClass = '1,1,2';
             Caption = 'Global Dimension 2 Code';
         }

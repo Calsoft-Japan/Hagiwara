@@ -8,10 +8,12 @@ tableextension 50313 "Inventory Setup Ext" extends "Inventory Setup"
         }
         field(50001; "Supplier Item Source"; Code[20])
         {
+            TableRelation = Vendor;
             Description = '//20101009';
         }
         field(50002; "Booking Serial Nos."; Code[10])
         {
+            TableRelation = "No. Series";
             Caption = 'Serial Nos.';
         }
         field(50003; "Sales Backlog Cutoff Date"; Date)

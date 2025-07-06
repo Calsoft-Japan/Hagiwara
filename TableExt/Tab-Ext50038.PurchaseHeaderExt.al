@@ -58,6 +58,7 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
         }
         field(50010; "Incoterm Code"; Code[20])
         {
+            TableRelation = Incoterm;
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
         field(50011; "Incoterm Location"; Text[50])
@@ -66,7 +67,7 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
         }
         field(50020; "Customer No."; Code[20])
         {
-
+            TableRelation = Customer."No.";
         }
         field(50021; "Customer Name"; Text[50])
         {

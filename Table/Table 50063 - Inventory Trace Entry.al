@@ -41,6 +41,8 @@ table 50063 "Inventory Trace Entry"
         }
         field(10; "Item Description"; Text[50])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No")));
             Editable = false;
         }
         field(11; "Customer No."; Code[20])
@@ -89,14 +91,30 @@ table 50063 "Inventory Trace Entry"
         }
         field(22; "Remaining Quantity"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Incoming Item Ledger Entry No." = FIELD("Incoming Item Ledger Entry No."),
+                                                                     "Item No" = FIELD("Item No"),
+                                                                     "Location Code" = FIELD("Location Code")));
             DecimalPlaces = 0 : 5;
         }
         field(23; "Sales Returned Quantity"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Incoming Item Ledger Entry No." = FIELD("Incoming Item Ledger Entry No."),
+                                                                     "Document Type" = CONST("Sales Return Receipt"),
+                                                                     "Original Document No." = FIELD("Document No."),
+                                                                     "Original Document Line No." = FIELD("Document Line No."),
+                                                                     "Item No" = FIELD("Item No"),
+                                                                     "Location Code" = FIELD("Location Code")));
             DecimalPlaces = 0 : 5;
         }
         field(24; "Sales Quantity"; Decimal)
         {
+            FieldClass = FlowField;
+            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Incoming Item Ledger Entry No." = FIELD("Incoming Item Ledger Entry No."),
+                                                                     "Document Type" = CONST("Sales Shipment"),
+                                                                     "Item No" = FIELD("Item No"),
+                                                                     "Location Code" = FIELD("Location Code")));
             DecimalPlaces = 0 : 5;
         }
         field(31; "Purchase Order No."; Code[20])
@@ -209,6 +227,8 @@ table 50063 "Inventory Trace Entry"
         }
         field(59; "Location Code"; Code[10])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Item Ledger Entry"."Location Code" WHERE("Entry No." = FIELD("Item Ledger Entry No.")));
             Caption = 'Location Code';
         }
         field(60; "Incoming Item Ledger Entry No."; Integer)

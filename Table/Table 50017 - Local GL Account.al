@@ -16,10 +16,12 @@ table 50017 "Local G/L Account"
         }
         field(4; "Corporate G/L Account No."; Code[20])
         {
+            TableRelation = "G/L Account";
             Caption = 'Corporate G/L Account No.';
         }
         field(5; "Center Code"; Code[20])
         {
+            TableRelation = "Dimension Value".Code WHERE("Global Dimension No." = CONST(1));
             CaptionClass = '1,1,1';
             Caption = 'Cost Center';
         }

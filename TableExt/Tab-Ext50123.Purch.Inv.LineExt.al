@@ -33,6 +33,7 @@ tableextension 50123 "Purch. Inv. Line Ext" extends "Purch. Inv. Line"
         }
         field(50527; "Purchaser Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203 Enhanced';
         }
     }

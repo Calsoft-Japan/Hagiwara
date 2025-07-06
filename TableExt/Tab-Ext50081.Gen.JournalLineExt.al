@@ -83,9 +83,10 @@ tableextension 50081 "Gen. Journal Line Ext" extends "Gen. Journal Line"
         }
         field(50014; "Credit Card Code"; Code[10])
         {
+            TableRelation = IF ("VAT Issue Type" = CONST("Purchase"),
+                                "Payment Type" = FILTER("Credit Card" | "Debit Card" | "Company Credit Card")) "Renesas PO Interface";
             Caption = 'Credit Card Code';
             Description = 'SKLV6.0';
-
         }
         field(50015; "Asset Type"; Option)
         {
@@ -109,15 +110,15 @@ tableextension 50081 "Gen. Journal Line Ext" extends "Gen. Journal Line"
         }
         field(50018; "Bill-to/Pay-to No. 2"; Code[20])
         {
+            TableRelation = IF ("VAT Issue Type" = CONST(Sales)) Customer ELSE IF ("VAT Issue Type" = CONST(Purchase)) Vendor;
             Caption = 'Bill-to/Pay-to No.';
             Description = 'SKLV6.0';
-
         }
         field(50019; "VAT Currency Code"; Code[10])
         {
+            TableRelation = Currency;
             Caption = 'VAT Currency Code';
             Description = 'SKLV6.0';
-
         }
         field(50020; "Editable Base Amount"; Decimal)
         {
@@ -234,6 +235,7 @@ tableextension 50081 "Gen. Journal Line Ext" extends "Gen. Journal Line"
         {
             Caption = 'No. Series';
             Description = 'SKLN6.0';
+            TableRelation = "No. Series";
         }
     }
 }

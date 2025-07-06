@@ -4,6 +4,7 @@ table 50000 "Markup & Added Value"
     {
         field(1; "Item No."; Code[20])
         {
+            TableRelation = Item."No.";
             Caption = 'Item No.';
             DataClassification = ToBeClassified;
             NotBlank = true;

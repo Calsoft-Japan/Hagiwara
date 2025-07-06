@@ -8,6 +8,7 @@ table 50010 "Final Customer"
         }
         field(2; "Customer No."; Code[20])
         {
+            TableRelation = Customer;
             // cleaned
         }
         field(3; "Final Customer Name"; Text[50])

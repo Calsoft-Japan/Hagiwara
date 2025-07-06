@@ -8,6 +8,7 @@ table 50064 "Hagiwara Group"
         }
         field(2; Company; Text[30])
         {
+            TableRelation = Company.Name;
             // cleaned
         }
     }

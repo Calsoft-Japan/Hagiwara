@@ -32,10 +32,15 @@ tableextension 50124 "Purch. Cr. Memo Hdr. Ext" extends "Purch. Cr. Memo Hdr."
         }
         field(50006; "Credit Card Code"; Code[10])
         {
+            //TableRelation = "Renesas PO Interface";
+            TableRelation = "VAT Credit Card";//under confirm 
             Description = 'SKLV6.0';
         }
         field(50007; "Credit Card Name"; Text[30])
         {
+            FieldClass = FlowField;
+            //CalcFormula = Lookup("Renesas PO Interface"."OEM No." WHERE("Entry No." = FIELD("Credit Card Code"))); 
+            CalcFormula = Lookup("VAT Credit Card".Name WHERE("Credit Card No." = FIELD("Credit Card Code")));//under confirm 
             Description = 'SKLV6.0';
         }
         field(50008; "Credit Card No."; Text[30])

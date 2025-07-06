@@ -4,19 +4,21 @@ table 50042 "Purchase Price Worksheet"
     {
         field(1; "Item No."; Code[20])
         {
+            TableRelation = Item;
             Caption = 'Item No.';
             NotBlank = true;
-
         }
         field(2; "Sales Code"; Code[20])
         {
+            TableRelation = IF ("Sales Type" = CONST("Customer Price Group")) "Customer Price Group"
+            ELSE IF ("Sales Type" = CONST(Customer)) Customer
+            ELSE IF ("Sales Type" = CONST(Campaign)) Campaign;
             Caption = 'Sales Code';
-
         }
         field(3; "Currency Code"; Code[10])
         {
+            TableRelation = Currency;
             Caption = 'Currency Code';
-
         }
         field(4; "Starting Date"; Date)
         {
@@ -49,6 +51,7 @@ table 50042 "Purchase Price Worksheet"
         }
         field(11; "VAT Bus. Posting Gr. (Price)"; Code[10])
         {
+            TableRelation = "VAT Business Posting Group";
             Caption = 'VAT Bus. Posting Gr. (Price)';
         }
         field(13; "Sales Type"; Option)
@@ -71,6 +74,8 @@ table 50042 "Purchase Price Worksheet"
         }
         field(20; "Item Description"; Text[50])
         {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No.")));
             Caption = 'Item Description';
         }
         field(21; "Sales Description"; Text[50])
@@ -79,13 +84,13 @@ table 50042 "Purchase Price Worksheet"
         }
         field(5400; "Unit of Measure Code"; Code[10])
         {
+            TableRelation = "Item Unit of Measure".Code WHERE("Item No." = FIELD("Item No."));
             Caption = 'Unit of Measure Code';
-
         }
         field(5700; "Variant Code"; Code[10])
         {
+            TableRelation = "Item Variant".Code WHERE("Item No." = FIELD("Item No."));
             Caption = 'Variant Code';
-
         }
         field(7001; "Allow Line Disc."; Boolean)
         {

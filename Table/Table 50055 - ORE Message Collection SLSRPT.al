@@ -8,10 +8,12 @@ table 50055 "ORE Message Collection SLSRPT"
         }
         field(2; "History Entry No."; Integer)
         {
+            TableRelation = "ORE Message History"."Entry No." WHERE("Entry No." = FIELD("History Entry No."));
             // cleaned
         }
         field(3; "Message Status"; Option)
         {
+            TableRelation = "ORE Message History"."Message Status" WHERE("Entry No." = FIELD("History Entry No."));
             OptionCaption = 'Ready,Cancelled,Sent';
             OptionMembers = Ready,Cancelled,Sent;
         }

@@ -24,6 +24,7 @@ tableextension 50113 "Sales Invoice Line Ext" extends "Sales Invoice Line"
         }
         field(50020; "OEM No."; Code[20])
         {
+            TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
             // cleaned
         }
         field(50021; "OEM Name"; Text[50])
@@ -32,6 +33,7 @@ tableextension 50113 "Sales Invoice Line Ext" extends "Sales Invoice Line"
         }
         field(50539; "Salesperson Code"; Code[10])
         {
+            TableRelation = "Salesperson/Purchaser";
             Description = '//20121203 Enhanceents';
         }
     }
