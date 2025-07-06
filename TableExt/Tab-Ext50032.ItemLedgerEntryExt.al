@@ -89,4 +89,24 @@ tableextension 50032 "Item Ledger Entry Ext" extends "Item Ledger Entry"
             Description = 'BBN.01';
         }
     }
+
+
+    procedure GetTrackingDate(): Date
+    var
+        SalesShipmentHeader: Record "Sales Shipment Header";
+        PurchRcptHeader: Record "Purch. Rcpt. Header";
+    begin
+        //HG10.00.09 NJ 05/04/2018 -->
+        IF "Document Type" = "Document Type"::"Sales Shipment" THEN BEGIN
+            IF SalesShipmentHeader.GET("Document No.") THEN
+                EXIT(SalesShipmentHeader."Shipment Tracking Date");
+        END;
+        IF "Document Type" = "Document Type"::"Purchase Receipt" THEN BEGIN
+            IF PurchRcptHeader.GET("Document No.") THEN
+                EXIT(PurchRcptHeader."Goods Arrival Date");
+        END;
+        EXIT(0D);
+        //HG10.00.09 NJ 05/04/2018 <--
+    end;
+
 }

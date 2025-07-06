@@ -244,5 +244,161 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
 
         }
+
+        modify("Sell-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            var
+                ShipToAddr: Record "Ship-to Address";
+            begin
+                GetCust("Sell-to Customer No.");
+                //Siak
+                "Salesperson Code" := Customer."Salesperson Code";
+                //
+                //Raja
+                "Item Supplier Source" := Customer."Item Supplier Source"; //>>
+                "Vendor Cust. Code" := Customer."Vendor Cust. Code"; //>>
+                //Raja End
+
+                //HG10.00.02 NJ 01/06/2017 -->
+                ShipToAddr.RESET;
+                ShipToAddr.SETRANGE("Customer No.", "Sell-to Customer No.");
+                ShipToAddr.SETRANGE("Sales Order Default", TRUE);
+                IF ShipToAddr.FINDFIRST THEN
+                    VALIDATE("Ship-to Code", ShipToAddr.Code);
+                //HG10.00.02 NJ 01/06/2017 <--
+
+                VALIDATE("Posting Date"); //HG10.00.02 NJ 01/06/2017
+
+            end;
+        }
+
+        modify("Bill-to Customer No.")
+        {
+            trigger OnAfterValidate()
+            var
+                GLSetup: Record "General Ledger Setup";
+            begin
+                // SKLV6.0 START
+                GetCust("Bill-to Customer No.");
+                IF GLSetup."Korea Company" THEN BEGIN
+                    GLSetup.GET;
+                    GLSetup.TESTFIELD("Default VAT Company Code");
+                    VALIDATE("VAT Company Code", GLSetup."Default VAT Company Code");
+                    //ToDo need to confirm keep this function or not, because the following fields not found. 
+                    //VALIDATE("VAT Category Type Code", Customer."VAT Category Type Code"); 
+                END;
+                // SKLV6.0 END
+
+            end;
+        }
+
+
+        modify("Posting Date")
+        {
+            trigger OnAfterValidate()
+            var
+                PaymentTerms: Record "Payment Terms";
+            begin
+                //HG10.00.02 NJ 01/06/2017 -->
+                IF PaymentTerms.GET("Payment Terms Code") THEN BEGIN
+                    IF PaymentTerms."Special Due Date Calc" = 1 THEN BEGIN
+                        IF DATE2DMY("Posting Date", 1) > 15 THEN
+                            "Due Date" := CALCDATE('CM+15D', "Posting Date")
+                        ELSE
+                            "Due Date" := CALCDATE('CM', "Posting Date");
+                        MODIFY;
+                    END;
+                END;
+                //HG10.00.02 NJ 01/06/2017 <--
+
+                "Shipment Tracking Date" := "Posting Date"; //20180225 by SS
+            end;
+        }
+
+        modify("Shipment Date")
+        {
+            trigger OnAfterValidate()
+            var
+                PaymentTerms: Record "Payment Terms";
+                GLSetup: Record "General Ledger Setup";
+                Text101: Label 'Shipment Date is before workdate';
+                Text102: Label 'Shipment Date is more than 6 month later';
+            begin
+                // YUKA for Hagiwara 20030228
+                IF "Shipment Date" < WORKDATE THEN
+                    ERROR(Text101);
+                GLsetup.GET;
+                IF NOT GLsetup."Korea Company" THEN BEGIN
+                    IF "Shipment Date" > CALCDATE('+6M', WORKDATE) THEN
+                        ERROR(Text102);
+                END;
+                // YUKA for Hagiwara 20030228 - END
+            end;
+        }
+
+        modify("External Document No.")
+        {
+            trigger OnAfterValidate()
+            begin
+                // SKHE1209-02 2012.09.17 START
+                UpdateSalesLines_Ext(FIELDCAPTION("External Document No."), FALSE);
+                // SKHE1209-02 2012.09.17 END
+            end;
+        }
+
+        modify("Requested Delivery Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                UpdateSalesLines_Ext(FIELDCAPTION("Requested Delivery Date"), FALSE); //sanjeev
+            end;
+        }
+
+        modify("Promised Delivery Date")
+        {
+            trigger OnAfterValidate()
+            begin
+                UpdateSalesLines_Ext(FIELDCAPTION("Promised Delivery Date"), FALSE); //sanjeev
+            end;
+        }
+
     }
+
+    local procedure UpdateSalesLines_Ext(ChangedFieldName: Text[100]; AskQuestion: Boolean)
+    var
+        myInt: Integer;
+    begin
+        IF NOT SalesLinesExist THEN
+            EXIT;
+
+        SalesLine.RESET;
+        SalesLine.SETRANGE("Document Type", "Document Type");
+        SalesLine.SETRANGE("Document No.", "No.");
+        IF SalesLine.FINDSET THEN
+            REPEAT
+                CASE ChangedFieldName OF
+                    FIELDCAPTION("Requested Delivery Date"):
+
+                        IF SalesLine."No." <> '' THEN BEGIN
+                            SalesLine.VALIDATE("Requested Delivery Date_1", "Shipment Date");//sanjeev
+                        end;
+                    FIELDCAPTION("Promised Delivery Date"):
+
+                        IF SalesLine."No." <> '' THEN BEGIN
+                            SalesLine.VALIDATE("Promised Delivery Date_1", "Shipment Date");//sanjeev
+                        end;
+                    //SKHE 2012.09. 17 - Start : Modified Customer Order No. of Line with External Doc. No. of Header
+                    FIELDCAPTION("External Document No."):
+                        IF ("Document Type" = "Document Type"::Order) AND
+                          (SalesLine."Customer Order No." <> "External Document No.") THEN
+                            SalesLine."Customer Order No." := "External Document No.";
+                //SKHE 2012.09. 17 - ENd
+
+                end;
+                SalesLine.MODIFY(TRUE);
+            UNTIL SalesLine.NEXT = 0;
+
+    end;
+
 }

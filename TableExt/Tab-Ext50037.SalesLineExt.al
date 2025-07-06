@@ -32,6 +32,16 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         field(50020; "OEM No."; Code[20])
         {
             TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
+
+            trigger OnValidate()
+            var
+                rec_Customer: Record Customer;
+            begin
+                //SH 20130831
+                IF rec_Customer.GET("OEM No.") THEN
+                    "OEM Name" := rec_Customer.Name;
+
+            end;
         }
         field(50021; "OEM Name"; Text[50])
         {
@@ -48,6 +58,38 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             OptionCaption = ' ,Renesas';
             OptionMembers = " ",Renesas;
 
+            trigger OnValidate()
+            var
+                Item: Record Item;
+            begin
+                //SH 20111105 - To allow Msg Status change to Ready to collect when the field is changed from space to 'Renesas'
+                IF Type = Type::Item THEN
+                    Item := GetItem();
+                IF (Type = Type::Item) AND (xRec."Item Supplier Source" <> xRec."Item Supplier Source"::Renesas) THEN BEGIN
+                    IF "Item Supplier Source" = "Item Supplier Source"::Renesas THEN BEGIN
+                        IF (Item."Item Supplier Source" = Item."Item Supplier Source"::" ") THEN BEGIN
+                            ERROR(Text114);
+                        END ELSE BEGIN
+                            IF CONFIRM(Text113, TRUE, FIELDCAPTION("Message Status"), "Message Status",
+                                'Ready to Collect') THEN BEGIN
+                                "Message Status" := "Message Status"::"Ready to Collect";
+                                "Update Date" := TODAY;
+                                "Update Time" := TIME;
+                                "Update By" := USERID;
+                            END;
+                        END;
+                    END;
+                END;
+
+                IF (Type = Type::Item) AND (xRec."Item Supplier Source" = xRec."Item Supplier Source"::Renesas) THEN BEGIN
+                    IF ("Item Supplier Source" = "Item Supplier Source"::" ") THEN BEGIN
+                        IF (Item."Item Supplier Source" <> Item."Item Supplier Source"::" ") THEN BEGIN
+                            ERROR(Text115);
+                        END;
+                    END;
+                END;
+            end;
+
         }
         field(50502; "Post Shipment Collect Flag"; Integer)
         {
@@ -57,6 +99,79 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             OptionCaption = ' ,Ready to Collect,Collected,Sent';
             OptionMembers = " ","Ready to Collect",Collected,Sent;
+
+            trigger OnValidate()
+            var
+                Item: Record Item;
+            begin
+                //SH 20111105 - For PSI Data Maintenance check
+                IF Type = Type::Item THEN
+                    Item := GetItem();
+
+                //IF    (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::Collected) THEN BEGIN
+                //      IF  "Message Status" <> "Message Status"::Collected THEN BEGIN
+                //           ERROR(Text116);
+                //      END;
+                //END;
+
+                //IF    (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::Collected) THEN BEGIN
+                //      IF  "Message Status" <> "Message Status"::Collected THEN BEGIN
+                //           ERROR(Text119);
+                //      END;
+                //END;
+
+                IF (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::"Ready to Collect") THEN BEGIN
+                    IF "Message Status" = "Message Status"::Sent THEN BEGIN
+                        IF CONFIRM(Text113, TRUE, FIELDCAPTION("Message Status"), xRec."Message Status",
+                            'Sent') THEN BEGIN
+                        END ELSE BEGIN
+                            "Message Status" := xRec."Message Status";
+                        END;
+                    END;
+                END;
+
+                //IF    (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::"Ready to Collect") THEN BEGIN
+                //      IF  "Message Status" = "Message Status"::Collected THEN BEGIN
+                //           ERROR(Text117);
+                //      END;
+                //END;
+
+                IF (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::"Ready to Collect") THEN BEGIN
+                    IF "Message Status" = "Message Status"::" " THEN BEGIN
+                        IF Item."Item Supplier Source" = Item."Item Supplier Source"::Renesas THEN BEGIN
+                            ERROR(Text118);
+                        END;
+                    END;
+                END;
+
+                IF (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::Sent) THEN BEGIN
+                    IF "Message Status" = "Message Status"::Collected THEN BEGIN
+                        ERROR(Text117);
+                    END;
+                END;
+
+                IF (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::Sent) THEN BEGIN
+                    IF "Message Status" = "Message Status"::"Ready to Collect" THEN BEGIN
+                        IF CONFIRM(Text113, TRUE, FIELDCAPTION("Message Status"), xRec."Message Status",
+                            'Ready to Collect') THEN BEGIN
+                        END ELSE BEGIN
+                            "Message Status" := xRec."Message Status";
+                        END;
+                    END;
+                END;
+                IF (Type = Type::Item) AND (xRec."Message Status" = xRec."Message Status"::Sent) THEN BEGIN
+                    IF "Message Status" = "Message Status"::" " THEN BEGIN
+                        IF Item."Item Supplier Source" = Item."Item Supplier Source"::Renesas THEN BEGIN
+                            ERROR(Text118);
+                        END;
+                    END;
+                END;
+                IF xRec."Message Status" <> "Message Status" THEN BEGIN
+                    "Update Date" := TODAY;
+                    "Update Time" := TIME;
+                    "Update By" := USERID;
+                END;
+            end;
 
         }
         field(50511; "Update Date"; Date)
@@ -91,6 +206,19 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         field(50518; "Booking No."; Code[20])
         {
             Editable = true;
+            trigger OnValidate()
+            var
+                InvtSetup: Record "Inventory Setup";
+                NoSeriesMgt: codeunit NoSeriesManagement;
+            begin
+                //Siak Hui 20111124 - Start
+                //IF "Booking No." <> xRec."Booking No." THEN BEGIN
+                IF "Booking No." = '' THEN BEGIN
+                    InvtSetup.get();
+                    NoSeriesMgt.TestManual(InvtSetup."Booking Serial Nos.");
+                    "No. Series" := '';
+                END;
+            end;
 
         }
         field(50519; "No. Series"; Code[10])
@@ -229,7 +357,153 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             Editable = false;
         }
+
+        modify(Type)
+        {
+            trigger OnAfterValidate()
+            var
+                SalesHeader: Record "Sales Header";
+            begin
+                // YUKA for Hagiwara 20030408
+                SalesHeader := GetSalesHeader();
+                "Sell-to Customer No." := SalesHeader."Sell-to Customer No.";
+                // YUKA for Hagiwara 20030408 - END
+            end;
+        }
+
+        modify("No.")
+        {
+
+            trigger OnAfterValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                Item: Record "Item";
+                rec_Customer: Record Customer;
+                InvtSetup: Record "Inventory Setup";
+                NoSeriesMgt: codeunit NoSeriesManagement;
+                g_NoSeries: Code[10];
+            begin
+
+                CASE Type OF
+                    Type::Item:
+                        BEGIN
+
+                            SalesHeader := GetSalesHeader();
+                            Item := GetItem();
+                            // Siak Hui for Hagiwara 20110426
+                            "Message Status" := "Message Status"::"Ready to Collect";
+                            SalesHeader."Message Status(Booking)" := SalesHeader."Message Status(Booking)"::"Ready to Collect";
+                            SalesHeader.MODIFY;
+                            "Update Date" := TODAY;
+                            "Update Time" := TIME;
+                            "Update By" := USERID;
+                            Products := Item.Products;
+                            IF rec_Customer.GET(Item."OEM No.") THEN BEGIN
+                                "Actual Customer No." := Item."OEM No.";
+                                "OEM No." := Item."OEM No.";
+                                "OEM Name" := rec_Customer.Name;
+                                "Vendor Cust. Code" := rec_Customer."Vendor Cust. Code";
+                            END ELSE BEGIN
+                                IF rec_Customer.GET("Sell-to Customer No.") THEN BEGIN
+                                    "Actual Customer No." := "Sell-to Customer No.";
+                                    "Vendor Cust. Code" := rec_Customer."Vendor Cust. Code";
+                                END;
+                            END;
+                            //Siak Hui 20111122 - Start
+                            //GetSalesHeader;
+                            "Serial No." := SalesHeader."Last Serial No." + 1;
+                            SalesHeader."Last Serial No." := "Serial No.";
+                            SalesHeader.MODIFY;
+                            //Siak Hui 20111122 - End
+                            //Siak Hui 20111124 - Start
+                            IF xRec."Booking No." = '' THEN BEGIN
+                                g_NoSeries := 'SN1';
+                                //GetInvtSetup;
+                                InvtSetup.Get();
+                                InvtSetup.TESTFIELD("Booking Serial Nos.");
+                                NoSeriesMgt.InitSeries(InvtSetup."Booking Serial Nos.", xRec."No. Series", 0D, "Booking No.", "No. Series");
+                            END ELSE BEGIN
+                                "Booking No." := xRec."Booking No.";
+                            END;
+                            //Siak Hui 20111124 - Start
+                            //siak Hui for HAgiwara 20111013
+                            IF "Document Type" = "Document Type"::Order THEN
+                                "Customer Order No." := SalesHeader."External Document No.";
+                            // Siak Hui for Hagiwara 20110426 - END
+
+                            // YUKA for Hagiwara 20030226
+                            "Customer Item No." := Item."Customer Item No.";
+                            "Parts No." := Item."Parts No.";
+                            Rank := Item.Rank;
+                            // YUKA for Hagiwara 20030226 - END
+
+                            "Item Supplier Source" := Item."Item Supplier Source";//>>
+                            "Shipment Seq. No." := 1; //>>
+                            "Next Shipment Seq. No." := 1; //>>
+                        end;
+                end;
+            end;
+        }
+
+        modify(Quantity)
+        {
+            trigger OnAfterValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                Item: Record "Item";
+                QtyEval: Decimal;
+            begin
+                IF Type = Type::Item THEN BEGIN
+                    // YUKA for Hagiwara
+                    IF (Type = Type::Item) AND (Quantity <> 0) THEN BEGIN
+                        Item.GET("No.");
+                        IF Item."Order Multiple" <> 0 THEN BEGIN
+                            QtyEval := Quantity / Item."Order Multiple";
+                            QtyEval := ROUND(QtyEval, 1, '>');
+                            IF QtyEval <> Quantity / Item."Order Multiple" THEN
+                                MESSAGE(text102, FORMAT(Quantity), FORMAT(Item."Order Multiple"), "No.", Item."Familiar Name");
+                        END;
+                    END;
+                    // YUKA for Hagiwara - END
+                    //SH 20110504 - For PSI Data JA Maintenmance
+                    IF (xRec.Quantity <> Quantity) OR (xRec."Quantity (Base)" <> "Quantity (Base)") THEN BEGIN
+                        //SH 20112012 - To allow Msg Status change when Qty change (Qty = 0 -> Cancel sales Line Order)
+                        // IF (Type = Type::Item) AND (Quantity <> 0) AND (xRec.Quantity <> 0) THEN BEGIN
+                        IF (Type = Type::Item) AND (xRec.Quantity <> 0) THEN BEGIN
+                            IF "Message Status" <> "Message Status"::"Ready to Collect" THEN BEGIN
+                                IF CONFIRM(Text113, TRUE, FIELDCAPTION("Message Status"), "Message Status",
+                                   'Ready to Collect') THEN BEGIN
+                                    "Message Status" := "Message Status"::"Ready to Collect";
+                                    "Update Date" := TODAY;
+                                    "Update Time" := TIME;
+                                    "Update By" := USERID;
+                                    SalesHeader := GetSalesHeader();
+                                    SalesHeader."Message Status(Booking)" := SalesHeader."Message Status(Booking)"::"Ready to Collect";
+                                    SalesHeader.MODIFY;
+                                END;
+                            END;
+                        END;
+                    END;
+                end;
+            end;
+        }
+
+        modify("Reserved Qty. (Base)")
+        {
+            trigger OnAfterValidate()
+            begin
+                "Fully Reserved" := Planned; //CS018
+            end;
+        }
     }
+
+    trigger OnAfterInsert()
+    begin
+
+        "Shipment Seq. No." := 1; //>>
+        "Next Shipment Seq. No." := 1; //>>
+    end;
+
 
     var
         Text028: Label 'You cannot change the %1 when the %2 has been filled in.';
@@ -263,6 +537,17 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         Text058: Label 'The quantity that you are trying to invoice is greater than the quantity in shipment %1.';
         Text059: Label 'must have the same sign as the return receipt';
         Text060: Label 'The quantity that you are trying to invoice is greater than the quantity in return receipt %1.';
+        Text101: Label 'Qty. to Ship : %1  must be less than Reserved Qty : %2';
+        text102: Label 'Quantity entered : %1  is not multiple of standard pack : %2. Item No. : %3 %4. ';
+        Text111: Label 'Shipment Date is before workdate';
+        Text112: Label 'Shipment Date is more than 6 month later';
+        Text113: Label 'Do you want to change  current line  %1 from %2 to %3';
+        Text114: Label 'This item is not a Renesas''s Item ';
+        Text115: Label 'Thhis item is Renesas''s Item';
+        Text116: Label 'Change not allowed - PSI Data collected but not sent yet  ';
+        Text117: Label 'Collected Message Status must be updated by system ';
+        Text118: Label 'You can only choose Ready to Collect (not space) for this is a Renesas Item';
+        Text119: Label 'Send Message not done yet';
         Text1500000: Label 'ONE';
         Text1500001: Label 'TWO';
         Text1500002: Label 'THREE';
