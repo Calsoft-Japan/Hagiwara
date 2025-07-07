@@ -147,5 +147,268 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             Editable = true;
 
         }
+
+        modify(Type)
+        {
+            trigger OnAfterValidate()
+            begin
+
+                // YUKA for Hagiwara
+                PurchHeader := GetPurchHeader;
+                "Buy-from Vendor No." := PurchHeader."Buy-from Vendor No.";
+
+            end;
+
+        }
+
+        modify("No.")
+        {
+            trigger OnAfterValidate()
+            var
+                l_recVendor: Record Vendor;
+            begin
+
+                PurchHeader := GetPurchHeader;
+
+                //SH 20121204 - start
+                "Purchaser Code" := PurchHeader."Purchaser Code";
+                //SH - END
+
+                "Requested Receipt Date_1" := PurchHeader."Expected Receipt Date";//sanjeev
+
+                //CS013 Start
+                IF "Expected Receipt Date" = 0D THEN BEGIN
+                    VALIDATE("Reporting Receipt Date", "Requested Receipt Date_1");
+                    "Use Expected Receipt Date" := FALSE;
+                END
+                ELSE BEGIN
+                    VALIDATE("Reporting Receipt Date", "Expected Receipt Date");
+                    "Use Expected Receipt Date" := TRUE;
+                END;
+                //CS013 End
+
+                if type = type::Item then begin
+
+                    item.get("No.");
+                    //Item.TESTFIELD("Item Supplier Source",PurchHeader."Item Supplier Source"); //20101010
+                    "Item Supplier Source" := Item."Item Supplier Source";
+                    "Receipt Seq. No." := 1; //>>
+                    "Next Receipt Seq. No." := 1; //>>
+
+                    // Siak Hui 20110427
+                    "Update Date" := TODAY;
+                    "Update Time" := TIME;
+                    "Update By" := USERID;
+                    // Siak Hui - END
+
+                    // YUKA for Hagiwara 20030225
+                    "Customer Item No." := Item."Customer Item No.";
+                    "Parts No." := Item."Parts No.";
+                    Rank := Item.Rank;
+                    // YUKA for Hagiwara 20030225 - END
+                end;
+
+                // CS060 Begin
+                IF l_recVendor.GET(PurchHeader."Buy-from Vendor No.") THEN BEGIN
+                    IF NOT l_recVendor."Excluded in ORE Collection" THEN BEGIN
+                        "ORE Line No." := xRec."ORE Line No.";
+                        IF ("ORE Line No." = 0) AND (Type = Type::Item) AND ("No." <> xRec."No.") AND ("No." <> '') THEN BEGIN
+                            item.get("No.");
+                            IF Item."One Renesas EDI" THEN BEGIN
+                                PurchLine2.RESET;
+                                PurchLine2.SETRANGE("Document No.", Rec."Document No.");
+                                PurchLine2.SETRANGE("Document Type", Rec."Document Type");
+                                PurchLine2.SETRANGE(Type, PurchLine2.Type::Item);
+                                PurchLine2.SETCURRENTKEY("ORE Line No.");
+                                IF PurchLine2.FINDLAST THEN BEGIN
+                                    "ORE Line No." := PurchLine2."ORE Line No." + 1;
+                                END
+                                ELSE BEGIN
+                                    "ORE Line No." := 1;
+                                END;
+                            END;
+                        END;
+
+                        IF (Type = Type::Item) AND ("No." <> '') THEN BEGIN
+                            item.get("No.");
+                            IF NOT Item."One Renesas EDI" THEN
+                                "ORE Line No." := 0;
+
+                        END;
+                    END;
+                END;
+                // CS060 End
+
+            end;
+        }
+
+        modify("Expected Receipt Date")
+        {
+            trigger OnAfterValidate()
+            begin
+
+                //CS013 Start
+                IF "Expected Receipt Date" = 0D THEN BEGIN
+                    VALIDATE("Reporting Receipt Date", "Requested Receipt Date_1");
+                    "Use Expected Receipt Date" := FALSE;
+                END
+                ELSE BEGIN
+                    VALIDATE("Reporting Receipt Date", "Expected Receipt Date");
+                    "Use Expected Receipt Date" := TRUE;
+                END
+                //CS013 End
+
+
+            end;
+        }
+
+        modify("Description 2")
+        {
+            Caption = 'Release No.';
+        }
     }
+
+    trigger OnAfterInsert()
+    var
+        l_recVendor: Record Vendor;
+    begin
+
+        "Receipt Seq. No." := 1; //>>
+        "Next Receipt Seq. No." := 1; //>>
+
+        GenerateReleaseNo; //HG10.00.02 NJ 01/06/2017
+
+        PurchHeader := GetPurchHeader;
+        "Goods Arrival Date" := PurchHeader."Posting Date";
+
+        //CS060 Begin
+        IF l_recVendor.GET(PurchHeader."Buy-from Vendor No.") THEN BEGIN
+            IF NOT l_recVendor."Excluded in ORE Collection" THEN BEGIN
+                IF Type = Type::Item THEN BEGIN
+                    IF Item.GET("No.") THEN BEGIN
+                        IF Item."One Renesas EDI" THEN BEGIN
+                            PurchLine2.RESET;
+                            PurchLine2.SETRANGE("Document No.", Rec."Document No.");
+                            PurchLine2.SETRANGE("Document Type", Rec."Document Type");
+                            PurchLine2.SETRANGE("ORE Message Status", "ORE Message Status"::Sent);
+                            IF PurchLine2.FIND('-') THEN BEGIN
+                                //"ORE Message Status" := "ORE Message Status"::Sent;
+                                "ORE Message Status" := "ORE Message Status"::"Not Applicable";
+                                "ORE Change Status" := "ORE Change Status"::Changed;
+                            END ELSE
+                                "ORE Message Status" := "ORE Message Status"::"Ready to Collect";
+
+                            PurchLine2.RESET;
+                            PurchLine2.SETRANGE("Document No.", Rec."Document No.");
+                            PurchLine2.SETRANGE("Document Type", Rec."Document Type");
+                            PurchLine2.SETRANGE(Type, PurchLine2.Type::Item);
+                            PurchLine2.SETCURRENTKEY("ORE Line No.");
+                            IF PurchLine2.FINDLAST THEN BEGIN
+                                "ORE Line No." := PurchLine2."ORE Line No." + 1;
+                            END
+                            ELSE BEGIN
+                                "ORE Line No." := 1;
+                            END;
+                        END;
+                    END;
+                END;
+            END;
+        END;
+        //CS060 End
+    end;
+
+    trigger OnAfterModify()
+    var
+        l_recVendor: Record Vendor;
+    begin
+
+        //CS060 Begin
+        IF xRec."ORE Message Status" IN ["ORE Message Status"::Collected, "ORE Message Status"::Sent] THEN BEGIN
+            IF xRec."No." <> Rec."No." THEN BEGIN
+                ERROR('You can not change record with "Sent" or "Collected" ORE message status');
+            END;
+        END;
+
+        PurchHeader := GetPurchHeader;
+        IF l_recVendor.GET(PurchHeader."Buy-from Vendor No.") THEN BEGIN
+            IF NOT l_recVendor."Excluded in ORE Collection" THEN BEGIN
+                IF xRec."ORE Message Status" = "ORE Message Status"::Sent THEN BEGIN
+                    IF Type = Type::Item THEN BEGIN
+                        Item.GET("No.");
+                        IF (Item."One Renesas EDI") THEN BEGIN
+                            IF (xRec.Quantity <> Rec.Quantity) OR (xRec."Requested Receipt Date_1" <> Rec."Requested Receipt Date_1") THEN BEGIN
+                                "ORE Change Status" := "ORE Change Status"::Changed;
+                            END;
+                        END;
+                    END;
+                END;
+
+                IF Type = Type::Item THEN BEGIN
+                    IF xRec."No." <> Rec."No." THEN BEGIN
+                        Item.GET("No.");
+                        IF NOT Item."One Renesas EDI" THEN BEGIN
+                            "ORE Message Status" := "ORE Message Status"::"Not Applicable";
+                            "ORE Change Status" := "ORE Change Status"::"Not Applicable";
+                        END ELSE BEGIN
+
+                            PurchLine2.RESET;
+                            PurchLine2.SETRANGE("Document No.", Rec."Document No.");
+                            PurchLine2.SETRANGE("Document Type", Rec."Document Type");
+                            PurchLine2.SETRANGE("ORE Message Status", "ORE Message Status"::Sent);
+                            IF PurchLine2.FIND('-') THEN BEGIN
+                                "ORE Message Status" := "ORE Message Status"::"Not Applicable";
+                                "ORE Change Status" := "ORE Change Status"::Changed;
+                            END ELSE BEGIN
+                                "ORE Message Status" := "ORE Message Status"::"Ready to Collect";
+                                "ORE Change Status" := "ORE Change Status"::"Not Applicable";
+                            END;
+                        END;
+                    END;
+                END;
+            END;
+        END;
+        //CS060 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    begin
+        //CS060
+        IF ("ORE Message Status" = "ORE Message Status"::Sent) OR ("ORE Message Status" = "ORE Message Status"::Collected) THEN
+            ERROR('You can not delete record with "Sent" ORE message status');
+        //CS060
+    end;
+
+    local procedure GenerateReleaseNo()
+    var
+        PurchSetup: Record "Purchases & Payables Setup";
+        decReleaseNo: Decimal;
+    begin
+        //HG10.00.02 NJ 01/06/2017 -->
+        PurchSetup.GET;
+        IF NOT PurchSetup."Maintain Release No." THEN
+            EXIT;
+
+        IF Type = Type::Item THEN BEGIN
+            PurchLine2.RESET;
+            PurchLine2.SETRANGE("Document Type", "Document Type");
+            PurchLine2.SETRANGE("Document No.", "Document No.");
+            PurchLine2.SETRANGE(Type, PurchLine2.Type::Item);
+            IF PurchLine2.FINDLAST THEN BEGIN
+                CLEAR(decReleaseNo);
+                IF EVALUATE(decReleaseNo, PurchLine2."Description 2") THEN
+                    decReleaseNo += 10;
+                "Description 2" := FORMAT(decReleaseNo);
+            END ELSE
+                "Description 2" := '10';
+        END;
+        //HG10.00.02 NJ 01/06/2017 <--
+
+    end;
+
+    var
+        Item: Record Item;
+        PurchHeader: Record "Purchase Header";
+        PurchLine2: Record "Purchase Line";
+
 }

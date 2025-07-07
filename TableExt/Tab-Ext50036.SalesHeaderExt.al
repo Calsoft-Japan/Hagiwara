@@ -34,6 +34,8 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
             Caption = 'Export Doc. Name';
             Description = 'SKLV6.0';
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Export Document Name"."Document Name" WHERE(Code = FIELD("Export Document Code")));
         }
         field(50006; "L/C Export No."; Text[30])
         {
@@ -58,6 +60,17 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         field(50010; "OEM No."; Code[20])
         {
             TableRelation = Customer."No." WHERE("Customer Type" = CONST(OEM));
+
+            trigger OnValidate()
+            var
+                CustomerRec: Record Customer;
+            begin
+                IF "OEM No." <> '' THEN BEGIN
+                    CustomerRec.GET("OEM No.");
+                    "OEM Name" := CustomerRec.Name;
+                END ELSE
+                    "OEM Name" := '';
+            end;
         }
         field(50011; "OEM Name"; Text[50])
         {
@@ -152,6 +165,15 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
             TableRelation = "Final Customer" WHERE("Customer No." = FIELD("Sell-to Customer No."));
             Caption = 'No.';
+            trigger OnValidate()
+            var
+                rec_FinalCustomer: Record "Final Customer";
+            begin
+                IF rec_FinalCustomer.GET("Final Customer No.") THEN BEGIN
+                    "Final Customer Name" := rec_FinalCustomer."Final Customer Name";
+                END ELSE
+                    "Final Customer Name" := '';
+            end;
         }
         field(50065; "Final Customer Name"; Text[50])
         {
@@ -364,6 +386,11 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         }
 
     }
+
+    trigger OnAfterInsert()
+    begin
+        "Shipment Tracking Date" := WORKDATE;
+    end;
 
     local procedure UpdateSalesLines_Ext(ChangedFieldName: Text[100]; AskQuestion: Boolean)
     var
