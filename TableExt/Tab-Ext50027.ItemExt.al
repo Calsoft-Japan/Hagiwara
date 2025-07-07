@@ -398,7 +398,7 @@ tableextension 50027 "Item Ext" extends "Item"
             Caption = 'Manufacturer 2 Code';
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
-        field(60005; "Vendor Name"; Text[50])
+        field(60005; "Vendor Name"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Vendor.Name WHERE("No." = FIELD("Vendor No.")));

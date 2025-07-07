@@ -14,13 +14,13 @@ tableextension 55802 "Value Entry Ext" extends "Value Entry"
             CalcFormula = Lookup(Item."Customer Item No." WHERE("No." = FIELD("Item No.")));
             // cleaned
         }
-        field(50002; "Customer No."; Code[10])
+        field(50002; "Customer No."; Code[20])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item."Customer No." WHERE("No." = FIELD("Item No.")));
             Description = 'CS030';
         }
-        field(50003; "Vendor No."; Code[10])
+        field(50003; "Vendor No."; Code[20])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item."Vendor No." WHERE("No." = FIELD("Item No.")));
@@ -32,13 +32,13 @@ tableextension 55802 "Value Entry Ext" extends "Value Entry"
             CalcFormula = Lookup(Item."Manufacturer Code" WHERE("No." = FIELD("Item No.")));
             Description = 'CS030';
         }
-        field(50005; "Customer Name"; Text[50])
+        field(50005; "Customer Name"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Customer.Name WHERE("No." = FIELD("Customer No.")));
             Description = 'CS030';
         }
-        field(50006; "Vendor Name"; Text[50])
+        field(50006; "Vendor Name"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Vendor.Name WHERE("No." = FIELD("Vendor No.")));

@@ -39,7 +39,7 @@ table 50063 "Inventory Trace Entry"
         {
             // cleaned
         }
-        field(10; "Item Description"; Text[50])
+        field(10; "Item Description"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No")));

@@ -72,7 +72,7 @@ table 50042 "Purchase Price Worksheet"
             Caption = 'Ending Date';
 
         }
-        field(20; "Item Description"; Text[50])
+        field(20; "Item Description"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No.")));

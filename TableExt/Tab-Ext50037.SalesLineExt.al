@@ -2,7 +2,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 {
     fields
     {
-        field(50000; "Vendor Item Number"; Text[40])
+        field(50000; "Vendor Item Number"; Text[50])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item."Vendor Item No." WHERE("No." = FIELD("No.")));
