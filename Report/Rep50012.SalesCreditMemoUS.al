@@ -1,6 +1,7 @@
 report 50012 "Sales Credit Memo US"
 {
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
+    // CS092 FDD R012 07/01/2025 Upgrade to BC version by Channing.Zhou
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Credit Memo US.rdlc';
 
