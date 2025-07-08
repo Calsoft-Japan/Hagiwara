@@ -68,6 +68,19 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
         field(50020; "Customer No."; Code[20])
         {
             TableRelation = Customer."No.";
+
+            trigger OnValidate()
+            var
+                recCustomer: Record Customer;
+            begin
+                IF recCustomer.GET("Customer No.") THEN BEGIN
+                    "Customer Name" := recCustomer.Name;
+                    "NEC OEM Code" := recCustomer."NEC OEM Code";
+                    "NEC OEM Name" := recCustomer."NEC OEM Name";
+                    "Vendor Cust. Code" := recCustomer."Vendor Cust. Code";
+                END;
+
+            end;
         }
         field(50021; "Customer Name"; Text[50])
         {
@@ -87,6 +100,20 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
             OptionCaption = ' ,Renesas';
             OptionMembers = " ",Renesas;
 
+            trigger OnValidate()
+            var
+                InvtSetup: Record "Inventory Setup";
+            begin
+                IF "Item Supplier Source" <> "Item Supplier Source"::" " THEN BEGIN
+                    InvtSetup.GET();
+                    InvtSetup.TESTFIELD("Supplier Item Source");
+                    TESTFIELD("Buy-from Vendor No.", InvtSetup."Supplier Item Source");
+                END;
+
+                //IF Rec."Item Supplier Source" <> xRec."Item Supplier Source" THEN
+                //  IF PurchLinesExist THEN ERROR('Purchase Lines has been existed with this Item Supplier Source');
+                //<<
+            end;
         }
         field(50050; "Message Status(Booking)"; Option)
         {
@@ -159,5 +186,84 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
             Description = 'SKLV6.0';
 
         }
+
+        modify("Buy-from Vendor No.")
+        {
+            trigger OnAfterValidate()
+            var
+                InvtSetup: Record "Inventory Setup";
+                Vend: Record Vendor;
+            begin
+
+                //SH 23072012 - Start
+                //"Item Supplier Source" := "Item Supplier Source"::" "; //>>
+
+                IF InvtSetup.GET THEN BEGIN
+                    IF InvtSetup."Supplier Item Source" = "Buy-from Vendor No." THEN BEGIN
+                        "Item Supplier Source" := "Item Supplier Source"::Renesas;
+                    END ELSE BEGIN
+                        "Item Supplier Source" := "Item Supplier Source"::" ";
+                    END;
+                END;
+                //SH 23072012 - Start
+
+                Vend.get(rec."Buy-from Vendor No.");
+                //HG10.00.02 NJ 01/06/2017 -->
+                "Shipping Terms" := Vend."Shipping Terms";
+                "Incoterm Code" := Vend."Incoterm Code";
+                "Incoterm Location" := Vend."Incoterm Location";
+                //HG10.00.02 NJ 01/06/2017 <--
+
+            end;
+        }
+
+
+        modify("Expected Receipt Date")
+        {
+            trigger OnBeforeValidate()
+            begin
+                // YUKA for Hagiwara 20030228
+                IF ("Expected Receipt Date" < WORKDATE) AND ("Expected Receipt Date" <> 0D) THEN
+                    ERROR(Text111);
+                IF "Expected Receipt Date" > CALCDATE('+6M', WORKDATE) THEN
+                    ERROR(Text112);
+                // YUKA for Hagiwara 20030228 - END
+            end;
+
+        }
     }
+    trigger OnAfterInsert()
+    begin
+        "Goods Arrival Date" := WORKDATE;
+    end;
+
+    procedure ResetReleaseNos()
+    var
+        nextReleaseNo: Integer;
+    begin
+        //HG10.00.02 NJ 01/06/2017 -->
+        PurchSetup.GET;
+        IF NOT PurchSetup."Maintain Release No." THEN
+            EXIT;
+
+        nextReleaseNo := 10;
+
+        PurchLine.RESET;
+        PurchLine.SETRANGE("Document Type", "Document Type");
+        PurchLine.SETRANGE("Document No.", "No.");
+        PurchLine.SETRANGE(Type, PurchLine.Type::Item);
+        IF PurchLine.FINDSET(TRUE) THEN
+            REPEAT
+                PurchLine."Description 2" := FORMAT(nextReleaseNo);
+                PurchLine.MODIFY;
+
+                nextReleaseNo += 10;
+            UNTIL PurchLine.NEXT = 0;
+        //HG10.00.02 NJ 01/06/2017 <--
+    end;
+
+    var
+
+        Text111: Label 'Expected Receipt Date is before work date';
+        Text112: Label 'Expected Receipt Date is more than 6 month later';
 }

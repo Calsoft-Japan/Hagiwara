@@ -24,7 +24,7 @@ pageextension 55802 ValueEntriesExt extends "Value Entries"
             {
                 ApplicationArea = all;
             }
-            field("Item Description"; Rec."Item Description")
+            field("Item Description"; Rec.Description)
             {
                 ApplicationArea = all;
             }

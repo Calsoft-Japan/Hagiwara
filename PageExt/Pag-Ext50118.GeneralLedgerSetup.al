@@ -4,6 +4,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
     {
         addlast(Content)
         {
+            /*
             field("VAT Reg. No. Validation URL"; Rec."VAT Reg. No. Validation URL")
             {
                 ApplicationArea = all;
@@ -12,6 +13,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
             {
                 ApplicationArea = all;
             }
+            */
             field("Messaging File Name"; Rec."Messaging File Name")
             {
                 ApplicationArea = all;
@@ -32,10 +34,12 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Backup Ciutoff Date"; Rec."Backup Ciutoff Date")
             {
                 ApplicationArea = all;
             }
+            */
             field("Exclude Zero Balance (JD)"; Rec."Exclude Zero Balance (JD)")
             {
                 ApplicationArea = all;

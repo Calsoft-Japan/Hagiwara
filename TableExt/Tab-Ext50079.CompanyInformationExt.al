@@ -38,11 +38,11 @@ tableextension 50079 "Company Information Ext" extends "Company Information"
         {
             // cleaned
         }
-        field(60003; "Register Type"; Text[30])
+        field(50011; "Register Type"; Text[30])
         {
             // cleaned
         }
-        field(60004; "Bank ABA"; Code[30])
+        field(50012; "Bank ABA"; Code[30])
         {
             // cleaned
         }

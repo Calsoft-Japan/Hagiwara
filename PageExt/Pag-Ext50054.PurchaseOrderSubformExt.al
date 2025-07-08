@@ -8,10 +8,12 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Document No."; Rec."Document No.")
             {
                 ApplicationArea = all;
             }
+            */
             field("ORE Line No."; Rec."ORE Line No.")
             {
                 ApplicationArea = all;
@@ -92,6 +94,7 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
             {
                 ApplicationArea = all;
             }
+            /*
             field("PurchCalcDiscByType.GetVendInvoiceDiscountPct(Rec)"; Rec."PurchCalcDiscByType.GetVendInvoiceDiscountPct(Rec)")
             {
                 ApplicationArea = all;
@@ -100,6 +103,7 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
             {
                 ApplicationArea = all;
             }
+            */
         }
     }
 }

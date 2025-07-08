@@ -1,4 +1,4 @@
-pageextension 50131 PostedSalesShptSubformExt extends "Posted Sales Shpt.Subform"
+pageextension 50131 PostedSalesShptSubformExt extends "Posted Sales Shpt. Subform"
 {
     layout
     {
@@ -20,10 +20,12 @@ pageextension 50131 PostedSalesShptSubformExt extends "Posted Sales Shpt.Subform
             {
                 ApplicationArea = all;
             }
+            /*
             field("Correction"; Rec."Correction")
             {
                 ApplicationArea = all;
             }
+            */
             field("Order No."; Rec."Order No.")
             {
                 ApplicationArea = all;

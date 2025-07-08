@@ -4,10 +4,12 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
     {
         addlast(Content)
         {
+            /*
             field("Source No."; Rec."Source No.")
             {
                 ApplicationArea = all;
             }
+            */
             field("External Document No."; Rec."External Document No.")
             {
                 ApplicationArea = all;
@@ -20,10 +22,12 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Serial No."; Rec."Serial No.")
             {
                 ApplicationArea = all;
             }
+            */
             field("ITE Collected"; Rec."ITE Collected")
             {
                 ApplicationArea = all;

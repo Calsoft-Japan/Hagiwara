@@ -1,4 +1,4 @@
-pageextension 55805 ItemChargeAssignmentPurchaseExt extends "Item Charge Assignment Purchase"
+pageextension 55805 ItemChargeAssignmentPurchExt extends "Item Charge Assignment (Purch)"
 {
     layout
     {

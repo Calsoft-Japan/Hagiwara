@@ -4,6 +4,7 @@ pageextension 50498 ReservationExt extends "Reservation"
     {
         addlast(Content)
         {
+            /*
             field("Products"; Rec."Products")
             {
                 ApplicationArea = all;
@@ -12,6 +13,7 @@ pageextension 50498 ReservationExt extends "Reservation"
             {
                 ApplicationArea = all;
             }
+            */
         }
     }
 }

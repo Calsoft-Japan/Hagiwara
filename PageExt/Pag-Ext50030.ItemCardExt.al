@@ -1,13 +1,15 @@
-pageextension 50030 ItemCardExtextends "Item Card"
+pageextension 50030 ItemCardExtextends extends "Item Card"
 {
     layout
     {
         addlast(Content)
         {
+            /*
             field("Parts No."; Rec."Parts")
             {
                 ApplicationArea = all;
             }
+            */
             field("Rank"; Rec."Rank")
             {
                 ApplicationArea = all;
@@ -48,10 +50,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Manufacturer Code"; Rec."Manufacturer Code")
             {
                 ApplicationArea = all;
             }
+            */
             field("Manufacturer 2 Code"; Rec."Manufacturer 2 Code")
             {
                 ApplicationArea = all;
@@ -72,10 +76,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Description 2"; Rec."Description 2")
             {
                 ApplicationArea = all;
             }
+            */
             field("Message Collected On"; Rec."Message Collected On")
             {
                 ApplicationArea = all;
@@ -84,10 +90,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Product Group Code"; Rec."Product Group Code")
             {
                 ApplicationArea = all;
             }
+            */
             field("SBU"; Rec."SBU")
             {
                 ApplicationArea = all;
@@ -100,10 +108,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Parts No."; Rec."Parts")
             {
                 ApplicationArea = all;
             }
+            */
             field("FCA In-Transit"; Rec."FCA In-Transit")
             {
                 ApplicationArea = all;
@@ -112,10 +122,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("g_InventoryVirtual"; Rec."g_InventoryVirtual")
             {
                 ApplicationArea = all;
             }
+            */
             field("Shipped Not Invoiced Cost(LCY)"; Rec."Shipped Not Invoiced Cost(LCY)")
             {
                 ApplicationArea = all;
@@ -204,10 +216,12 @@ pageextension 50030 ItemCardExtextends "Item Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Unit Volume"; Rec."Unit Volume")
             {
                 ApplicationArea = all;
             }
+            */
         }
     }
 }

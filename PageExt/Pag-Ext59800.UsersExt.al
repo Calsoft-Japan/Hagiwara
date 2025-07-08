@@ -4,10 +4,12 @@ pageextension 59800 UsersExt extends "Users"
     {
         addlast(Content)
         {
+            /*
             field("State"; Rec."State")
             {
                 ApplicationArea = all;
             }
+            */
         }
     }
 }

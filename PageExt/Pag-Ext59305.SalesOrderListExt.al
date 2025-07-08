@@ -1,4 +1,4 @@
-pageextension 559305 SalesOrderListExt extends "Sales Order List"
+pageextension 59305 SalesOrderListExt extends "Sales Order List"
 {
     layout
     {
@@ -8,6 +8,7 @@ pageextension 559305 SalesOrderListExt extends "Sales Order List"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Amount_LCY"; Rec."Amount_LCYY")
             {
                 ApplicationArea = all;
@@ -16,6 +17,7 @@ pageextension 559305 SalesOrderListExt extends "Sales Order List"
             {
                 ApplicationArea = all;
             }
+            */
         }
     }
 }

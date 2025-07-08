@@ -12,10 +12,12 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("BlockedCustomer"; Rec."BlockedCustomer")
             {
                 ApplicationArea = all;
             }
+            */
             field("Vendor Cust. Code"; Rec."Vendor Cust. Code")
             {
                 ApplicationArea = all;
@@ -32,10 +34,12 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Language Code"; Rec."Language Code")
             {
                 ApplicationArea = all;
             }
+            */
             field("ORE Address"; Rec."ORE Address")
             {
                 ApplicationArea = all;
