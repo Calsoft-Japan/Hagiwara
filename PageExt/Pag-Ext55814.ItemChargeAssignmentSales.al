@@ -1,4 +1,4 @@
-pageextension 55814 ItemChargeAssignmentSalesExt extends "Item Charge Assignment Sales"
+pageextension 55814 ItemChargeAssignmentSalesExt extends "Item Charge Assignment (Sales)"
 {
     layout
     {

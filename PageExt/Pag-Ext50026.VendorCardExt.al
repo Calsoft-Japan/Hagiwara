@@ -40,10 +40,12 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Language Code"; Rec."Language Code")
             {
                 ApplicationArea = all;
             }
+            */
             field("Incoterm Code"; Rec."Incoterm Code")
             {
                 ApplicationArea = all;
@@ -54,3 +56,4 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             }
         }
     }
+}

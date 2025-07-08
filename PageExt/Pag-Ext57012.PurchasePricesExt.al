@@ -1,4 +1,5 @@
 pageextension 57012 PurchasePricesExt extends "Purchase Prices"
+{
     layout
     {
         addlast(Content)

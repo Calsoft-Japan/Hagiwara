@@ -8,10 +8,12 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Description 2"; Rec."Description 2")
             {
                 ApplicationArea = all;
             }
+            */
             field("Customer No."; Rec."Customer No.")
             {
                 ApplicationArea = all;
@@ -20,6 +22,7 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+            /*
             field("LatestSalesPrice"; Rec."Latest Sales Price")
             {
                 ApplicationArea = all;
@@ -28,6 +31,7 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+            */
             field("Inventory L1"; Rec."Inventory L1")
             {
                 ApplicationArea = all;
@@ -40,10 +44,12 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+            /*
             field("g_InventoryVirtual"; Rec."g_InventoryVirtual")
             {
                 ApplicationArea = all;
             }
+            */
             field("Inventory Shipped Not Inv"; Rec."Inventory Shipped Not Inv")
             {
                 ApplicationArea = all;
@@ -80,10 +86,12 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+            /*
             field("Product Group Code"; Rec."Product Group Code")
             {
                 ApplicationArea = all;
             }
+            */
             field("Familiar Name"; Rec."Familiar Name")
             {
                 ApplicationArea = all;

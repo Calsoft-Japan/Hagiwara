@@ -1,4 +1,4 @@
-pageextension 50393 ItemReclassJournalExt extends "Item Reclass.Journal"
+pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
 {
     layout
     {

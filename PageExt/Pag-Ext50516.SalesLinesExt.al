@@ -4,10 +4,12 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
     {
         addlast(Content)
         {
+            /*
             field("OrderDate"; Rec."OrderDate")
             {
                 ApplicationArea = all;
             }
+            */
             field("Products"; Rec."Products")
             {
                 ApplicationArea = all;
@@ -16,10 +18,12 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
             {
                 ApplicationArea = all;
             }
+            /*
             field("LineAmtExclVAT_LCY"; Rec."LineAmtExclVAT_LCY")
             {
                 ApplicationArea = all;
             }
+            */
             field("Fully Reserved"; Rec."Fully Reserved")
             {
                 ApplicationArea = all;

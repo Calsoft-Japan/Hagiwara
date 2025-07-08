@@ -4,6 +4,7 @@ pageextension 57002 SalesPricesExt extends "Sales Prices"
     {
         addlast(Content)
         {
+            /*
             field("Published Price"; Rec."Published Price")
             {
                 ApplicationArea = all;
@@ -20,6 +21,7 @@ pageextension 57002 SalesPricesExt extends "Sales Prices"
             {
                 ApplicationArea = all;
             }
+            */
             field("Renesas Report Unit Price Cur."; Rec."Renesas Report Unit Price Cur.")
             {
                 ApplicationArea = all;
