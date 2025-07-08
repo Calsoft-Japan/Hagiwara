@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
@@ -7,6 +7,7 @@
         <DataProvider>SQL</DataProvider>
         <ConnectString />
       </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
       <rd:DataSourceID>29669129-9dc1-4ec7-8725-fe365aeb31d1</rd:DataSourceID>
     </DataSource>
   </DataSources>
@@ -36,7 +37,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto" />
+                                      <Value />
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -73,7 +74,7 @@ Cstr(Fields!DeptName.Value)
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value EvaluationMode="Auto">=sum(Fields!SumYear_2_.Value)</Value>
+                                          <Value>=sum(Fields!SumYear_2_.Value)</Value>
                                           <Style>
                                             <FontSize>7pt</FontSize>
                                             <Format>=Last(Fields!SumYear_2_Format.Value)</Format>
@@ -105,7 +106,7 @@ Cstr(Fields!DeptName.Value)
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value EvaluationMode="Auto">=Code.BlankZero(sum(Fields!SumYear_1_.Value))</Value>
+                                          <Value>=Code.BlankZero(sum(Fields!SumYear_1_.Value))</Value>
                                           <Style>
                                             <FontSize>7pt</FontSize>
                                             <Format>=Last(Fields!SumYear_1_Format.Value)</Format>
@@ -138,7 +139,7 @@ Cstr(Fields!DeptName.Value)
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value EvaluationMode="Auto">=Last(Fields!Balance1.Value)</Value>
+                                          <Value>=Last(Fields!Balance1.Value)</Value>
                                           <Style>
                                             <FontSize>7pt</FontSize>
                                             <Format>=Last(Fields!Balance1Format.Value)</Format>
@@ -171,7 +172,7 @@ Cstr(Fields!DeptName.Value)
                                     <Paragraph>
                                       <TextRuns>
                                         <TextRun>
-                                          <Value EvaluationMode="Auto">=Last(Fields!Caption_Control1000000093.Value)</Value>
+                                          <Value>=Last(Fields!Caption_Control1000000093.Value)</Value>
                                           <Style>
                                             <FontSize>7pt</FontSize>
                                           </Style>
@@ -390,7 +391,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Caption_Control1000000029.Value</Value>
+                                                        <Value>=Fields!Caption_Control1000000029.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -421,7 +422,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!FirstBalance.Value</Value>
+                                                        <Value>=Fields!FirstBalance.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!FirstBalanceFormat.Value</Format>
@@ -454,7 +455,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!FirstStatus.Value</Value>
+                                                        <Value>=Fields!FirstStatus.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -698,7 +699,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!FORMAT__Posting_Date__0__Day__.Value</Value>
+                                                        <Value>=Fields!FORMAT__Posting_Date__0__Day__.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -729,7 +730,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!ExRate.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!ExRate.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!ExRateFormat.Value</Format>
@@ -762,7 +763,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!CAmt.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!CAmt.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!CAmtFormat.Value</Format>
@@ -795,7 +796,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!DAmt.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!DAmt.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!DAmtFormat.Value</Format>
@@ -828,7 +829,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!BalanceStatus.Value</Value>
+                                                        <Value>=Fields!BalanceStatus.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -860,7 +861,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Balance1_Control1000000133.Value</Value>
+                                                        <Value>=Fields!Balance1_Control1000000133.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!Balance1_Control1000000133Format.Value</Format>
@@ -893,7 +894,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!FORMAT__Posting_Date__0__Month__.Value</Value>
+                                                        <Value>=Fields!FORMAT__Posting_Date__0__Month__.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -925,7 +926,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!VoucherNo.Value</Value>
+                                                        <Value>=Fields!VoucherNo.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -955,7 +956,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Desc.Value</Value>
+                                                        <Value>=Fields!Desc.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -987,7 +988,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Vendor_Ledger_Entry___Currency_Code__.Value</Value>
+                                                        <Value>=Fields!Vendor_Ledger_Entry___Currency_Code__.Value</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -1019,7 +1020,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Credit_Amount__LCY___.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!Credit_Amount__LCY___.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!Credit_Amount__LCY___Format.Value</Format>
@@ -1052,7 +1053,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Debit_Amount__LCY___.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!Debit_Amount__LCY___.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Fields!Debit_Amount__LCY___Format.Value</Format>
@@ -1329,7 +1330,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Last(Fields!Caption_Control1000000007.Value)</Value>
+                                                        <Value>=Last(Fields!Caption_Control1000000007.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                         </Style>
@@ -1360,7 +1361,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(sum(Fields!Debit_Amount__LCY____Control1000000008.Value))</Value>
+                                                        <Value>=Code.BlankZero(sum(Fields!Debit_Amount__LCY____Control1000000008.Value))</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Last(Fields!Debit_Amount__LCY____Control1000000008Format.Value)</Format>
@@ -1393,7 +1394,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=sum(Fields!Credit_Amount__LCY____Control1000000009.Value)</Value>
+                                                        <Value>=sum(Fields!Credit_Amount__LCY____Control1000000009.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Last(Fields!Credit_Amount__LCY____Control1000000009Format.Value)</Format>
@@ -1426,7 +1427,7 @@ Cstr(Fields!DeptName.Value)
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=last(Fields!Balance1_Control1000000010.Value)</Value>
+                                                        <Value>=last(Fields!Balance1_Control1000000010.Value)</Value>
                                                         <Style>
                                                           <FontSize>7pt</FontSize>
                                                           <Format>=Last(Fields!Balance1_Control1000000010Format.Value)</Format>
@@ -1722,7 +1723,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Month_2__.Value</Value>
+                      <Value>=Fields!FORMAT_MaxDate_0__Month_2__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1756,7 +1757,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000114.Value</Value>
+                      <Value>=Fields!Caption_Control1000000114.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1789,7 +1790,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Curr_Caption.Value</Value>
+                      <Value>=Fields!Curr_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -1825,7 +1826,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000119.Value</Value>
+                      <Value>=Fields!Caption_Control1000000119.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1858,7 +1859,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Year4__.Value</Value>
+                      <Value>=Fields!FORMAT_MaxDate_0__Year4__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1893,7 +1894,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!S_Caption.Value</Value>
+                      <Value>=Fields!S_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1928,7 +1929,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000142.Value</Value>
+                      <Value>=Fields!Caption_Control1000000142.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1961,7 +1962,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Day__.Value</Value>
+                      <Value>=Fields!FORMAT_MinDate_0__Day__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -1996,7 +1997,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000144.Value</Value>
+                      <Value>=Fields!Caption_Control1000000144.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2029,7 +2030,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Month_2__.Value</Value>
+                      <Value>=Fields!FORMAT_MinDate_0__Month_2__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2064,7 +2065,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000146.Value</Value>
+                      <Value>=Fields!Caption_Control1000000146.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2097,7 +2098,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MinDate_0__Year4__.Value</Value>
+                      <Value>=Fields!FORMAT_MinDate_0__Year4__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2132,7 +2133,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!CompanyName.Value</Value>
+                      <Value>=Fields!CompanyName.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2165,7 +2166,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000151.Value</Value>
+                      <Value>=Fields!Caption_Control1000000151.Value</Value>
                       <Style>
                         <FontWeight>Bold</FontWeight>
                       </Style>
@@ -2200,7 +2201,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Code.GetData(4,1)</Value>
+                      <Value>=Code.GetData(4,1)</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2227,49 +2228,13 @@ Cstr(Fields!DeptName.Value)
                 <PaddingBottom>1.8pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Textbox Name="Caption_Control1000000153">
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000153.Value</Value>
-                      <Style>
-                        <FontSize>7pt</FontSize>
-                        <FontWeight>Bold</FontWeight>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>Textbox1000000153</rd:DefaultName>
-              <Top>2.30001cm</Top>
-              <Left>16.4cm</Left>
-              <Height>0.4cm</Height>
-              <Width>0.6cm</Width>
-              <ZIndex>15</ZIndex>
-              <Visibility>
-                <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
-              </Visibility>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <VerticalAlign>Bottom</VerticalAlign>
-                <PaddingTop>1.6pt</PaddingTop>
-                <PaddingBottom>1.6pt</PaddingBottom>
-              </Style>
-            </Textbox>
             <Textbox Name="GLAccountNo">
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Code.GetData(2,1)</Value>
+                      <Value>=Code.GetData(2,1)</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2285,7 +2250,7 @@ Cstr(Fields!DeptName.Value)
               <Left>8.6cm</Left>
               <Height>0.5cm</Height>
               <Width>1.4cm</Width>
-              <ZIndex>16</ZIndex>
+              <ZIndex>15</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2304,7 +2269,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!G_L_AccountCaption.Value</Value>
+                      <Value>=Fields!G_L_AccountCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2319,7 +2284,7 @@ Cstr(Fields!DeptName.Value)
               <Left>6.5cm</Left>
               <Height>0.5cm</Height>
               <Width>2.1cm</Width>
-              <ZIndex>17</ZIndex>
+              <ZIndex>16</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2338,7 +2303,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000012.Value</Value>
+                      <Value>=Fields!Caption_Control1000000012.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2355,7 +2320,7 @@ Cstr(Fields!DeptName.Value)
               <Left>8.2cm</Left>
               <Height>0.4cm</Height>
               <Width>1.1cm</Width>
-              <ZIndex>18</ZIndex>
+              <ZIndex>17</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2374,7 +2339,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Exc__Rt_Caption.Value</Value>
+                      <Value>=Fields!Exc__Rt_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2391,7 +2356,7 @@ Cstr(Fields!DeptName.Value)
               <Left>8.2cm</Left>
               <Height>0.4cm</Height>
               <Width>1.1cm</Width>
-              <ZIndex>19</ZIndex>
+              <ZIndex>18</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2410,7 +2375,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Amt_Caption.Value</Value>
+                      <Value>=Fields!Amt_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2427,7 +2392,7 @@ Cstr(Fields!DeptName.Value)
               <Left>11.2cm</Left>
               <Height>0.4cm</Height>
               <Width>1.6cm</Width>
-              <ZIndex>20</ZIndex>
+              <ZIndex>19</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2446,7 +2411,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!For__Curr__Caption_Control1000000038.Value</Value>
+                      <Value>=Fields!For__Curr__Caption_Control1000000038.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2463,7 +2428,7 @@ Cstr(Fields!DeptName.Value)
               <Left>12.9cm</Left>
               <Height>0.4cm</Height>
               <Width>1.7cm</Width>
-              <ZIndex>21</ZIndex>
+              <ZIndex>20</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2482,7 +2447,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Amt_Caption_Control1000000039.Value</Value>
+                      <Value>=Fields!Amt_Caption_Control1000000039.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2499,7 +2464,7 @@ Cstr(Fields!DeptName.Value)
               <Left>14.7cm</Left>
               <Height>0.4cm</Height>
               <Width>1.5cm</Width>
-              <ZIndex>22</ZIndex>
+              <ZIndex>21</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2518,7 +2483,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000045.Value</Value>
+                      <Value>=Fields!Caption_Control1000000045.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2535,7 +2500,7 @@ Cstr(Fields!DeptName.Value)
               <Left>7.5cm</Left>
               <Height>0.4cm</Height>
               <Width>0.6cm</Width>
-              <ZIndex>23</ZIndex>
+              <ZIndex>22</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2554,7 +2519,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!FORMAT_MaxDate_0__Day__.Value</Value>
+                      <Value>=Fields!FORMAT_MaxDate_0__Day__.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2570,7 +2535,7 @@ Cstr(Fields!DeptName.Value)
               <Left>11.7cm</Left>
               <Height>0.423cm</Height>
               <Width>0.5cm</Width>
-              <ZIndex>24</ZIndex>
+              <ZIndex>23</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2589,7 +2554,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000112.Value</Value>
+                      <Value>=Fields!Caption_Control1000000112.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2603,7 +2568,7 @@ Cstr(Fields!DeptName.Value)
               <Left>12.2cm</Left>
               <Height>0.423cm</Height>
               <Width>0.3cm</Width>
-              <ZIndex>25</ZIndex>
+              <ZIndex>24</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2622,7 +2587,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Code.GetData(3,1)</Value>
+                      <Value>=Code.GetData(3,1)</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2638,7 +2603,7 @@ Cstr(Fields!DeptName.Value)
               <Left>10.1cm</Left>
               <Height>0.5cm</Height>
               <Width>5.4cm</Width>
-              <ZIndex>26</ZIndex>
+              <ZIndex>25</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2657,7 +2622,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Globals!PageNumber</Value>
+                      <Value>=Globals!PageNumber</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2671,7 +2636,7 @@ Cstr(Fields!DeptName.Value)
               <Left>17.35cm</Left>
               <Height>0.5cm</Height>
               <Width>0.6cm</Width>
-              <ZIndex>27</ZIndex>
+              <ZIndex>26</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2690,7 +2655,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!BalanceCaption.Value</Value>
+                      <Value>=Fields!BalanceCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2707,7 +2672,7 @@ Cstr(Fields!DeptName.Value)
               <Left>17.1cm</Left>
               <Height>0.4cm</Height>
               <Width>1.8cm</Width>
-              <ZIndex>28</ZIndex>
+              <ZIndex>27</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2726,7 +2691,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!For__Curr__Caption.Value</Value>
+                      <Value>=Fields!For__Curr__Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2743,7 +2708,7 @@ Cstr(Fields!DeptName.Value)
               <Left>9.4cm</Left>
               <Height>0.4cm</Height>
               <Width>1.7cm</Width>
-              <ZIndex>29</ZIndex>
+              <ZIndex>28</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2762,7 +2727,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Page__Caption.Value</Value>
+                      <Value>=Fields!Page__Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -2776,7 +2741,7 @@ Cstr(Fields!DeptName.Value)
               <Left>15.6cm</Left>
               <Height>0.5cm</Height>
               <Width>1.7cm</Width>
-              <ZIndex>30</ZIndex>
+              <ZIndex>29</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2795,7 +2760,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!VoucherCaption.Value</Value>
+                      <Value>=Fields!VoucherCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2812,7 +2777,7 @@ Cstr(Fields!DeptName.Value)
               <Left>1.3cm</Left>
               <Height>0.4cm</Height>
               <Width>1.2cm</Width>
-              <ZIndex>31</ZIndex>
+              <ZIndex>30</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2831,7 +2796,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!DCaption.Value</Value>
+                      <Value>=Fields!DCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2848,7 +2813,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.7cm</Left>
               <Height>0.4cm</Height>
               <Width>0.5cm</Width>
-              <ZIndex>32</ZIndex>
+              <ZIndex>31</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2867,7 +2832,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!MCaption.Value</Value>
+                      <Value>=Fields!MCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2884,7 +2849,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.05cm</Left>
               <Height>0.4cm</Height>
               <Width>0.5cm</Width>
-              <ZIndex>33</ZIndex>
+              <ZIndex>32</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2903,7 +2868,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption.Value</Value>
+                      <Value>=Fields!Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2920,7 +2885,7 @@ Cstr(Fields!DeptName.Value)
               <Left>17.1cm</Left>
               <Height>0.4cm</Height>
               <Width>1.75cm</Width>
-              <ZIndex>34</ZIndex>
+              <ZIndex>33</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2939,7 +2904,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Credit_Caption.Value</Value>
+                      <Value>=Fields!Credit_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2956,7 +2921,7 @@ Cstr(Fields!DeptName.Value)
               <Left>12.9cm</Left>
               <Height>0.4cm</Height>
               <Width>3.4cm</Width>
-              <ZIndex>35</ZIndex>
+              <ZIndex>34</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -2975,7 +2940,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!ExplanationCaption.Value</Value>
+                      <Value>=Fields!ExplanationCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2992,7 +2957,7 @@ Cstr(Fields!DeptName.Value)
               <Left>2.6cm</Left>
               <Height>0.4cm</Height>
               <Width>4.9cm</Width>
-              <ZIndex>36</ZIndex>
+              <ZIndex>35</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3011,7 +2976,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!S________Caption.Value</Value>
+                      <Value>=Fields!S________Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3028,7 +2993,7 @@ Cstr(Fields!DeptName.Value)
               <Left>2.6cm</Left>
               <Height>0.4cm</Height>
               <Width>4.9cm</Width>
-              <ZIndex>37</ZIndex>
+              <ZIndex>36</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3047,7 +3012,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000098.Value</Value>
+                      <Value>=Fields!Caption_Control1000000098.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3064,7 +3029,7 @@ Cstr(Fields!DeptName.Value)
               <Left>1.3cm</Left>
               <Height>0.4cm</Height>
               <Width>1.2cm</Width>
-              <ZIndex>38</ZIndex>
+              <ZIndex>37</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3083,7 +3048,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000102.Value</Value>
+                      <Value>=Fields!Caption_Control1000000102.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3100,7 +3065,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.7cm</Left>
               <Height>0.4cm</Height>
               <Width>0.5cm</Width>
-              <ZIndex>39</ZIndex>
+              <ZIndex>38</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3119,7 +3084,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Caption_Control1000000103.Value</Value>
+                      <Value>=Fields!Caption_Control1000000103.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3136,7 +3101,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.05cm</Left>
               <Height>0.4cm</Height>
               <Width>0.5cm</Width>
-              <ZIndex>40</ZIndex>
+              <ZIndex>39</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3155,7 +3120,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Code.GetData(1,1)</Value>
+                      <Value>=Code.GetData(1,1)</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                       </Style>
@@ -3169,7 +3134,7 @@ Cstr(Fields!DeptName.Value)
               <Left>1.2cm</Left>
               <Height>0.5cm</Height>
               <Width>5cm</Width>
-              <ZIndex>41</ZIndex>
+              <ZIndex>40</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3188,7 +3153,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!VendorCaption.Value</Value>
+                      <Value>=Fields!VendorCaption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3203,7 +3168,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0cm</Left>
               <Height>0.492cm</Height>
               <Width>1.2cm</Width>
-              <ZIndex>42</ZIndex>
+              <ZIndex>41</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3222,7 +3187,7 @@ Cstr(Fields!DeptName.Value)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Debit_Caption.Value</Value>
+                      <Value>=Fields!Debit_Caption.Value</Value>
                       <Style>
                         <FontSize>7pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -3239,7 +3204,7 @@ Cstr(Fields!DeptName.Value)
               <Left>9.4cm</Left>
               <Height>0.4cm</Height>
               <Width>3.4cm</Width>
-              <ZIndex>43</ZIndex>
+              <ZIndex>42</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3257,7 +3222,7 @@ Cstr(Fields!DeptName.Value)
               <Left>16.3cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>44</ZIndex>
+              <ZIndex>43</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3276,7 +3241,7 @@ Cstr(Fields!DeptName.Value)
               <Left>7.4cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>45</ZIndex>
+              <ZIndex>44</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3295,7 +3260,7 @@ Cstr(Fields!DeptName.Value)
               <Left>14.6cm</Left>
               <Height>0.55cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>46</ZIndex>
+              <ZIndex>45</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3314,7 +3279,7 @@ Cstr(Fields!DeptName.Value)
               <Left>12.8cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>47</ZIndex>
+              <ZIndex>46</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3333,7 +3298,7 @@ Cstr(Fields!DeptName.Value)
               <Left>8.1cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>48</ZIndex>
+              <ZIndex>47</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3352,7 +3317,7 @@ Cstr(Fields!DeptName.Value)
               <Left>11.1cm</Left>
               <Height>0.55cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>49</ZIndex>
+              <ZIndex>48</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3371,7 +3336,7 @@ Cstr(Fields!DeptName.Value)
               <Left>9.3cm</Left>
               <Height>0.05cm</Height>
               <Width>7cm</Width>
-              <ZIndex>50</ZIndex>
+              <ZIndex>49</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3390,7 +3355,7 @@ Cstr(Fields!DeptName.Value)
               <Left>2.5cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>51</ZIndex>
+              <ZIndex>50</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3409,7 +3374,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.6cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>52</ZIndex>
+              <ZIndex>51</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3428,7 +3393,7 @@ Cstr(Fields!DeptName.Value)
               <Left>9.3cm</Left>
               <Height>1.2cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>53</ZIndex>
+              <ZIndex>52</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3447,7 +3412,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.05cm</Left>
               <Height>0.05cm</Height>
               <Width>18.85cm</Width>
-              <ZIndex>54</ZIndex>
+              <ZIndex>53</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3466,7 +3431,7 @@ Cstr(Fields!DeptName.Value)
               <Left>18.87355cm</Left>
               <Height>1.07944cm</Height>
               <Width>0.02646cm</Width>
-              <ZIndex>55</ZIndex>
+              <ZIndex>54</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3485,7 +3450,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0.05cm</Left>
               <Height>0.05cm</Height>
               <Width>18.85cm</Width>
-              <ZIndex>56</ZIndex>
+              <ZIndex>55</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3504,7 +3469,7 @@ Cstr(Fields!DeptName.Value)
               <Left>5.3cm</Left>
               <Height>0.05cm</Height>
               <Width>7.5cm</Width>
-              <ZIndex>57</ZIndex>
+              <ZIndex>56</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3523,7 +3488,7 @@ Cstr(Fields!DeptName.Value)
               <Left>5.3cm</Left>
               <Height>0.05cm</Height>
               <Width>7.5cm</Width>
-              <ZIndex>58</ZIndex>
+              <ZIndex>57</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3542,7 +3507,7 @@ Cstr(Fields!DeptName.Value)
               <Left>0cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>59</ZIndex>
+              <ZIndex>58</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3561,7 +3526,7 @@ Cstr(Fields!DeptName.Value)
               <Left>1.2cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>60</ZIndex>
+              <ZIndex>59</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3580,7 +3545,7 @@ Cstr(Fields!DeptName.Value)
               <Left>17cm</Left>
               <Height>1.1cm</Height>
               <Width>0.05cm</Width>
-              <ZIndex>61</ZIndex>
+              <ZIndex>60</ZIndex>
               <Visibility>
                 <Hidden>=iif(First(Fields!Page__Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
               </Visibility>
@@ -3594,6 +3559,76 @@ Cstr(Fields!DeptName.Value)
                 </RightBorder>
               </Style>
             </Rectangle>
+            <Textbox Name="CHSCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!CHSCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000198</rd:DefaultName>
+              <Top>2.30584cm</Top>
+              <Left>16.37056cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>61</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="DirCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!DirCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1000000199</rd:DefaultName>
+              <Top>2.80584cm</Top>
+              <Left>16.37056cm</Left>
+              <Height>0.4cm</Height>
+              <Width>0.6cm</Width>
+              <ZIndex>62</ZIndex>
+              <Visibility>
+                <Hidden>=iif(First(Fields!Caption.Value, "DataSet_Result")&lt;&gt;"",false,true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>1.6pt</PaddingTop>
+                <PaddingBottom>1.6pt</PaddingBottom>
+              </Style>
+            </Textbox>
           </ReportItems>
           <Style>
             <Border>
@@ -3729,6 +3764,12 @@ End Function
         </Field>
         <Field Name="Caption">
           <DataField>Caption</DataField>
+        </Field>
+        <Field Name="CHSCaption">
+          <DataField>CHSCaption</DataField>
+        </Field>
+        <Field Name="DirCaption">
+          <DataField>DirCaption</DataField>
         </Field>
         <Field Name="Credit_Caption">
           <DataField>Credit_Caption</DataField>

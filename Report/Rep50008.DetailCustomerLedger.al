@@ -114,6 +114,12 @@ report 50008 "Detail Customer Ledger"
             column(CHSCaption; CHSCaptionLbl)
             {
             }
+            column(DirCaptionLbl; DirCaptionLbl)
+            {
+            }
+            column(CUTCaptionLbl; CUTCaptionLbl)
+            {
+            }
             column(CompanyName; Company_Name)
             {
             }
@@ -174,6 +180,7 @@ report 50008 "Detail Customer Ledger"
             column(Caption_Control1000000083; Caption_Control1000000083Lbl)
             {
             }
+
             dataitem("Cust. Ledger Entry"; "Cust. Ledger Entry")
             {
                 DataItemLink = "Customer No." = FIELD("No.");
@@ -634,6 +641,8 @@ report 50008 "Detail Customer Ledger"
         BalanceCaptionLbl: Label 'Balance';
         CaptionLbl: Label '余额';
         Caption_Control1000000107Lbl: Label '余额';
+        CHSCaptionLbl: Label '方向';
+        DirCaptionLbl: Label 'Dir';
         LCY_CaptionLbl: Label '本币­ LCY';
         Credit_CaptionLbl: Label '贷方 Credit';
         Caption_Control1000000113Lbl: Label '日';
@@ -645,7 +654,7 @@ report 50008 "Detail Customer Ledger"
         ExplanationCaptionLbl: Label 'Explanation';
         S________CaptionLbl: Label '摘        ­要';
         S_CaptionLbl: Label '-';
-        CHSCaptionLbl: Label '编号';
+        CUTCaptionLbl: Label '编号';
         VoucherCaptionLbl: Label 'Voucher';
         Caption_Control1000000158Lbl: Label '凭证号';
         DCaptionLbl: Label 'D';

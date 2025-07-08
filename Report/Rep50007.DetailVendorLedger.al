@@ -42,6 +42,12 @@ report 50007 "Detail Vendor Ledger"
             column(Caption; CaptionLbl)
             {
             }
+            column(CHSCaption; CHSCaptionLbl)
+            {
+            }
+            column(DirCaption; DirCaptionLbl)
+            {
+            }
             column(Credit_Caption; Credit_CaptionLbl)
             {
             }
@@ -575,6 +581,8 @@ report 50007 "Detail Vendor Ledger"
         DCaptionLbl: Label 'D';
         MCaptionLbl: Label 'M';
         CaptionLbl: Label '余额';
+        CHSCaptionLbl: Label '方向';
+        DirCaptionLbl: Label 'Dir';
         Credit_CaptionLbl: Label '贷方 Credit';
         Debit_CaptionLbl: Label '借方 Debit';
         S________CaptionLbl: Label '摘        要';
@@ -591,7 +599,7 @@ report 50007 "Detail Vendor Ledger"
         Caption_Control1000000012Lbl: Label '汇率';
         Exc__Rt_CaptionLbl: Label 'Exc. Rt.';
         Amt_CaptionLbl: Label '本币  Amt';
-        Caption_Control1000000045Lbl: Label '外币 ­';
+        Caption_Control1000000045Lbl: Label '外币';
         Curr_CaptionLbl: Label 'Curr.';
         Caption_Control1000000093Lbl: Label '本年累计';
         Caption_Control1000000029Lbl: Label '期初余额';

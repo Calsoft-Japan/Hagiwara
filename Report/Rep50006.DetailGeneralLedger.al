@@ -473,8 +473,8 @@ report 50006 "Detail General Ledger"
         DirCaptionLbl: Label 'Dir';
         S__CaptionLbl: Label '--';
         Caption_Control1000000202Lbl: Label '期初余额';
-        Integer_CaptionLbl: Label '本月合计– Integer';
-        Integer_Caption_Control1000000143Lbl: Label '本年累计– Integer';
+        Integer_CaptionLbl: Label '本月合计';
+        Integer_Caption_Control1000000143Lbl: Label '本年累计';
         LastFieldNo: Integer;
         Balance: Decimal;
         MyEntry: Record "G/L Entry";
