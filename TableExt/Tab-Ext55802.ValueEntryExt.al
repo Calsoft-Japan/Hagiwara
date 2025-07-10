@@ -4,6 +4,7 @@ tableextension 55802 "Value Entry Ext" extends "Value Entry"
     {
         field(50000; "ItemDesc"; Text[100])
         {
+            Caption = 'Item Description';
             FieldClass = FlowField;
             CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No.")));
             Description = 'This field was previously referred to as "Item Description.';
