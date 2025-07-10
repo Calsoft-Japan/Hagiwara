@@ -12,7 +12,7 @@ report 50001 "Sales Order BBN"
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Order BBN.rdlc';
 
-    Caption = 'Sales Order';
+    Caption = 'Sales Order BBN';
 
     dataset
     {

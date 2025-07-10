@@ -2,6 +2,8 @@ report 50015 "Sales - Invoice (Item/CustPN)"
 {
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     // CS036 Leon 2022/01/26 - PO,SI Report Header Modification
+    // CS092 Bobby.Ji 2025/6/25 - Upgade to the BC version
+
     //DefaultLayout = RDLC;
     //RDLCLayout = './RDLC/Sales - Invoice (ItemCustPN).rdlc';
 

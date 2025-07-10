@@ -3946,11 +3946,11 @@ End Function
         <Field Name="CHSCaption">
           <DataField>CHSCaption</DataField>
         </Field>
-        <Field Name="DirCaptionLbl">
-          <DataField>DirCaptionLbl</DataField>
+        <Field Name="DirCaption">
+          <DataField>DirCaption</DataField>
         </Field>
-        <Field Name="CUTCaptionLbl">
-          <DataField>CUTCaptionLbl</DataField>
+        <Field Name="CUTCaption">
+          <DataField>CUTCaption</DataField>
         </Field>
         <Field Name="CompanyName">
           <DataField>CompanyName</DataField>

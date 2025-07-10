@@ -4,6 +4,7 @@ report 50007 "Detail Vendor Ledger"
     // 
     // #ESGEW01  20031026
     //   Update the field Month No of the table G/L Entry,set it to the month of the field posting date.
+    // CS092 Bobby.Ji 2025/6/17 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/DetailVendorLedger.rdlc';
 

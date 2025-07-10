@@ -5,7 +5,7 @@ report 50017 "Sales Order US"
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Order US.rdlc';
 
-    Caption = 'Sales Order';
+    Caption = 'Sales Order US';
 
     dataset
     {

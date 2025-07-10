@@ -4,6 +4,7 @@ report 50006 "Detail General Ledger"
     // 
     // #ESGEW01  20031026
     //   Update the field Month No of the table G/L Entry,set it to the month of the field posting date.
+    // CS092 Bobby.Ji 2025/6/16 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/DetailGeneralLedger.rdlc';
     UsageCategory = ReportsAndAnalysis;
@@ -473,8 +474,8 @@ report 50006 "Detail General Ledger"
         DirCaptionLbl: Label 'Dir';
         S__CaptionLbl: Label '--';
         Caption_Control1000000202Lbl: Label '期初余额';
-        Integer_CaptionLbl: Label '本月合计';
-        Integer_Caption_Control1000000143Lbl: Label '本年累计';
+        Integer_CaptionLbl: Label '本月合计 Integer';
+        Integer_Caption_Control1000000143Lbl: Label '本年累计 Integer';
         LastFieldNo: Integer;
         Balance: Decimal;
         MyEntry: Record "G/L Entry";

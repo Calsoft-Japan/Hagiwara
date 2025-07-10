@@ -5,7 +5,7 @@ report 50012 "Sales Credit Memo US"
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Credit Memo US.rdlc';
 
-    Caption = 'Sales Credit Memo';
+    Caption = 'Sales Credit Memo US';
 
     dataset
     {
@@ -487,7 +487,7 @@ report 50012 "Sales Credit Memo US"
         FormatDocument.SetLogoPosition(SalesSetup."Logo Position on Documents", CompanyInfo1, CompanyInfo2, CompanyInfo3);
 
 
-        PrintCompany := TRUE;
+        PrintCompany := false;
 
         IF PrintCompany THEN
             FormatAddress.Company(CompanyAddress, CompanyInfo)

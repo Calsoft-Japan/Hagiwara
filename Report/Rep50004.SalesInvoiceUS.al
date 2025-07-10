@@ -2,10 +2,11 @@ report 50004 "Sales Invoice US"
 {
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
     // Bobby 05/21/2024 - Bug fix of Sales Invoice US
+    // CS092 Bobby.Ji 2025/6/19 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/SalesInvoiceUS.rdlc';
 
-    Caption = 'Sales - Invoice';
+    Caption = 'Sales Invoice US';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset

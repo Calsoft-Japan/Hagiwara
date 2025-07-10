@@ -1,9 +1,11 @@
-report 50074 "Item Aging Value (Doc. Date)"
+report 50074 "Item Aging (Doc. Date)"
 {
-    Caption = 'Item Aging Value (Doc. Date)';
+    // CS092 Bobby.Ji 2025/7/2 - Upgade to the BC version
+
+    Caption = 'Item Aging (Doc. Date)';
 
     DefaultLayout = RDLC;
-    RDLCLayout = './RDLC/Item Aging Value (Doc. Date).rdlc';
+    RDLCLayout = './RDLC/Item Aging (Doc. Date).rdlc';
 
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;
@@ -117,9 +119,6 @@ report 50074 "Item Aging Value (Doc. Date)"
             {
             }
             column(Desc_Item; Description)
-            {
-            }
-            column(ItemAgeCompositionQtyCaption; ItemAgeCompositionQtyCaptionLbl)
             {
             }
             column(PageNoCaption; PageNoCaptionLbl)
@@ -347,13 +346,12 @@ report 50074 "Item Aging Value (Doc. Date)"
         PrintLine: Boolean;
         AverageCost: Decimal;
         AverageCostACY: Decimal;
-        ItemAgeCompositionValueCaptionLbl: Label 'Item Age Composition - Value';
-        ItemAgeCompositionQtyCaptionLbl: Label 'Item Age Composition - Quantity';
+        ItemAgeCompositionValueCaptionLbl: Label 'Item Aging (Doc. Date)';
         CurrReportPageNoCaptionLbl: Label 'Page';
         PageNoCaptionLbl: Label 'Page';
         AfterCaptionLbl: Label 'After...';
         BeforeCaptionLbl: Label '...Before';
-        InventoryValueCaptionLbl: Label 'Inventory Value';
+        InventoryValueCaptionLbl: Label 'Inventory';
         ItemDescriptionCaptionLbl: Label 'Description';
         ItemNoCaptionLbl: Label 'Item No.';
         TotalCaptionLbl: Label 'Total';
