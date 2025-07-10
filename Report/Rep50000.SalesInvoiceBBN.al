@@ -73,7 +73,7 @@ report 50000 "Sales Invoice BBN"
                     column(CountryTo; CountryTo)
                     {
                     }
-                    column(Sales_Invoice_Header_Shipment_Date; FORMAT("Sales Invoice Header"."Shipment Date", 0, 7))
+                    column(Sales_Invoice_Header_Shipment_Date; FORMAT("Sales Invoice Header"."Shipment Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
                     column(Sales_Invoice_Header_Shipment_DateCaption; "Sales Invoice Header".FIELDCAPTION("Shipment Date") + EmptyStringCaptionLbl)

@@ -21,7 +21,7 @@ report 50011 "Purchase Order BBN"
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
     // CS070 Bobby 2024/02/01 - Fix bug of CS064
     // CS083 Bobby 2024/09/27 - Change the layout of the print screen of NAV HEE
-    // CS092 Channing.Zhou 2025/07/10 - Upgrade to BC version
+    // CS092 FDD R038 Channing.Zhou 2025/07/10 - Upgrade to BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Purchase Order BBN.rdlc';
 
