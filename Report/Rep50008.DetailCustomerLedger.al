@@ -4,6 +4,7 @@ report 50008 "Detail Customer Ledger"
     // 
     // #ESGEW01  20031026
     //   Update the field Month No of the table G/L Entry,set it to the month of the field posting date.
+    // CS092 Bobby.Ji 2025/6/18 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/DetailCustomerLedger.rdlc';
 
@@ -114,10 +115,10 @@ report 50008 "Detail Customer Ledger"
             column(CHSCaption; CHSCaptionLbl)
             {
             }
-            column(DirCaptionLbl; DirCaptionLbl)
+            column(DirCaption; DirCaptionLbl)
             {
             }
-            column(CUTCaptionLbl; CUTCaptionLbl)
+            column(CUTCaption; CUTCaptionLbl)
             {
             }
             column(CompanyName; Company_Name)
@@ -643,7 +644,7 @@ report 50008 "Detail Customer Ledger"
         Caption_Control1000000107Lbl: Label '余额';
         CHSCaptionLbl: Label '方向';
         DirCaptionLbl: Label 'Dir';
-        LCY_CaptionLbl: Label '本币­ LCY';
+        LCY_CaptionLbl: Label '本币 LCY';
         Credit_CaptionLbl: Label '贷方 Credit';
         Caption_Control1000000113Lbl: Label '日';
         Caption_Control1000000116Lbl: Label '客户明细帐';
@@ -660,7 +661,7 @@ report 50008 "Detail Customer Ledger"
         DCaptionLbl: Label 'D';
         CustomerCaptionLbl: Label 'Customer';
         MCaptionLbl: Label 'M';
-        For__Curr__CaptionLbl: Label '外币­ For. Curr.';
+        For__Curr__CaptionLbl: Label '外币 For. Curr.';
         Caption_Control1000000176Lbl: Label '外币­';
         Caption_Control1000000177Lbl: Label '汇率';
         Ex__Rt_CaptionLbl: Label 'Ex. Rt.';

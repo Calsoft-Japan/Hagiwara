@@ -1,10 +1,11 @@
 report 50010 "Sales Order-HS"
 {
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
+    // CS092 Bobby.Ji 2025/6/23 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/SalesOrderHS.rdlc';
 
-    Caption = 'Sales Order Sheet (Hagiwara)';
+    Caption = 'Sales Order';
 
     dataset
     {

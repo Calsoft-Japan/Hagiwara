@@ -3,10 +3,11 @@ report 50005 "Purchase Order US"
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
     // CS024 Yuki 2021/07/29 - Show Rank in PO Line
     // CS064 Kenya 2023/10/02 - Add PO/Line No.
+    // CS092 Bobby.Ji 2025/6/20 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/PurchaseOrderUS.rdlc';
 
-    Caption = 'Purchase Order';
+    Caption = 'Purchase Order US';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset

@@ -4,7 +4,7 @@ report 50019 "Customer Statement US"
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Customer Statement US.rdlc';
 
-    Caption = 'Customer Statement';
+    Caption = 'Customer Statement US';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset

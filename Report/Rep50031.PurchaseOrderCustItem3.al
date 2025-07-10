@@ -1,15 +1,13 @@
-report 50061 "Purchase Order Cust Item KR"
+report 50031 "PO Hagiwara-Cust Item3"
 {
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
-    // CS046 Kenya 2022/12/02 - Company Information on HEK PO
+    // CS022 KenChen 2021/07/30 - PO Line Modification to fix Page-break
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
-    // CS092 Bobby.Ji 2025/7/1 - Upgade to the BC version
-
-    DefaultLayout = RDLC;
-    RDLCLayout = './RDLC/POCustItemKR.rdlc';
-
-    Caption = 'Purchase Order Cust Item KR';
-
+    /*DefaultLayout = RDLC;
+    RDLCLayout = './RDLC/Purchase Order Cust Item3.rdlc';
+*/
+    Caption = 'Purchase Order Cust Item';
+    DefaultRenderingLayout = "Purchase Order Cust Item.rdlc";
     dataset
     {
         dataitem("Purchase Header"; "Purchase Header")
@@ -40,13 +38,19 @@ report 50061 "Purchase Order Cust Item KR"
                     column(CompanyInfoPicture; CompanyInfo.Picture)
                     {
                     }
-                    column(HdrAddrLine1; CompanyInfo.Name)
+                    column(HdrAddrLine1; UPPERCASE(CompanyInfo.Name))
                     {
                     }
-                    column(HdrAddrLine2; CompanyAddress)
+                    column(HdrAddrLine2; UPPERCASE(CompanyInfo."Name 2") + ' ' + UPPERCASE(CompanyInfo.Address))
                     {
                     }
-                    column(HdrAddrLine3; CompanyPhone)
+                    column(HdrAddrLine3; UPPERCASE(CompanyInfo."Address 2") + ' ' + UPPERCASE(Country.Name) + '.')
+                    {
+                    }
+                    column(HdrAddrLine4; 'TEL:' + UPPERCASE(CompanyInfo."Phone No.") + '     FAX:' + UPPERCASE(CompanyInfo."Fax No."))
+                    {
+                    }
+                    column(HdrAddrLine5; 'TAX ID: ' + UPPERCASE(CompanyInfo."VAT Registration No.") + ' ' + UPPERCASE(CompanyInfo."Register Type"))
                     {
                     }
                     column(OrderCopyText; Text004)
@@ -82,9 +86,6 @@ report 50061 "Purchase Order Cust Item KR"
                     column(ShipToAddr1; "Purchase Header"."Ship-to Name")
                     {
                     }
-                    column(CompanyName; CompanyInfo.Name)
-                    {
-                    }
                     column(ShipToAddr2; "Purchase Header"."Ship-to Address")
                     {
                     }
@@ -112,7 +113,7 @@ report 50061 "Purchase Order Cust Item KR"
                     column(OutputNo; OutputNo)
                     {
                     }
-                    column(DocDate_PurchHdr; FORMAT("Purchase Header"."Order Date", 0, 4))
+                    column(DocDate_PurchHdr; FORMAT("Purchase Header"."Document Date", 0, 4))
                     {
                     }
                     column(PhoneNoCaption; PhoneNoCaptionLbl)
@@ -200,6 +201,9 @@ report 50061 "Purchase Order Cust Item KR"
                     dataitem(RoundLoop; Integer)
                     {
                         DataItemTableView = SORTING(Number);
+                        column(SecondLineDesc; SecondLineDesc)
+                        {
+                        }
                         column(PurchLineLineAmt; TotalAmount)
                         {
                             AutoFormatExpression = "Purchase Line"."Currency Code";
@@ -283,12 +287,9 @@ report 50061 "Purchase Order Cust Item KR"
                         }
                         column(TotalQuantity; TotalQuantity)
                         {
-                            //DecimalPlaces = 0 : 0;
+                            //DecimalPlaces = 0:0;
                         }
                         column(CustItemNo_PurchLine; "Purchase Line"."Customer Item No.")
-                        {
-                        }
-                        column(AmtIncludingVAT; TotalAmountInclVAT)
                         {
                         }
                         dataitem(DimensionLoop2; Integer)
@@ -340,12 +341,44 @@ report 50061 "Purchase Order Cust Item KR"
                         }
 
                         trigger OnAfterGetRecord()
+                        var
+                            PurchaseLine: Record "Purchase Line";
+                            TopLineNo: Integer;
                         begin
                             IF Number = 1 THEN
                                 PurchLine.FIND('-')
                             ELSE
                                 PurchLine.NEXT;
                             "Purchase Line" := PurchLine;
+                            //--CS022 Begin
+                            IF PurchLine."No." = '' THEN BEGIN
+                                CurrReport.SKIP;
+                            END;
+                            CLEAR(PurchaseLine);
+                            CLEAR(SecondLineDesc);
+
+                            // IF PurchaseLine.GET(PurchLine."Document Type",PurchLine."Document No.",PurchLine."Line No.") THEN
+                            //  PurchaseLine.NEXT;
+                            // IF PurchaseLine."No."='' THEN
+                            // REPEAT
+                            //  SecondLineDesc:=SecondLineDesc+PurchaseLine.Description+'||';
+                            //  PurchaseLine.NEXT;
+                            // UNTIL (PurchaseLine."No."<>'') OR (PurchaseLine."Document No."<>PurchLine."Document No.");
+
+                            PurchaseLine.SETRANGE("Document Type", PurchLine."Document Type");
+                            PurchaseLine.SETRANGE("Document No.", PurchLine."Document No.");
+                            IF PurchaseLine.FINDFIRST THEN
+                                REPEAT
+                                    IF (PurchaseLine."No." <> '') THEN
+                                        TopLineNo := PurchaseLine."Line No.";
+                                    IF (PurchaseLine."No." = '') AND (TopLineNo = PurchLine."Line No.") THEN
+                                        SecondLineDesc := SecondLineDesc + PurchaseLine.Description + '||';
+                                UNTIL PurchaseLine.NEXT = 0;
+                            IF STRPOS(SecondLineDesc, '||') > 0 THEN
+                                SecondLineDesc := COPYSTR(SecondLineDesc, 1, STRLEN(SecondLineDesc) - 2);
+
+
+                            //--CS022 End
 
                             IF NOT "Purchase Header"."Prices Including VAT" AND
                                (PurchLine."VAT Calculation Type" = PurchLine."VAT Calculation Type"::"Full VAT")
@@ -360,18 +393,9 @@ report 50061 "Purchase Order Cust Item KR"
                                 UOM := "Purchase Line"."Unit of Measure";
                             // YUKA for Hagiwara 20030613 - END
 
-                            //Requested Receipt Date
-
                             ExpectedReceiptDate := '';
-                            //07.07.20 sanjeev
-                            /*
                             IF "Purchase Line"."Expected Receipt Date" <> 0D THEN
-                              ExpectedReceiptDate := FORMAT("Purchase Line"."Expected Receipt Date",0,'<Closing><Day,2>-<Month Text, 3>-<Year>');
-                            */
-
-                            IF "Purchase Line"."Requested Receipt Date_1" <> 0D THEN
-                                ExpectedReceiptDate := FORMAT("Purchase Line"."Requested Receipt Date_1", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
-
+                                ExpectedReceiptDate := FORMAT("Purchase Line"."Expected Receipt Date", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
 
                             AllowInvDisctxt := FORMAT("Purchase Line"."Allow Invoice Disc.");
                             TotalSubTotal += "Purchase Line"."Line Amount";
@@ -380,7 +404,6 @@ report 50061 "Purchase Order Cust Item KR"
                             TotalAmount += PurchLine."Line Amount";
                             ;
                             TotalQuantity += PurchLine.Quantity;
-
                         end;
 
                         trigger OnPostDataItem()
@@ -400,7 +423,7 @@ report 50061 "Purchase Order Cust Item KR"
                             PurchLine.SETRANGE("Line No.", 0, PurchLine."Line No.");
                             SETRANGE(Number, 1, PurchLine.COUNT);
                             //CurrReport.CREATETOTALS(PurchLine."Line Amount",PurchLine."Inv. Discount Amount");
-                            // CurrReport.CREATETOTALS(PurchLine."Line Amount",PurchLine."Inv. Discount Amount", PurchLine.Quantity);
+                            //CurrReport.CREATETOTALS(PurchLine."Line Amount", PurchLine."Inv. Discount Amount", PurchLine.Quantity);
                         end;
                     }
                     dataitem(VATCounter; Integer)
@@ -418,9 +441,8 @@ report 50061 "Purchase Order Cust Item KR"
                                 CurrReport.BREAK;
                             SETRANGE(Number, 1, VATAmountLine.COUNT);
                             /*CurrReport.CREATETOTALS(
-                              VATAmountLine."Line Amount",VATAmountLine."Inv. Disc. Base Amount",
-                              VATAmountLine."Invoice Discount Amount",VATAmountLine."VAT Base",VATAmountLine."VAT Amount");
-                              */
+                              VATAmountLine."Line Amount", VATAmountLine."Inv. Disc. Base Amount",
+                              VATAmountLine."Invoice Discount Amount", VATAmountLine."VAT Base", VATAmountLine."VAT Amount");*/
                         end;
                     }
                     dataitem(Total; Integer)
@@ -532,20 +554,13 @@ report 50061 "Purchase Order Cust Item KR"
             begin
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
-                CompanyInfo.GET;
-                CompanyInfo.CALCFIELDS(Picture);
+
                 IF RespCenter.GET("Responsibility Center") THEN BEGIN
                     FormatAddr.RespCenter(CompanyAddr, RespCenter);
                     CompanyInfo."Phone No." := RespCenter."Phone No.";
                     CompanyInfo."Fax No." := RespCenter."Fax No.";
                 END ELSE
                     FormatAddr.Company(CompanyAddr, CompanyInfo);
-
-                //CS046 Begin
-                Country.GET(CompanyInfo."Country/Region Code");
-                CompanyAddress := CompanyInfo.Address + ', ' + CompanyInfo."Address 2" + ', ' + CompanyInfo.City + ', ' + Country.Name + ', ' + CompanyInfo."Post Code";
-                CompanyPhone := 'TEL: ' + CompanyInfo."Phone No." + '     FAX: ' + CompanyInfo."Fax No.";
-                //CS046 End
 
                 DimSetEntry1.SETRANGE("Dimension Set ID", "Dimension Set ID");
 
@@ -600,14 +615,8 @@ report 50061 "Purchase Order Cust Item KR"
 
                 FormatAddr.PurchHeaderShipTo(ShipToAddr, "Purchase Header");
 
-                // CS046 Start
-                IF "Purchase Header"."Sell-to Customer No." <> '' THEN BEGIN
-                    CustomerRec.GET("Purchase Header"."Sell-to Customer No.");
-                    ShipToTel := CustomerRec."Phone No.";
-                    ShipToFax := CustomerRec."Fax No.";
-                END ELSE IF "Purchase Header"."Location Code" = '' THEN BEGIN
-                    // YUKA for Hagiwara 20020211
-                    //IF "Purchase Header"."Location Code" = '' THEN BEGIN
+                // YUKA for Hagiwara 20020211
+                IF "Purchase Header"."Location Code" = '' THEN BEGIN
                     ShipToTel := '';
                     ShipToFax := '';
                 END ELSE BEGIN
@@ -615,9 +624,8 @@ report 50061 "Purchase Order Cust Item KR"
                     ShipToTel := LocationRec."Phone No.";
                     ShipToFax := LocationRec."Fax No.";
                 END;
-                // YUKA for Hagiwara 20020211 - END
-                // CS046 End
 
+                // YUKA for Hagiwara 20020211 - END
                 // YUKA for Hagiwara 20040116
                 IF "Purchase Header"."Currency Code" = '' THEN
                     CurCode := GLSetup."LCY Code"
@@ -701,16 +709,30 @@ report 50061 "Purchase Order Cust Item KR"
         begin
             ArchiveDocument := ArchiveManagement.SalesDocArchiveGranule;
             //LogInteraction := SegManagement.FindInteractTmplCode(13) <> '';
-            LogInteraction := SegManagement.FindInteractionTemplateCode("Interaction Log Entry Document Type"::"Purch. Ord.") <> '';
+            LogInteraction := SegManagement.FindInteractionTemplateCode("Interaction Log Entry Document Type"::"Sales Inv.") <> '';
             ArchiveDocumentEnable := ArchiveDocument;
             LogInteractionEnable := LogInteraction;
         end;
     }
-
+    rendering
+    {
+        layout("Purchase Order Cust Item.rdlc")
+        {
+            Type = RDLC;
+            LayoutFile = './RDLC/Purchase Order Cust Item.rdlc';
+            Caption = 'Purchase Order Cust Item';
+        }
+        layout("Purchase Order Cust Item3.rdlc")
+        {
+            Type = RDLC;
+            LayoutFile = './RDLC/Purchase Order Cust Item3.rdlc';
+            Caption = 'Purchase Order Cust Item3';
+        }
+    }
     labels
     {
         FooterText1 = 'REMARKS:  PLEASE RETURN TO US THE DUPLICATED COPY DULY STAMPED AND SIGNED AS CONFIRMATION';
-        FooterText2 = 'KOREA HAGIWARA PTE. LTD.';
+        FooterText2 = 'SINGAPORE HAGIWARA PTE. LTD.';
         FooterText3 = 'SIGN & COMPANY STAMP';
         FooterText4 = 'AUTHORISED SIGNATURES';
     }
@@ -719,6 +741,11 @@ report 50061 "Purchase Order Cust Item KR"
     begin
         GLSetup.GET;
         PurchSetup.GET;
+
+        CompanyInfo.GET;
+        CompanyInfo.CALCFIELDS(Picture);
+
+        Country.GET(CompanyInfo."Country/Region Code");
     end;
 
     var
@@ -744,7 +771,7 @@ report 50061 "Purchase Order Cust Item KR"
         PrepmtDimSetEntry: Record "Dimension Set Entry";
         PrepmtInvBuf: Record "Prepayment Inv. Line Buffer" temporary;
         RespCenter: Record "Responsibility Center";
-        //Language: Record "8";
+        //Language: Record 8;
         cuLanguage: Codeunit Language;
         CurrExchRate: Record "Currency Exchange Rate";
         PurchSetup: Record "Purchases & Payables Setup";
@@ -790,9 +817,7 @@ report 50061 "Purchase Order Cust Item KR"
         PrepmtLineAmount: Decimal;
         PricesInclVATtxt: Text[30];
         AllowInvDisctxt: Text[30];
-        //[InDataSet]
         ArchiveDocumentEnable: Boolean;
-        //[InDataSet]
         LogInteractionEnable: Boolean;
         TotalSubTotal: Decimal;
         TotalAmount: Decimal;
@@ -823,11 +848,8 @@ report 50061 "Purchase Order Cust Item KR"
         ColonCaptionLbl: Label ':';
         ExpectedReceiptDate: Text[20];
         TotalQuantity: Integer;
-        AmtIncludingVAT: Decimal;
-        CustomerRec: Record Customer;
         Country: Record "Country/Region";
-        CompanyAddress: Text[200];
-        CompanyPhone: Text[100];
+        SecondLineDesc: Text;
 
     procedure InitializeRequest(NewNoOfCopies: Integer; NewShowInternalInfo: Boolean; NewArchiveDocument: Boolean; NewLogInteraction: Boolean)
     begin

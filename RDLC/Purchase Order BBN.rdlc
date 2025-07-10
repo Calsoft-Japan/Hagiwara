@@ -1,0 +1,3160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>d3c37077-f9e7-4ce9-811b-06b569b0bbc1</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>18.0723cm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.07938cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="NewPage">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value EvaluationMode="Auto">=code.IsNewPageNew(Fields!Purchase_Header_Document_Type.Value,Fields!Purchase_Header_No_.Value,Fields!OutputNo.Value)</Value>
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <Visibility>
+                            <Hidden>true</Hidden>
+                          </Visibility>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <BackgroundColor>Red</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>7.52175cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle14">
+                          <ReportItems>
+                            <Textbox Name="textbox97">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Tax_InvoiceCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>18pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Center</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Left>6.27083cm</Left>
+                              <Height>0.846cm</Height>
+                              <Width>5.67cm</Width>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox152">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value &amp; " " &amp; Fields!PhoneNo_Location.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>4.31934cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61747cm</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox148">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!DateCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.11173cm</Top>
+                              <Left>10.2444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.94cm</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox146">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!VATRegistrationNoCaption.Value &amp; " " &amp; Fields!VATRegNo_Location.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>4.74234cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61746cm</Width>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox142">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!CountrySold.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>4.05362cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>3.15cm</Width>
+                              <ZIndex>4</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox140">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_BuyFromCity.Value + " " + Fields!Purchase_Header_BuyFromPostCode.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.63062cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>7.14cm</Width>
+                              <ZIndex>5</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox138">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_BuyFromAddress2.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.20762cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>7.14cm</Width>
+                              <ZIndex>6</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox136">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_BuyFromAddress.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.78462cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>7.14cm</Width>
+                              <ZIndex>7</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox134">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_BuyFromVendorName.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.36162cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>7.14cm</Width>
+                              <ZIndex>8</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox126">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_ShipToCity.Value + " " + Fields!Purchase_Header_ShipToPostCode.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.89634cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61747cm</Width>
+                              <ZIndex>9</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox124">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_ShipToName.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.38073cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.66961cm</Height>
+                              <Width>4.61748cm</Width>
+                              <ZIndex>10</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox122">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_ShipToAddress2.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.47334cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61747cm</Width>
+                              <ZIndex>11</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox120">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_ShipToAddress.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.05034cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61746cm</Width>
+                              <ZIndex>12</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox95">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!FORMAT__Purchase_Header___Document_Date__0_7_.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.08873cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.446cm</Height>
+                              <Width>4.61748cm</Width>
+                              <ZIndex>13</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox93">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_No_.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.53473cm</Top>
+                              <Left>13.39442cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61747cm</Width>
+                              <ZIndex>14</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox91">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Tax_InvoiceCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.53473cm</Top>
+                              <Left>10.2444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.94cm</Width>
+                              <ZIndex>15</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox89">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Text005.Value &amp; " 1"</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>6.80772cm</Top>
+                              <Left>15.76457cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>1.68cm</Width>
+                              <ZIndex>16</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox94">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_Customer_name.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.95773cm</Top>
+                              <Left>13.39441cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61748cm</Width>
+                              <ZIndex>17</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox92">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!YourReferenceCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.95773cm</Top>
+                              <Left>10.2444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.93999cm</Width>
+                              <ZIndex>18</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox96">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Shipped_To__Caption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.38073cm</Top>
+                              <Left>10.2444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.94cm</Width>
+                              <ZIndex>19</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox151">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!TradeTermsCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>5.16534cm</Top>
+                              <Left>10.2444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.93998cm</Width>
+                              <ZIndex>20</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox100">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Purchase_Header_Shipment_Method_Code.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>5.16534cm</Top>
+                              <Left>13.39444cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>4.61745cm</Width>
+                              <ZIndex>21</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox153">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!PaymentTermsCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>5.58834cm</Top>
+                              <Left>10.24438cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>2.93998cm</Width>
+                              <ZIndex>22</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox101">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!PaymentTerms_Description.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>5.58834cm</Top>
+                              <Left>13.39443cm</Left>
+                              <Height>0.72515cm</Height>
+                              <Width>4.61746cm</Width>
+                              <ZIndex>23</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox98">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!toCaption.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>2.36162cm</Top>
+                              <Left>0.03015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>0.54905cm</Width>
+                              <ZIndex>24</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox155">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Attn___Caption.Value + " " + Fields!Purchase_Header_BuyFromContact.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>5.39318cm</Top>
+                              <Left>2.13114cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>5.03901cm</Width>
+                              <ZIndex>25</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox156">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!FaxNoCaption.Value + " " + Fields!FaxNo.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>4.97018cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>5.04cm</Width>
+                              <ZIndex>26</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox157">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value + " " + Fields!TelNo.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>4.5119cm</Top>
+                              <Left>2.13015cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>5.04cm</Width>
+                              <ZIndex>27</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>4.13511cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle8">
+                          <ReportItems>
+                            <Tablix Name="PurchaseLineTable2">
+                              <TablixBody>
+                                <TablixColumns>
+                                  <TablixColumn>
+                                    <Width>17.8044cm</Width>
+                                  </TablixColumn>
+                                </TablixColumns>
+                                <TablixRows>
+                                  <TablixRow>
+                                    <Height>0.54931cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="rectangle22">
+                                            <ReportItems>
+                                              <Textbox Name="textbox30">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!PartsNoCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05475cm</Top>
+                                                <Left>2.10099cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>2.38604cm</Width>
+                                                <Style>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Line Name="line29">
+                                                <Top>0.45828cm</Top>
+                                                <Left>0.00099cm</Left>
+                                                <Height>0cm</Height>
+                                                <Width>17.77324cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </Border>
+                                                  <TopBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </TopBorder>
+                                                  <BottomBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </BottomBorder>
+                                                  <LeftBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </LeftBorder>
+                                                  <RightBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Line>
+                                              <Line Name="line30">
+                                                <Top>0.00833in</Top>
+                                                <Left>0.00099cm</Left>
+                                                <Height>0cm</Height>
+                                                <Width>17.77324cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </Border>
+                                                  <TopBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </TopBorder>
+                                                  <BottomBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </BottomBorder>
+                                                  <LeftBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </LeftBorder>
+                                                  <RightBorder>
+                                                    <Color>Black</Color>
+                                                    <Style>Solid</Style>
+                                                    <Width>1.5pt</Width>
+                                                  </RightBorder>
+                                                </Style>
+                                              </Line>
+                                              <Textbox Name="textbox27">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!AmountCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05475cm</Top>
+                                                <Left>15.23231cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>2.54194cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox28">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!Unit_PriceCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05644cm</Top>
+                                                <Left>13.54682cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>1.75604cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox31">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!QuantityCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Center</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05475cm</Top>
+                                                <Left>11.34107cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>2.09992cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox32">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!DescriptionCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05475cm</Top>
+                                                <Left>4.61599cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>3.48677cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox33">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=First(Fields!NoCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05475cm</Top>
+                                                <Left>0.00099cm</Left>
+                                                <Height>0.34396cm</Height>
+                                                <Width>2.1cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Bottom</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox150">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Due_DateCaption.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.05644cm</Top>
+                                                <Left>9.05526cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.42692cm</Width>
+                                                <ZIndex>8</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <DataElementOutput>ContentsOnly</DataElementOutput>
+                                            <Style />
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.42301cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="rectangle10">
+                                            <ReportItems>
+                                              <Textbox Name="textbox11">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Purchase_Line__Description.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>2.31cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>10.5cm</Width>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <DataElementOutput>ContentsOnly</DataElementOutput>
+                                            <Style />
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.92326cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="rectangle12">
+                                            <ReportItems>
+                                              <Textbox Name="textbox20">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Purchase_Header_No_.Value + "-" + CStr(Fields!Purchase_Line___Line_No__.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Height>0.74687cm</Height>
+                                                <Width>2.1cm</Width>
+                                                <Style>
+                                                  <Border />
+                                                  <VerticalAlign>Top</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox21">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Purchase_Line___CustomerItem_No__.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>2.1cm</Left>
+                                                <Height>0.74687cm</Height>
+                                                <Width>2.2371cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Top</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox34">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Purchase_Line__Description.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>4.47821cm</Left>
+                                                <Height>0.74687cm</Height>
+                                                <Width>5.28261cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Top</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox35">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Purchase_Line_Amount_excluding_VAT.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <Format>#,0.00;(#,0.00)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>15.54cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.23423cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <Border />
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox36">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Purchase_Line___Direct_Unit_Cost_.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <Format>#,0.0000;(#,0.0000)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>13.44cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.1cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <Border />
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox14">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Purchase_Line__Quantity.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <Format>#,0;(#,0)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>11.93187cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>1.50813cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <Border />
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox99">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Req_receipt_date1.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Left</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0cm</Top>
+                                                <Left>9.7961cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.06521cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox37">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Purchase_Line_Amount_Including_VAT.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <Format>#,0.00;(#,0.00)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.09848in</Top>
+                                                <Left>7.77002cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.23423cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Visibility>
+                                                  <Hidden>true</Hidden>
+                                                </Visibility>
+                                                <Style>
+                                                  <Border />
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <DataElementOutput>ContentsOnly</DataElementOutput>
+                                            <Style />
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>0.42301cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="rectangle37">
+                                            <ReportItems>
+                                              <Textbox Name="textbox39">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!Line_DimensionsCaption.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Height>0.423cm</Height>
+                                                <Width>3.15cm</Width>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox42">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Fields!DimText_Control74.Value</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Left>3.36cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>14.41423cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <DataElementOutput>ContentsOnly</DataElementOutput>
+                                            <Style />
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                  <TablixRow>
+                                    <Height>1.81652cm</Height>
+                                    <TablixCells>
+                                      <TablixCell>
+                                        <CellContents>
+                                          <Rectangle Name="rectangle40">
+                                            <ReportItems>
+                                              <Textbox Name="textbox48">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=SUM(Fields!Purchase_Line_Amount_Including_VAT.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                          <Format>#,0.00;(#,0.00)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>1.23388cm</Top>
+                                                <Left>15.57017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.23423cm</Width>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox49">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Last(Fields!CurCode.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>1.19877cm</Top>
+                                                <Left>14.52017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>1.05cm</Width>
+                                                <ZIndex>1</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Line Name="line43">
+                                                <Top>0.094cm</Top>
+                                                <Height>0cm</Height>
+                                                <Width>17.77425cm</Width>
+                                                <ZIndex>2</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>Solid</Style>
+                                                    <Width>0.5pt</Width>
+                                                  </Border>
+                                                </Style>
+                                              </Line>
+                                              <Textbox Name="textbox43">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=SUM(Fields!Purchase_Line__Quantity.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                          <Format>#,0;(#,0)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>1.23388cm</Top>
+                                                <Left>10.95017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.52cm</Width>
+                                                <ZIndex>3</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox44">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Last(Fields!TOTALCaption.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>1.23388cm</Top>
+                                                <Left>7.80017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>1.47cm</Width>
+                                                <ZIndex>4</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox50">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=Sum(Fields!Purchase_Line_Amount_excluding_VAT.Value)</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                          <Format>#,0.00;(#,0.00)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.03527cm</Top>
+                                                <Left>15.54cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.23423cm</Width>
+                                                <ZIndex>5</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox51">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">=(Sum(Fields!Purchase_Line_Amount_Including_VAT.Value)-Sum(Fields!Purchase_Line_Amount_excluding_VAT.Value))</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                          <Format>#,0.00;(#,0.00)</Format>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style>
+                                                      <TextAlign>Right</TextAlign>
+                                                    </Style>
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.63466cm</Top>
+                                                <Left>15.57017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>2.23423cm</Width>
+                                                <ZIndex>6</ZIndex>
+                                                <Style>
+                                                  <Border>
+                                                    <Style>None</Style>
+                                                  </Border>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox45">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Auto">Sub Total</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.1411cm</Top>
+                                                <Left>7.80017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>1.47cm</Width>
+                                                <ZIndex>7</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                              <Textbox Name="textbox46">
+                                                <KeepTogether>true</KeepTogether>
+                                                <Paragraphs>
+                                                  <Paragraph>
+                                                    <TextRuns>
+                                                      <TextRun>
+                                                        <Value EvaluationMode="Constant">VAT</Value>
+                                                        <Style>
+                                                          <FontFamily>Helvetica</FontFamily>
+                                                          <FontSize>8pt</FontSize>
+                                                          <FontWeight>Bold</FontWeight>
+                                                        </Style>
+                                                      </TextRun>
+                                                    </TextRuns>
+                                                    <Style />
+                                                  </Paragraph>
+                                                </Paragraphs>
+                                                <Top>0.63466cm</Top>
+                                                <Left>7.80017cm</Left>
+                                                <Height>0.423cm</Height>
+                                                <Width>1.47cm</Width>
+                                                <ZIndex>8</ZIndex>
+                                                <Style>
+                                                  <VerticalAlign>Middle</VerticalAlign>
+                                                </Style>
+                                              </Textbox>
+                                            </ReportItems>
+                                            <DataElementOutput>ContentsOnly</DataElementOutput>
+                                            <Style />
+                                          </Rectangle>
+                                        </CellContents>
+                                      </TablixCell>
+                                    </TablixCells>
+                                  </TablixRow>
+                                </TablixRows>
+                              </TablixBody>
+                              <TablixColumnHierarchy>
+                                <TablixMembers>
+                                  <TablixMember />
+                                </TablixMembers>
+                              </TablixColumnHierarchy>
+                              <TablixRowHierarchy>
+                                <TablixMembers>
+                                  <TablixMember>
+                                    <KeepWithGroup>After</KeepWithGroup>
+                                    <RepeatOnNewPage>true</RepeatOnNewPage>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <Group Name="table8_Group2">
+                                      <GroupExpressions>
+                                        <GroupExpression>=Fields!Purchase_Line_Line_No.Value</GroupExpression>
+                                      </GroupExpressions>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!Purchase_Line_Line_No.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <TablixMembers>
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=IIF(Fields!Purchase_Line__Type.Value=" ",False, True)</Hidden>
+                                        </Visibility>
+                                        <KeepWithGroup>After</KeepWithGroup>
+                                        <KeepTogether>true</KeepTogether>
+                                      </TablixMember>
+                                      <TablixMember>
+                                        <Visibility>
+                                          <Hidden>=IIF(Fields!Purchase_Line__Type.Value&lt;&gt;" ",False, True)</Hidden>
+                                        </Visibility>
+                                        <KeepWithGroup>After</KeepWithGroup>
+                                        <KeepTogether>true</KeepTogether>
+                                      </TablixMember>
+                                      <TablixMember>
+                                        <Group Name="table8_Details_Group2">
+                                          <DataElementName>Detail</DataElementName>
+                                        </Group>
+                                        <SortExpressions>
+                                          <SortExpression>
+                                            <Value>=Fields!Purchase_Line_Line_No.Value</Value>
+                                          </SortExpression>
+                                        </SortExpressions>
+                                        <TablixMembers>
+                                          <TablixMember>
+                                            <Visibility>
+                                              <Hidden>=IIF(Fields!Line_DimensionsCaption.Value&gt;"",false, true)</Hidden>
+                                            </Visibility>
+                                          </TablixMember>
+                                        </TablixMembers>
+                                        <DataElementName>Detail_Collection</DataElementName>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                        <KeepTogether>true</KeepTogether>
+                                      </TablixMember>
+                                    </TablixMembers>
+                                  </TablixMember>
+                                  <TablixMember>
+                                    <KeepWithGroup>Before</KeepWithGroup>
+                                    <KeepTogether>true</KeepTogether>
+                                  </TablixMember>
+                                </TablixMembers>
+                              </TablixRowHierarchy>
+                              <DataSetName>DataSet_Result</DataSetName>
+                              <Filters>
+                                <Filter>
+                                  <FilterExpression>=CStr(Fields!Purchase_Line_Line_No.Value)</FilterExpression>
+                                  <Operator>GreaterThan</Operator>
+                                  <FilterValues>
+                                    <FilterValue>=""</FilterValue>
+                                  </FilterValues>
+                                </Filter>
+                              </Filters>
+                              <SortExpressions>
+                                <SortExpression>
+                                  <Value>=Fields!Purchase_Line_Line_No.Value</Value>
+                                </SortExpression>
+                              </SortExpressions>
+                              <Height>4.13511cm</Height>
+                              <Width>17.8044cm</Width>
+                              <Style />
+                            </Tablix>
+                          </ReportItems>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>5.44929cm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle64">
+                          <ReportItems>
+                            <Textbox Name="Textbox4">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value + " " + Fields!CountryFrom.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>2.43466cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01992cm</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox5">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value + " " + Fields!CompanyInfo_PhoneNo.Value + "  " + Fields!FaxNoCaption.Value + " " + Fields!CompanyInfo_FaxNo.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>2.86532cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01992cm</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox6">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!CommercialRegisterCaption.Value + " " + Fields!CompanyInfo_CommercialRegister.Value + "  " + Fields!CeoText.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>3.29598cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01991cm</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox7">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!VatRegistrationNoText.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>3.72664cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01992cm</Width>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox8">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!FiscalRepresentative.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>5.01862cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>18.01187cm</Width>
+                              <ZIndex>4</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox9">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!BankText.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>4.1573cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01992cm</Width>
+                              <ZIndex>5</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox10">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!IBANText.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>7pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Left</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox1</rd:DefaultName>
+                              <Top>4.58796cm</Top>
+                              <Height>0.43066cm</Height>
+                              <Width>16.01991cm</Width>
+                              <ZIndex>6</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Line Name="line168">
+                              <Top>0.45826cm</Top>
+                              <Left>0.00107cm</Left>
+                              <Height>0cm</Height>
+                              <Width>17.77326cm</Width>
+                              <ZIndex>7</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Line Name="line169">
+                              <Top>1.73126cm</Top>
+                              <Left>11.34107cm</Left>
+                              <Height>0cm</Height>
+                              <Width>6.43326cm</Width>
+                              <ZIndex>8</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Textbox Name="textbox167">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!AuthorisedSignatures.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.83526cm</Top>
+                              <Left>11.34107cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>6.43326cm</Width>
+                              <ZIndex>9</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox163">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>0.54726cm</Top>
+                              <Left>11.34107cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>6.43324cm</Width>
+                              <ZIndex>10</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Line Name="line170">
+                              <Top>1.73126cm</Top>
+                              <Left>0.00108cm</Left>
+                              <Height>0cm</Height>
+                              <Width>6.93cm</Width>
+                              <ZIndex>11</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>Solid</Style>
+                                </Border>
+                              </Style>
+                            </Line>
+                            <Textbox Name="textbox168">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!SignCompanyStamp.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>1.83526cm</Top>
+                              <Left>0.00108cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>6.93cm</Width>
+                              <ZIndex>12</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="textbox169">
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value EvaluationMode="Auto">=Fields!RemarkText.Value</Value>
+                                      <Style>
+                                        <FontFamily>Helvetica</FontFamily>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>0.03528cm</Top>
+                              <Left>0.00107cm</Left>
+                              <Height>0.423cm</Height>
+                              <Width>17.77326cm</Width>
+                              <ZIndex>13</ZIndex>
+                              <Style>
+                                <VerticalAlign>Middle</VerticalAlign>
+                              </Style>
+                            </Textbox>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Group1">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!Purchase_Header_No_.Value</GroupExpression>
+                      <GroupExpression>=Fields!Purchase_Header_Document_Type.Value</GroupExpression>
+                      <GroupExpression>=Fields!OutputNo.Value</GroupExpression>
+                    </GroupExpressions>
+                    <PageBreak>
+                      <BreakLocation>Between</BreakLocation>
+                    </PageBreak>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!Purchase_Header_No_.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixMembers>
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                    <TablixMember />
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DataSet_Result</DataSetName>
+            <Height>17.18553cm</Height>
+            <Width>18.0723cm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>17.18553cm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>18.07231cm</Width>
+      <Page>
+        <PageHeader>
+          <Height>2.30154cm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Image Name="CompanyInfo1Picture">
+              <Source>Database</Source>
+              <Value>=Convert.ToBase64String(Fields!CompanyInfo_Picture.Value)</Value>
+              <MIMEType>image/bmp</MIMEType>
+              <Sizing>Fit</Sizing>
+              <Left>12.18099cm</Left>
+              <Height>40pt</Height>
+              <Width>4.4635cm</Width>
+              <DataElementOutput>NoOutput</DataElementOutput>
+              <Style>
+                <Border />
+              </Style>
+            </Image>
+            <Textbox Name="Textbox1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value</Value>
+                      <Style>
+                        <FontFamily>Helvetica</FontFamily>
+                        <FontSize>7pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <Left>0.00099cm</Left>
+              <Height>0.6cm</Height>
+              <Width>10.71001cm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="textbox90">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value EvaluationMode="Auto">=Fields!Text005.Value &amp; " " &amp; Code.GetGroupPageNumber(ReportItems!NewPage.Value,Globals!PageNumber)</Value>
+                      <Style>
+                        <FontFamily>Helvetica</FontFamily>
+                        <FontSize>8pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>1.5875cm</Top>
+              <Left>15.76457cm</Left>
+              <Height>0.423cm</Height>
+              <Width>1.68cm</Width>
+              <ZIndex>2</ZIndex>
+              <Visibility>
+                <Hidden>=iif(Code.GetGroupPageNumber(ReportItems!NewPage.Value,Globals!PageNumber) &gt; 1, false, true)</Hidden>
+              </Visibility>
+              <Style>
+                <Border />
+                <VerticalAlign>Middle</VerticalAlign>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style />
+        </PageHeader>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <InteractiveHeight>11in</InteractiveHeight>
+        <InteractiveWidth>8.5in</InteractiveWidth>
+        <LeftMargin>1.5cm</LeftMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+
+    if Value = 0 then
+
+        Return ""
+
+    end if
+
+    Return Value
+
+End Function
+
+
+Public Function BlankPos(ByVal Value As Decimal)
+
+    if Value &gt; 0 then
+
+        Return ""
+
+    end if
+
+    Return Value
+
+End Function
+
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+
+    if Value &gt;= 0 then
+
+        Return ""
+
+    end if
+
+    Return Value
+
+End Function
+
+
+Public Function BlankNeg(ByVal Value As Decimal)
+
+    if Value &lt; 0 then
+
+        Return ""
+
+    end if
+
+    Return Value
+
+End Function
+
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+
+    if Value &lt;= 0 then
+
+        Return ""
+
+    end if
+
+    Return Value
+
+End Function
+
+
+Shared hashTable as new System.Collections.HashTable
+
+
+public Function SetHeaderData(ByVal piData as Object)
+
+
+  dim parts as Array
+
+  dim i as integer
+
+  dim caption as string
+
+  dim value as string
+
+
+  IF CStr(piData) = "" THEN
+
+    return true
+
+  END IF
+
+
+  parts = Split(Cstr(piData),Chr(177))
+
+
+  i =  0
+
+  do while (i &lt;= ubound(parts))
+
+    caption = parts(i)
+
+    value = ""
+
+    i = i + 1
+
+    if i &lt;= ubound(parts) then
+
+      value = parts(i)
+
+    end if
+
+  
+
+    if hashTable.contains(caption) then
+
+      hashTable.remove(caption)
+
+    end if
+
+    hashTable.Add(caption, value)
+
+    i = i + 1
+
+  loop
+
+
+  return true
+
+
+End Function
+
+
+public Function GetData(ByVal piKey as String) as Object
+
+
+  if hashTable.ContainsKey(piKey) then
+
+    Return hashTable(piKey)
+
+  else
+
+    return ""
+
+  end if
+
+
+end function
+
+
+Shared offset as Integer
+
+Shared newPage as Object
+
+Shared currentgroup1 as Object
+
+Shared currentgroup2 as Object
+
+Shared currentgroup3 as Object
+
+Shared Data1 as Object
+
+
+Public Function GetGroupPageNumber(NewPage as Boolean, pagenumber as Integer) as Object
+
+  If NewPage
+
+    offset = pagenumber - 1
+
+  End If
+
+  Return pagenumber - offset
+
+End Function
+
+
+Public Function IsNewPage(group1 as Object, group2 as Object) As Boolean
+
+  newPage = FALSE
+
+  If Not (group1 = currentgroup1)
+
+    newPage = TRUE
+
+    currentgroup1 = group1
+
+    currentgroup2 = group2
+
+  ELSE
+
+    If Not (group2 = currentgroup2)
+
+      newPage = TRUE
+
+      currentgroup2 = group2
+
+    End If
+
+  End If
+
+  Return newPage
+
+End Function
+
+Public Function GetDataNew(Num as Integer, Group as integer) as Object
+if Group = 1 then
+   Return Cstr(Choose(Num, Split(Cstr(Data1),Chr(177))))
+End If
+End Function
+
+Public Function IsNewPageNew(group1 as Object, group2 as Object, group3 as Object) As Boolean
+newPage = FALSE
+If Not (group1 = currentgroup1)
+    newPage = TRUE
+    currentgroup1 = group1
+    currentgroup2 = group2
+    currentgroup3 = group3
+     ELSE 
+      If Not (group2 = currentgroup2)
+        newPage = TRUE 
+        currentgroup2 = group2
+        currentgroup3 = group3
+        ELSE
+          If Not (group3 = currentgroup3)
+          newPage = TRUE 
+          currentgroup3 = group3
+         End If
+     End If
+  End If
+Return newPage
+End Function</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportID>8ddb97f5-9975-4099-a7e3-746e9cb53ba2</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="Purchase_Header_Document_Type">
+          <DataField>Purchase_Header_Document_Type</DataField>
+        </Field>
+        <Field Name="Purchase_Header_No_">
+          <DataField>Purchase_Header_No_</DataField>
+        </Field>
+        <Field Name="Text005">
+          <DataField>Text005</DataField>
+        </Field>
+        <Field Name="Purchase_No_Caption">
+          <DataField>Purchase_No_Caption</DataField>
+        </Field>
+        <Field Name="Tax_InvoiceCaption">
+          <DataField>Tax_InvoiceCaption</DataField>
+        </Field>
+        <Field Name="ShipmentMethod_Description">
+          <DataField>ShipmentMethod_Description</DataField>
+        </Field>
+        <Field Name="CompanyInfo_Name">
+          <DataField>CompanyInfo_Name</DataField>
+        </Field>
+        <Field Name="CompanyInfo_Address">
+          <DataField>CompanyInfo_Address</DataField>
+        </Field>
+        <Field Name="CompanyInfo_PostCode">
+          <DataField>CompanyInfo_PostCode</DataField>
+        </Field>
+        <Field Name="CompanyInfo_City">
+          <DataField>CompanyInfo_City</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Signature_Name_">
+          <DataField>CompanyInfo__Signature_Name_</DataField>
+        </Field>
+        <Field Name="CompanyInfo_Picture">
+          <DataField>CompanyInfo_Picture</DataField>
+        </Field>
+        <Field Name="CompanyInfo_PhoneNo">
+          <DataField>CompanyInfo_PhoneNo</DataField>
+        </Field>
+        <Field Name="CompanyInfo_FaxNo">
+          <DataField>CompanyInfo_FaxNo</DataField>
+        </Field>
+        <Field Name="CompanyInfo_CEO1">
+          <DataField>CompanyInfo_CEO1</DataField>
+        </Field>
+        <Field Name="CompanyInfo_CEO2">
+          <DataField>CompanyInfo_CEO2</DataField>
+        </Field>
+        <Field Name="CompanyInfo_CEO3">
+          <DataField>CompanyInfo_CEO3</DataField>
+        </Field>
+        <Field Name="CompanyInfo_CommercialRegister">
+          <DataField>CompanyInfo_CommercialRegister</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Bank_Name_">
+          <DataField>CompanyInfo__Bank_Name_</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Bank_Account_No__">
+          <DataField>CompanyInfo__Bank_Account_No__</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Bank_Branch_No__">
+          <DataField>CompanyInfo__Bank_Branch_No__</DataField>
+        </Field>
+        <Field Name="FORMAT__Purchase_Header___Document_Date__0_7_">
+          <DataField>FORMAT__Purchase_Header___Document_Date__0_7_</DataField>
+        </Field>
+        <Field Name="FORMAT__Purchase_Header___Due_Date__0_7_">
+          <DataField>FORMAT__Purchase_Header___Due_Date__0_7_</DataField>
+        </Field>
+        <Field Name="FORMAT__Purchase_Header___Requested_Receipt_Date__0_7_">
+          <DataField>FORMAT__Purchase_Header___Requested_Receipt_Date__0_7_</DataField>
+        </Field>
+        <Field Name="CountryFrom">
+          <DataField>CountryFrom</DataField>
+        </Field>
+        <Field Name="CountryTo">
+          <DataField>CountryTo</DataField>
+        </Field>
+        <Field Name="CountrySold">
+          <DataField>CountrySold</DataField>
+        </Field>
+        <Field Name="PerCaption">
+          <DataField>PerCaption</DataField>
+        </Field>
+        <Field Name="VATNoText">
+          <DataField>VATNoText</DataField>
+        </Field>
+        <Field Name="VATRegistrationNoCaption">
+          <DataField>VATRegistrationNoCaption</DataField>
+        </Field>
+        <Field Name="Purchase_Header_VAT_Registration_No__">
+          <DataField>Purchase_Header_VAT_Registration_No__</DataField>
+        </Field>
+        <Field Name="PurchaserText">
+          <DataField>PurchaserText</DataField>
+        </Field>
+        <Field Name="SalesPurchPerson_Name">
+          <DataField>SalesPurchPerson_Name</DataField>
+        </Field>
+        <Field Name="Purchase_Header___No__">
+          <DataField>Purchase_Header___No__</DataField>
+        </Field>
+        <Field Name="ReferenceText">
+          <DataField>ReferenceText</DataField>
+        </Field>
+        <Field Name="Purchase_Header___Your_Reference_">
+          <DataField>Purchase_Header___Your_Reference_</DataField>
+        </Field>
+        <Field Name="CompanyAddr_5_">
+          <DataField>CompanyAddr_5_</DataField>
+        </Field>
+        <Field Name="CompanyAddr_6_">
+          <DataField>CompanyAddr_6_</DataField>
+        </Field>
+        <Field Name="Purchase_Header___Buy_from_Vendor_No__">
+          <DataField>Purchase_Header___Buy_from_Vendor_No__</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_1_">
+          <DataField>BuyFromAddr_1_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_2_">
+          <DataField>BuyFromAddr_2_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_3_">
+          <DataField>BuyFromAddr_3_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_4_">
+          <DataField>BuyFromAddr_4_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_5_">
+          <DataField>BuyFromAddr_5_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_6_">
+          <DataField>BuyFromAddr_6_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_7_">
+          <DataField>BuyFromAddr_7_</DataField>
+        </Field>
+        <Field Name="BuyFromAddr_8_">
+          <DataField>BuyFromAddr_8_</DataField>
+        </Field>
+        <Field Name="Purchase_Header___Prices_Including_VAT_">
+          <DataField>Purchase_Header___Prices_Including_VAT_</DataField>
+        </Field>
+        <Field Name="OutputNo">
+          <DataField>OutputNo</DataField>
+        </Field>
+        <Field Name="Purchase_Header___VAT_Base_Discount___">
+          <DataField>Purchase_Header___VAT_Base_Discount___</DataField>
+        </Field>
+        <Field Name="Purchase_Header___VAT_Base_Discount___Format">
+          <DataField>Purchase_Header___VAT_Base_Discount___Format</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromContact">
+          <DataField>Purchase_Header_BuyFromContact</DataField>
+        </Field>
+        <Field Name="PricesInclVATtxt">
+          <DataField>PricesInclVATtxt</DataField>
+        </Field>
+        <Field Name="ShowInternalInfo">
+          <DataField>ShowInternalInfo</DataField>
+        </Field>
+        <Field Name="PageLoop_Number">
+          <DataField>PageLoop_Number</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Phone_No__Caption">
+          <DataField>CompanyInfo__Phone_No__Caption</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Fax_No__Caption">
+          <DataField>CompanyInfo__Fax_No__Caption</DataField>
+        </Field>
+        <Field Name="CompanyInfo__VAT_Registration_No__Caption">
+          <DataField>CompanyInfo__VAT_Registration_No__Caption</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Giro_No__Caption">
+          <DataField>CompanyInfo__Giro_No__Caption</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Bank_Name_Caption">
+          <DataField>CompanyInfo__Bank_Name_Caption</DataField>
+        </Field>
+        <Field Name="CompanyInfo__Bank_Account_No__Caption">
+          <DataField>CompanyInfo__Bank_Account_No__Caption</DataField>
+        </Field>
+        <Field Name="Order_No_Caption">
+          <DataField>Order_No_Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Header___Buy_from_Vendor_No__Caption">
+          <DataField>Purchase_Header___Buy_from_Vendor_No__Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Header___Prices_Including_VAT_Caption">
+          <DataField>Purchase_Header___Prices_Including_VAT_Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Header_Shipment_Method_Code">
+          <DataField>Purchase_Header_Shipment_Method_Code</DataField>
+        </Field>
+        <Field Name="TelNo">
+          <DataField>TelNo</DataField>
+        </Field>
+        <Field Name="FaxNo">
+          <DataField>FaxNo</DataField>
+        </Field>
+        <Field Name="PageCaption">
+          <DataField>PageCaption</DataField>
+        </Field>
+        <Field Name="fromCaption">
+          <DataField>fromCaption</DataField>
+        </Field>
+        <Field Name="toCaption">
+          <DataField>toCaption</DataField>
+        </Field>
+        <Field Name="Shipped_To__Caption">
+          <DataField>Shipped_To__Caption</DataField>
+        </Field>
+        <Field Name="Sold_To__Caption">
+          <DataField>Sold_To__Caption</DataField>
+        </Field>
+        <Field Name="Attn___Caption">
+          <DataField>Attn___Caption</DataField>
+        </Field>
+        <Field Name="DateCaption">
+          <DataField>DateCaption</DataField>
+        </Field>
+        <Field Name="Due_DateCaption">
+          <DataField>Due_DateCaption</DataField>
+        </Field>
+        <Field Name="Tel_No___Caption">
+          <DataField>Tel_No___Caption</DataField>
+        </Field>
+        <Field Name="P_S___Caption">
+          <DataField>P_S___Caption</DataField>
+        </Field>
+        <Field Name="Account_No___Caption">
+          <DataField>Account_No___Caption</DataField>
+        </Field>
+        <Field Name="YourReferenceCaption">
+          <DataField>YourReferenceCaption</DataField>
+        </Field>
+        <Field Name="TradeTermsCaption">
+          <DataField>TradeTermsCaption</DataField>
+        </Field>
+        <Field Name="PaymentTermsCaption">
+          <DataField>PaymentTermsCaption</DataField>
+        </Field>
+        <Field Name="FaxNoCaption">
+          <DataField>FaxNoCaption</DataField>
+        </Field>
+        <Field Name="RemarkText">
+          <DataField>RemarkText</DataField>
+        </Field>
+        <Field Name="SignCompanyStamp">
+          <DataField>SignCompanyStamp</DataField>
+        </Field>
+        <Field Name="AuthorisedSignatures">
+          <DataField>AuthorisedSignatures</DataField>
+        </Field>
+        <Field Name="CeoText">
+          <DataField>CeoText</DataField>
+        </Field>
+        <Field Name="CommercialRegisterCaption">
+          <DataField>CommercialRegisterCaption</DataField>
+        </Field>
+        <Field Name="VatRegistrationNoText">
+          <DataField>VatRegistrationNoText</DataField>
+        </Field>
+        <Field Name="LocationCodeText">
+          <DataField>LocationCodeText</DataField>
+        </Field>
+        <Field Name="FiscalRepresentative">
+          <DataField>FiscalRepresentative</DataField>
+        </Field>
+        <Field Name="BankText">
+          <DataField>BankText</DataField>
+        </Field>
+        <Field Name="IBANText">
+          <DataField>IBANText</DataField>
+        </Field>
+        <Field Name="PaymentTerms_Description">
+          <DataField>PaymentTerms_Description</DataField>
+        </Field>
+        <Field Name="Purchase_Header_Customer_name">
+          <DataField>Purchase_Header_Customer_name</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromPostCode">
+          <DataField>Purchase_Header_BuyFromPostCode</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromCity">
+          <DataField>Purchase_Header_BuyFromCity</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromAddress2">
+          <DataField>Purchase_Header_BuyFromAddress2</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromAddress">
+          <DataField>Purchase_Header_BuyFromAddress</DataField>
+        </Field>
+        <Field Name="Purchase_Header_BuyFromVendorName">
+          <DataField>Purchase_Header_BuyFromVendorName</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToAddress">
+          <DataField>Purchase_Header_ShipToAddress</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToAddress2">
+          <DataField>Purchase_Header_ShipToAddress2</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToName">
+          <DataField>Purchase_Header_ShipToName</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToCity">
+          <DataField>Purchase_Header_ShipToCity</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToPostCode">
+          <DataField>Purchase_Header_ShipToPostCode</DataField>
+        </Field>
+        <Field Name="Purchase_Header_ShipToContact">
+          <DataField>Purchase_Header_ShipToContact</DataField>
+        </Field>
+        <Field Name="VATRegNo_Location">
+          <DataField>VATRegNo_Location</DataField>
+        </Field>
+        <Field Name="PhoneNo_Location">
+          <DataField>PhoneNo_Location</DataField>
+        </Field>
+        <Field Name="DimText">
+          <DataField>DimText</DataField>
+        </Field>
+        <Field Name="DimText_Control72">
+          <DataField>DimText_Control72</DataField>
+        </Field>
+        <Field Name="DimensionLoop1_Number">
+          <DataField>DimensionLoop1_Number</DataField>
+        </Field>
+        <Field Name="Header_DimensionsCaption">
+          <DataField>Header_DimensionsCaption</DataField>
+        </Field>
+        <Field Name="PurchLine_AutoNo">
+          <DataField>PurchLine_AutoNo</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount_">
+          <DataField>PurchLine__Line_Amount_</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount_Format">
+          <DataField>PurchLine__Line_Amount_Format</DataField>
+        </Field>
+        <Field Name="Purchase_Line__Description">
+          <DataField>Purchase_Line__Description</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_No__">
+          <DataField>Purchase_Line___Line_No__</DataField>
+        </Field>
+        <Field Name="Purchase_Line___CustomerItem_No__">
+          <DataField>Purchase_Line___CustomerItem_No__</DataField>
+        </Field>
+        <Field Name="AllowInvDisctxt">
+          <DataField>AllowInvDisctxt</DataField>
+        </Field>
+        <Field Name="Purchase_Line__Type">
+          <DataField>Purchase_Line__Type</DataField>
+        </Field>
+        <Field Name="Purchase_Line___No__">
+          <DataField>Purchase_Line___No__</DataField>
+        </Field>
+        <Field Name="Purchase_Line__Description_Control63">
+          <DataField>Purchase_Line__Description_Control63</DataField>
+        </Field>
+        <Field Name="Purchase_Line__Quantity">
+          <DataField>Purchase_Line__Quantity</DataField>
+        </Field>
+        <Field Name="Purchase_Line__QuantityFormat">
+          <DataField>Purchase_Line__QuantityFormat</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Unit_of_Measure_">
+          <DataField>Purchase_Line___Unit_of_Measure_</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Direct_Unit_Cost_">
+          <DataField>Purchase_Line___Direct_Unit_Cost_</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Direct_Unit_Cost_Format">
+          <DataField>Purchase_Line___Direct_Unit_Cost_Format</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_Discount___">
+          <DataField>Purchase_Line___Line_Discount___</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_Discount___Format">
+          <DataField>Purchase_Line___Line_Discount___Format</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_Amount_">
+          <DataField>Purchase_Line___Line_Amount_</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_Amount_Format">
+          <DataField>Purchase_Line___Line_Amount_Format</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Allow_Invoice_Disc__">
+          <DataField>Purchase_Line___Allow_Invoice_Disc__</DataField>
+        </Field>
+        <Field Name="Purchase_Line___VAT_Identifier_">
+          <DataField>Purchase_Line___VAT_Identifier_</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__Control77">
+          <DataField>PurchLine__Line_Amount__Control77</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__Control77Format">
+          <DataField>PurchLine__Line_Amount__Control77Format</DataField>
+        </Field>
+        <Field Name="PurchLine__Inv__Discount_Amount_">
+          <DataField>PurchLine__Inv__Discount_Amount_</DataField>
+        </Field>
+        <Field Name="PurchLine__Inv__Discount_Amount_Format">
+          <DataField>PurchLine__Inv__Discount_Amount_Format</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__Control109">
+          <DataField>PurchLine__Line_Amount__Control109</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__Control109Format">
+          <DataField>PurchLine__Line_Amount__Control109Format</DataField>
+        </Field>
+        <Field Name="TotalText">
+          <DataField>TotalText</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount_">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount_</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount_Format">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount_Format</DataField>
+        </Field>
+        <Field Name="TotalInclVATText">
+          <DataField>TotalInclVATText</DataField>
+        </Field>
+        <Field Name="VATAmountLine_VATAmountText">
+          <DataField>VATAmountLine_VATAmountText</DataField>
+        </Field>
+        <Field Name="VATAmount">
+          <DataField>VATAmount</DataField>
+        </Field>
+        <Field Name="VATAmountFormat">
+          <DataField>VATAmountFormat</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount____VATAmount">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount____VATAmount</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount____VATAmountFormat">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount____VATAmountFormat</DataField>
+        </Field>
+        <Field Name="TotalExclVATText">
+          <DataField>TotalExclVATText</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount__Control147">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount__Control147</DataField>
+        </Field>
+        <Field Name="PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount__Control147Format">
+          <DataField>PurchLine__Line_Amount__PurchLine__Inv__Discount_Amount__Control147Format</DataField>
+        </Field>
+        <Field Name="VATDiscountAmount">
+          <DataField>VATDiscountAmount</DataField>
+        </Field>
+        <Field Name="VATDiscountAmountFormat">
+          <DataField>VATDiscountAmountFormat</DataField>
+        </Field>
+        <Field Name="VATAmountLine_VATAmountText_Control32">
+          <DataField>VATAmountLine_VATAmountText_Control32</DataField>
+        </Field>
+        <Field Name="TotalExclVATText_Control51">
+          <DataField>TotalExclVATText_Control51</DataField>
+        </Field>
+        <Field Name="TotalInclVATText_Control69">
+          <DataField>TotalInclVATText_Control69</DataField>
+        </Field>
+        <Field Name="VATBaseAmount">
+          <DataField>VATBaseAmount</DataField>
+        </Field>
+        <Field Name="VATBaseAmountFormat">
+          <DataField>VATBaseAmountFormat</DataField>
+        </Field>
+        <Field Name="VATAmount_Control83">
+          <DataField>VATAmount_Control83</DataField>
+        </Field>
+        <Field Name="VATAmount_Control83Format">
+          <DataField>VATAmount_Control83Format</DataField>
+        </Field>
+        <Field Name="TotalAmountInclVAT">
+          <DataField>TotalAmountInclVAT</DataField>
+        </Field>
+        <Field Name="TotalAmountInclVATFormat">
+          <DataField>TotalAmountInclVATFormat</DataField>
+        </Field>
+        <Field Name="RoundLoop_Number">
+          <DataField>RoundLoop_Number</DataField>
+        </Field>
+        <Field Name="TotalSubTotal">
+          <DataField>TotalSubTotal</DataField>
+        </Field>
+        <Field Name="TotalSubTotalFormat">
+          <DataField>TotalSubTotalFormat</DataField>
+        </Field>
+        <Field Name="TotalInvoiceDiscountAmount">
+          <DataField>TotalInvoiceDiscountAmount</DataField>
+        </Field>
+        <Field Name="TotalInvoiceDiscountAmountFormat">
+          <DataField>TotalInvoiceDiscountAmountFormat</DataField>
+        </Field>
+        <Field Name="TotalAmount">
+          <DataField>TotalAmount</DataField>
+        </Field>
+        <Field Name="TotalAmountFormat">
+          <DataField>TotalAmountFormat</DataField>
+        </Field>
+        <Field Name="Purchase_Line___No__Caption">
+          <DataField>Purchase_Line___No__Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Line__Description_Control63Caption">
+          <DataField>Purchase_Line__Description_Control63Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Line__QuantityCaption">
+          <DataField>Purchase_Line__QuantityCaption</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Unit_of_Measure_Caption">
+          <DataField>Purchase_Line___Unit_of_Measure_Caption</DataField>
+        </Field>
+        <Field Name="Direct_Unit_CostCaption">
+          <DataField>Direct_Unit_CostCaption</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Line_Discount___Caption">
+          <DataField>Purchase_Line___Line_Discount___Caption</DataField>
+        </Field>
+        <Field Name="AmountCaption">
+          <DataField>AmountCaption</DataField>
+        </Field>
+        <Field Name="Purchase_Line___Allow_Invoice_Disc__Caption">
+          <DataField>Purchase_Line___Allow_Invoice_Disc__Caption</DataField>
+        </Field>
+        <Field Name="Purchase_Line___VAT_Identifier_Caption">
+          <DataField>Purchase_Line___VAT_Identifier_Caption</DataField>
+        </Field>
+        <Field Name="ContinuedCaption">
+          <DataField>ContinuedCaption</DataField>
+        </Field>
+        <Field Name="ContinuedCaption_Control76">
+          <DataField>ContinuedCaption_Control76</DataField>
+        </Field>
+        <Field Name="PurchLine__Inv__Discount_Amount_Caption">
+          <DataField>PurchLine__Inv__Discount_Amount_Caption</DataField>
+        </Field>
+        <Field Name="SubtotalCaption">
+          <DataField>SubtotalCaption</DataField>
+        </Field>
+        <Field Name="VATDiscountAmountCaption">
+          <DataField>VATDiscountAmountCaption</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Line_No">
+          <DataField>Purchase_Line_Line_No</DataField>
+        </Field>
+        <Field Name="PartsNoCaption">
+          <DataField>PartsNoCaption</DataField>
+        </Field>
+        <Field Name="Unit_PriceCaption">
+          <DataField>Unit_PriceCaption</DataField>
+        </Field>
+        <Field Name="NoCaption">
+          <DataField>NoCaption</DataField>
+        </Field>
+        <Field Name="ItemCounterText">
+          <DataField>ItemCounterText</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Parts_No">
+          <DataField>Purchase_Line_Parts_No</DataField>
+        </Field>
+        <Field Name="DescriptionCaption">
+          <DataField>DescriptionCaption</DataField>
+        </Field>
+        <Field Name="QuantityCaption">
+          <DataField>QuantityCaption</DataField>
+        </Field>
+        <Field Name="Req_receipt_date1">
+          <DataField>Req_receipt_date1</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Amount_Including_VAT">
+          <DataField>Purchase_Line_Amount_Including_VAT</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Amount_Including_VATFormat">
+          <DataField>Purchase_Line_Amount_Including_VATFormat</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Amount_excluding_VAT">
+          <DataField>Purchase_Line_Amount_excluding_VAT</DataField>
+        </Field>
+        <Field Name="Purchase_Line_Amount_excluding_VATFormat">
+          <DataField>Purchase_Line_Amount_excluding_VATFormat</DataField>
+        </Field>
+        <Field Name="CurCode">
+          <DataField>CurCode</DataField>
+        </Field>
+        <Field Name="TOTALCaption">
+          <DataField>TOTALCaption</DataField>
+        </Field>
+        <Field Name="DimText_Control74">
+          <DataField>DimText_Control74</DataField>
+        </Field>
+        <Field Name="DimensionLoop2_Number">
+          <DataField>DimensionLoop2_Number</DataField>
+        </Field>
+        <Field Name="Line_DimensionsCaption">
+          <DataField>Line_DimensionsCaption</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
