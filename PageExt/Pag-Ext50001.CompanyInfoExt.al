@@ -1,4 +1,4 @@
-pageextension 50001 "Pag-Ext50001.CompanyInfoExt" extends "Company Information"
+pageextension 50001 "CompanyInfoExt" extends "Company Information"
 {
 
     layout

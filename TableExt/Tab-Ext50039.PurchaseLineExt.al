@@ -71,6 +71,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         {
             Description = '//20101009';
 
+            trigger OnValidate()
+            begin
+                TestStatusOpen();
+            end;
         }
         field(50510; "Message Status"; Option)
         {
@@ -131,6 +135,13 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         field(50534; "Requested Receipt Date_1"; Date)
         {
 
+            trigger OnValidate()
+            begin
+                IF "Expected Receipt Date" = 0D THEN BEGIN
+                    VALIDATE("Reporting Receipt Date", "Requested Receipt Date_1");
+                    "Use Expected Receipt Date" := FALSE;
+                END;
+            end;
         }
         field(50535; "Reporting Receipt Date"; Date)
         {
@@ -265,6 +276,41 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         modify("Description 2")
         {
             Caption = 'Release No.';
+        }
+        modify(Quantity)
+        {
+            trigger OnAfterValidate()
+            var
+                InvtSetup: Record "Inventory Setup";
+                Item: Record "Item";
+                QtyEval: Decimal;
+            begin
+
+                //+HW20091109
+                InvtSetup.GET();
+                Item := GetItem();
+                IF (InvtSetup."Max. PO Quantity Restriction") AND (Item."Purch. Order Quantity Limit" <> 0) THEN BEGIN
+                    IF Rec.Quantity > Item."Purch. Order Quantity Limit" THEN
+                        IF NOT CONFIRM(Text113, FALSE, Item."Purch. Order Quantity Limit") THEN
+                            ERROR('');
+                END;
+                //-
+
+                // Siak 25Nov2009
+                IF (Type = Type::Item) AND (Quantity <> 0) THEN BEGIN
+                    IF Item.GET("No.") THEN BEGIN
+                        IF Item."Order Multiple" <> 0 THEN BEGIN
+                            QtyEval := Quantity / Item."Order Multiple";
+                            QtyEval := ROUND(QtyEval, 1, '>');
+                            IF QtyEval <> Quantity / Item."Order Multiple" THEN BEGIN
+                                MESSAGE(Text102, FORMAT(Quantity), FORMAT(Item."Order Multiple"));
+                            END;
+                        END;
+                    END;
+                END;
+                // Siak - END
+
+            end;
         }
     }
 
@@ -410,5 +456,8 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         Item: Record Item;
         PurchHeader: Record "Purchase Header";
         PurchLine2: Record "Purchase Line";
+
+        Text113: Label 'Quantity exceeds the Maximum Purch. Order Quantity Limit : ''%1'', Do you want to proceed?';
+        Text102: Label 'Quantity entered : %1  is not multiple of standard pack : %2 ';
 
 }
