@@ -29,6 +29,7 @@ report 50000 "Sales Invoice BBN"
     // ********************************************************************************
     // CS038 Kenya 2022/02/15 - HEE Sales Invoice Enhancement
     // CS083 Bobby 2024/09/27 - Change the layout of the print screen of NAV HEE
+    // CS092 FDD R034 Channing.Zhou 2025/7/8 - Upgrade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Invoice BBN.rdlc';
 
@@ -57,10 +58,10 @@ report 50000 "Sales Invoice BBN"
                     column(Sales_Invoice_Header___No__; "Sales Invoice Header"."No.")
                     {
                     }
-                    column(FORMAT__Sales_Invoice_Header___Document_Date__0_7_; FORMAT("Sales Invoice Header"."Posting Date", 0, 7))
+                    column(FORMAT__Sales_Invoice_Header___Document_Date__0_7_; FORMAT("Sales Invoice Header"."Posting Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
-                    column(FORMAT__Sales_Invoice_Header___Due_Date__0_7_; FORMAT("Sales Invoice Header"."Due Date", 0, 7))
+                    column(FORMAT__Sales_Invoice_Header___Due_Date__0_7_; FORMAT("Sales Invoice Header"."Due Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
                     column(ShipmentMethod_Description; ShipmentMethod.Description)
@@ -1161,13 +1162,13 @@ report 50000 "Sales Invoice BBN"
         LocationCodeText: Text[256];
         FiscalRepresentativeText: Label 'Fiscal Representative:';
         CEOText: Text[256];
-        Bank: Label '';
-        IBAN: Label '';
+        Bank: Label '%1 Account No.: %2     BLZ: %3';
+        IBAN: Label 'IBAN: %1    sWIFT: %2';
         BANKText: Text[256];
         IBANText: Text[256];
         ItemCounter: Integer;
         ItemCounterText: Text[256];
-        QuantityCaption: Label '';
+        QuantityCaption: Label 'Quantity';
         VATBaseCaptionLbl: Label 'Sub Total';
         VATAmountCaptionLbl: Label 'VAT';
         AmountInclVATCaptionLbl: Label 'Total';

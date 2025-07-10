@@ -1,7 +1,7 @@
 report 50017 "Sales Order US"
 {
     // CS020 Yuki 2021/07/12 - Modify Send Via in SO Confirmation for HA
-    // CS092 Channing.Zhou 2025/7/2 - Upgade to the BC version
+    // CS092 FDD R013 Channing.Zhou 2025/7/2 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Order US.rdlc';
 

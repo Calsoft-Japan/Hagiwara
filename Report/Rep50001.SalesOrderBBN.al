@@ -8,6 +8,7 @@ report 50001 "Sales Order BBN"
     // 02, 27.05.2014, CKR
     // - Fixed several layout bugs
     // - Dynamics footer & header
+    // CS092 FDD R035 7/9/2025 Channing.Zhou Upgrade to BC version
     // ********************************************************************************
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Sales Order BBN.rdlc';
@@ -38,10 +39,10 @@ report 50001 "Sales Order BBN"
                     column(Sales_Header___No__; "Sales Header"."No.")
                     {
                     }
-                    column(FORMAT__Sales_Header___Document_Date__0_7_; FORMAT("Sales Header"."Document Date", 0, 7))
+                    column(FORMAT__Sales_Header___Document_Date__0_7_; FORMAT("Sales Header"."Document Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
-                    column(FORMAT__Sales_Header___Due_Date__0_7_; FORMAT("Sales Header"."Due Date", 0, 7))
+                    column(FORMAT__Sales_Header___Due_Date__0_7_; FORMAT("Sales Header"."Due Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
                     column(ShipmentMethod_Description; ShipmentMethod.Description)
@@ -1046,13 +1047,13 @@ report 50001 "Sales Order BBN"
         CEO: Label 'CEO: %1, %2, %3';
         CommercialRegister: Label 'Commercial Register:';
         FiscalRepresentative: Label 'Fiscal representative: NEC Logistics Europe B.V.    Hoeksteen 26, 2132 MS Hoofddrorp, Netherlands    VAT ID No.: NL8105 86 836 B01';
-        Bank: Label '';
-        IBAN: Label '';
+        Bank: Label '%1    Account No.: %2    BLZ: %3';
+        IBAN: Label 'IBAN: %1    SWIFT: %2';
         BANKText: Text[256];
         IBANText: Text[256];
         ItemCounter: Integer;
         ItemCounterText: Text[256];
-        QuantityCaption: Label '';
+        QuantityCaption: Label 'Quantity';
 
     procedure InitLogInteraction()
     begin

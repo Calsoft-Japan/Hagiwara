@@ -21,6 +21,7 @@ report 50011 "Purchase Order BBN"
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
     // CS070 Bobby 2024/02/01 - Fix bug of CS064
     // CS083 Bobby 2024/09/27 - Change the layout of the print screen of NAV HEE
+    // CS092 Channing.Zhou 2025/07/10 - Upgrade to BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Purchase Order BBN.rdlc';
 
@@ -106,10 +107,10 @@ report 50011 "Purchase Order BBN"
                     column(CompanyInfo__Bank_Branch_No__; CompanyInfo."Bank Branch No.")
                     {
                     }
-                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, 4))
+                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
-                    column(FORMAT__Purchase_Header___Due_Date__0_7_; FORMAT("Purchase Header"."Due Date", 0, 4))
+                    column(FORMAT__Purchase_Header___Due_Date__0_7_; FORMAT("Purchase Header"."Due Date", 0, '<Day>. <Month text,3> <Year4>'))
                     {
                     }
                     column(FORMAT__Purchase_Header___Requested_Receipt_Date__0_7_; FORMAT("Purchase Header"."Requested Receipt Date", 0, 4))
@@ -1367,8 +1368,8 @@ report 50011 "Purchase Order BBN"
         CEO: Label 'CEO: %1, %2, %3';
         CommercialRegister: Label 'Commercial Register:';
         FiscalRepresentativeText: Label 'Fiscal representative:%1    VAT ID No.: %2';
-        Bank: Label '';
-        IBAN: Label '';
+        Bank: Label '%1    Account No.: %2    BLZ: %3';
+        IBAN: Label 'IBAN: %1    SWIFT: %2';
         VatRegistrationNoText: Text[50];
         LocationCodeText: Text[256];
         CEOText: Text[256];
@@ -1389,7 +1390,7 @@ report 50011 "Purchase Order BBN"
         Tax_InvoiceCaptionLbl: Label 'Purchase Order';
         PerCaptionLbl: Label 'Per';
         DescriptionCaption: Label '';
-        QuantityCaption: Label '';
+        QuantityCaption: Label 'Quantity';
         Location: Record Location;
         FiscalRepresentative: Text[250];
         VATBusinessPostingGroup: Record "VAT Business Posting Group";

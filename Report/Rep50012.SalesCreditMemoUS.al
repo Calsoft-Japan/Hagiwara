@@ -487,7 +487,7 @@ report 50012 "Sales Credit Memo US"
         FormatDocument.SetLogoPosition(SalesSetup."Logo Position on Documents", CompanyInfo1, CompanyInfo2, CompanyInfo3);
 
 
-        PrintCompany := false;
+        PrintCompany := true;
 
         IF PrintCompany THEN
             FormatAddress.Company(CompanyAddress, CompanyInfo)

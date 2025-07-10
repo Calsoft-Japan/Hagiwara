@@ -1,6 +1,7 @@
 report 50019 "Customer Statement US"
 {
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
+    // CS092 FDD R014 Channing.Zhou 07/03/2025 - Upgrade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Customer Statement US.rdlc';
 
