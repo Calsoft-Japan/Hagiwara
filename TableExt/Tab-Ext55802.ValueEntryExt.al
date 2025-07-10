@@ -2,12 +2,13 @@ tableextension 55802 "Value Entry Ext" extends "Value Entry"
 {
     fields
     {
-        /* field(50000; "Item Description"; Text[80])
+        field(50000; "ItemDesc"; Text[100])
         {
             FieldClass = FlowField;
             CalcFormula = Lookup(Item.Description WHERE("No." = FIELD("Item No.")));
+            Description = 'This field was previously referred to as "Item Description.';
             // cleaned
-        } */
+        }
         field(50001; "Customer Item No."; Code[50])
         {
             FieldClass = FlowField;
