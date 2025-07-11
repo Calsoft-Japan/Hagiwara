@@ -1760,7 +1760,7 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.87245cm</Top>
             <Height>2.45337cm</Height>
-            <Width>20.33615cm</Width>
+            <Width>20.33616cm</Width>
             <Style />
           </Tablix>
           <Tablix Name="table2">
@@ -1879,7 +1879,7 @@
         <Height>3.32582cm</Height>
         <Style />
       </Body>
-      <Width>20.33615cm</Width>
+      <Width>20.33616cm</Width>
       <Page>
         <PageHeader>
           <Height>1.692cm</Height>
@@ -1898,13 +1898,15 @@
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>0.423cm</Top>
-              <Left>17.146cm</Left>
+              <Top>0.41242cm</Top>
+              <Left>18.94666cm</Left>
               <Height>0.423cm</Height>
-              <Width>2.655cm</Width>
+              <Width>1.30434cm</Width>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
               </Visibility>

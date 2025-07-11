@@ -653,7 +653,7 @@ report 50008 "Detail Customer Ledger"
         Caption_Control1000000139Lbl: Label '年';
         G_L_AccountCaptionLbl: Label 'G/L Account';
         ExplanationCaptionLbl: Label 'Explanation';
-        S________CaptionLbl: Label '摘        ­要';
+        S________CaptionLbl: Label '摘       要';
         S_CaptionLbl: Label '-';
         CUTCaptionLbl: Label '编号';
         VoucherCaptionLbl: Label 'Voucher';
@@ -662,7 +662,7 @@ report 50008 "Detail Customer Ledger"
         CustomerCaptionLbl: Label 'Customer';
         MCaptionLbl: Label 'M';
         For__Curr__CaptionLbl: Label '外币 For. Curr.';
-        Caption_Control1000000176Lbl: Label '外币­';
+        Caption_Control1000000176Lbl: Label '外币';
         Caption_Control1000000177Lbl: Label '汇率';
         Ex__Rt_CaptionLbl: Label 'Ex. Rt.';
         Curr_CaptionLbl: Label 'Curr.';

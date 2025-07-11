@@ -5028,6 +5028,36 @@ End Function
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>
         </Field>
+        <Field Name="CompanyPicture">
+          <DataField>CompanyPicture</DataField>
+        </Field>
+        <Field Name="CompanyName">
+          <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyAddr1">
+          <DataField>CompanyAddr1</DataField>
+        </Field>
+        <Field Name="CompanyAddr2">
+          <DataField>CompanyAddr2</DataField>
+        </Field>
+        <Field Name="CompanyAddr3">
+          <DataField>CompanyAddr3</DataField>
+        </Field>
+        <Field Name="CompanyAddr4">
+          <DataField>CompanyAddr4</DataField>
+        </Field>
+        <Field Name="CompanyAddr5">
+          <DataField>CompanyAddr5</DataField>
+        </Field>
+        <Field Name="CompanyAddr6">
+          <DataField>CompanyAddr6</DataField>
+        </Field>
+        <Field Name="CompanyAddr7">
+          <DataField>CompanyAddr7</DataField>
+        </Field>
+        <Field Name="CompanyAddr8">
+          <DataField>CompanyAddr8</DataField>
+        </Field>
         <Field Name="HdrAddrLine1">
           <DataField>HdrAddrLine1</DataField>
         </Field>
