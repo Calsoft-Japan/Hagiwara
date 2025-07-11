@@ -1163,7 +1163,7 @@ report 50000 "Sales Invoice BBN"
         FiscalRepresentativeText: Label 'Fiscal Representative:';
         CEOText: Text[256];
         Bank: Label '%1 Account No.: %2     BLZ: %3';
-        IBAN: Label 'IBAN: %1    sWIFT: %2';
+        IBAN: Label 'IBAN: %1    SWIFT: %2';
         BANKText: Text[256];
         IBANText: Text[256];
         ItemCounter: Integer;
