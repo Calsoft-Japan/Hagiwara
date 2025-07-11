@@ -5,6 +5,11 @@ page 50100 "Value Entry FCY"
     ApplicationArea = All;
     UsageCategory = Lists;
     Caption = 'Value Entries with Foreign Currency';
+    Editable = false;
+    InsertAllowed = false;
+    ModifyAllowed = false;
+    DeleteAllowed = false;
+    //SourceTableView = where("Adjustment" = const(false));
 
     layout
     {
@@ -80,7 +85,7 @@ page 50100 "Value Entry FCY"
                 field("Cost Posted to G/L (ACY)"; Rec."Cost Posted to G/L (ACY)") { }
                 field("Cost Amount (Actual)(ACY)"; Rec."Cost Amount (Actual) (ACY)") { }
 
-                // Virtual fields from calculated logic
+                // Virtual calculated fields
                 field("Currency Code"; CurrencyCode)
                 {
                     ApplicationArea = All;
@@ -105,37 +110,19 @@ page 50100 "Value Entry FCY"
         }
     }
 
-    var
-        CurrencyCode: Code[10];
-        UnitCostLCY: Decimal;
-        UnitPriceLCY: Decimal;
-        AmountFCY: Decimal;
-        PostedSalesInvHdr: Record "Sales Invoice Header";
-        PostedSalesInvLine: Record "Sales Invoice Line";
-        SalesCrMemoHeader: Record "Sales Cr.Memo Header";
-        SalesCrMemoLine: Record "Sales Cr.Memo Line";
-        PurchInvHeader: Record "Purch. Inv. Header";
-        PurchInvLine: Record "Purch. Inv. Line";
-        PurchCrMemoHeader: Record "Purch. Cr. Memo Hdr.";
-        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
-
     trigger OnAfterGetRecord()
     begin
-        // Reset calculated fields before applying logic
         Clear(CurrencyCode);
         Clear(UnitCostLCY);
         Clear(UnitPriceLCY);
         Clear(AmountFCY);
 
         case Rec."Document Type" of
-
-            // Case 1: Purchase Invoice
             Enum::"Item Ledger Document Type"::"Purchase Invoice":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Vendor then begin
                         if PurchInvHeader.Get(Rec."Document No.") then begin
                             CurrencyCode := PurchInvHeader."Currency Code";
-
                             if PurchInvLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
                                 UnitCostLCY := PurchInvLine."Direct Unit Cost";
                                 UnitPriceLCY := PurchInvLine."Direct Unit Cost";
@@ -146,7 +133,6 @@ page 50100 "Value Entry FCY"
                     end;
                 end;
 
-            // Case 2: Purchase Credit Memo
             Enum::"Item Ledger Document Type"::"Purchase Credit Memo":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Vendor then begin
@@ -156,15 +142,12 @@ page 50100 "Value Entry FCY"
                         if PurchCrMemoLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
                             UnitCostLCY := PurchCrMemoLine."Unit Cost (LCY)";
                             UnitPriceLCY := PurchCrMemoLine."Unit Price (LCY)";
-                            AmountFCY := PurchInvLine."Unit Price (LCY)"; // as per FDD
-
                             if not Rec.Adjustment then
                                 AmountFCY := PurchCrMemoLine."Line Amount";
                         end;
                     end;
                 end;
 
-            // Case 3: Sales Invoice
             Enum::"Item Ledger Document Type"::"Sales Invoice":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Customer then begin
@@ -173,7 +156,6 @@ page 50100 "Value Entry FCY"
 
                         if PostedSalesInvLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
                             UnitCostLCY := PostedSalesInvLine."Unit Cost";
-
                             if PostedSalesInvHdr."Currency Factor" <> 0 then
                                 UnitPriceLCY := PostedSalesInvLine."Unit Price" / PostedSalesInvHdr."Currency Factor"
                             else
@@ -185,17 +167,13 @@ page 50100 "Value Entry FCY"
                     end;
                 end;
 
-
-            // Case 4: Sales Credit Memo
             Enum::"Item Ledger Document Type"::"Sales Credit Memo":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Customer then begin
                         if SalesCrMemoHeader.Get(Rec."Document No.") then begin
                             CurrencyCode := SalesCrMemoHeader."Currency Code";
-
                             if SalesCrMemoLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
                                 UnitCostLCY := SalesCrMemoLine."Unit Cost (LCY)";
-
                                 if SalesCrMemoHeader."Currency Factor" <> 0 then
                                     UnitPriceLCY := SalesCrMemoLine."Unit Price" / SalesCrMemoHeader."Currency Factor"
                                 else
@@ -209,4 +187,18 @@ page 50100 "Value Entry FCY"
                 end;
         end;
     end;
+
+    var
+        CurrencyCode: Code[10];
+        UnitCostLCY: Decimal;
+        UnitPriceLCY: Decimal;
+        AmountFCY: Decimal;
+        PostedSalesInvHdr: Record "Sales Invoice Header";
+        PostedSalesInvLine: Record "Sales Invoice Line";
+        SalesCrMemoHeader: Record "Sales Cr.Memo Header";
+        SalesCrMemoLine: Record "Sales Cr.Memo Line";
+        PurchInvHeader: Record "Purch. Inv. Header";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchCrMemoHeader: Record "Purch. Cr. Memo Hdr.";
+        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
 }
