@@ -60,7 +60,7 @@ page 50100 "Value Entry FCY"
                 field("Manufacturer Code"; Rec."Manufacturer Code") { }
                 field("Customer Name"; Rec."Customer Name") { }
                 field("Customer No."; Rec."Customer No.") { }
-                field("Item Description"; ItemDescription) { }
+                field("Item Description"; Rec."ItemDesc") { ApplicationArea = all; }
                 field("Return Reason Code"; Rec."Return Reason Code") { }
                 field("No."; Rec."No.") { }
                 field("Type"; Rec."Type") { }
@@ -91,6 +91,28 @@ page 50100 "Value Entry FCY"
                 field("Cost Amount (Actual)(ACY)"; Rec."Cost Amount (Actual) (ACY)") { }
                 field("Gen. Prod. Posting Group"; Rec."Gen. Prod. Posting Group") { }
                 field("Gen. Bus. Posting Group"; Rec."Gen. Bus. Posting Group") { }
+
+                //Virtual fields for calculated values
+                field("Currency Code"; CurrencyCode)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Currency Code';
+                }
+                field("Unit Cost (LCY)"; UnitCostLCY)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Unit Cost (LCY)';
+                }
+                field("Unit Price (LCY)"; UnitPriceLCY)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Unit Price (LCY)';
+                }
+                field("Amount (FCY)"; AmountFCY)
+                {
+                    ApplicationArea = All;
+                    Caption = 'Amount (FCY)';
+                }
             }
         }
     }
@@ -100,8 +122,6 @@ page 50100 "Value Entry FCY"
         UnitCostLCY: Decimal;
         UnitPriceLCY: Decimal;
         AmountFCY: Decimal;
-        Item: Record Item;
-        ItemDescription: Text[100];
 
         SalesHeader: Record "Sales Header";
         SalesLine: Record "Sales Line";
@@ -115,11 +135,6 @@ page 50100 "Value Entry FCY"
         Clear(UnitCostLCY);
         Clear(UnitPriceLCY);
         Clear(AmountFCY);
-
-        // Set Item Description
-        if Rec."Item No." <> '' then
-            if Item.Get(Rec."Item No.") then
-                ItemDescription := Item.Description;
 
         case Rec."Document Type" of
 
