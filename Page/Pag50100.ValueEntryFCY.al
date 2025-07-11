@@ -12,10 +12,6 @@ page 50100 "Value Entry FCY"
         {
             repeater(Group)
             {
-                // Define the fields to be displayed in the list
-                field("Document Type"; Rec."Document Type") { }
-                field("Source Type"; Rec."Source Type") { }
-                field("Entry Type"; Rec."Entry Type") { }
                 field("Entry No."; Rec."Entry No.") { }
                 field("Item No."; Rec."Item No.") { }
                 field("Posting Date"; Rec."Posting Date") { }
@@ -26,6 +22,7 @@ page 50100 "Value Entry FCY"
                 field("Location Code"; Rec."Location Code") { }
                 field("Inventory Posting Group"; Rec."Inventory Posting Group") { }
                 field("Source Posting Group"; Rec."Source Posting Group") { }
+                field("Item Ledger Entry No."; Rec."Item Ledger Entry No.") { }
                 field("Valued Quantity"; Rec."Valued Quantity") { }
                 field("Item Ledger Entry Quantity"; Rec."Item Ledger Entry Quantity") { }
                 field("Invoiced Quantity"; Rec."Invoiced Quantity") { }
@@ -37,32 +34,25 @@ page 50100 "Value Entry FCY"
                 field("Applies-to Entry"; Rec."Applies-to Entry") { }
                 field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code") { }
                 field("Global Dimension 2 Code"; Rec."Global Dimension 2 Code") { }
-                field("Adjustment"; Rec."Adjustment") { }
-                field("Customer Item No."; Rec."Customer Item No.") { }
-                field("Item Ledger Entry No."; Rec."Item Ledger Entry No.") { }
-                field("External Document No."; Rec."External Document No.") { }
-                field("Document Date"; Rec."Document Date") { }
+                field("Source Type"; Rec."Source Type") { }
                 field("Cost Amount (Actual)"; Rec."Cost Amount (Actual)") { }
                 field("Cost Posted to G/L"; Rec."Cost Posted to G/L") { }
-                field("Cost Amount (Non-Invtbl.)"; Rec."Cost Amount (Non-Invtbl.)") { }
-                field("Expected Cost"; Rec."Expected Cost") { }
-                field("Document Line No."; Rec."Document Line No.") { }
-                field("Order No."; Rec."Order No.") { }
-                field("Order Line No."; Rec."Order Line No.") { }
                 field("Reason Code"; Rec."Reason Code") { }
                 field("Drop Shipment"; Rec."Drop Shipment") { }
                 field("Journal Batch Name"; Rec."Journal Batch Name") { }
-                field("Valuation Date"; Rec."Valuation Date") { }
-                field("Vendor familiar name"; Rec."Vendor familiar name") { }
-                field("Customer familiar name"; Rec."Customer familiar name") { }
+                field("Gen. Bus. Posting Group"; Rec."Gen. Bus. Posting Group") { }
+                field("Gen. Prod. Posting Group"; Rec."Gen. Prod. Posting Group") { }
+                field("Document Date"; Rec."Document Date") { }
+                field("External Document No."; Rec."External Document No.") { }
+                field("Return Reason Code"; Rec."Return Reason Code") { }
+                field("Vendor Familiar Name"; Rec."Vendor familiar name") { }
+                field("Customer Familiar Name"; Rec."Customer familiar name") { }
                 field("Vendor Name"; Rec."Vendor Name") { }
                 field("Vendor No."; Rec."Vendor No.") { }
                 field("Manufacturer Code"; Rec."Manufacturer Code") { }
                 field("Customer Name"; Rec."Customer Name") { }
                 field("Customer No."; Rec."Customer No.") { }
                 field("Item Description"; Rec."ItemDesc") { ApplicationArea = all; }
-                field("Return Reason Code"; Rec."Return Reason Code") { }
-                field("No."; Rec."No.") { }
                 field("Type"; Rec."Type") { }
                 field("Capacity Ledger Entry No."; Rec."Capacity Ledger Entry No.") { }
                 field("Average Cost Exception"; Rec."Average Cost Exception") { }
@@ -89,10 +79,8 @@ page 50100 "Value Entry FCY"
                 field("Cost Per Unit (ACY)"; Rec."Cost Per Unit (ACY)") { }
                 field("Cost Posted to G/L (ACY)"; Rec."Cost Posted to G/L (ACY)") { }
                 field("Cost Amount (Actual)(ACY)"; Rec."Cost Amount (Actual) (ACY)") { }
-                field("Gen. Prod. Posting Group"; Rec."Gen. Prod. Posting Group") { }
-                field("Gen. Bus. Posting Group"; Rec."Gen. Bus. Posting Group") { }
 
-                //Virtual fields for calculated values
+                // Virtual fields from calculated logic
                 field("Currency Code"; CurrencyCode)
                 {
                     ApplicationArea = All;
@@ -122,11 +110,14 @@ page 50100 "Value Entry FCY"
         UnitCostLCY: Decimal;
         UnitPriceLCY: Decimal;
         AmountFCY: Decimal;
-
-        SalesHeader: Record "Sales Header";
-        SalesLine: Record "Sales Line";
-        PurchHeader: Record "Purchase Header";
-        PurchLine: Record "Purchase Line";
+        PostedSalesInvHdr: Record "Sales Invoice Header";
+        PostedSalesInvLine: Record "Sales Invoice Line";
+        SalesCrMemoHeader: Record "Sales Cr.Memo Header";
+        SalesCrMemoLine: Record "Sales Cr.Memo Line";
+        PurchInvHeader: Record "Purch. Inv. Header";
+        PurchInvLine: Record "Purch. Inv. Line";
+        PurchCrMemoHeader: Record "Purch. Cr. Memo Hdr.";
+        PurchCrMemoLine: Record "Purch. Cr. Memo Line";
 
     trigger OnAfterGetRecord()
     begin
@@ -142,14 +133,15 @@ page 50100 "Value Entry FCY"
             Enum::"Item Ledger Document Type"::"Purchase Invoice":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Vendor then begin
-                        if PurchHeader.Get(PurchHeader."Document Type"::Invoice, Rec."Document No.") then
-                            CurrencyCode := PurchHeader."Currency Code";
+                        if PurchInvHeader.Get(Rec."Document No.") then begin
+                            CurrencyCode := PurchInvHeader."Currency Code";
 
-                        if PurchLine.Get(PurchLine."Document Type"::Invoice, Rec."Document No.", Rec."Document Line No.") then begin
-                            UnitCostLCY := PurchLine."Direct Unit Cost";
-                            UnitPriceLCY := PurchLine."Direct Unit Cost";
-                            if not Rec.Adjustment then
-                                AmountFCY := PurchLine."Line Amount";
+                            if PurchInvLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
+                                UnitCostLCY := PurchInvLine."Direct Unit Cost";
+                                UnitPriceLCY := PurchInvLine."Direct Unit Cost";
+                                if not Rec.Adjustment then
+                                    AmountFCY := PurchInvLine."Line Amount";
+                            end;
                         end;
                     end;
                 end;
@@ -158,14 +150,16 @@ page 50100 "Value Entry FCY"
             Enum::"Item Ledger Document Type"::"Purchase Credit Memo":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Vendor then begin
-                        if PurchHeader.Get(PurchHeader."Document Type"::"Credit Memo", Rec."Document No.") then
-                            CurrencyCode := PurchHeader."Currency Code";
+                        if PurchCrMemoHeader.Get(Rec."Document No.") then
+                            CurrencyCode := PurchCrMemoHeader."Currency Code";
 
-                        if PurchLine.Get(PurchLine."Document Type"::"Credit Memo", Rec."Document No.", Rec."Document Line No.") then begin
-                            UnitCostLCY := PurchLine."Direct Unit Cost";
-                            UnitPriceLCY := PurchLine."Direct Unit Cost";
+                        if PurchCrMemoLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
+                            UnitCostLCY := PurchCrMemoLine."Unit Cost (LCY)";
+                            UnitPriceLCY := PurchCrMemoLine."Unit Price (LCY)";
+                            AmountFCY := PurchInvLine."Unit Price (LCY)"; // as per FDD
+
                             if not Rec.Adjustment then
-                                AmountFCY := PurchLine."Line Amount";
+                                AmountFCY := PurchCrMemoLine."Line Amount";
                         end;
                     end;
                 end;
@@ -174,38 +168,42 @@ page 50100 "Value Entry FCY"
             Enum::"Item Ledger Document Type"::"Sales Invoice":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Customer then begin
-                        if SalesHeader.Get(SalesHeader."Document Type"::Invoice, Rec."Document No.") then
-                            CurrencyCode := SalesHeader."Currency Code";
+                        if PostedSalesInvHdr.Get(Rec."Document No.") then
+                            CurrencyCode := PostedSalesInvHdr."Currency Code";
 
-                        if SalesLine.Get(SalesLine."Document Type"::Invoice, Rec."Document No.", Rec."Document Line No.") then begin
-                            UnitCostLCY := SalesLine."Unit Cost";
-                            if SalesHeader."Currency Factor" <> 0 then
-                                UnitPriceLCY := SalesLine."Unit Price" / SalesHeader."Currency Factor"
+                        if PostedSalesInvLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
+                            UnitCostLCY := PostedSalesInvLine."Unit Cost";
+
+                            if PostedSalesInvHdr."Currency Factor" <> 0 then
+                                UnitPriceLCY := PostedSalesInvLine."Unit Price" / PostedSalesInvHdr."Currency Factor"
                             else
-                                UnitPriceLCY := SalesLine."Unit Price";
+                                UnitPriceLCY := PostedSalesInvLine."Unit Price";
 
                             if not Rec.Adjustment then
-                                AmountFCY := SalesLine."Line Amount";
+                                AmountFCY := PostedSalesInvLine."Line Amount";
                         end;
                     end;
                 end;
+
 
             // Case 4: Sales Credit Memo
             Enum::"Item Ledger Document Type"::"Sales Credit Memo":
                 begin
                     if Rec."Source Type" = Rec."Source Type"::Customer then begin
-                        if SalesHeader.Get(SalesHeader."Document Type"::"Credit Memo", Rec."Document No.") then
-                            CurrencyCode := SalesHeader."Currency Code";
+                        if SalesCrMemoHeader.Get(Rec."Document No.") then begin
+                            CurrencyCode := SalesCrMemoHeader."Currency Code";
 
-                        if SalesLine.Get(SalesLine."Document Type"::"Credit Memo", Rec."Document No.", Rec."Document Line No.") then begin
-                            UnitCostLCY := SalesLine."Unit Cost";
-                            if SalesHeader."Currency Factor" <> 0 then
-                                UnitPriceLCY := SalesLine."Unit Price" / SalesHeader."Currency Factor"
-                            else
-                                UnitPriceLCY := SalesLine."Unit Price";
+                            if SalesCrMemoLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
+                                UnitCostLCY := SalesCrMemoLine."Unit Cost (LCY)";
 
-                            if not Rec.Adjustment then
-                                AmountFCY := SalesLine."Line Amount";
+                                if SalesCrMemoHeader."Currency Factor" <> 0 then
+                                    UnitPriceLCY := SalesCrMemoLine."Unit Price" / SalesCrMemoHeader."Currency Factor"
+                                else
+                                    UnitPriceLCY := SalesCrMemoLine."Unit Price";
+
+                                if not Rec.Adjustment then
+                                    AmountFCY := SalesCrMemoLine."Line Amount";
+                            end;
                         end;
                     end;
                 end;
