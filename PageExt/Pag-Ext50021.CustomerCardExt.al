@@ -164,16 +164,17 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
 
-        //CS028 Begin
-        //IF CurrPage.EDITABLE THEN BEGIN  //CS058
-        IF Rec."Item Supplier Source" = Rec."Item Supplier Source"::Renesas THEN
-            IF Rec."Vendor Cust. Code" = '' THEN ERROR(Text001);
-        IF Rec."Vendor Cust. Code" <> '' THEN
-            IF Rec."Item Supplier Source" = Rec."Item Supplier Source"::" " THEN ERROR(Text002);
-        Rec.TESTFIELD(Rec."Familiar Name");  //CS058
-        //END;  //CS058
-        //CS028 End
-
+        /*
+                //CS028 Begin
+                //IF CurrPage.EDITABLE THEN BEGIN  //CS058
+                IF Rec."Item Supplier Source" = Rec."Item Supplier Source"::Renesas THEN
+                    IF Rec."Vendor Cust. Code" = '' THEN ERROR(Text001);
+                IF Rec."Vendor Cust. Code" <> '' THEN
+                    IF Rec."Item Supplier Source" = Rec."Item Supplier Source"::" " THEN ERROR(Text002);
+                Rec.TESTFIELD(Rec."Familiar Name");  //CS058
+                //END;  //CS058
+                //CS028 End
+        */
     end;
 
     var
