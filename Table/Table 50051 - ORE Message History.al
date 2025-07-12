@@ -62,4 +62,18 @@ table 50051 "ORE Message History"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "Reverse Routing Address", "Message Name")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

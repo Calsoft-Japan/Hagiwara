@@ -50,4 +50,8 @@ table 50001 TempDO
 
         }
     }
+
+    fieldgroups
+    {
+    }
 }

@@ -188,4 +188,15 @@ table 50055 "ORE Message Collection SLSRPT"
             Description = 'CS089';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

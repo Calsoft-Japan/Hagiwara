@@ -62,4 +62,15 @@ table 50053 "ORE Message Collection ORDCHG"
             Description = 'CS073,CS103';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

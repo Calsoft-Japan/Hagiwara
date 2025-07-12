@@ -35,4 +35,15 @@ table 50049 "PO INTERFACE Test"
             Description = 'PROCFLAG';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No..")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

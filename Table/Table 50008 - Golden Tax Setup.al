@@ -15,4 +15,15 @@ table 50008 "Golden Tax Setup"
             Caption = 'Maximum Amount';
         }
     }
+
+    keys
+    {
+        key(Key1; "Primay Key")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

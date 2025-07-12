@@ -109,4 +109,18 @@ table 50029 "Purch. Receipt Import Staging"
             Description = 'CS079';
         }
     }
+
+    keys
+    {
+        key(Key1; "Batch No.", "Entry No.")
+        {
+        }
+        key(Key2; "Proforma Invoice", "Batch No.", "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

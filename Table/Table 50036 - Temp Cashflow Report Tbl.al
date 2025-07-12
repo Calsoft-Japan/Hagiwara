@@ -503,4 +503,15 @@ table 50036 "Temp Cashflow Report Tbl"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Record Type", "No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

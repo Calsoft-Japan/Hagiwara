@@ -273,4 +273,24 @@ table 50003 "Message Collection Backup"
             AutoFormatType = 2;
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.", "File ID")
+        {
+        }
+        key(Key2; "Parts Number")
+        {
+        }
+        key(Key3; "Item Description")
+        {
+        }
+        key(Key4; "Collected On", "File ID")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

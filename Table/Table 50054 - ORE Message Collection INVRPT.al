@@ -86,4 +86,15 @@ table 50054 "ORE Message Collection INVRPT"
             Description = 'CS073,CS103';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

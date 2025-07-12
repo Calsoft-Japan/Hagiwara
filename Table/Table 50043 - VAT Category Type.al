@@ -29,4 +29,15 @@ table 50043 "VAT Category Type"
             Caption = 'VAT %';
         }
     }
+
+    keys
+    {
+        key(Key1; "Invoice Type", "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

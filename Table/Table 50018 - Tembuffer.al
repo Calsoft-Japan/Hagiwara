@@ -23,4 +23,18 @@ table 50018 Tembuffer
             Caption = 'Vendor Customer Code';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.", "Document Date", "OEM No.")
+        {
+        }
+        key(Key2; "Document Date", "OEM No.", "Currency Code", "Vendor Customer Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

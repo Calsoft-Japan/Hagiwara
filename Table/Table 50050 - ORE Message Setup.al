@@ -21,4 +21,15 @@ table 50050 "ORE Message Setup"
             OptionMembers = Daily,Weekly,Monthly;
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

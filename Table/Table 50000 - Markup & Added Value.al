@@ -38,4 +38,8 @@ table 50000 "Markup & Added Value"
             Clustered = true;
         }
     }
+
+    fieldgroups
+    {
+    }
 }

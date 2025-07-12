@@ -73,4 +73,16 @@ table 50058 "VAT Issue Line"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; Type, "Tax Invoice No.", "Line No.")
+        {
+            SumIndexFields = "Tax Base Amount", "Tax Amount";
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

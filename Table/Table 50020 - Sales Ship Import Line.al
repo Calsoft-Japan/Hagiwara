@@ -55,4 +55,24 @@ table 50020 "Sales Ship Import Line"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "Order No.", "Posting Date", "Document Date", "Shipment Method Code", "Shipping Agent Code", "Package Tracking No.", "Line No.")
+        {
+        }
+        key(Key3; "Shipment Method Code")
+        {
+        }
+        key(Key4; Status)
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

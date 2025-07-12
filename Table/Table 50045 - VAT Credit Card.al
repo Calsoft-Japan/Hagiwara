@@ -55,4 +55,15 @@ table 50045 "VAT Credit Card"
             Caption = 'No. Series';
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

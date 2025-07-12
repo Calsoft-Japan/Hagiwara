@@ -11,4 +11,15 @@ table 50007 Remark
             Caption = 'Description';
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

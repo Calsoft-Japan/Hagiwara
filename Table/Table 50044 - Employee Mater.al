@@ -15,4 +15,18 @@ table 50044 "Employee Mater"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Emplyee No.")
+        {
+        }
+        key(Key2; "Employee Name", "Emplyee No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

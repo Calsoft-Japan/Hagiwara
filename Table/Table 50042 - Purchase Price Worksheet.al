@@ -98,4 +98,18 @@ table 50042 "Purchase Price Worksheet"
             InitValue = true;
         }
     }
+
+    keys
+    {
+        key(Key1; "Starting Date", "Ending Date", "Sales Type", "Sales Code", "Currency Code", "Item No.", "Variant Code", "Unit of Measure Code", "Minimum Quantity")
+        {
+        }
+        key(Key2; "Item No.", "Variant Code", "Unit of Measure Code", "Minimum Quantity", "Starting Date", "Ending Date", "Sales Type", "Sales Code", "Currency Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

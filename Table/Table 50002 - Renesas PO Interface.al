@@ -59,4 +59,24 @@ table 50002 "Renesas PO Interface"
 
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; ProcFlag, "Entry No.")
+        {
+        }
+        key(Key3; "Document Date", "OEM No.", "Currency Code", "Vendor Customer Code", "Entry No.")
+        {
+        }
+        key(Key4; ProcFlag, "Document Date", "OEM No.", "Currency Code", "Vendor Customer Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

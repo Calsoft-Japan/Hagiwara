@@ -219,4 +219,21 @@ table 50046 "Manual VAT Entry"
             OptionMembers = Corporate,"Personal Corporate",Person;
         }
     }
+
+    keys
+    {
+        key(Key1; "Source Type", "Document No.")
+        {
+        }
+        key(Key2; "VAT Company Code", Type, "Bill-to/Pay-to No.", "Posting Date")
+        {
+        }
+        key(Key3; "Tax Invoice No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

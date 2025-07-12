@@ -12,4 +12,15 @@ table 50064 "Hagiwara Group"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

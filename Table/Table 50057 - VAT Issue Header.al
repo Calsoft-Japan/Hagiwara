@@ -254,4 +254,72 @@ table 50057 "VAT Issue Header"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; Type, "Tax Invoice No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key2; "VAT Company Code", Type, "Business Category", "Tax Invoice Date", "VAT Category Type Group Code", Closed, Cancel, "Closing Quarter", "Non Deductive List", "Payment Type", "Receipt Type")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key3; "VAT Company Code", Type, "Business Category", "Tax Invoice Date", "VAT Category Type Group Code", Closed, Cancel, "Closing Quarter", "Non Deductive List", "Other Non Deductive List", "Payment Type", "Receipt Type")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key4; "VAT Company Code", Type, "Tax Invoice Date")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key5; "VAT Company Code", Type, "Tax Invoice Date", "VAT Category Type Group Code", Closed, Cancel, "Closing Quarter", "Business Category", "VAT Registration No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key6; "VAT Company Code", Type, "Business Category", "Tax Invoice Date", "VAT Category Type Group Code", Closed, Cancel, "Closing Quarter", "Asset Type")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key7; "Business Category", "VAT Registration No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key8; "Business Category", "Bill-to/Pay-to No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key9; "VAT Company Code", "Tax Invoice Date", Closed, Cancel, "Closing Quarter", Omission)
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount";
+        }
+        key(Key10; "VAT Company Code", Type, "Tax Invoice Date", "Bill-to/Pay-to No.", Closed, Cancel, "Closing Quarter")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount";
+        }
+        key(Key11; "VAT Company Code", Type, "Business Category", "Tax Invoice Date", "VAT Category Type Group Code", Closed, Cancel, "Closing Quarter")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount";
+        }
+        key(Key12; "VAT Company Code", Type, "Tax Invoice Date", "Bill-to/Pay-to No.", Closed, Cancel, "Closing Quarter", "VAT Category Type Group Code", "Non Deductive List", "Other Non Deductive List")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount";
+        }
+        key(Key13; "Business Category", "Credit Card No.", "VAT Registration No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount";
+        }
+        key(Key14; "VAT Registration No.")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+        key(Key15; "VAT Company Code", Type, "Business Category", "Tax Invoice Date", "VAT Category Type Group Code", Closed, "Non Deductive List", "Payment Type")
+        {
+            SumIndexFields = "Editable Base Amount", "Editable Tax Amount", "Editable Total Amount";
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

@@ -105,4 +105,27 @@ table 50037 "Tracking Specification-Scans"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "User ID", "Entry No.")
+        {
+        }
+        key(Key2; "Source ID", "Source Type", "Source Subtype", "Source Batch Name", "Source Ref. No.")
+        {
+            MaintainSIFTIndex = false;
+            MaintainSQLIndex = false;
+            SumIndexFields = "Quantity (Base)";
+        }
+        key(Key3; "Lot No.")
+        {
+        }
+        key(Key4; "Source ID", "Source Ref. No.", "Lot No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

@@ -31,4 +31,18 @@ table 50032 "Denso Indonesia PO Interface"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; Type, "Document Date", "Part No", "Due Date")
+        {
+        }
+        key(Key2; Type, "Document Date", "External Document No", "Part No", "Due Date")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

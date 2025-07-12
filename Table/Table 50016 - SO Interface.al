@@ -223,4 +223,18 @@ table 50016 "SO Interface"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "Document No.", "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

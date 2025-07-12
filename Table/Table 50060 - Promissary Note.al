@@ -185,4 +185,65 @@ table 50060 "Promissary Note"
             Caption = 'Trust Date';
         }
     }
+
+    keys
+    {
+        key(Key1; "Posting Date", "P. Note No.")
+        {
+        }
+        key(Key2; "Due Date", "Customer No.", "P. Note No.")
+        {
+        }
+        key(Key3; "Customer No.", "Due Date", "P. Note No.")
+        {
+        }
+        key(Key4; "Customer No.", Status)
+        {
+            SumIndexFields = Amount, "Discount Amount";
+        }
+        key(Key5; "P.Note Doc No.")
+        {
+        }
+        key(Key6; "Due Date")
+        {
+        }
+        key(Key7; "Discount Date")
+        {
+        }
+        key(Key8; "Customer No.", Maker)
+        {
+        }
+        key(Key9; "Dics. Posting Date")
+        {
+        }
+        key(Key10; Status, "Assign Bank")
+        {
+            SumIndexFields = Amount;
+        }
+        key(Key11; "P. Note No.")
+        {
+        }
+        key(Key12; "Assign Bank", "Due Date", "P.Note Doc No.")
+        {
+        }
+        key(Key13; "Cash-In Posting Date", "P.Note Doc No.")
+        {
+        }
+        key(Key14; "Dics. Posting Date", "P.Note Doc No.")
+        {
+        }
+        key(Key15; "Customer No.", Status, "Receiving Posting Date", "Cash-In Posting Date")
+        {
+        }
+        key(Key16; Status, "Receiving Posting Date", "Cash-In Posting Date")
+        {
+        }
+        key(Key17; "Receiving Bank", "Due Date", "P.Note Doc No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

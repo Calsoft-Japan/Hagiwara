@@ -35,4 +35,15 @@ table 50047 "VAT Category Setup"
             Caption = 'VAT Category Type VAT %';
         }
     }
+
+    keys
+    {
+        key(Key1; "Group Type", "Group Code", "VAT Category Type Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

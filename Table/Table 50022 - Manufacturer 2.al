@@ -11,4 +11,15 @@ table 50022 "Manufacturer 2"
             Caption = 'Name';
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

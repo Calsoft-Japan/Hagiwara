@@ -141,4 +141,15 @@ table 50040 "Reporting Data Buffer"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }
