@@ -1,10 +1,13 @@
-report 50097 "InsuffICIENT DO List"
+report 50097 "Insufficient DO List"
 {
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
+    // CS092 FDD R033 2025/7/11 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Insufficient Delivery Order List.rdlc';
 
     Caption = 'Insufficient Delivery Order List';
+    ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
 
     dataset
     {
@@ -24,7 +27,7 @@ report 50097 "InsuffICIENT DO List"
             column(FORMAT_TIME_0___Hours12_2___Minutes_2___Seconds_2___; FORMAT(TIME, 0, '<Hours12,2>:<Minutes,2>:<Seconds,2>'))
             {
             }
-            column(CurrReport_PAGENOCaption; CurrReport.PAGENO)
+            column(CurrReport_PAGENOCaption; 0)
             {
             }
             column(Insufficient_Delivery_Order_ListCaption; Insufficient_Delivery_Order_ListCaptionLbl)
