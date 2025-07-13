@@ -6,6 +6,7 @@ pageextension 50020 GeneralLedgerEntriesExt extends "General Ledger Entries"
         {
             field("Document Date"; Rec."Document Date")
             {
+                ApplicationArea = all;
             }
         }
     }
