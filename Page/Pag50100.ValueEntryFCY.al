@@ -62,6 +62,7 @@ page 50100 "Value Entry FCY"
                 field("Capacity Ledger Entry No."; Rec."Capacity Ledger Entry No.") { }
                 field("Average Cost Exception"; Rec."Average Cost Exception") { }
                 field("Variant Code"; Rec."Variant Code") { }
+                field("Adjustment"; Rec.Adjustment) { }
                 field("Job Ledger Entry No."; Rec."Job Ledger Entry No.") { }
                 field("Job Task No."; Rec."Job Task No.") { }
                 field("Job No."; Rec."Job No.") { }
