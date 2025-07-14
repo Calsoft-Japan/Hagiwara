@@ -7,7 +7,7 @@
             "type": "al",
             "tenant": "14c7637b-079d-4069-a580-9285e8b01076",
             "environmentType": "Sandbox",
-            "environmentName": "FuncTest",
+            "environmentName": "Development2",
             "startupObjectId": 22,
             "startupObjectType": "Page",
             "breakOnError": "All",
