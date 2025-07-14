@@ -84,4 +84,25 @@ table 50006 "Message Control"
     fieldgroups
     {
     }
+
+    var
+        Const_JZ: Label 'JZ';
+
+    procedure Update_MsgControl(pcod_MsgID: Code[2]; pint_RecCount: Integer; pint_AmtQty: Decimal; pint_AmtPrice: Decimal)
+    var
+        rec_MsgControl: Record "Message Control";
+    begin
+        //>>Updating Msg Control Table Info
+        rec_MsgControl.RESET;
+        rec_MsgControl.SETRANGE("File ID", Const_JZ);
+        rec_MsgControl.SETRANGE("Detail File ID", pcod_MsgID);
+        rec_MsgControl.SETRANGE("Message Status", rec_MsgControl."Message Status"::Ready);
+        IF rec_MsgControl.FINDSET THEN BEGIN
+            rec_MsgControl."Record Number" := rec_MsgControl."Record Number" - pint_RecCount;
+            rec_MsgControl."Amount Quantity" := rec_MsgControl."Amount Quantity" - pint_AmtQty;
+            rec_MsgControl."Amount Price" := rec_MsgControl."Amount Price" - pint_AmtPrice;
+            rec_MsgControl.MODIFY;
+        END;
+        //<<
+    end;
 }
