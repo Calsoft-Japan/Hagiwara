@@ -107,7 +107,7 @@ report 50011 "Purchase Order BBN"
                     column(CompanyInfo__Bank_Branch_No__; CompanyInfo."Bank Branch No.")
                     {
                     }
-                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, 7))
+                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, '<Month text> <Day>, <Year4>'))
                     {
                     }
                     column(FORMAT__Purchase_Header___Due_Date__0_7_; FORMAT("Purchase Header"."Due Date", 0, '<Day>. <Month text,3> <Year4>'))

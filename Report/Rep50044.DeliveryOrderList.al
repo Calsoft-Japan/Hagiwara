@@ -535,7 +535,7 @@ report 50044 "Delivery Order List"
 
         layout
         {
-            area(content)
+            /*area(content)
             {
                 group(Options)
                 {
@@ -545,12 +545,13 @@ report 50044 "Delivery Order List"
                         Caption = 'Print to Excel';
                     }
                 }
-            }
+            }*/
         }
 
         actions
         {
         }
+
     }
 
     labels
@@ -576,11 +577,12 @@ report 50044 "Delivery Order List"
         SalesLineFilter := "Sales Line".GETFILTERS;
         PeriodText := "Sales Line".GETFILTER("Shipment Date");
         CalcQtyAvailable;
-
-        //HG2.00
-        IF PrintToExcel THEN
-            MakeExcelInfo();
-        //HG2.00
+        /* bobby
+                //HG2.00
+                IF PrintToExcel THEN
+                    MakeExcelInfo();
+                //HG2.00
+                */
     end;
 
     var
