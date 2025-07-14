@@ -38,6 +38,36 @@ report 50031 "PO Hagiwara-Cust Item3"
                     column(CompanyInfoPicture; CompanyInfo.Picture)
                     {
                     }
+                    column(CompanyPicture; CompanyInfo.Picture)
+                    {
+                    }
+                    column(CompanyName; CompanyInfo.Name)
+                    {
+                    }
+                    column(CompanyAddr1; CompanyAddr[1])
+                    {
+                    }
+                    column(CompanyAddr2; CompanyAddr[2])
+                    {
+                    }
+                    column(CompanyAddr3; CompanyAddr[3])
+                    {
+                    }
+                    column(CompanyAddr4; CompanyAddr[4])
+                    {
+                    }
+                    column(CompanyAddr5; CompanyAddr[5])
+                    {
+                    }
+                    column(CompanyAddr6; CompanyAddr[6])
+                    {
+                    }
+                    column(CompanyAddr7; CompanyAddr[7])
+                    {
+                    }
+                    column(CompanyAddr8; CompanyAddr[8])
+                    {
+                    }
                     column(HdrAddrLine1; UPPERCASE(CompanyInfo.Name))
                     {
                     }
@@ -365,6 +395,14 @@ report 50031 "PO Hagiwara-Cust Item3"
                             //  PurchaseLine.NEXT;
                             // UNTIL (PurchaseLine."No."<>'') OR (PurchaseLine."Document No."<>PurchLine."Document No.");
 
+                            /*IF PurchaseLine.GET(PurchLine."Document Type", PurchLine."Document No.", PurchLine."Line No.") THEN
+                                PurchaseLine.NEXT;
+                            IF PurchaseLine."No." = '' THEN
+                                REPEAT
+                                    SecondLineDesc := SecondLineDesc + PurchaseLine.Description + '||';
+                                    PurchaseLine.NEXT;
+                                UNTIL (PurchaseLine."No." <> '') OR (PurchaseLine."Document No." <> PurchLine."Document No.");
+*/
                             PurchaseLine.SETRANGE("Document Type", PurchLine."Document Type");
                             PurchaseLine.SETRANGE("Document No.", PurchLine."Document No.");
                             IF PurchaseLine.FINDFIRST THEN
@@ -561,7 +599,12 @@ report 50031 "PO Hagiwara-Cust Item3"
                     CompanyInfo."Fax No." := RespCenter."Fax No.";
                 END ELSE
                     FormatAddr.Company(CompanyAddr, CompanyInfo);
-
+                //CS036 BEGIN
+                CompanyInfo.CALCFIELDS(Picture);
+                FormatAddr.Company(CompanyAddr, CompanyInfo);
+                CompanyAddr[5] := 'TEL: ' + CompanyInfo."Phone No." + '   FAX: ' + CompanyInfo."Fax No.";
+                CompanyAddr[6] := 'CO. REG. NO.: ' + CompanyInfo."Industrial Classification" + '   GST REG. NO.:' + CompanyInfo."VAT Registration No.";
+                //CS036 END
                 DimSetEntry1.SETRANGE("Dimension Set ID", "Dimension Set ID");
 
                 IF "Purchaser Code" = '' THEN BEGIN
@@ -783,7 +826,7 @@ report 50031 "PO Hagiwara-Cust Item3"
         PurchPostPrepmt: Codeunit "Purchase-Post Prepayments";
         VendAddr: array[8] of Text[50];
         ShipToAddr: array[8] of Text[50];
-        CompanyAddr: array[8] of Text[50];
+        CompanyAddr: array[8] of Text[80];
         BuyFromAddr: array[8] of Text[50];
         PurchaserText: Text[30];
         VATNoText: Text[80];

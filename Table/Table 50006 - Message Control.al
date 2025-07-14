@@ -70,4 +70,18 @@ table 50006 "Message Control"
             Editable = true;
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.", "File ID")
+        {
+        }
+        key(Key2; "File ID")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

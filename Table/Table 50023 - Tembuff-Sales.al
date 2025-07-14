@@ -93,4 +93,18 @@ table 50023 "Tembuff-Sales"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Document No.", "Entry No.")
+        {
+        }
+        key(Key2; "Document No.", "Document Date", "Customer No.", "Currency Code", "OEM No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

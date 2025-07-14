@@ -43,4 +43,15 @@ table 50038 "Temp Item"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Familiar Name")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

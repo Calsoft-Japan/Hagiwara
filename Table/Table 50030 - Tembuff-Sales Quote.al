@@ -93,4 +93,18 @@ table 50030 "Tembuff-Sales Quote"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Document No.", "Entry No.")
+        {
+        }
+        key(Key2; "Document No.", "Document Date", "Customer No.", "Currency Code", "OEM No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

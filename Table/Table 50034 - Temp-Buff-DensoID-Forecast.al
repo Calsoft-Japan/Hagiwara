@@ -27,4 +27,18 @@ table 50034 "Temp-Buff-DensoID-Forecast"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.", "Document Date")
+        {
+        }
+        key(Key2; "Document Date", "External Document No.", "Part No.", "Due Date")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

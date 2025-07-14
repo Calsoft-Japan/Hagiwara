@@ -73,4 +73,15 @@ table 50052 "ORE Message Collection ORDERS"
             Description = 'CS073,CS103';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

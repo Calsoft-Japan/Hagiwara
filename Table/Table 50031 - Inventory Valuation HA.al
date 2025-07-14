@@ -79,4 +79,15 @@ table 50031 "Inventory Valuation HA"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

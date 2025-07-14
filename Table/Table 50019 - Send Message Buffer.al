@@ -15,4 +15,15 @@ table 50019 "Send Message Buffer"
             Description = 'Sanjeev End 12/03/2020';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

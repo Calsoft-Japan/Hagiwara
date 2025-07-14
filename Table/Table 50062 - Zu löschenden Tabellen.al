@@ -14,4 +14,16 @@ table 50062 "Zu löschenden Tabellen"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(key1; "Tabelle ID")
+        {
+
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

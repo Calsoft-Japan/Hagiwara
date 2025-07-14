@@ -2,8 +2,9 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
 {
     layout
     {
-        addlast(Content)
+        addlast(Control1)
         {
+
             field("Ship"; Rec."Ship")
             {
                 ApplicationArea = all;
@@ -20,4 +21,5 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
             */
         }
     }
+
 }

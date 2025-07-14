@@ -51,4 +51,18 @@ table 50014 "Purch. Inv. Interface"
             Description = 'Fields to maintain for creation';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "NAV Posted Rcpt No.", "Processed By", "Processed On", "Processed PI No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

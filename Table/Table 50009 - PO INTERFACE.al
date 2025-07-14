@@ -31,4 +31,15 @@ table 50009 "PO INTERFACE"
             Description = 'PROCFLAG';
         }
     }
+
+    keys
+    {
+        key(Key1; Type, "Document Date", "Part No", "Due Date")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

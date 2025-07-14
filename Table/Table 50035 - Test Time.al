@@ -15,4 +15,15 @@ table 50035 "Test Time"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; PDate)
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

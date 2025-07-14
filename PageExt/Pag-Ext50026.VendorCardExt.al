@@ -2,16 +2,20 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
 {
     layout
     {
-        addlast(Content)
+
+
+        addafter("No.")
         {
+
             field("Familiar Name"; Rec."Familiar Name")
             {
                 ApplicationArea = all;
             }
-            field("Balance"; Rec."Balance")
-            {
-                ApplicationArea = all;
-            }
+        }
+
+        addafter("Responsibility Center")
+        {
+
             field("Shipping Terms"; Rec."Shipping Terms")
             {
                 ApplicationArea = all;
@@ -23,6 +27,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             field("ORE Ship-to Code"; Rec."ORE Ship-to Code")
             {
                 ApplicationArea = all;
+                Visible = false;
             }
             field("ORE Reverse Routing Address"; Rec."ORE Reverse Routing Address")
             {
@@ -39,21 +44,47 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             field("Hagiwara Group"; Rec."Hagiwara Group")
             {
                 ApplicationArea = all;
+                TableRelation = "Hagiwara Group".Code;
             }
-            /*
-            field("Language Code"; Rec."Language Code")
+        }
+
+        addafter("Vendor Posting Group")
+        {
+
+            field("Global Dimension 1 Code"; Rec."Global Dimension 1 Code")
             {
                 ApplicationArea = all;
             }
-            */
-            field("Incoterm Code"; Rec."Incoterm Code")
-            {
-                ApplicationArea = all;
-            }
-            field("Incoterm Location"; Rec."Incoterm Location")
+            field("Global Dimension 2 Code"; Rec."Global Dimension 2 Code")
             {
                 ApplicationArea = all;
             }
         }
+
+        addafter("Customized Calendar")
+        {
+
+            field("Incoterm Code"; Rec."Incoterm Code")
+            {
+                ApplicationArea = all;
+                Visible = IncotermVisibility;
+            }
+            field("Incoterm Location"; Rec."Incoterm Location")
+            {
+                ApplicationArea = all;
+                Visible = IncotermVisibility;
+            }
+        }
     }
+
+    trigger OnOpenPage()
+    begin
+
+
+        IncotermVisibility := HagiwaraFunctions.GetIncotermVisibility; //HG10.00.04 NJ 13/02/2018
+    end;
+
+    var
+        IncotermVisibility: Boolean;
+        HagiwaraFunctions: Codeunit "Hagiwara Functions";
 }

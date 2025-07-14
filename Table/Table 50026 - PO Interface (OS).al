@@ -214,4 +214,21 @@ table 50026 "PO Interface (OS)"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "Document No.", "Entry No.")
+        {
+        }
+        key(Key3; "Document No.", "Document Date", "Buy-From Vendor No.", "Sell-to Customer No.", "Currency Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

@@ -12,4 +12,15 @@ table 50048 "Export Document Name"
             Caption = 'Document Name';
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

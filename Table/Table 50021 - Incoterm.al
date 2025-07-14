@@ -11,4 +11,15 @@ table 50021 Incoterm
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

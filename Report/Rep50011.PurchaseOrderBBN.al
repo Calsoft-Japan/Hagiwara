@@ -107,7 +107,7 @@ report 50011 "Purchase Order BBN"
                     column(CompanyInfo__Bank_Branch_No__; CompanyInfo."Bank Branch No.")
                     {
                     }
-                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, '<Day>. <Month text,3> <Year4>'))
+                    column(FORMAT__Purchase_Header___Document_Date__0_7_; FORMAT("Purchase Header"."Document Date", 0, 7))
                     {
                     }
                     column(FORMAT__Purchase_Header___Due_Date__0_7_; FORMAT("Purchase Header"."Due Date", 0, '<Day>. <Month text,3> <Year4>'))
@@ -643,7 +643,7 @@ report 50011 "Purchase Order BBN"
                         column(QuantityCaption; QuantityCaption)
                         {
                         }
-                        column(Req_receipt_date1; FORMAT("Purchase Line"."Requested Receipt Date_1", 0, 7))
+                        column(Req_receipt_date1; FORMAT("Purchase Line"."Requested Receipt Date_1", 0, '<Day>. <Month text,3> <Year4>'))
                         {
                         }
                         column(Purchase_Line_Amount_Including_VAT; "Purchase Line"."Amount Including VAT")
@@ -1389,7 +1389,7 @@ report 50011 "Purchase Order BBN"
         Purchase_No_CaptionLbl: Label 'Purchase Order No.';
         Tax_InvoiceCaptionLbl: Label 'Purchase Order';
         PerCaptionLbl: Label 'Per';
-        DescriptionCaption: Label '';
+        DescriptionCaption: Label 'Description';
         QuantityCaption: Label 'Quantity';
         Location: Record Location;
         FiscalRepresentative: Text[250];

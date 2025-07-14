@@ -209,4 +209,19 @@ table 50027 "Sales File Import Buffer"
             Caption = 'User ID Imported';
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "File Name", "Row No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
+
 }

@@ -53,4 +53,15 @@ table 50056 "VAT Issue Print Detail"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; Type, "Tax Invoice No.", "Line No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

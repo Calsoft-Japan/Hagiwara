@@ -16,4 +16,18 @@ table 50010 "Final Customer"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Final Customer No.")
+        {
+        }
+        key(Key2; "Customer No.", "Final Customer No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

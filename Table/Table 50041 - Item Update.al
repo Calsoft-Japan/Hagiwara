@@ -11,4 +11,15 @@ table 50041 "Item Update"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Old Item No")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

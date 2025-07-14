@@ -26,4 +26,15 @@ table 50017 "Local G/L Account"
             Caption = 'Cost Center';
         }
     }
+
+    keys
+    {
+        key(Key1; "Local Main G/L Account No.", "Local Detail G/L Account No.", "Corporate G/L Account No.", "Center Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

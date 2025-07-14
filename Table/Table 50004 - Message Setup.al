@@ -21,4 +21,21 @@ table 50004 "Message Setup"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; ID)
+        {
+        }
+        key(Key2; Cycle)
+        {
+        }
+        key(Key3; Combine)
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

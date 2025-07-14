@@ -252,4 +252,21 @@ table 50063 "Inventory Trace Entry"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+        key(Key2; "Item Ledger Entry No.", "Posting Date")
+        {
+        }
+        key(Key3; "Item Application Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

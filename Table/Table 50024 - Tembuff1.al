@@ -23,4 +23,18 @@ table 50024 Tembuff1
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.", "Document Date", "OEM No.")
+        {
+        }
+        key(Key2; "Document Date", "OEM No.", "Currency Code", "Vendor Customer Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

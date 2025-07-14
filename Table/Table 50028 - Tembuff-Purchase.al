@@ -96,4 +96,18 @@ table 50028 "Tembuff-Purchase"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Document No.", "Entry No.")
+        {
+        }
+        key(Key2; "Document No.", "Document Date", "Vendor No.", "Customer No.", "Currency Code")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

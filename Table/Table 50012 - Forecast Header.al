@@ -36,4 +36,15 @@ table 50012 "Forecast Header"
             OptionMembers = Imported,Processed;
         }
     }
+
+    keys
+    {
+        key(Key1; "Entry No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

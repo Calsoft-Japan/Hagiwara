@@ -1,19 +1,23 @@
-report 50097 "InsufficientDeliveryOrderList"
+report 50097 "Insufficient DO List"
 {
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
-    // CS092 Bobby.Ji 2025/7/8 - Upgade to the BC version
+    // CS092 FDD R033 2025/7/11 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Insufficient Delivery Order List.rdlc';
 
     Caption = 'Insufficient Delivery Order List';
-    UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
+    UsageCategory = ReportsAndAnalysis;
+
     dataset
     {
         dataitem(Customer; Customer)
         {
             PrintOnlyIfDetail = true;
             RequestFilterFields = "No.", "Search Name", Priority;
+            column(CompanyName; COMPANYNAME)
+            {
+            }
             column(PeriodText; PeriodText)
             {
             }
@@ -23,7 +27,7 @@ report 50097 "InsufficientDeliveryOrderList"
             column(FORMAT_TIME_0___Hours12_2___Minutes_2___Seconds_2___; FORMAT(TIME, 0, '<Hours12,2>:<Minutes,2>:<Seconds,2>'))
             {
             }
-            column(CurrReport_PAGENOCaption; CurrReport.PAGENO)
+            column(CurrReport_PAGENOCaption; 0)
             {
             }
             column(Insufficient_Delivery_Order_ListCaption; Insufficient_Delivery_Order_ListCaptionLbl)
@@ -55,14 +59,10 @@ report 50097 "InsufficientDeliveryOrderList"
                 DataItemLink = "Bill-to Customer No." = FIELD("No."),
                                "Shortcut Dimension 1 Code" = FIELD("Global Dimension 1 Filter"),
                                "Shortcut Dimension 2 Code" = FIELD("Global Dimension 2 Filter");
-                DataItemTableView = SORTING("Document Type", "Sell-to Customer No.", "Parts No.", "Shipment Date", "Customer Order No.")
-                                    WHERE("Document Type" = FILTER(Order | Quote),
-                                          "Outstanding Quantity" = FILTER(> 0));
+                DataItemTableView = SORTING("Sell-to Customer No.", "Parts No.", "Shipment Date", "Document Type", "Customer Order No.")
+                                    WHERE("Outstanding Quantity" = FILTER(> 0));
                 RequestFilterFields = "Shipment Date";
                 RequestFilterHeading = 'Sales Order Line';
-                column(CompanyName; COMPANYNAME)
-                {
-                }
                 column(Sales_Line__Sell_to_Customer_No__; "Sell-to Customer No.")
                 {
                 }
@@ -95,17 +95,16 @@ report 50097 "InsufficientDeliveryOrderList"
                 column(Sales_Line_Rank; Rank)
                 {
                 }
-                column(Sales_Line_Amount; Amount)
-                {
-                    DecimalPlaces = 4 : 4;
-                }
                 column(OrderDate; FORMAT(OrderDate))
                 {
                 }
                 column(Sales_Line__Promised_Delivery_Date_; FORMAT("Promised Delivery Date"))
                 {
                 }
-                column(Sales_Line_Amount_Control1000000074; Amount)
+                column(Sales_Line__Document_Type_; "Document Type")
+                {
+                }
+                column(Qty_Control1000000074; Qty)
                 {
                     DecimalPlaces = 4 : 4;
                 }
@@ -121,16 +120,10 @@ report 50097 "InsufficientDeliveryOrderList"
                 column(RankCaption; RankCaptionLbl)
                 {
                 }
-                column(U_Price__USD_Caption; U_Price__USD_CaptionLbl)
-                {
-                }
                 column(Due_DateCaption; Due_DateCaptionLbl)
                 {
                 }
                 column(Item_TypeCaption; Item_TypeCaptionLbl)
-                {
-                }
-                column(AmountCaption; AmountCaptionLbl)
                 {
                 }
                 column(Insuff_QtyCaption; Insuff_QtyCaptionLbl)
@@ -142,10 +135,13 @@ report 50097 "InsufficientDeliveryOrderList"
                 column(BK_DateCaption; BK_DateCaptionLbl)
                 {
                 }
-                column(Customer_Amount__USD_Caption; Customer_Amount__USD_CaptionLbl)
+                column(Doc_TypeCaption; Doc_TypeCaptionLbl)
                 {
                 }
-                column(Sales_Line_Document_Type; "Document Type")
+                column(U_Price__USD_Caption; U_Price__USD_CaptionLbl)
+                {
+                }
+                column(Customer_Insufficient_QtyCaption; Customer_Insufficient_QtyCaptionLbl)
                 {
                 }
                 column(Sales_Line_Document_No_; "Document No.")
@@ -255,7 +251,8 @@ report 50097 "InsufficientDeliveryOrderList"
                         //  tempdo.setfilter(TempDo."Line No.", "Sales Line"."Line No.", "Sales Line"."Line No.");
                         TempDO.SETRANGE(TempDO."Line No.", "Sales Line"."Line No.", "Sales Line"."Line No.");
 
-                        IF TempDO.FIND('-') THEN BEGIN
+                        //IF TempDO.FIND('-') THEN BEGIN
+                        IF TempDO.FindFirst() THEN BEGIN
                             QtyAvailable := TempDO."Assigned Qty";
                             IF QtyAvailable < QtyToShip THEN BEGIN
                                 QtyToShip := QtyAvailable;
@@ -282,9 +279,10 @@ report 50097 "InsufficientDeliveryOrderList"
                     //CurrReport.CREATETOTALS("Qty. to Ship");
                     //CurrReport.CREATETOTALS(QtyToShip);
                     //CurrReport.CREATETOTALS(Amount);
+                    //CurrReport.CREATETOTALS(Qty,Amount);
                 end;
             }
-            dataitem(DataItem5444; Integer)
+            dataitem(Integer; Integer)
             {
                 DataItemTableView = SORTING(Number)
                                     WHERE(Number = FILTER(1 ..));
@@ -335,7 +333,8 @@ report 50097 "InsufficientDeliveryOrderList"
                 ShiptoTel := '';
                 ShiptoFax := '';
                 Shipto.SETRANGE(Shipto."Customer No.", Customer."No.");
-                IF Shipto.FIND('-') THEN BEGIN
+                //IF Shipto.FIND('-') THEN BEGIN
+                IF Shipto.FindFirst() THEN BEGIN
                     ShiptoName := Shipto.Name;
                     ShiptoAdd1 := Shipto.Address;
                     ShiptoAdd2 := Shipto."Address 2" + ' ' + Shipto.City + ' ' + Shipto."Post Code";
@@ -352,6 +351,7 @@ report 50097 "InsufficientDeliveryOrderList"
             begin
                 //REP:TABLE
                 //REP:LAYOUTRECT
+
                 //CurrReport.NEWPAGEPERRECORD := PrintOnlyOnePerPage;
                 //CurrReport.CREATETOTALS(SalesOrderAmountLCY);
                 //CurrReport.CREATETOTALS(Amount);
@@ -400,7 +400,7 @@ report 50097 "InsufficientDeliveryOrderList"
         CustFilter := Customer.GETFILTERS;
         SalesLineFilter := "Sales Line".GETFILTERS;
         PeriodText := "Sales Line".GETFILTER("Shipment Date");
-        CalcQtyAvailable
+        CalcQtyAvailable();
     end;
 
     var
@@ -459,19 +459,14 @@ report 50097 "InsufficientDeliveryOrderList"
         Product_NameCaptionLbl: Label 'Product Name';
         Customer_P_NCaptionLbl: Label 'Customer P/N';
         RankCaptionLbl: Label 'Rank';
-        U_Price__USD_CaptionLbl: Label 'U/Price';
         Due_DateCaptionLbl: Label 'Due Date';
         Item_TypeCaptionLbl: Label 'Item Type';
-        AmountCaptionLbl: Label 'Amount';
         Insuff_QtyCaptionLbl: Label 'Insuff Qty';
         Pro_Del_DateCaptionLbl: Label 'Pro Del Date';
         BK_DateCaptionLbl: Label 'BK Date';
-        Customer_Amount__USD_CaptionLbl: Label 'Customer Amount';
         Doc_TypeCaptionLbl: Label 'Doc Type';
+        U_Price__USD_CaptionLbl: Label 'U/Price';
         Customer_Insufficient_QtyCaptionLbl: Label 'Customer Insufficient Qty';
-        PageNo: Integer;
-        HideSection: Boolean;
-        CusOrdNo: Text[30];
 
 
     procedure CheckQty(ItemCd: Code[20]; LocCd: Code[10]) OnHandQty: Decimal
@@ -487,7 +482,9 @@ report 50097 "InsufficientDeliveryOrderList"
         ELSE
             ItemLedg.SETRANGE(ItemLedg."Item No.", ItemCd, ItemCd);
 
-        IF ItemLedg.FIND('-') THEN BEGIN
+        //IF ItemLedg.FIND('-') THEN BEGIN
+        IF not ItemLedg.IsEmpty() THEN BEGIN
+            ItemLedg.FindSet();
             REPEAT
                 Qty := Qty + ItemLedg."Remaining Quantity";
             UNTIL ItemLedg.NEXT = 0;
@@ -497,13 +494,16 @@ report 50097 "InsufficientDeliveryOrderList"
         //WorkRec3.INIT;
         WorkRec3.Reset();
         WorkRec3.SETRANGE(WorkRec3."Item No.", ItemCd, ItemCd);
-        IF WorkRec3.FIND('-') THEN BEGIN
+        //IF WorkRec3.FIND('-') THEN BEGIN
+        IF WorkRec3.FindFirst() THEN BEGIN
             WorkRec3."Available Qty" := Qty;
             WorkRec3.MODIFY;
         END;
 
         RsvRec.SETFILTER(RsvRec."Item No.", ItemCd, ItemCd);
-        IF RsvRec.FIND('-') THEN BEGIN
+        //IF RsvRec.FIND('-') THEN BEGIN
+        IF not RsvRec.IsEmpty() THEN BEGIN
+            RsvRec.FindSet();
             REPEAT
                 //    IF (RsvRec."Source ID" <> DocNo) AND (RsvRec."Source Type" = 37) THEN
                 IF (RsvRec."Source Type" = 37) THEN
@@ -516,6 +516,7 @@ report 50097 "InsufficientDeliveryOrderList"
         OnHandQty := Qty;
     end;
 
+
     procedure CalcQtyAvailable()
     var
         WorkRec: Record TempDO;
@@ -524,9 +525,12 @@ report 50097 "InsufficientDeliveryOrderList"
         pLocCd: Text[10];
     begin
         WorkRec.DELETEALL;
-        IF "Sales Line".FIND('-') THEN BEGIN
+        //IF "Sales Line".FIND('-') THEN BEGIN
+        IF not "Sales Line".IsEmpty() THEN BEGIN
+            "Sales Line".FindSet();
             REPEAT
                 IF "Sales Line".Type = "Sales Line".Type::Item THEN BEGIN
+                    WorkRec.Init();
                     WorkRec."Item No." := "Sales Line"."No.";
                     WorkRec."Shipment Date" := "Sales Line"."Shipment Date";
                     WorkRec."Document No." := "Sales Line"."Document No.";
@@ -538,15 +542,16 @@ report 50097 "InsufficientDeliveryOrderList"
                         WorkRec."Assigned Qty" := "Sales Line"."Reserved Quantity";
                         WorkRec.ProcFlag := 1;
                     END;
-                    //WorkRec.INSERT;
-                    WorkRec.MODIFY;
+                    if not WorkRec.INSERT then WorkRec.MODIFY;
                 END;
             UNTIL "Sales Line".NEXT = 0;
         END;
 
         // Yuka 20060331 - Modified
         WorkRec2.RESET;
-        IF WorkRec2.FIND('-') THEN BEGIN
+        //IF WorkRec2.FIND('-') THEN BEGIN
+        IF not WorkRec2.IsEmpty() THEN BEGIN
+            WorkRec2.FindSet();
             REPEAT
                 IF (pItemCd <> WorkRec2."Item No.") OR (pLocCd <> WorkRec2.Location) THEN BEGIN
                     pItemCd := WorkRec2."Item No.";
@@ -558,7 +563,9 @@ report 50097 "InsufficientDeliveryOrderList"
         END;
         WorkRec2.RESET;
         WorkRec2.SETFILTER(WorkRec2."Available Qty", '> 0');
-        IF WorkRec2.FIND('-') THEN BEGIN
+        //IF WorkRec2.FIND('-') THEN BEGIN
+        IF not WorkRec2.IsEmpty() THEN BEGIN
+            WorkRec2.FindSet();
             REPEAT
                 //  IF (pItemCd <>  WorkRec2."Item No.") OR (pLocCd <> WorkRec2.Location) THEN BEGIN
                 pItemCd := WorkRec2."Item No.";

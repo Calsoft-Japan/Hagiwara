@@ -29,4 +29,17 @@ table 50000 "Markup & Added Value"
             DecimalPlaces = 4 : 4;
         }
     }
+
+
+    keys
+    {
+        key(Key1; "Item No.", "Starting Date")
+        {
+            Clustered = true;
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

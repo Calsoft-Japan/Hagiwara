@@ -119,4 +119,15 @@ table 50013 "Forecast Line"
             // cleaned
         }
     }
+
+    keys
+    {
+        key(Key1; "Forecast No.", "Line No.")
+        {
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }

@@ -43,4 +43,15 @@ table 50001 TempDO
             // cleaned
         }
     }
+    keys
+    {
+        key(Key1; "Item No.", "Shipment Date", "Document No.", "Line No.")
+        {
+
+        }
+    }
+
+    fieldgroups
+    {
+    }
 }
