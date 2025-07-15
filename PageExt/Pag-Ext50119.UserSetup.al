@@ -2,8 +2,12 @@ pageextension 50119 UserSetupExt extends "User Setup"
 {
     layout
     {
-        addlast(Content)
+        addafter("Time Sheet Admin.")
         {
+            field("Show Incoterm Code"; Rec."Show Incoterm Code")
+            {
+                ApplicationArea = all;
+            }
             field("Allow ITE Collect"; Rec."Allow ITE Collect")
             {
                 ApplicationArea = all;

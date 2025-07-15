@@ -2,112 +2,237 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 {
     layout
     {
-        addlast(Content)
+
+        addafter("No.")
         {
-            field("Booking No."; Rec."Booking No.")
+
+
+            field("Item Supplier Source"; rec."Item Supplier Source")
             {
+
                 ApplicationArea = all;
             }
-            field("Customer Item No."; Rec."Customer Item No.")
+            field("Booking No."; rec."Booking No.")
             {
+
                 ApplicationArea = all;
             }
-            field("Item Supplier Source"; Rec."Item Supplier Source")
+            field("Serial No."; rec."Serial No.")
             {
+
                 ApplicationArea = all;
             }
-            field("Customer Order No."; Rec."Customer Order No.")
+            field("Vendor Item Number"; rec."Vendor Item Number")
             {
+
                 ApplicationArea = all;
             }
-            field("OEM No."; Rec."OEM No.")
+            field(Blocked; rec.Blocked)
             {
+
                 ApplicationArea = all;
             }
-            field("OEM Name"; Rec."OEM Name")
+            field("Shipped Quantity"; rec."Shipped Quantity")
             {
+
                 ApplicationArea = all;
             }
-            field("Parts No."; Rec."Parts No.")
+            field("OEM No."; rec."OEM No.")
             {
+
                 ApplicationArea = all;
             }
-            field("Rank"; Rec."Rank")
+            field("OEM Name"; rec."OEM Name")
             {
+
                 ApplicationArea = all;
             }
-            field("Products"; Rec."Products")
+            field("Currency Code"; rec."Currency Code")
             {
+
                 ApplicationArea = all;
             }
-            field("Fully Reserved"; Rec."Fully Reserved")
+
+            field(Products; rec.Products)
             {
-                ApplicationArea = all;
-            }
-            field("Outstanding Quantity"; Rec."Outstanding Quantity")
-            {
-                ApplicationArea = all;
-            }
-            field("Outstanding Quantity (Actual)"; Rec."Outstanding Quantity (Actual)")
-            {
-                ApplicationArea = all;
-            }
-            field("Update Date"; Rec."Update Date")
-            {
-                ApplicationArea = all;
-            }
-            field("JC Collection Date"; Rec."JC Collection Date")
-            {
-                ApplicationArea = all;
-            }
-            field("2nd Unit of Measure Code"; Rec."2nd Unit of Measure Code")
-            {
-                ApplicationArea = all;
-            }
-            field("Qty to Ship (2nd UOM)"; Rec."Qty to Ship (2nd UOM)")
-            {
-                ApplicationArea = all;
-            }
-            field("Remarks"; Rec."Remarks")
-            {
-                ApplicationArea = all;
-            }
-            field("Message Status"; Rec."Message Status")
-            {
-                ApplicationArea = all;
-            }
-            field("Message Status (JC)"; Rec."Message Status (JC)")
-            {
-                ApplicationArea = all;
-            }
-            field("Revised"; Rec."Revised")
-            {
-                ApplicationArea = all;
-            }
-            field("JA Collection Date"; Rec."JA Collection Date")
-            {
-                ApplicationArea = all;
-            }
-            field("Qty. Shipped Not Invoiced"; Rec."Qty. Shipped Not Invoiced")
-            {
-                ApplicationArea = all;
-            }
-            field("Update Time"; Rec."Update Time")
-            {
-                ApplicationArea = all;
-            }
-            field("Update By"; Rec."Update By")
-            {
-                ApplicationArea = all;
-            }
-            field("Next Shipment Seq. No."; Rec."Next Shipment Seq. No.")
-            {
-                ApplicationArea = all;
-            }
-            field("Shipped Not Invoiced Cost(LCY)"; Rec."Shipped Not Invoiced Cost(LCY)")
-            {
+
                 ApplicationArea = all;
             }
         }
+
+
+        addafter(Description)
+        {
+
+            field("Customer Order No."; rec."Customer Order No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Customer Item No."; rec."Customer Item No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Parts No."; rec."Parts No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field(Rank; rec.Rank)
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
+
+        addafter("Bin Code")
+        {
+            field("Fully Reserved"; rec."Fully Reserved")
+            {
+
+                ApplicationArea = all;
+            }
+
+        }
+
+        addafter("Quantity Shipped")
+        {
+
+            field("Outstanding Quantity"; rec."Outstanding Quantity")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Outstanding Quantity (Actual)"; rec."Outstanding Quantity (Actual)")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Outstanding Qty. (Base)"; rec."Outstanding Qty. (Base)")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
+        addafter("Unit of Measure")
+        {
+
+            field("Unit Cost"; rec."Unit Cost")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
+        addafter("Requested Delivery Date")
+        {
+
+
+            field("Requested Delivery Date_1"; rec."Requested Delivery Date_1")
+            {
+
+                ApplicationArea = all;
+            }
+
+        }
+        addafter("Promised Delivery Date")
+        {
+
+
+            field("Promised Delivery Date_1"; rec."Promised Delivery Date_1")
+            {
+
+                ApplicationArea = all;
+            }
+
+        }
+
+        addafter("Document No.")
+        {
+
+            field("Original Doc. No."; rec."Original Doc. No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Original Booking No."; rec."Original Booking No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Original Line No."; rec."Original Line No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Message Status"; rec."Message Status")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Message Status (JC)"; rec."Message Status (JC)")
+            {
+
+                ApplicationArea = all;
+            }
+            field("JA Collection Date"; rec."JA Collection Date")
+            {
+
+                ApplicationArea = all;
+            }
+            field("JC Collection Date"; rec."JC Collection Date")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Update Date"; rec."Update Date")
+            {
+
+                ApplicationArea = all;
+            }
+
+            field("Update Time"; rec."Update Time")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Update By"; rec."Update By")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Shipment Seq. No."; rec."Shipment Seq. No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Next Shipment Seq. No."; rec."Next Shipment Seq. No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Save Customer Order No."; rec."Save Customer Order No.")
+            {
+
+                ApplicationArea = all;
+            }
+            field("Save Posting Date"; rec."Save Posting Date")
+            {
+
+                ApplicationArea = all;
+            }
+
+        }
+
     }
+
+    trigger OnAfterGetRecord()
+    begin
+        rec."Fully Reserved" := (rec."Reserved Quantity" > 0) AND (rec."Reserved Quantity" = rec."Outstanding Quantity");//CS018
+        //MODIFY();//CS018
+    end;
+
 }

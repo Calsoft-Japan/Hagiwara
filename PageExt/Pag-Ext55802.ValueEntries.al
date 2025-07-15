@@ -2,8 +2,24 @@ pageextension 55802 ValueEntriesExt extends "Value Entries"
 {
     layout
     {
-        addlast(Content)
+
+        addafter("Item No.")
         {
+
+            field("Item Description"; Rec.ItemDesc)
+            {
+                ApplicationArea = all;
+            }
+            field("Customer Item No."; Rec."Customer Item No.")
+            {
+                ApplicationArea = all;
+            }
+
+        }
+
+        addafter("Job Ledger Entry No.")
+        {
+
             field("Customer No."; Rec."Customer No.")
             {
                 ApplicationArea = all;
@@ -24,14 +40,6 @@ pageextension 55802 ValueEntriesExt extends "Value Entries"
             {
                 ApplicationArea = all;
             }
-            field("Item Description"; Rec.Description)
-            {
-                ApplicationArea = all;
-            }
-            field("Customer Item No."; Rec."Customer Item No.")
-            {
-                ApplicationArea = all;
-            }
             field("Customer Familiar Name"; Rec."Customer Familiar Name")
             {
                 ApplicationArea = all;
@@ -40,6 +48,7 @@ pageextension 55802 ValueEntriesExt extends "Value Entries"
             {
                 ApplicationArea = all;
             }
+
         }
     }
 }

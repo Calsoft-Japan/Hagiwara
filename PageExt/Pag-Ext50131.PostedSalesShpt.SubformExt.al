@@ -2,90 +2,146 @@ pageextension 50131 PostedSalesShptSubformExt extends "Posted Sales Shpt. Subfor
 {
     layout
     {
-        addlast(Content)
+
+        addbefore(Type)
         {
-            field("Rank"; Rec."Rank")
+
+
+            field("Sell-to Customer No."; Rec."Sell-to Customer No.")
+            {
+                ApplicationArea = all;
+                Editable = true;
+            }
+            field("Document No."; Rec."Document No.")
             {
                 ApplicationArea = all;
             }
-            field("Products"; Rec."Products")
+            field("Line No."; Rec."Line No.")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("Edition"; Rec."Edition")
-            {
-                ApplicationArea = all;
-            }
-            field("Insertion"; Rec."Insertion")
-            {
-                ApplicationArea = all;
-            }
-            /*
-            field("Correction"; Rec."Correction")
-            {
-                ApplicationArea = all;
-            }
-            */
-            field("Order No."; Rec."Order No.")
-            {
-                ApplicationArea = all;
-            }
+        }
+
+        addafter("No.")
+        {
+
             field("Posting Date"; Rec."Posting Date")
             {
                 ApplicationArea = all;
-            }
-            field("Item Supplier Source"; Rec."Item Supplier Source")
-            {
-                ApplicationArea = all;
+                Editable = true;
             }
             field("Booking No."; Rec."Booking No.")
             {
                 ApplicationArea = all;
+                Editable = true;
+            }
+            field("Item Supplier Source"; Rec."Item Supplier Source")
+            {
+                ApplicationArea = all;
+                Editable = true;
+            }
+            field("OEM No."; Rec."OEM No.")
+            {
+                ApplicationArea = all;
+                Editable = true;
+                HideValue = false;
+            }
+            field("OEM Name"; Rec."OEM Name")
+            {
+                ApplicationArea = all;
+                Editable = TRUE;
+            }
+            field(Products; Rec.Products)
+            {
+                ApplicationArea = all;
+                Editable = true;
             }
             field("Customer Order No."; Rec."Customer Order No.")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("Currency Code"; Rec."Currency Code")
+            field("Salesperson Code"; Rec."Salesperson Code")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("Unit Cost"; Rec."Unit Cost")
+            field("Customer Item No."; Rec."Customer Item No.")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("Qty to Ship (2nd UOM)"; Rec."Qty to Ship (2nd UOM)")
+            field("Parts No."; Rec."Parts No.")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("Remarks"; Rec."Remarks")
+            field(Rank; Rec.Rank)
             {
                 ApplicationArea = all;
+                Editable = true;
             }
-            field("2nd Unit of Measure"; Rec."2nd Unit of Measure")
+
+        }
+
+        addafter("Planned Shipment Date")
+        {
+
+            field(Insertion; Rec.Insertion)
             {
                 ApplicationArea = all;
+                Editable = false;
             }
-            field("2nd Unit of Measure Code"; Rec."2nd Unit of Measure Code")
+            field(Edition; Rec.Edition)
             {
                 ApplicationArea = all;
+                Editable = false;
             }
             field("Message Status"; Rec."Message Status")
+            {
+                ApplicationArea = all;
+                Editable = true;
+            }
+            field("Shipment Collection Date"; Rec."Shipment Collection Date")
             {
                 ApplicationArea = all;
             }
             field("Update Date"; Rec."Update Date")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
             field("Update Time"; Rec."Update Time")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
             field("Update By"; Rec."Update By")
             {
                 ApplicationArea = all;
+                Editable = true;
             }
+            field("Shipment Seq. No."; Rec."Shipment Seq. No.")
+            {
+                BlankNumbers = BlankZero;
+                BlankZero = true;
+                ApplicationArea = all;
+                Editable = true;
+            }
+            field("Save Posting Date"; Rec."Save Posting Date")
+            {
+                ApplicationArea = all;
+                Editable = true;
+            }
+
+
+            field("Attached to Line No."; Rec."Attached to Line No.")
+            {
+                ApplicationArea = all;
+            }
+
         }
+
     }
 }

@@ -2,7 +2,7 @@ pageextension 50461 InventorySetupExt extends "Inventory Setup"
 {
     layout
     {
-        addlast(Content)
+        addafter("Prevent Negative Inventory")
         {
             field("Max. PO Quantity Restriction"; Rec."Max. PO Quantity Restriction")
             {
@@ -36,6 +36,11 @@ pageextension 50461 InventorySetupExt extends "Inventory Setup"
             {
                 ApplicationArea = all;
             }
+        }
+
+        addafter("Internal Movement Nos.")
+        {
+
             field("Booking Serial Nos."; Rec."Booking Serial Nos.")
             {
                 ApplicationArea = all;

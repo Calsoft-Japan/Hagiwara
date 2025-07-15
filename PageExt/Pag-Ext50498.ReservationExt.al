@@ -1,19 +1,11 @@
 pageextension 50498 ReservationExt extends "Reservation"
 {
-    layout
+    actions
     {
-        addlast(Content)
+        modify("Auto Reserve")
         {
-            /*
-            field("Products"; Rec."Products")
-            {
-                ApplicationArea = all;
-            }
-            field("Rank"; Rec."Rank")
-            {
-                ApplicationArea = all;
-            }
-            */
+            Visible = false;
+            Enabled = false;
         }
     }
 }
