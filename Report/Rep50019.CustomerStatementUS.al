@@ -669,6 +669,62 @@ report 50019 "Customer Statement US"
                         ToolTip = 'Specifies if you want to record the related interactions with the involved contact person in the Interaction Log Entry table.';
                     }
                 }
+                /*The BC Customer Statement report need to have the following output options in the request page section.*/
+                group("Output Options")
+                {
+                    Caption = 'Output Options';
+                    field(ReportOutput; SupportedOutputMethod)
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'Report Output';
+                        OptionCaption = 'Print,Preview,Word,PDF,Email,XML - RDLC layouts only', Comment = 'Each item is a verb/action - to print, to preview, to export to Word, export to PDF, send email, export to XML for RDLC layouts only';
+                        ToolTip = 'Specifies the output of the scheduled report, such as PDF or Word.';
+
+                        trigger OnValidate()
+                        var
+                            CustomLayoutReporting: Codeunit "Custom Layout Reporting";
+                        begin
+                            ShowPrintIfEmailIsMissing := (SupportedOutputMethod = SupportedOutputMethod::Email);
+
+                            case SupportedOutputMethod of
+                                SupportedOutputMethod::Print:
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPrintOption();
+                                SupportedOutputMethod::Preview:
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPreviewOption();
+                                SupportedOutputMethod::Word:
+                                    //ChosenOutputMethod := CustomLayoutReporting.GetWordOption();
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPrintOption();
+                                SupportedOutputMethod::PDF:
+                                    //ChosenOutputMethod := CustomLayoutReporting.GetPDFOption();
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPrintOption();
+                                SupportedOutputMethod::Email:
+                                    //ChosenOutputMethod := CustomLayoutReporting.GetEmailOption();
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPrintOption();
+                                SupportedOutputMethod::XML:
+                                    //ChosenOutputMethod := CustomLayoutReporting.GetXMLOption();
+                                    ChosenOutputMethod := CustomLayoutReporting.GetPrintOption();
+                            end;
+                        end;
+                    }
+                    field(ChosenOutput; ChosenOutputMethod)
+                    {
+                        ApplicationArea = Basic, Suite;
+                        Caption = 'Chosen Output';
+                        ToolTip = 'Specifies how to output the report, such as Print or Excel.';
+                        Visible = false;
+                    }
+                    group(EmailOptions)
+                    {
+                        Caption = 'Email Options';
+                        Visible = ShowPrintIfEmailIsMissing;
+                        field(PrintMissingAddresses; PrintIfEmailIsMissing)
+                        {
+                            ApplicationArea = Basic, Suite;
+                            Caption = 'Print Although Email is Missing or Invalid';
+                            ToolTip = 'Specifies if you want to print also the statements for customers that have not been set up with a send-to email address or defined send-to email address is invalid.';
+                        }
+                    }
+                }
             }
         }
 
@@ -816,6 +872,10 @@ report 50019 "Customer Statement US"
         Aged_amounts_CaptionLbl: Label 'Aged amounts:';
         Balance_ForwardCaptionLbl: Label 'Balance Forward';
         Bal_FwdCaptionLbl: Label 'Bal Fwd';
+        SupportedOutputMethod: Option Print,Preview,Word,PDF,Email,XML;
+        ChosenOutputMethod: Integer;
+        PrintIfEmailIsMissing: Boolean;
+        ShowPrintIfEmailIsMissing: Boolean;
 
     procedure GetTermsString(var CustLedgerEntry: Record "Cust. Ledger Entry"): Text[250]
     var
@@ -864,6 +924,7 @@ report 50019 "Customer Statement US"
         PmtCustLedgEntry: Record "Cust. Ledger Entry";
         ClosingCustLedgEntry: Record "Cust. Ledger Entry";
         AmountToApply: Decimal;
+        cu: report 1316;
     begin
         // Temporary Table, AppliedCustLedgEntry, to be filled in with everything that CustLedgEntry applied to.
         // Note that within AppliedCustLedgEntry, the "Amount to Apply" field will be filled in with the Amount Applied.
