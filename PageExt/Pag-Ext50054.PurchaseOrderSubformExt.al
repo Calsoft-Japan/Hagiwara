@@ -2,6 +2,10 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
 {
     layout
     {
+        modify("Line No.")
+        {
+            Visible = true;
+        }
 
         addbefore(Type)
         {
