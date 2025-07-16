@@ -2,7 +2,7 @@ pageextension 55814 ItemChargeAssignmentSalesExt extends "Item Charge Assignment
 {
     layout
     {
-        addlast(Content)
+        addbefore("Applies-to Doc. Type")
         {
             field("Posting Date"; Rec."Posting Date")
             {

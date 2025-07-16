@@ -2,7 +2,17 @@ pageextension 57012 PurchasePricesExt extends "Purchase Prices"
 {
     layout
     {
-        addlast(Content)
+        modify("Variant Code")
+        {
+            Editable = false;
+        }
+
+        modify("Minimum Quantity")
+        {
+            Editable = false;
+        }
+
+        addafter("Ending Date")
         {
             field("ORE Debit Cost"; Rec."ORE Debit Cost")
             {
@@ -26,4 +36,22 @@ pageextension 57012 PurchasePricesExt extends "Purchase Prices"
             }
         }
     }
+    var
+        PurchasePriceRec: Record "Purchase Price";
+        Text000: label 'Starting Date must have a value in Purchase Price: Item No.=%1. It cannot be zero or empty.';
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    begin
+
+        //CS058 Begin
+        PurchasePriceRec.RESET;
+        PurchasePriceRec.SETRANGE("Item No.", rec.GETFILTER("Item No."));
+        PurchasePriceRec.SETFILTER("Starting Date", '%1', 0D);
+        IF PurchasePriceRec.FINDFIRST THEN BEGIN
+            ERROR(Text000, PurchasePriceRec."Item No.");
+        END;
+        //CS058 End
+
+
+    end;
 }
