@@ -912,7 +912,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Format(Fields!Quantity_PurchLine.Value)</Value>
+                                                    <Value>=FormatNumber(Fields!Quantity_PurchLine.Value,0)</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -1897,7 +1897,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Format(Last(Fields!TotalQuantity.Value))</Value>
+                                                    <Value>=FormatNumber(Last(Fields!TotalQuantity.Value),0)</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2202,7 +2202,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Format(Last(Fields!TotalQuantity.Value))</Value>
+                                                    <Value>=FormatNumber(Last(Fields!TotalQuantity.Value),0)</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2503,7 +2503,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Format(Last(Fields!TotalQuantity.Value))</Value>
+                                                    <Value>=FormatNumber(Last(Fields!TotalQuantity.Value),0)</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -2525,6 +2525,7 @@
                                               <PaddingRight>5pt</PaddingRight>
                                             </Style>
                                           </Textbox>
+                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell>
