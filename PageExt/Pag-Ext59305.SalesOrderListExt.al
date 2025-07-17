@@ -99,7 +99,69 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
         }
 
     }
+    actions
+    {
+        addafter("AttachAsPDF")
+        {
+            action("DeliveryOrderList")
+            {
+                ApplicationArea = all;
+                Caption = 'Delivery Order List';
+                Image = PrintDocument;
+                Scope = Repeater;
+                trigger OnAction()
+                var
+                    DeliveryOrderList: Report "Delivery Order List";
 
+                begin
+                    Report.Run(50044, TRUE, FALSE, Rec);
+                    //DeliveryOrderList.Run();
+                end;
+            }
+            action("ExportDeliveryOrderList")
+            {
+                ApplicationArea = all;
+                Caption = 'Export Delivery Order List';
+                Image = Export;
+                Scope = Repeater;
+
+                trigger OnAction()
+                var
+                    DeliveryOrderList: Report 50044;
+                begin
+
+                end;
+            }
+            action("ProformaInvoice")
+            {
+                ApplicationArea = all;
+                Caption = 'Proforma Invoice ';
+                Image = PrintDocument;
+                Scope = Repeater;
+
+                trigger OnAction()
+                var
+                    ProformaInvoice: Report "Proforma Invoice";
+                begin
+                    //Report.Run(50066, TRUE, FALSE, Rec);
+                    ProformaInvoice.Run();
+                end;
+            }
+        }
+
+        addafter("AttachAsPDF_Promoted")
+        {
+            actionref("DeliveryOrderList_Promoted"; DeliveryOrderList)
+            {
+            }
+            actionref("ExportDeliveryOrderList_Promoted"; ExportDeliveryOrderList)
+            {
+            }
+            actionref("ProformaInvoice_Promoted"; ProformaInvoice)
+            {
+            }
+        }
+    }
     var
         Amount_LCY: Decimal;
 
