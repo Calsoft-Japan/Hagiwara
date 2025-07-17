@@ -194,7 +194,7 @@ report 50054 ChineseBankCashJournal
                 column(VoucherCaption; VoucherCaptionLbl)
                 {
                 }
-                column(ExplanationCaption; VoucherCaptionLbl)
+                column(ExplanationCaption; ExplanationCaptionLbl)
                 {
                 }
                 column(Corresponding_AccountsCaption; Corresponding_AccountsCaptionLbl)
@@ -221,10 +221,10 @@ report 50054 ChineseBankCashJournal
                 column(BalanceAmountCaption_Control1000000158; BalanceAmountCaption_Control1000000158Lbl)
                 {
                 }
-                column(OpenBalanceCaption; 'OpenBalanceCaption')
+                column(OpenBalanceCaption; OpenBalanceCaptionLbl)
                 {
                 }
-                column(Page_Caption_Control1000000020; '页号(Page)2')
+                /*column(Page_Caption_Control1000000020; '页号(Page)2')
                 {
                 }
                 column(Caption_Control1000000014; 'Caption_Control1000000014')
@@ -319,7 +319,7 @@ report 50054 ChineseBankCashJournal
                 }
                 column(Caption_Control1000000246; 'Caption_Control1000000246')
                 {
-                }
+                }*/
                 column(Bank_Account_Ledger_Entry_Entry_No_; "Entry No.")
                 {
                 }
@@ -786,8 +786,8 @@ report 50054 ChineseBankCashJournal
         DebitForeignCaptionLbl: Label '金额';
         BalanceForeignCaption_Control1000000157Lbl: Label '外币';
         BalanceAmountCaption_Control1000000158Lbl: Label '金额';
-        OpenBalanceCaptionLbl: Label 'OpenBalanceCaptionLbl';
-        Page_Caption_Control1000000020Lbl: Label '­Page_Caption_Control1000000020Lbl(Page)';
+        OpenBalanceCaptionLbl: Label '期初余额';
+        /*Page_Caption_Control1000000020Lbl: Label '­Page_Caption_Control1000000020Lbl(Page)';
         Caption_Control1000000014Lbl: Label 'Caption_Control1000000014Lbl';
         Caption_Control1000000043Lbl: Label 'Caption_Control1000000043Lbl';
         Caption_Control1000000048Lbl: Label 'Caption_Control1000000048Lbl';
@@ -795,7 +795,7 @@ report 50054 ChineseBankCashJournal
         Caption_Control1000000082Lbl: Label 'Caption_Control1000000082Lbl';
         Caption_Control1000000084Lbl: Label 'Caption_Control1000000084Lbl';
         Caption_Control1000000085Lbl: Label 'Caption_Control1000000085Lbl';
-        Caption_Control1000000086Lbl: Label 'Caption_Control1000000086Lbl';
+        Caption_Control1000000086Lbl: Label 'Caption_Control1000000086Lbl';FORMAT_MinDate_0___Year4_______FORMAT_MinDate_0___Month_2_______FORMAT_MinDate_0___Day____________FORMAT_MaxDate_0___Year4_______FORMAT_MaxDate_0___Month_2_______FORMAT_MaxDate_0___Day______
         Caption_Control1000000087Lbl: Label 'Caption_Control1000000087Lbl';
         MCaption_Control1000000099Lbl: Label 'M';
         DCaption_Control1000000100Lbl: Label 'D';
@@ -818,7 +818,7 @@ report 50054 ChineseBankCashJournal
         EmptyStringCaption_Control1000000240Lbl: Label '-';
         Caption_Control1000000242Lbl: Label 'Caption_Control1000000242Lbl';
         Caption_Control1000000244Lbl: Label 'Caption_Control1000000244Lbl';
-        Caption_Control1000000246Lbl: Label 'Caption_Control1000000246Lbl';
+        Caption_Control1000000246Lbl: Label 'Caption_Control1000000246Lbl';*/
         TotalDayCaptionLbl: Label '本日合计';
         TotalMonthCaptionLbl: Label '本月合计';
         TotalYearCaptionLbl: Label '本年合计';
