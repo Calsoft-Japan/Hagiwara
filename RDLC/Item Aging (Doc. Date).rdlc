@@ -1767,7 +1767,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>18.09524cm</Width>
+                  <Width>20.33616cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1863,7 +1863,7 @@
               </Filter>
             </Filters>
             <Height>0.84602cm</Height>
-            <Width>18.09524cm</Width>
+            <Width>20.33616cm</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=IIF(Fields!ItemFilter.Value = "",True,False)</Hidden>
@@ -1879,10 +1879,10 @@
         <Height>3.32582cm</Height>
         <Style />
       </Body>
-      <Width>20.33616cm</Width>
+      <Width>20.37585cm</Width>
       <Page>
         <PageHeader>
-          <Height>1.692cm</Height>
+          <Height>1.51561cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -1899,14 +1899,14 @@
                     </TextRun>
                   </TextRuns>
                   <Style>
-                    <TextAlign>Left</TextAlign>
+                    <TextAlign>Right</TextAlign>
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>0.41242cm</Top>
-              <Left>18.94666cm</Left>
+              <Top>0.423cm</Top>
+              <Left>15.49416cm</Left>
               <Height>0.423cm</Height>
-              <Width>1.30434cm</Width>
+              <Width>3.4525cm</Width>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
               </Visibility>
@@ -1935,7 +1935,7 @@
                 </Paragraph>
               </Paragraphs>
               <Height>0.423cm</Height>
-              <Width>7.5cm</Width>
+              <Width>6.71757cm</Width>
               <ZIndex>1</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
@@ -1958,7 +1958,7 @@
               </Paragraphs>
               <Top>0.423cm</Top>
               <Height>0.423cm</Height>
-              <Width>7.5cm</Width>
+              <Width>6.71757cm</Width>
               <ZIndex>2</ZIndex>
               <Style>
                 <Border />
@@ -1985,9 +1985,9 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Left>15.196cm</Left>
+              <Left>15.49416cm</Left>
               <Height>0.423cm</Height>
-              <Width>5.055cm</Width>
+              <Width>4.842cm</Width>
               <ZIndex>3</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
@@ -2017,9 +2017,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.846cm</Top>
-              <Left>15.096cm</Left>
+              <Left>15.49416cm</Left>
               <Height>0.423cm</Height>
-              <Width>5.155cm</Width>
+              <Width>4.842cm</Width>
               <ZIndex>4</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
@@ -2049,9 +2049,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.423cm</Top>
-              <Left>17.896cm</Left>
+              <Left>18.94666cm</Left>
               <Height>0.423cm</Height>
-              <Width>2.355cm</Width>
+              <Width>1.3895cm</Width>
               <ZIndex>5</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>

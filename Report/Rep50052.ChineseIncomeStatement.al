@@ -30,6 +30,9 @@ report 50052 ChineseIncomeStatement
             column(CompanyInfo_Name; CompanyInfo.Name)
             {
             }
+            column(Title_Caption; Title_CaptionLbl)
+            {
+            }
             column(FORMAT_DateFilterMax_0___Year4___; FORMAT(DateFilterMax, 0, '<Year4>'))
             {
             }
@@ -190,6 +193,7 @@ report 50052 ChineseIncomeStatement
         Text50012: Label 'Can not find CN Report Column Layout or %1 Column!';
         Company_Name_CaptionLbl: Label '公司名称:';
         Income_Statement_and_Profit_appropritionCaptionLbl: Label 'Income_Statement_and_Profit_appropritionCaptionLbl';
+        Title_CaptionLbl: Label '利 润 及 利 润 分 配 表';
         YearCaptionLbl: Label '年';
         MonthCaptionLbl: Label '月';
         DayCaptionLbl: Label '日';
