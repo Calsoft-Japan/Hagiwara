@@ -114,6 +114,10 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
         addafter("Item Category Code")
         {
 
+            field("Item Group Code"; Rec."Item Group Code")
+            {
+                ApplicationArea = all;
+            }
 
             field("Message Collected On"; Rec."Message Collected On")
             {

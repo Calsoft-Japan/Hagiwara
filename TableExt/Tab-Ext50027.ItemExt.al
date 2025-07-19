@@ -361,6 +361,11 @@ tableextension 50027 "Item Ext" extends "Item"
             DecimalPlaces = 0 : 5;
             Description = 'CS084';
         }
+        field(50170; "Item Group Code"; Code[10])
+        {
+            Caption = 'Product Group Code';
+            TableRelation = "Item Group".Code;
+        }
         field(60000; Hold; Decimal)
         {
             FieldClass = FlowField;
