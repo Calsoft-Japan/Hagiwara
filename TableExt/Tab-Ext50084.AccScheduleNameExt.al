@@ -35,6 +35,7 @@ tableextension 50084 "Acc. Schedule Name Ext" extends "Acc. Schedule Name"
         {
             Caption = 'Remarks';
             Description = 'ACWSH';
+
         }
     }
 }
