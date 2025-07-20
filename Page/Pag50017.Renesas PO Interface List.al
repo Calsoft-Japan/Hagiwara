@@ -87,6 +87,7 @@ page 50017 "Renesas PO Interface List"
                     Image = ImportExcel;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category4;
                     RunObject = codeunit "Renesas PO Importer";
 
                     trigger OnAction()
@@ -101,6 +102,7 @@ page 50017 "Renesas PO Interface List"
                     Image = CheckList;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category4;
                     RunObject = Report "Renesas PO Check List";
 
                     trigger OnAction()
@@ -120,6 +122,7 @@ page 50017 "Renesas PO Interface List"
                     Image = CreateDocuments;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category5;
                     RunObject = codeunit "Purch Order Interface (Create)";
 
                     trigger OnAction()
@@ -134,6 +137,7 @@ page 50017 "Renesas PO Interface List"
                     Image = Delete;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category5;
                     RunObject = codeunit "Delete Renesas PO Int (PF=0)";
 
                     trigger OnAction()
@@ -148,6 +152,7 @@ page 50017 "Renesas PO Interface List"
                     Image = Delete;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category5;
                     RunObject = codeunit "Clear Renesas PO Interface Rec";
 
                     trigger OnAction()
@@ -162,6 +167,7 @@ page 50017 "Renesas PO Interface List"
                     Image = UpdateDescription;
                     Promoted = true;
                     PromotedIsBig = true;
+                    PromotedCategory = Category5;
                     RunObject = codeunit "Renesas PO Interface (Update)";
 
                     trigger OnAction()
