@@ -18,6 +18,13 @@ codeunit 50037 "Sales Line Subscriber"
         // Siak Hui - END
     end;
 
+
+    [EventSubscriber(ObjectType::Table, Database::"Sales Line", OnBeforeAutoReserve, '', false, false)]
+    local procedure DoOnBeforeAutoReserve(var SalesLine: Record "Sales Line"; var IsHandled: Boolean; xSalesLine: Record "Sales Line"; FullAutoReservation: Boolean; var ReserveSalesLine: Codeunit "Sales Line-Reserve")
+    begin
+        IsHandled := true;
+    end;
+
     var
         myInt: Integer;
 }
