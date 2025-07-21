@@ -276,6 +276,23 @@ table 50005 "Message Collection"
             AutoFormatExpression = "Currency Code";
             AutoFormatType = 2;
         }
+        field(50046; "PC. Currency Code"; Code[3])
+        {
+        }
+        field(50047; "PC. Unit Cost"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 2;
+            DecimalPlaces = 0 : 4;
+        }
+
+        field(50048; "PC. Inventory Amount"; Decimal)
+        {
+            AutoFormatExpression = "Currency Code";
+            AutoFormatType = 1;
+            DecimalPlaces = 0 : 4;
+        }
+
     }
 
     keys
