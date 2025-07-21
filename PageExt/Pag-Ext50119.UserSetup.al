@@ -27,18 +27,22 @@ pageextension 50119 UserSetupExt extends "User Setup"
             field("Sales Order Post"; Rec."Sales Order Post")
             {
                 ApplicationArea = all;
+                Caption = 'Sales Order Post Default Value';
             }
             field("Sales Return Order Post"; Rec."Sales Return Order Post")
             {
                 ApplicationArea = all;
+                Caption = 'Sales Return Order Post Default Value';
             }
             field("Purchase Order Post"; Rec."Purchase Order Post")
             {
                 ApplicationArea = all;
+                Caption = 'Purch. Order Post Default Value';
             }
             field("Purchase Return Order Post"; Rec."Purchase Return Order Post")
             {
                 ApplicationArea = all;
+                Caption = 'Purch. Return Order Post Default Value';
             }
         }
     }

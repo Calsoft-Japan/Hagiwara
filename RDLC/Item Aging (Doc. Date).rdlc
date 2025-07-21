@@ -58,7 +58,7 @@
                   <Width>1.23cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>1.3895cm</Width>
+                  <Width>1.52841cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -902,7 +902,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!InvtQty1_ItemLedgEntry.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!InvtQty1_ItemLedgEntry.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -965,7 +965,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!InvtQty2_ItemLedgEntry.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!InvtQty2_ItemLedgEntry.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -1028,7 +1028,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!InvtQty3_ItemLedgEntry.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!InvtQty3_ItemLedgEntry.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -1091,7 +1091,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!InvtQty4_ItemLedgEntry.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!InvtQty4_ItemLedgEntry.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -1154,7 +1154,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!InvtQty5_ItemLedgEntry.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!InvtQty5_ItemLedgEntry.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -1217,7 +1217,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!TotalInvtQty.Value)</Value>
+                                  <Value>=FormatNumber(Sum(Fields!TotalInvtQty.Value),0)</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>
@@ -1760,14 +1760,14 @@
             <DataSetName>DataSet_Result</DataSetName>
             <Top>0.87245cm</Top>
             <Height>2.45337cm</Height>
-            <Width>20.33616cm</Width>
+            <Width>20.47507cm</Width>
             <Style />
           </Tablix>
           <Tablix Name="table2">
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>20.33616cm</Width>
+                  <Width>20.46184cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -1863,7 +1863,7 @@
               </Filter>
             </Filters>
             <Height>0.84602cm</Height>
-            <Width>20.33616cm</Width>
+            <Width>20.46184cm</Width>
             <ZIndex>1</ZIndex>
             <Visibility>
               <Hidden>=IIF(Fields!ItemFilter.Value = "",True,False)</Hidden>
@@ -1879,45 +1879,13 @@
         <Height>3.32582cm</Height>
         <Style />
       </Body>
-      <Width>20.37585cm</Width>
+      <Width>20.4883cm</Width>
       <Page>
         <PageHeader>
           <Height>1.51561cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
-            <Textbox Name="CurrReportPageNoCaption">
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Fields!CurrReportPageNoCaption.Value</Value>
-                      <Style>
-                        <FontSize>7pt</FontSize>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Right</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <Top>0.423cm</Top>
-              <Left>15.49416cm</Left>
-              <Height>0.423cm</Height>
-              <Width>3.4525cm</Width>
-              <Visibility>
-                <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
-              </Visibility>
-              <DataElementOutput>NoOutput</DataElementOutput>
-              <Style>
-                <Border />
-                <VerticalAlign>Middle</VerticalAlign>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-              </Style>
-            </Textbox>
             <Textbox Name="ItemAgeCompositionValueCaption">
               <KeepTogether>true</KeepTogether>
               <Paragraphs>
@@ -1936,7 +1904,6 @@
               </Paragraphs>
               <Height>0.423cm</Height>
               <Width>6.71757cm</Width>
-              <ZIndex>1</ZIndex>
               <Style>
                 <VerticalAlign>Middle</VerticalAlign>
               </Style>
@@ -1959,7 +1926,7 @@
               <Top>0.423cm</Top>
               <Height>0.423cm</Height>
               <Width>6.71757cm</Width>
-              <ZIndex>2</ZIndex>
+              <ZIndex>1</ZIndex>
               <Style>
                 <Border />
                 <VerticalAlign>Middle</VerticalAlign>
@@ -1985,10 +1952,10 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Left>15.49416cm</Left>
+              <Left>17.71666cm</Left>
               <Height>0.423cm</Height>
-              <Width>4.842cm</Width>
-              <ZIndex>3</ZIndex>
+              <Width>2.74518cm</Width>
+              <ZIndex>2</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
               </Visibility>
@@ -2017,15 +1984,48 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.846cm</Top>
-              <Left>15.49416cm</Left>
+              <Left>17.71666cm</Left>
               <Height>0.423cm</Height>
-              <Width>4.842cm</Width>
+              <Width>2.74518cm</Width>
+              <ZIndex>3</ZIndex>
+              <Visibility>
+                <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
+              </Visibility>
+              <DataElementOutput>NoOutput</DataElementOutput>
+              <Style>
+                <VerticalAlign>Middle</VerticalAlign>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="CurrReportPageNoCaption">
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!CurrReportPageNoCaption.Value</Value>
+                      <Style>
+                        <FontSize>7pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Right</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>0.423cm</Top>
+              <Left>18.94666cm</Left>
+              <Height>0.423cm</Height>
+              <Width>0.93289cm</Width>
               <ZIndex>4</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
               </Visibility>
               <DataElementOutput>NoOutput</DataElementOutput>
               <Style>
+                <Border />
                 <VerticalAlign>Middle</VerticalAlign>
                 <PaddingTop>2pt</PaddingTop>
                 <PaddingBottom>2pt</PaddingBottom>
@@ -2049,9 +2049,9 @@
                 </Paragraph>
               </Paragraphs>
               <Top>0.423cm</Top>
-              <Left>18.94666cm</Left>
+              <Left>19.87955cm</Left>
               <Height>0.423cm</Height>
-              <Width>1.3895cm</Width>
+              <Width>0.58229cm</Width>
               <ZIndex>5</ZIndex>
               <Visibility>
                 <Hidden>=IIF(ReportItems!ItemAgeCompositionValueCaption.Value = "",True,False)</Hidden>
