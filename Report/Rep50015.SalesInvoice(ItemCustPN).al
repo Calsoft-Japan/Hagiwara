@@ -505,7 +505,7 @@ report 50015 "Sales - Invoice (Item/CustPN)"
                                     ItemRec.RESET;
                                     ItemRec.GET("Sales Invoice Line"."No.");
                                     //ItemType := ItemRec."Product Group Code";
-                                    ItemType := ItemRec."Item Category Code";
+                                    ItemType := ItemRec."Item Group Code";
                                 END ELSE BEGIN
                                     ItemType := ' ';
                                 END;

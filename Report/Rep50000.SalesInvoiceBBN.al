@@ -660,7 +660,7 @@ report 50000 "Sales Invoice BBN"
                                 ItemRec.RESET;
                                 ItemRec.GET("Sales Invoice Line"."No.");
                                 //ItemType := ItemRec."Product Group Code";
-                                ItemType := ItemRec."Item Category Code";
+                                ItemType := ItemRec."Item Group Code";
                                 TarrifNo := ItemRec."Tariff No.";
                             END;
                             // YUKA for Hagiwara 20030218 - END
