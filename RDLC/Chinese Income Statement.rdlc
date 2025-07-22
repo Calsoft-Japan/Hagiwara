@@ -11,79 +11,6 @@
       <rd:DataSourceID>24aa4ad4-1028-4665-8992-8e1fb2c0f0b4</rd:DataSourceID>
     </DataSource>
   </DataSources>
-  <DataSets>
-    <DataSet Name="DataSet_Result">
-      <Query>
-        <DataSourceName>DataSource</DataSourceName>
-        <CommandText />
-      </Query>
-      <Fields>
-        <Field Name="CompanyInfo_Name">
-          <DataField>CompanyInfo_Name</DataField>
-        </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Year4___">
-          <DataField>FORMAT_DateFilterMax_0___Year4___</DataField>
-        </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Month___">
-          <DataField>FORMAT_DateFilterMax_0___Month___</DataField>
-        </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Day___">
-          <DataField>FORMAT_DateFilterMax_0___Day___</DataField>
-        </Field>
-        <Field Name="ColAmount2">
-          <DataField>ColAmount2</DataField>
-        </Field>
-        <Field Name="ColAmount2Format">
-          <DataField>ColAmount2Format</DataField>
-        </Field>
-        <Field Name="ColAmount">
-          <DataField>ColAmount</DataField>
-        </Field>
-        <Field Name="ColAmountFormat">
-          <DataField>ColAmountFormat</DataField>
-        </Field>
-        <Field Name="Row">
-          <DataField>Row</DataField>
-        </Field>
-        <Field Name="txtDescription">
-          <DataField>txtDescription</DataField>
-        </Field>
-        <Field Name="Company_Name_Caption">
-          <DataField>Company_Name_Caption</DataField>
-        </Field>
-        <Field Name="Income_Statement_and_Profit_appropritionCaption">
-          <DataField>Income_Statement_and_Profit_appropritionCaption</DataField>
-        </Field>
-        <Field Name="YearCaption">
-          <DataField>YearCaption</DataField>
-        </Field>
-        <Field Name="MonthCaption">
-          <DataField>MonthCaption</DataField>
-        </Field>
-        <Field Name="Unit__RMBCaption">
-          <DataField>Unit__RMBCaption</DataField>
-        </Field>
-        <Field Name="Enterprise_02_TableCaption">
-          <DataField>Enterprise_02_TableCaption</DataField>
-        </Field>
-        <Field Name="LineCaption">
-          <DataField>LineCaption</DataField>
-        </Field>
-        <Field Name="ItemsCaption">
-          <DataField>ItemsCaption</DataField>
-        </Field>
-        <Field Name="Current_MonthCaption">
-          <DataField>Current_MonthCaption</DataField>
-        </Field>
-        <Field Name="Year_To_DateCaption">
-          <DataField>Year_To_DateCaption</DataField>
-        </Field>
-        <Field Name="Integer_Number">
-          <DataField>Integer_Number</DataField>
-        </Field>
-      </Fields>
-    </DataSet>
-  </DataSets>
   <ReportSections>
     <ReportSection>
       <Body>
@@ -1096,12 +1023,6 @@
       </Page>
     </ReportSection>
   </ReportSections>
-  <ReportParametersLayout>
-    <GridLayoutDefinition>
-      <NumberOfColumns>4</NumberOfColumns>
-      <NumberOfRows>2</NumberOfRows>
-    </GridLayoutDefinition>
-  </ReportParametersLayout>
   <Code>Public Function BlankZero(ByVal Value As Decimal)
     if Value = 0 then
         Return ""
@@ -1141,4 +1062,80 @@ End Function
   <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>be89cd81-6690-468e-abef-697388c36c3b</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="CompanyInfo_Name">
+          <DataField>CompanyInfo_Name</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Year4___">
+          <DataField>FORMAT_DateFilterMax_0___Year4___</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Month___">
+          <DataField>FORMAT_DateFilterMax_0___Month___</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Day___">
+          <DataField>FORMAT_DateFilterMax_0___Day___</DataField>
+        </Field>
+        <Field Name="ColAmount2">
+          <DataField>ColAmount2</DataField>
+        </Field>
+        <Field Name="ColAmount2Format">
+          <DataField>ColAmount2Format</DataField>
+        </Field>
+        <Field Name="ColAmount">
+          <DataField>ColAmount</DataField>
+        </Field>
+        <Field Name="ColAmountFormat">
+          <DataField>ColAmountFormat</DataField>
+        </Field>
+        <Field Name="Row">
+          <DataField>Row</DataField>
+        </Field>
+        <Field Name="txtDescription">
+          <DataField>txtDescription</DataField>
+        </Field>
+        <Field Name="Company_Name_Caption">
+          <DataField>Company_Name_Caption</DataField>
+        </Field>
+        <Field Name="Income_Statement_and_Profit_appropritionCaption">
+          <DataField>Income_Statement_and_Profit_appropritionCaption</DataField>
+        </Field>
+        <Field Name="YearCaption">
+          <DataField>YearCaption</DataField>
+        </Field>
+        <Field Name="MonthCaption">
+          <DataField>MonthCaption</DataField>
+        </Field>
+        <Field Name="DayCaption">
+          <DataField>DayCaption</DataField>
+        </Field>
+        <Field Name="Unit__RMBCaption">
+          <DataField>Unit__RMBCaption</DataField>
+        </Field>
+        <Field Name="Enterprise_02_TableCaption">
+          <DataField>Enterprise_02_TableCaption</DataField>
+        </Field>
+        <Field Name="LineCaption">
+          <DataField>LineCaption</DataField>
+        </Field>
+        <Field Name="ItemsCaption">
+          <DataField>ItemsCaption</DataField>
+        </Field>
+        <Field Name="Current_MonthCaption">
+          <DataField>Current_MonthCaption</DataField>
+        </Field>
+        <Field Name="Year_To_DateCaption">
+          <DataField>Year_To_DateCaption</DataField>
+        </Field>
+        <Field Name="Integer_Number">
+          <DataField>Integer_Number</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
 </Report>
