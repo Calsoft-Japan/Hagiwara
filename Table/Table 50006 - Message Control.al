@@ -48,8 +48,8 @@ table 50006 "Message Control"
         }
         field(50000; "Message Status"; Option)
         {
-            OptionCaption = ' ,Ready,Sent';
-            OptionMembers = " ",Ready,Sent;
+            OptionCaption = ' ,Ready,Sent,Cancelled';
+            OptionMembers = " ",Ready,Sent,Cancelled;
         }
         field(50001; "Collected By"; Code[50])
         {

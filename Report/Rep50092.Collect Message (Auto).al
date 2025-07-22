@@ -13,7 +13,9 @@ report 50092 "Collect Message (Auto)"
     //CS106 Shawn 2025/05/09 - Adjust CurrencyCode by CompanyInfo. (PSI JD Logic only.)
     //CS109 NieRM 2025/06/19 - Adjust CurrencyCode by CompanyInfo. (PSI All.)
 
-    Permissions = TableData 111 = rimd,
+    Permissions = TableData 110 = rimd,
+                  TableData 111 = rimd,
+                  TableData 120 = rimd,
                   TableData 121 = rimd;
     ProcessingOnly = true;
     UseRequestPage = false;

@@ -1,5 +1,7 @@
-page 50013 "Control Master List"
+page 50013 "Message Control List"
 {
+    ApplicationArea = All;
+    UsageCategory = Lists;
     Editable = false;
     PageType = List;
     PromotedActionCategories = 'New,Process,Reports,Maintenance,Revision';
@@ -79,7 +81,6 @@ page 50013 "Control Master List"
                     PromotedCategory = New;
                     PromotedIsBig = true;
                     RunObject = Report "PSI Initialiaztion";
-                    ShortCutKey = 'F2';
 
                     trigger OnAction()
                     var
@@ -87,18 +88,36 @@ page 50013 "Control Master List"
                     begin
                     end;
                 }
-                action("Collect  PSI")
+                action("Collect Message")
                 {
-                    Caption = 'Collect  PSI';
+                    Caption = 'Collect  Message';
                     Image = UpdateShipment;
                     Promoted = true;
                     RunObject = Report "Collect Message";
-                    ShortCutKey = 'F3';
 
                     trigger OnAction()
                     var
                         PageID: Integer;
                     begin
+                    end;
+                }
+                action("Cancel Message")
+                {
+                    Caption = 'Cancel Message';
+                    Image = Cancel;
+                    Promoted = true;
+
+                    trigger OnAction()
+                    var
+                        RepCancelMsg: report "Cancel Message";
+                    begin
+                        if rec."Message Status" <> rec."Message Status"::Ready then begin
+                            Error('You cannot cancel the message. Only records in Ready status can be canceled.');
+                        end;
+
+                        if Confirm('Do you want to cancel the message?', false) then begin
+                            RepCancelMsg.CancelMessage(Rec);
+                        end;
                     end;
                 }
                 /* This will be replaced by API
