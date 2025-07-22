@@ -713,7 +713,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Title_Caption.Value</Value>
+                      <Value>=First(Fields!Title_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>7pt</FontSize>
@@ -744,7 +744,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Company_Name_Caption.Value</Value>
+                      <Value>=First(Fields!Company_Name_Caption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -806,7 +806,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!YearCaption.Value</Value>
+                      <Value>=First(Fields!YearCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -836,7 +836,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!MonthCaption.Value</Value>
+                      <Value>=First(Fields!MonthCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -866,7 +866,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!Enterprise_02_TableCaption.Value</Value>
+                      <Value>=First(Fields!Enterprise_02_TableCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -986,7 +986,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!DayCaption.Value</Value>
+                      <Value>=First(Fields!DayCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -1067,6 +1067,9 @@ End Function
       <Fields>
         <Field Name="CompanyInfo_Name">
           <DataField>CompanyInfo_Name</DataField>
+        </Field>
+        <Field Name="Title_Caption">
+          <DataField>Title_Caption</DataField>
         </Field>
         <Field Name="FORMAT_DateFilterMax_0___Year4___">
           <DataField>FORMAT_DateFilterMax_0___Year4___</DataField>

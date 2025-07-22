@@ -190,6 +190,15 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
                 }
             }
         }
+
+        addafter(Reserve)
+        {
+
+            field("Days for Auto Inv. Reservation"; rec."Days for Auto Inv. Reservation")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

@@ -105,7 +105,7 @@ codeunit 50178 "Purch Order Interface (Create)"
                         //Use OEM No. and Description to search for Item record
                         //-----------------------------------------------------
                         rec_Item.SETCURRENTKEY(Description, "OEM No.", "Vendor No.");
-                        rec_Item.SETRANGE(rec_Item.Description, rec_POInt1."Item Description");
+                        rec_Item.SETRANGE(Description, rec_POInt1."Item Description");
                         rec_Item.SETFILTER("Item Supplier Source", '=%1', rec_Item."Item Supplier Source"::Renesas);
                         rec_Item.SETFILTER("OEM No.", '=%1', rec_PurchHeader."Customer No.");
                         //rec_Item.SETFILTER("Vendor No.",'=%1','V00010');//sanjeev 10/14/2018

@@ -52,9 +52,11 @@ page 50100 "Value Entry FCY"
                 field("External Document No."; Rec."External Document No.") { }
                 field("Cost Amount (Actual)(ACY)"; Rec."Cost Amount (Actual) (ACY)") { }
                 field("Cost Posted to G/L (ACY)"; Rec."Cost Posted to G/L (ACY)") { }
+                field("Cost Per Unit (ACY)"; Rec."Cost Per Unit (ACY)") { }
                 field("Document Type"; Rec."Document Type") { }
                 field("Document Line No."; Rec."Document Line No.") { }
                 field("Order Type"; Rec."Order Type") { }
+                field("Order No."; Rec."Order No.") { }
                 field("Order Line No."; Rec."Order Line No.") { }
                 field("Expected Cost"; Rec."Expected Cost") { }
                 field("Item Charge No."; Rec."Item Charge No.") { }

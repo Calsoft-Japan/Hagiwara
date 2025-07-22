@@ -77,18 +77,35 @@ page 50017 "Renesas PO Interface List"
     {
         area(navigation)
         {
-            group(Validation)
+            group(Purchasing)
             {
-                Caption = 'Validation';
+                Caption = 'Purchasing';
                 Image = Alerts;
-                action("Report Renesas PO Check List")
+                action("Import PO File")
                 {
-                    Image = CheckList;
+                    Caption = 'Import PO File';
+                    Image = Import;
                     Promoted = true;
-                    PromotedCategory = Category4;
                     PromotedIsBig = true;
+                    PromotedCategory = Process;
+                    RunObject = codeunit "Renesas PO Importer";
+                    ToolTip = 'Import Renesas PO Data from Microsoft Excel Worksheet into Renesas PO Interface table.';
+
+                    trigger OnAction()
+                    var
+                        PageID: Integer;
+                    begin
+                    end;
+                }
+                action("Report PO Check List")
+                {
+                    Caption = 'Report PO Check List';
+                    Image = Report;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     RunObject = Report "Renesas PO Check List";
-                    ShortCutKey = 'F5';
+                    ToolTip = 'Print and at the same time validate Renesas PO Interface data after the import process is completed.';
 
                     trigger OnAction()
                     var
@@ -96,13 +113,15 @@ page 50017 "Renesas PO Interface List"
                     begin
                     end;
                 }
-                action("Delete Renesas Not Process Rec")
+                action("Delete Not Process Record")
                 {
-                    Image = Delete;
+                    Caption = 'Delete Not Process Record';
+                    Image = DeleteRow;
                     Promoted = true;
-                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     RunObject = codeunit "Delete Renesas PO Int (PF=0)";
-                    ShortCutKey = 'F4';
+                    ToolTip = 'Delete interface records that are unprocessed.';
 
                     trigger OnAction()
                     var
@@ -110,13 +129,15 @@ page 50017 "Renesas PO Interface List"
                     begin
                     end;
                 }
-                action("Delete All Renesas Interface Rec")
+                action("Clear All Record")
                 {
-                    Image = Delete;
+                    Caption = 'Clear All Record';
+                    Image = ClearLog;
                     Promoted = true;
-                    PromotedCategory = Category4;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     RunObject = codeunit "Clear Renesas PO Interface Rec";
-                    ShortCutKey = 'Shift+F4';
+                    ToolTip = 'Clear all historical and already processed interface data stored in Renesas PO Interface table.';
 
                     trigger OnAction()
                     var
@@ -124,19 +145,15 @@ page 50017 "Renesas PO Interface List"
                     begin
                     end;
                 }
-            }
-            group(Process)
-            {
-                Caption = 'Process';
-                Image = Confirm;
-                action("Create Renesaa PO")
+                action("Create PO")
                 {
+                    Caption = 'Create PO';
                     Image = CreateDocument;
                     Promoted = true;
-                    PromotedCategory = Category5;
                     PromotedIsBig = true;
+                    PromotedCategory = Process;
                     RunObject = codeunit "Purch Order Interface (Create)";
-                    ShortCutKey = 'F3';
+                    ToolTip = 'Create Renesas PO record from imported Renesas PO Interface data.';
 
                     trigger OnAction()
                     var
@@ -144,13 +161,15 @@ page 50017 "Renesas PO Interface List"
                     begin
                     end;
                 }
-                action("Update Renesas PO Line")
+                action("Update PO Line")
                 {
+                    Caption = 'Update PO Line';
                     Image = UpdateDescription;
                     Promoted = true;
-                    PromotedCategory = Category5;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     RunObject = codeunit "Renesas PO Interface (Update)";
-                    ShortCutKey = 'F2';
+                    ToolTip = 'Adjust and update Renesas PO quantity in existing Purchase Lines, limited to quantity reduction (negative values only).';
 
                     trigger OnAction()
                     var
@@ -159,9 +178,6 @@ page 50017 "Renesas PO Interface List"
                     end;
                 }
             }
-        }
-        area(reporting)
-        {
         }
     }
 }

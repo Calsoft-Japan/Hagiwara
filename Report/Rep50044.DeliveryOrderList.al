@@ -346,7 +346,7 @@ report 50044 "Delivery Order List"
                     IF "Sales Line"."No." <> '' THEN BEGIN
                         ItemRec.GET("Sales Line"."No.");
                         //ItemType := ItemRec."Product Group Code";
-                        ItemType := ItemRec."Item Category Code";
+                        ItemType := ItemRec."Item Group Code";
                         //CS016 Begin
                         SalesHeader.GET(SalesHeader."Document Type"::Order, "Sales Line"."Document No.");
                         CustomerRec.GET(SalesHeader."Sell-to Customer No.");
