@@ -206,7 +206,7 @@ report 50097 "Insufficient DO List"
                     IF "Sales Line"."No." <> '' THEN BEGIN
                         ItemRec.GET("Sales Line"."No.");
                         //ItemType := ItemRec."Product Group Code";
-                        ItemType := ItemRec.Products;
+                        ItemType := ItemRec."Item Group Code";
                         CountryOfOrigin := ItemRec."Country/Region of Origin Code";
                     END;
                     // YUKA for Hagiwara 20041127

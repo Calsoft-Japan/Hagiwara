@@ -169,6 +169,7 @@ report 50074 "Item Aging (Doc. Date)"
             {
                 DataItemTableView = SORTING(Number)
                                     WHERE(Number = CONST(1));
+
                 column(TotalInvtValue_ItemLedgEntry; TotalInvtValue_Item)
                 {
                     AutoFormatType = 1;
