@@ -2,6 +2,68 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
 {
     layout
     {
+        addafter("Costs & Posting")
+        {
+            group(Dimensions)
+            {
+                Caption = 'Dimensions';
+                field("Shortcut Dimension Code 1"; Rec."Shortcut Dimension Code 1")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Customer Group';
+                    TableRelation = "Dimension Value".Code WHERE("Dimension Code" = const('CUSTOMERGROUP'));
+                }
+
+                field("Shortcut Dimension Code 2"; Rec."Shortcut Dimension Code 2")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Base Currency';
+                    TableRelation = "Dimension Value".Code WHERE("Dimension Code" = const('BASECURRENCY'));
+                }
+
+                field("Shortcut Dimension Code 3"; Rec."Shortcut Dimension Code 3")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Vendor Group';
+                    TableRelation = "Dimension Value".Code WHERE("Dimension Code" = const('VENDORGROUP'));
+                }
+
+                field("Shortcut Dimension Code 4"; Rec."Shortcut Dimension Code 4")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Item Group';
+                    TableRelation = "Dimension Value".Code WHERE("Dimension Code" = const('ITEMGROUP'));
+                }
+
+                field("Shortcut Dimension Code 5"; Rec."Shortcut Dimension Code 5")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Team';
+                    TableRelation = "Dimension Value".Code WHERE("Dimension Code" = const('TEAM'));
+                }
+
+                field("Shortcut Dimension Code 6"; Rec."Shortcut Dimension Code 6")
+                {
+                    ApplicationArea = All;
+                    Caption = '';
+
+                }
+
+                field("Shortcut Dimension Code 7"; Rec."Shortcut Dimension Code 7")
+                {
+                    ApplicationArea = All;
+                    Caption = '';
+
+                }
+
+                field("Shortcut Dimension Code 8"; Rec."Shortcut Dimension Code 8")
+                {
+                    ApplicationArea = All;
+                    Caption = '';
+
+                }
+            }
+        }
         addafter("No.")
         {
 

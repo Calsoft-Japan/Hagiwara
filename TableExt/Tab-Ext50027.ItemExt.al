@@ -42,6 +42,18 @@ tableextension 50027 "Item Ext" extends "Item"
             TableRelation = Manufacturer;
             // cleaned
         }
+
+        // Fields for dimensions(N002)
+        field(50021; "Shortcut Dimension Code 1"; Code[20]) { }
+        field(50022; "Shortcut Dimension Code 2"; Code[20]) { }
+        field(50023; "Shortcut Dimension Code 3"; Code[20]) { }
+        field(50024; "Shortcut Dimension Code 4"; Code[20]) { }
+        field(50025; "Shortcut Dimension Code 5"; Code[20]) { }
+        field(50026; "Shortcut Dimension Code 6"; Code[20]) { }
+        field(50027; "Shortcut Dimension Code 7"; Code[20]) { }
+        field(50028; "Shortcut Dimension Code 8"; Code[20]) { }
+
+
         field(50084; "Qty. on Purch. Quote"; Decimal)
         {
             FieldClass = FlowField;
@@ -430,5 +442,6 @@ tableextension 50027 "Item Ext" extends "Item"
         {
             // cleaned
         }
+
     }
 }

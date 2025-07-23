@@ -250,3 +250,4 @@ pageextension 50031 ItemListExt extends "Item List"
         LatestPurchasePrice: Decimal;
 
 }
+
