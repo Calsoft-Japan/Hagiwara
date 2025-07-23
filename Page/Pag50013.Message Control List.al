@@ -117,7 +117,9 @@ page 50013 "Message Control List"
 
                         if Confirm('Do you want to cancel the message?', false) then begin
                             RepCancelMsg.CancelMessage(Rec);
+                            CurrPage.UPDATE();
                         end;
+
                     end;
                 }
                 /* This will be replaced by API

@@ -172,37 +172,44 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("Message Status (JC)"; rec."Message Status (JC)")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("JA Collection Date"; rec."JA Collection Date")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("JC Collection Date"; rec."JC Collection Date")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("Update Date"; rec."Update Date")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
 
             field("Update Time"; rec."Update Time")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("Update By"; rec."Update By")
             {
 
                 ApplicationArea = all;
+                Editable = false;
             }
             field("Shipment Seq. No."; rec."Shipment Seq. No.")
             {

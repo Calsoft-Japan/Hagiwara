@@ -20,7 +20,6 @@ report 50023 "Collect Message"
 
     requestpage
     {
-        Caption = 'Do Not Collect Same Message Twice Before Sending !';
 
         layout
         {
@@ -29,18 +28,21 @@ report 50023 "Collect Message"
                 group(Options)
                 {
                     Caption = 'Options';
-                    field("Do Not Collect Same Message Twice Before Sending !"; '')
+                    field(guide1; '')
                     {
+                        ApplicationArea = Basic, Suite;
                         Caption = 'Do Not Collect Same Message Twice Before Sending !';
                     }
-                    field("'"; '')
+                    field(guide2; '')
                     {
+                        ApplicationArea = Basic, Suite;
                         Caption = '=== RUN INIT POST SHIPMENT COLLECT FLAG BEFORE COLLECT JC PSI DATA ===';
                         Style = StandardAccent;
                         StyleExpr = TRUE;
                     }
                     field(g_optRetrieveType; g_optRetrieveType)
                     {
+                        ApplicationArea = Basic, Suite;
                         Caption = 'Retrieve Type';
 
                         trigger OnValidate()
@@ -56,6 +58,7 @@ report 50023 "Collect Message"
                         Visible = RequestOptionsPageByDailyVISIBLE;
                         field(dt_ByDate; dt_ByDate)
                         {
+                            ApplicationArea = Basic, Suite;
                             Caption = 'Date';
                         }
                     }
@@ -67,10 +70,12 @@ report 50023 "Collect Message"
                         Visible = RequestOptionsPageByMonthlyVISIBLE;
                         field(g_datStartDate; g_datStartDate)
                         {
+                            ApplicationArea = Basic, Suite;
                             Caption = 'From';
                         }
                         field(g_datEndDate; g_datEndDate)
                         {
+                            ApplicationArea = Basic, Suite;
                             Caption = 'To';
                         }
                     }
@@ -81,26 +86,31 @@ report 50023 "Collect Message"
                             Caption = 'Collect';
                             field(chk_JA; bln_MessageID[1])
                             {
+                                ApplicationArea = Basic, Suite;
                                 Caption = 'Sales Booking Data (JA)';
                                 Editable = RequestOptionsPagechk_JAEDITABLE;
                             }
                             field(chk_JB; bln_MessageID[2])
                             {
+                                ApplicationArea = Basic, Suite;
                                 Caption = 'Sales Shipment Data (JB)';
                                 Editable = RequestOptionsPagechk_JBEDITABLE;
                             }
                             field(chk_JC; bln_MessageID[3])
                             {
+                                ApplicationArea = Basic, Suite;
                                 Caption = 'Renesas SO Backlog Data (JC)';
                                 Editable = RequestOptionsPagechk_JCEDITABLE;
                             }
                             field(chk_JD; bln_MessageID[4])
                             {
+                                ApplicationArea = Basic, Suite;
                                 Caption = 'Inventory Data (JD)';
                                 Editable = RequestOptionsPagechk_JDEDITABLE;
                             }
                             field(chk_JJ; bln_MessageID[5])
                             {
+                                ApplicationArea = Basic, Suite;
                                 Caption = 'Purchasing (Incoming) Data (JJ)';
                                 Editable = RequestOptionsPagechk_JJEDITABLE;
                             }
