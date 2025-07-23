@@ -22,13 +22,37 @@ report 50009 "Voucher (Reg No.)"
             column(VOUCHERCaption; VOUCHERCaptionLbl)
             {
             }
+            column(VOUCHERCaptionCN; VOUCHERCaptionCNLbl)
+            {
+            }
             column(CompanyName; CompanyInfo.Name)
+            {
+            }
+            column(CompanyNameCN; CompanyNameCNLbl)
+            {
+            }
+            column(FORMAT_DateFilterMax_0___Year4___; FORMAT(DateFilterYear, 0, '<Year4>'))
+            {
+            }
+            column(FORMAT_DateFilterMax_0___Month___; FORMAT(DateFilterMonth, 0, '<Month>'))
+            {
+            }
+            column(FORMAT_DateFilterMax_0___Day___; FORMAT(DateFilterDay, 0, '<Day>'))
+            {
+            }
+            column(TimeCaption; FORMAT(DateFilterYear, 0, '<Year4>') + '年' + FORMAT(DateFilterMonth, 0, '<Month,2>') + '月' + FORMAT(DateFilterDay, 0, '<Day>') + '日')
             {
             }
             column(Doc__No_Caption; Doc__No_CaptionLbl)
             {
             }
+            column(Doc__No_CaptionCN; Doc__No_CaptionCNLbl)
+            {
+            }
             column(PageCaption; PageCaptionLbl)
+            {
+            }
+            column(PageCaptionCN; PageCaptionCNLbl)
             {
             }
             column(Reg__No__Caption; Reg__No__CaptionLbl)
@@ -49,13 +73,34 @@ report 50009 "Voucher (Reg No.)"
             column(Account_CodeCaption; Account_CodeCaptionLbl)
             {
             }
+            column(GenLegAcct_CodeCaption; GenLegAcct_CodeCaptionLbl)
+            {
+            }
+            column(GenLegAcct_CodeCaptionCN; GenLegAcct_CodeCaptionCNLbl)
+            {
+            }
             column(ExplanationCaption; ExplanationCaptionLbl)
+            {
+            }
+            column(ExplanationCaptionCN; ExplanationCaptionCNLbl)
             {
             }
             column(For_Cur_Amt_Caption; For_Cur_Amt_CaptionLbl)
             {
             }
+            column(For_Cur_Amt_CaptionCN; For_Cur_Amt_CaptionCNLbl)
+            {
+            }
+            column(For_Curr_Caption; For_Curr_CaptionLbl)
+            {
+            }
+            column(For_Curr_CaptionCN; For_Curr_CaptionCNLbl)
+            {
+            }
             column(Exc_RatCaption; Exc_RatCaptionLbl)
+            {
+            }
+            column(Exc_RatCaptionCN; Exc_RatCaptionCNLbl)
             {
             }
             column(CURCaption; CURCaptionLbl)
@@ -89,6 +134,9 @@ report 50009 "Voucher (Reg No.)"
             {
             }
             column(G_L_Entry__Account_No__1; AccountNo[1])
+            {
+            }
+            column(G_L_Entry__Account_L_Name; ChineseAccountName)
             {
             }
             column(CurrCode_1; CurrCode[1])
@@ -214,6 +262,9 @@ report 50009 "Voucher (Reg No.)"
             column(CreditAmount_5; CreditAmount[5])
             {
             }
+            column(SourceName; SourceName)
+            {
+            }
             column(G_L_Entry_Description_6; Description[6])
             {
             }
@@ -277,16 +328,28 @@ report 50009 "Voucher (Reg No.)"
             column(TotalFor___FIELDCAPTION__Document_No___; TotalFor + GLEntry.FIELDCAPTION("Document No."))
             {
             }
+            column(TotalFor___FIELDCAPTION__Document_No_CN; '人民币大写金额：   零元整')
+            {
+            }
             column(User; User)
             {
             }
             column(Manager__Caption; Manager__CaptionLbl)
             {
             }
+            column(Manager__CaptionCN; Manager__CaptionCNLbl)
+            {
+            }
+            column(Checked__CaptionCN; Checked__CaptionCNLbl)
+            {
+            }
             column(Checked__Caption; Checked__CaptionLbl)
             {
             }
             column(Prepared__Caption; Prepared__CaptionLbl)
+            {
+            }
+            column(Prepared__CaptionCN; Prepared__CaptionCNLbl)
             {
             }
 
@@ -298,6 +361,8 @@ report 50009 "Voucher (Reg No.)"
                 GLRegister: Record "G/L Register";
                 DimensionValue: Record "Dimension Value";
                 DimensionSetEntry: Record "Dimension Set Entry";
+                Vendor: Record Vendor;
+                Customer: Record Customer;
                 Glob1Text: Text[50];
                 Glob2Text: Text[50];
                 Project: Text[50];
@@ -360,7 +425,16 @@ report 50009 "Voucher (Reg No.)"
                     ForeignAmt[i] := 0;
                     CurrCode[i] := '';
                     ExcRate[i] := 0;
-
+                    ChineseAccountName := GLEntry."Chinese Account Name";
+                    //bobby FDDR050 07/23/2025 BEGIN
+                    IF GLEntry."Source Type" = GLEntry."Source Type"::Vendor then begin
+                        Vendor.Get(GLEntry."Source No.");
+                        SourceName := Vendor.Name;
+                    end else IF GLEntry."Source Type" = GLEntry."Source Type"::Customer then begin
+                        Customer.Get(GLEntry."Source No.");
+                        SourceName := Customer.Name;
+                    end;
+                    //bobby FDDR050 07/23/2025 END
                     IF GLEntry."Bal. Account Type" IN
                       [GLEntry."Bal. Account Type"::Customer, GLEntry."Bal. Account Type"::Vendor, GLEntry."Bal. Account Type"::"Bank Account"]
                     THEN BEGIN
@@ -485,6 +559,12 @@ report 50009 "Voucher (Reg No.)"
         CompanyInfo.GET;
         GLEntry.SETCURRENTKEY("Document No.", "Posting Date");
         GLEntry.COPYFILTERS("G/L Entry");
+        /*
+        DateFilterYear := Date2DMY(PostingDate, 3);
+        DateFilterMonth := Date2DMY(PostingDate, 2);
+        DateFilterDay := Date2DMY(PostingDate, 1);
+        Evaluate(DateFilterDay, CopyStr(PostingDate, 1, 2));
+        */
     end;
 
     var
@@ -498,20 +578,37 @@ report 50009 "Voucher (Reg No.)"
         PostingDate: Date;
         TotalFor: Label 'Total for ';
         VOUCHERCaptionLbl: Label 'VOUCHER';
+        VOUCHERCaptionCNLbl: Label '记帐凭证';
+        CompanyNameCNLbl: Label '公司名称';
         Doc__No_CaptionLbl: Label 'Doc. No.';
+        Doc__No_CaptionCNLbl: Label '凭证编号:';
         PageCaptionLbl: Label 'Page';
+        PageCaptionCNLbl: Label '页数:';
         Reg__No__CaptionLbl: Label 'Reg. No.:';
         Amount__LCY_CaptionLbl: Label 'Amount (LCY)';
+        Amount__LCY_CaptionCNLbl: Label '本币金额 Amount (LCY)';
         CreditCaptionLbl: Label 'Credit';
+        CreditCaptionCNLbl: Label '贷方';
         DebitCaptionLbl: Label 'Debit';
+        DebitCaptionCNLbl: Label '借方';
+        GenLegAcct_CodeCaptionLbl: Label 'Gen.Leg.Acct.';
+        GenLegAcct_CodeCaptionCNLbl: Label '科目';
         Account_CodeCaptionLbl: Label 'Account Code';
         ExplanationCaptionLbl: Label 'Explanation';
+        ExplanationCaptionCNLbl: Label '摘      要';
+        For_Curr_CaptionLbl: Label 'For.Curr.';
+        For_Curr_CaptionCNLbl: Label '外币';
         For_Cur_Amt_CaptionLbl: Label 'For.Cur Amt.';
+        For_Cur_Amt_CaptionCNLbl: Label '外币金额';
         Exc_RatCaptionLbl: Label 'Exc.Rat';
+        Exc_RatCaptionCNLbl: Label '汇率';
         CURCaptionLbl: Label 'CUR';
         Manager__CaptionLbl: Label '(Manager):';
+        Manager__CaptionCNLbl: Label '会计主管:';
         Checked__CaptionLbl: Label '(Checked):';
+        Checked__CaptionCNLbl: Label '复核:';
         Prepared__CaptionLbl: Label '(Prepared):';
+        Prepared__CaptionCNLbl: Label '制单:';
         Description: array[7] of Text;
         GlobalDimCode: array[7] of Code[10];
         AccountDesc: array[7] of Text;
@@ -528,6 +625,11 @@ report 50009 "Voucher (Reg No.)"
         User: Code[20];
         NextDoc: Boolean;
         Last: Boolean;
+        DateFilterYear: Date;
+        DateFilterMonth: Date;
+        DateFilterDay: Date;
+        ChineseAccountName: Text[50];
+        SourceName: Text[100];
 
     procedure GetChineseDesc("Account No": Code[20]): Text[100]
     var

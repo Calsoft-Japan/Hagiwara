@@ -2525,7 +2525,6 @@
                                               <PaddingRight>5pt</PaddingRight>
                                             </Style>
                                           </Textbox>
-                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell>
@@ -4774,7 +4773,7 @@ Cstr(Fields!HdrAddrLine5.Value), 1)</Hidden>
                     <Paragraph>
                       <TextRuns>
                         <TextRun>
-                          <Value EvaluationMode="Constant">Hagiwara Electric (Thailand) Co., Ltd.</Value>
+                          <Value>=Fields!CompanyName.Value</Value>
                           <Style>
                             <FontStyle>Normal</FontStyle>
                             <FontFamily>Segoe UI</FontFamily>
@@ -4782,7 +4781,7 @@ Cstr(Fields!HdrAddrLine5.Value), 1)</Hidden>
                         </TextRun>
                       </TextRuns>
                       <Style>
-                        <TextAlign>Right</TextAlign>
+                        <TextAlign>Left</TextAlign>
                       </Style>
                     </Paragraph>
                   </Paragraphs>

@@ -3516,14 +3516,38 @@ End Function
         <Field Name="VOUCHERCaption">
           <DataField>VOUCHERCaption</DataField>
         </Field>
+        <Field Name="VOUCHERCaptionCN">
+          <DataField>VOUCHERCaptionCN</DataField>
+        </Field>
         <Field Name="CompanyName">
           <DataField>CompanyName</DataField>
+        </Field>
+        <Field Name="CompanyNameCN">
+          <DataField>CompanyNameCN</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Year4___">
+          <DataField>FORMAT_DateFilterMax_0___Year4___</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Month___">
+          <DataField>FORMAT_DateFilterMax_0___Month___</DataField>
+        </Field>
+        <Field Name="FORMAT_DateFilterMax_0___Day___">
+          <DataField>FORMAT_DateFilterMax_0___Day___</DataField>
+        </Field>
+        <Field Name="TimeCaption">
+          <DataField>TimeCaption</DataField>
         </Field>
         <Field Name="Doc__No_Caption">
           <DataField>Doc__No_Caption</DataField>
         </Field>
+        <Field Name="Doc__No_CaptionCN">
+          <DataField>Doc__No_CaptionCN</DataField>
+        </Field>
         <Field Name="PageCaption">
           <DataField>PageCaption</DataField>
+        </Field>
+        <Field Name="PageCaptionCN">
+          <DataField>PageCaptionCN</DataField>
         </Field>
         <Field Name="Reg__No__Caption">
           <DataField>Reg__No__Caption</DataField>
@@ -3543,14 +3567,35 @@ End Function
         <Field Name="Account_CodeCaption">
           <DataField>Account_CodeCaption</DataField>
         </Field>
+        <Field Name="GenLegAcct_CodeCaption">
+          <DataField>GenLegAcct_CodeCaption</DataField>
+        </Field>
+        <Field Name="GenLegAcct_CodeCaptionCN">
+          <DataField>GenLegAcct_CodeCaptionCN</DataField>
+        </Field>
         <Field Name="ExplanationCaption">
           <DataField>ExplanationCaption</DataField>
+        </Field>
+        <Field Name="ExplanationCaptionCN">
+          <DataField>ExplanationCaptionCN</DataField>
         </Field>
         <Field Name="For_Cur_Amt_Caption">
           <DataField>For_Cur_Amt_Caption</DataField>
         </Field>
+        <Field Name="For_Cur_Amt_CaptionCN">
+          <DataField>For_Cur_Amt_CaptionCN</DataField>
+        </Field>
+        <Field Name="For_Curr_Caption">
+          <DataField>For_Curr_Caption</DataField>
+        </Field>
+        <Field Name="For_Curr_CaptionCN">
+          <DataField>For_Curr_CaptionCN</DataField>
+        </Field>
         <Field Name="Exc_RatCaption">
           <DataField>Exc_RatCaption</DataField>
+        </Field>
+        <Field Name="Exc_RatCaptionCN">
+          <DataField>Exc_RatCaptionCN</DataField>
         </Field>
         <Field Name="CURCaption">
           <DataField>CURCaption</DataField>
@@ -3584,6 +3629,9 @@ End Function
         </Field>
         <Field Name="G_L_Entry__Account_No__1">
           <DataField>G_L_Entry__Account_No__1</DataField>
+        </Field>
+        <Field Name="G_L_Entry__Account_L_Name">
+          <DataField>G_L_Entry__Account_L_Name</DataField>
         </Field>
         <Field Name="CurrCode_1">
           <DataField>CurrCode_1</DataField>
@@ -3768,6 +3816,9 @@ End Function
         <Field Name="CreditAmount_5Format">
           <DataField>CreditAmount_5Format</DataField>
         </Field>
+        <Field Name="SourceName">
+          <DataField>SourceName</DataField>
+        </Field>
         <Field Name="G_L_Entry_Description_6">
           <DataField>G_L_Entry_Description_6</DataField>
         </Field>
@@ -3861,17 +3912,29 @@ End Function
         <Field Name="TotalFor___FIELDCAPTION__Document_No___">
           <DataField>TotalFor___FIELDCAPTION__Document_No___</DataField>
         </Field>
+        <Field Name="TotalFor___FIELDCAPTION__Document_No_CN">
+          <DataField>TotalFor___FIELDCAPTION__Document_No_CN</DataField>
+        </Field>
         <Field Name="User">
           <DataField>User</DataField>
         </Field>
         <Field Name="Manager__Caption">
           <DataField>Manager__Caption</DataField>
         </Field>
+        <Field Name="Manager__CaptionCN">
+          <DataField>Manager__CaptionCN</DataField>
+        </Field>
+        <Field Name="Checked__CaptionCN">
+          <DataField>Checked__CaptionCN</DataField>
+        </Field>
         <Field Name="Checked__Caption">
           <DataField>Checked__Caption</DataField>
         </Field>
         <Field Name="Prepared__Caption">
           <DataField>Prepared__Caption</DataField>
+        </Field>
+        <Field Name="Prepared__CaptionCN">
+          <DataField>Prepared__CaptionCN</DataField>
         </Field>
       </Fields>
       <Query>
