@@ -15,51 +15,67 @@ page 50013 "Message Control List"
             {
                 field("Entry No."; Rec."Entry No.")
                 {
+                    ApplicationArea = all;
                 }
                 field("File ID"; Rec."File ID")
                 {
+                    ApplicationArea = all;
                 }
                 field("Detail File ID"; Rec."Detail File ID")
                 {
+                    ApplicationArea = all;
                 }
                 field("Record Number"; Rec."Record Number")
                 {
+                    ApplicationArea = all;
                 }
                 field("Pos/Neg Class (Quantity)"; Rec."Pos/Neg Class (Quantity)")
                 {
+                    ApplicationArea = all;
                 }
                 field("Amount Quantity"; Rec."Amount Quantity")
                 {
+                    ApplicationArea = all;
                 }
                 field("Pos/Neg Class (Price)"; Rec."Pos/Neg Class (Price)")
                 {
+                    ApplicationArea = all;
                 }
                 field("Amount Price"; Rec."Amount Price")
                 {
+                    ApplicationArea = all;
                 }
                 field("Statics Date"; Rec."Statics Date")
                 {
+                    ApplicationArea = all;
                 }
                 field("Order Backlog Date"; Rec."Order Backlog Date")
                 {
+                    ApplicationArea = all;
                 }
                 field(Preliminaries; Rec.Preliminaries)
                 {
+                    ApplicationArea = all;
                 }
                 field("Message Status"; Rec."Message Status")
                 {
+                    ApplicationArea = all;
                 }
                 field("Collected By"; Rec."Collected By")
                 {
+                    ApplicationArea = all;
                 }
                 field("Collected On"; Rec."Collected On")
                 {
+                    ApplicationArea = all;
                 }
                 field("File Sent By"; Rec."File Sent By")
                 {
+                    ApplicationArea = all;
                 }
                 field("File Sent On"; Rec."File Sent On")
                 {
+                    ApplicationArea = all;
                 }
             }
         }
@@ -78,7 +94,7 @@ page 50013 "Message Control List"
                     Caption = 'Initialize PSI';
                     Image = CalculateShipment;
                     Promoted = true;
-                    PromotedCategory = New;
+                    PromotedCategory = Process;
                     PromotedIsBig = true;
                     RunObject = Report "PSI Initialiaztion";
 
@@ -93,6 +109,8 @@ page 50013 "Message Control List"
                     Caption = 'Collect  Message';
                     Image = UpdateShipment;
                     Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
                     RunObject = Report "Collect Message";
 
                     trigger OnAction()
@@ -106,6 +124,8 @@ page 50013 "Message Control List"
                     Caption = 'Cancel Message';
                     Image = Cancel;
                     Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     var
