@@ -3525,15 +3525,6 @@ End Function
         <Field Name="CompanyNameCN">
           <DataField>CompanyNameCN</DataField>
         </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Year4___">
-          <DataField>FORMAT_DateFilterMax_0___Year4___</DataField>
-        </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Month___">
-          <DataField>FORMAT_DateFilterMax_0___Month___</DataField>
-        </Field>
-        <Field Name="FORMAT_DateFilterMax_0___Day___">
-          <DataField>FORMAT_DateFilterMax_0___Day___</DataField>
-        </Field>
         <Field Name="TimeCaption">
           <DataField>TimeCaption</DataField>
         </Field>
@@ -3558,11 +3549,20 @@ End Function
         <Field Name="Amount__LCY_Caption">
           <DataField>Amount__LCY_Caption</DataField>
         </Field>
+        <Field Name="Amount__LCY_CaptionCN">
+          <DataField>Amount__LCY_CaptionCN</DataField>
+        </Field>
         <Field Name="CreditCaption">
           <DataField>CreditCaption</DataField>
         </Field>
+        <Field Name="CreditCaptionCN">
+          <DataField>CreditCaptionCN</DataField>
+        </Field>
         <Field Name="DebitCaption">
           <DataField>DebitCaption</DataField>
+        </Field>
+        <Field Name="DebitCaptionCN">
+          <DataField>DebitCaptionCN</DataField>
         </Field>
         <Field Name="Account_CodeCaption">
           <DataField>Account_CodeCaption</DataField>

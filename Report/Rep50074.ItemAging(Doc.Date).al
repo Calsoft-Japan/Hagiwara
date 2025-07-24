@@ -143,18 +143,18 @@ report 50074 "Item Aging (Doc. Date)"
                     CalcRemainingQty;
 
                     IF Item."Costing Method" = Item."Costing Method"::Average THEN BEGIN
-                        TotalInvtValue_Item += AverageCost * TotalInvtQty;
-                        InvtValue[i] += AverageCost * InvtQty[i];
+                        TotalInvtValue_Item += AverageCost * TotalInvtValueQty;
+                        InvtValue[i] += AverageCost * InvtValueQty[i];
 
-                        TotalInvtValueRTC += AverageCost * TotalInvtQty;
-                        InvtValueRTC[i] += AverageCost * InvtQty[i];
+                        TotalInvtValueRTC += AverageCost * TotalInvtValueQty;
+                        InvtValueRTC[i] += AverageCost * InvtValueQty[i];
                     END ELSE BEGIN
                         CalcUnitCost;
-                        TotalInvtValue_Item += UnitCost * ABS(TotalInvtQty);
-                        InvtValue[i] += UnitCost * ABS(InvtQty[i]);
+                        TotalInvtValue_Item += UnitCost * ABS(TotalInvtValueQty);
+                        InvtValue[i] += UnitCost * ABS(InvtValueQty[i]);
 
-                        TotalInvtValueRTC += UnitCost * ABS(TotalInvtQty);
-                        InvtValueRTC[i] += UnitCost * ABS(InvtQty[i]);
+                        TotalInvtValueRTC += UnitCost * ABS(TotalInvtValueQty);
+                        InvtValueRTC[i] += UnitCost * ABS(InvtValueQty[i]);
                     END
                 end;
 
@@ -221,6 +221,10 @@ report 50074 "Item Aging (Doc. Date)"
                     DecimalPlaces = 0 : 2;
                 }
                 column(TotalInvtQty; TotalInvtQty)
+                {
+                    DecimalPlaces = 0 : 2;
+                }
+                column(TotalInvtValueQty; TotalInvtValueQty)
                 {
                     DecimalPlaces = 0 : 2;
                 }
@@ -337,6 +341,7 @@ report 50074 "Item Aging (Doc. Date)"
         InvtValue: array[6] of Decimal;
         InvtValueRTC: array[6] of Decimal;
         InvtQty: array[6] of Decimal;
+        InvtValueQty: array[6] of Decimal;
         UnitCost: Decimal;
         PeriodStartDate: array[6] of Date;
         PeriodLength: DateFormula;
@@ -344,6 +349,7 @@ report 50074 "Item Aging (Doc. Date)"
         TotalInvtValue_Item: Decimal;
         TotalInvtValueRTC: Decimal;
         TotalInvtQty: Decimal;
+        TotalInvtValueQty: Decimal;
         PrintLine: Boolean;
         AverageCost: Decimal;
         AverageCostACY: Decimal;
@@ -360,16 +366,16 @@ report 50074 "Item Aging (Doc. Date)"
     procedure CalcRemainingQty()
     begin
         FOR i := 1 TO 5 DO
-            InvtQty[i] := 0;
+            InvtValueQty[i] := 0;
 
-        TotalInvtQty := "Item Ledger Entry"."Remaining Quantity";
+        TotalInvtValueQty := "Item Ledger Entry"."Remaining Quantity";
         FOR i := 1 TO 5 DO
             IF ("Item Ledger Entry"."Document Date" > PeriodStartDate[i]) AND
                //change posting date to Document Date
                ("Item Ledger Entry"."Document Date" <= PeriodStartDate[i + 1])
             THEN
                 IF "Item Ledger Entry"."Remaining Quantity" <> 0 THEN BEGIN
-                    InvtQty[i] := "Item Ledger Entry"."Remaining Quantity";
+                    InvtValueQty[i] := "Item Ledger Entry"."Remaining Quantity";
                     EXIT;
                 END;
     end;
