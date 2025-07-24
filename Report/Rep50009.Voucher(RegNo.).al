@@ -31,16 +31,8 @@ report 50009 "Voucher (Reg No.)"
             column(CompanyNameCN; CompanyNameCNLbl)
             {
             }
-            column(FORMAT_DateFilterMax_0___Year4___; FORMAT(DateFilterYear, 0, '<Year4>'))
-            {
-            }
-            column(FORMAT_DateFilterMax_0___Month___; FORMAT(DateFilterMonth, 0, '<Month>'))
-            {
-            }
-            column(FORMAT_DateFilterMax_0___Day___; FORMAT(DateFilterDay, 0, '<Day>'))
-            {
-            }
-            column(TimeCaption; FORMAT(DateFilterYear, 0, '<Year4>') + '年' + FORMAT(DateFilterMonth, 0, '<Month,2>') + '月' + FORMAT(DateFilterDay, 0, '<Day>') + '日')
+
+            column(TimeCaption; FORMAT(PostingDate, 0, '<Year4> 年 <Month> 月 <Day> 日'))
             {
             }
             column(Doc__No_Caption; Doc__No_CaptionLbl)
@@ -64,10 +56,19 @@ report 50009 "Voucher (Reg No.)"
             column(Amount__LCY_Caption; Amount__LCY_CaptionLbl)
             {
             }
+            column(Amount__LCY_CaptionCN; Amount__LCY_CaptionCNLbl)
+            {
+            }
             column(CreditCaption; CreditCaptionLbl)
             {
             }
+            column(CreditCaptionCN; CreditCaptionCNLbl)
+            {
+            }
             column(DebitCaption; DebitCaptionLbl)
+            {
+            }
+            column(DebitCaptionCN; DebitCaptionCNLbl)
             {
             }
             column(Account_CodeCaption; Account_CodeCaptionLbl)
@@ -559,12 +560,6 @@ report 50009 "Voucher (Reg No.)"
         CompanyInfo.GET;
         GLEntry.SETCURRENTKEY("Document No.", "Posting Date");
         GLEntry.COPYFILTERS("G/L Entry");
-        /*
-        DateFilterYear := Date2DMY(PostingDate, 3);
-        DateFilterMonth := Date2DMY(PostingDate, 2);
-        DateFilterDay := Date2DMY(PostingDate, 1);
-        Evaluate(DateFilterDay, CopyStr(PostingDate, 1, 2));
-        */
     end;
 
     var
@@ -588,9 +583,9 @@ report 50009 "Voucher (Reg No.)"
         Amount__LCY_CaptionLbl: Label 'Amount (LCY)';
         Amount__LCY_CaptionCNLbl: Label '本币金额 Amount (LCY)';
         CreditCaptionLbl: Label 'Credit';
-        CreditCaptionCNLbl: Label '贷方';
+        CreditCaptionCNLbl: Label '贷方 Credit';
         DebitCaptionLbl: Label 'Debit';
-        DebitCaptionCNLbl: Label '借方';
+        DebitCaptionCNLbl: Label '借方 Debit';
         GenLegAcct_CodeCaptionLbl: Label 'Gen.Leg.Acct.';
         GenLegAcct_CodeCaptionCNLbl: Label '科目';
         Account_CodeCaptionLbl: Label 'Account Code';
@@ -625,9 +620,9 @@ report 50009 "Voucher (Reg No.)"
         User: Code[20];
         NextDoc: Boolean;
         Last: Boolean;
-        DateFilterYear: Date;
-        DateFilterMonth: Date;
-        DateFilterDay: Date;
+        DateFilterYear: Integer;
+        DateFilterMonth: Integer;
+        DateFilterDay: Integer;
         ChineseAccountName: Text[50];
         SourceName: Text[100];
 

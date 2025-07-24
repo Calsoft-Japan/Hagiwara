@@ -1250,6 +1250,7 @@
                             <PaddingRight>0.075pt</PaddingRight>
                           </Style>
                         </Textbox>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -2368,6 +2369,12 @@ End Function</Code>
         </Field>
         <Field Name="TotalInvtQtyFormat">
           <DataField>TotalInvtQtyFormat</DataField>
+        </Field>
+        <Field Name="TotalInvtValueQty">
+          <DataField>TotalInvtValueQty</DataField>
+        </Field>
+        <Field Name="TotalInvtValueQtyFormat">
+          <DataField>TotalInvtValueQtyFormat</DataField>
         </Field>
       </Fields>
       <Query>
