@@ -3,7 +3,7 @@ report 50061 "Purchase Order Cust Item KR"
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     // CS046 Kenya 2022/12/02 - Company Information on HEK PO
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
-    // CS092 Bobby.Ji 2025/7/1 - Upgade to the BC version
+    // CS092 FDD R029 Bobby.Ji 2025/7/1 - Upgade to the BC version
 
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/POCustItemKR.rdlc';

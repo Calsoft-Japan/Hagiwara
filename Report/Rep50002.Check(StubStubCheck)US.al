@@ -1,6 +1,7 @@
 report 50002 "Check (Stub/Stub/Check) US"
 {
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
+
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Check (StubStubCheck) US.rdlc';
 

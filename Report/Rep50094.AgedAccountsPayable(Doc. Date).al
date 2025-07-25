@@ -1,6 +1,6 @@
 report 50094 "Aged Accounts Payable(HA)"
 {
-    // CS092 Bobby.Ji 2025/7/4 - Upgade to the BC version
+    // CS092 FDD R032 Bobby.Ji 2025/7/4 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Aged Accounts Payable(Doc. Date).rdlc';
     Caption = 'Aged Accounts Payable (Doc. Date)';

@@ -1,13 +1,13 @@
-report 50009 "Voucher (Reg No.)"
+report 50009 "Voucher Chinese"
 {
     // ´¨‰·€Ó¸Œ…”Œ—³š–Ž´ñ
     // *1 ESGSH.JR.1.0
     // CS092 FDD R050 Bobby.Ji 2025/7/22 - Upgade to the BC version
 
-    //DefaultLayout = RDLC;
-    //RDLCLayout = './RDLC/Voucher English.rdlc';
-    DefaultRenderingLayout = "Voucher Chinese.rdlc";
-    Caption = 'Voucher';
+    DefaultLayout = RDLC;
+    RDLCLayout = './RDLC/Voucher Chinese.rdlc';
+
+    Caption = 'Voucher Chinese';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset
@@ -535,22 +535,7 @@ report 50009 "Voucher (Reg No.)"
         {
         }
     }
-    rendering
-    {
-        layout("Voucher Chinese.rdlc")
-        {
-            Type = RDLC;
-            LayoutFile = './RDLC/Voucher Chinese.rdlc';
-            Caption = 'Voucher Chinese';
-        }
-        layout("Voucher English.rdlc")
-        {
-            Type = RDLC;
-            LayoutFile = './RDLC/Voucher English.rdlc';
-            Caption = 'Voucher English';
-        }
 
-    }
     labels
     {
     }

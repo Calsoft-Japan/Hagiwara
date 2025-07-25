@@ -3,6 +3,8 @@ report 50031 "PO Hagiwara-Cust Item3"
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     // CS022 KenChen 2021/07/30 - PO Line Modification to fix Page-break
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
+    // CS092 FDD R020 Bobby.Ji 2025/7/7 - Upgade to the BC version
+
     /*DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Purchase Order Cust Item3.rdlc';
 */

@@ -4781,7 +4781,7 @@ Cstr(Fields!HdrAddrLine5.Value), 1)</Hidden>
                         </TextRun>
                       </TextRuns>
                       <Style>
-                        <TextAlign>Left</TextAlign>
+                        <TextAlign>Right</TextAlign>
                       </Style>
                     </Paragraph>
                   </Paragraphs>

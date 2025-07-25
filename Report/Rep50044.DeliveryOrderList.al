@@ -5,6 +5,7 @@ report 50044 "Delivery Order List"
     // v20210126 Kenya - Improve Inventory Reservation and Delivery Order (CS005)
     // CS016 Kenya 2021/5/26 - Country of Origin Code
     // CS025 Kenya 2021/08/13 - Qty to Ship with Different Location
+
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Delivery Order List.rdlc';
 
