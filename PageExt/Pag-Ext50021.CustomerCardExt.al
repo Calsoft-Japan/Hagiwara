@@ -199,6 +199,14 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
                 ApplicationArea = all;
             }
         }
+
+        addafter("Invoice Disc. Code")
+        {
+            field("Update SO Price Target Date"; rec."Update SO Price Target Date")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

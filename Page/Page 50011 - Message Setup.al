@@ -15,15 +15,19 @@ page 50011 "Message Setup"
             {
                 field(ID; Rec.ID)
                 {
+                    ApplicationArea = all;
                 }
                 field(Description; Rec.Description)
                 {
+                    ApplicationArea = all;
                 }
                 field(Cycle; Rec.Cycle)
                 {
+                    ApplicationArea = all;
                 }
                 field(Combine; Rec.Combine)
                 {
+                    ApplicationArea = all;
                 }
             }
         }

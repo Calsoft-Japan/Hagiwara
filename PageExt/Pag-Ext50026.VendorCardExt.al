@@ -75,6 +75,16 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
                 Visible = IncotermVisibility;
             }
         }
+
+        addbefore("Invoice Disc. Code")
+        {
+            field("Update PO Price Target Date"; rec."Update PO Price Target Date")
+            {
+                ApplicationArea = all;
+            }
+        }
+
+
     }
 
     trigger OnOpenPage()

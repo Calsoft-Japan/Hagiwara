@@ -103,6 +103,11 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
             Caption = 'Manufacturer Code';
             Description = 'CS051';
         }
+        field(50049; "Update PO Price Target Date"; Option)
+        {
+            Caption = 'Price Update Target Date';
+            OptionMembers = "Document Date","Invoice Received Date";
+        }
         field(50050; "ORE Ship-to Code"; Code[50])
         {
             Description = 'CS060';
