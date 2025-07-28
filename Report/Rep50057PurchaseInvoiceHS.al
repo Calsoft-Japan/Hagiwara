@@ -2,7 +2,7 @@ report 50057 "Purchase Invoice HS"
 {
     // CS092 FDD R052 Bobby.Ji 2025/7/22 - Upgade to the BC version
     ProcessingOnly = true;
-    Caption = 'Export Purchase Invoice';
+    Caption = 'Export Purchase Invoiced';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset
@@ -100,7 +100,7 @@ report 50057 "Purchase Invoice HS"
         ExcelBuf.CreateNewBook('Purchase Invoice');
         ExcelBuf.WriteSheet('Purchase Invoice', CompanyName, UserId);
         ExcelBuf.CloseBook();
-        ExcelBuf.SetFriendlyFilename('Purchase Invoice HS');
+        ExcelBuf.SetFriendlyFilename('Export Purchase Invoiced');
         ExcelBuf.OpenExcel();
     end;
 

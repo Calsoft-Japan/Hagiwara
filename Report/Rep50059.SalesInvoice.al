@@ -1,7 +1,7 @@
 report 50059 "Sales Invoice"
 {
     ProcessingOnly = true;
-    Caption = 'Export Sales Invoice';
+    Caption = 'Export Sales Invoiced';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset
@@ -124,7 +124,7 @@ report 50059 "Sales Invoice"
         ExcelBuf.CreateNewBook('Sales Invoice');
         ExcelBuf.WriteSheet('Sales Invoice', CompanyName, UserId);
         ExcelBuf.CloseBook();
-        ExcelBuf.SetFriendlyFilename('Sales Invoice HS');
+        ExcelBuf.SetFriendlyFilename('Export Sales Invoiced');
         ExcelBuf.OpenExcel();
     end;
 
