@@ -1,0 +1,262 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource">
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+      <rd:SecurityType>None</rd:SecurityType>
+    </DataSource>
+  </DataSources>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>6.5in</Width>
+      <Page>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="FooterText1">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FooterText1</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FooterText1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FooterText2">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FooterText2</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FooterText2</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FooterText3">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FooterText3</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FooterText3</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FooterText4">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FooterText4</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FooterText4</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="FooterText5">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>FooterText5</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>FooterText5</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Public Function BlankZero(ByVal Value As Decimal)
+    if Value = 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankPos(ByVal Value As Decimal)
+    if Value &gt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankZeroAndPos(ByVal Value As Decimal)
+    if Value &gt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNeg(ByVal Value As Decimal)
+    if Value &lt; 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+
+Public Function BlankNegAndZero(ByVal Value As Decimal)
+    if Value &lt;= 0 then
+        Return ""
+    end if
+    Return Value
+End Function
+</Code>
+  <Language>=User!Language</Language>
+  <ConsumeContainerWhitespace>true</ConsumeContainerWhitespace>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>0eeb6585-38ae-40f1-885b-8d50088d51b4</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet_Result">
+      <Fields>
+        <Field Name="DocumentType_SalesHeader">
+          <DataField>DocumentType_SalesHeader</DataField>
+        </Field>
+        <Field Name="No_SalesHeader">
+          <DataField>No_SalesHeader</DataField>
+        </Field>
+        <Field Name="LineDimensionsCaption">
+          <DataField>LineDimensionsCaption</DataField>
+        </Field>
+        <Field Name="TotalCaption">
+          <DataField>TotalCaption</DataField>
+        </Field>
+        <Field Name="TodaysDate">
+          <DataField>TodaysDate</DataField>
+        </Field>
+        <Field Name="TodaysTime">
+          <DataField>TodaysTime</DataField>
+        </Field>
+        <Field Name="OrderConfirmation">
+          <DataField>OrderConfirmation</DataField>
+        </Field>
+        <Field Name="CustAddr1">
+          <DataField>CustAddr1</DataField>
+        </Field>
+        <Field Name="CompanyAddr1">
+          <DataField>CompanyAddr1</DataField>
+        </Field>
+        <Field Name="CustAddr2">
+          <DataField>CustAddr2</DataField>
+        </Field>
+        <Field Name="CustAddr3">
+          <DataField>CustAddr3</DataField>
+        </Field>
+        <Field Name="CustAddr4">
+          <DataField>CustAddr4</DataField>
+        </Field>
+        <Field Name="DocumentDate_SalesHeader">
+          <DataField>DocumentDate_SalesHeader</DataField>
+        </Field>
+        <Field Name="PageCaption">
+          <DataField>PageCaption</DataField>
+        </Field>
+        <Field Name="OutputNo">
+          <DataField>OutputNo</DataField>
+        </Field>
+        <Field Name="DocumentDateCaption">
+          <DataField>DocumentDateCaption</DataField>
+        </Field>
+        <Field Name="OrderNoCaption">
+          <DataField>OrderNoCaption</DataField>
+        </Field>
+        <Field Name="CustCodeCaption">
+          <DataField>CustCodeCaption</DataField>
+        </Field>
+        <Field Name="CustNameCaption">
+          <DataField>CustNameCaption</DataField>
+        </Field>
+        <Field Name="OEMNameCaption">
+          <DataField>OEMNameCaption</DataField>
+        </Field>
+        <Field Name="CustOrderNoCaption">
+          <DataField>CustOrderNoCaption</DataField>
+        </Field>
+        <Field Name="DimText">
+          <DataField>DimText</DataField>
+        </Field>
+        <Field Name="Number_IntegerLine">
+          <DataField>Number_IntegerLine</DataField>
+        </Field>
+        <Field Name="HeaderDimensionsCaption">
+          <DataField>HeaderDimensionsCaption</DataField>
+        </Field>
+        <Field Name="SalesLineLineAmount">
+          <DataField>SalesLineLineAmount</DataField>
+        </Field>
+        <Field Name="SalesLineLineAmountFormat">
+          <DataField>SalesLineLineAmountFormat</DataField>
+        </Field>
+        <Field Name="SalesLineDesc_SalesLine">
+          <DataField>SalesLineDesc_SalesLine</DataField>
+        </Field>
+        <Field Name="No2_SalesLine">
+          <DataField>No2_SalesLine</DataField>
+        </Field>
+        <Field Name="PartsNo_SalesLine">
+          <DataField>PartsNo_SalesLine</DataField>
+        </Field>
+        <Field Name="CustItemNo_SalesLine">
+          <DataField>CustItemNo_SalesLine</DataField>
+        </Field>
+        <Field Name="Rank_SalesLine">
+          <DataField>Rank_SalesLine</DataField>
+        </Field>
+        <Field Name="Quantity_SalesLine">
+          <DataField>Quantity_SalesLine</DataField>
+        </Field>
+        <Field Name="Quantity_SalesLineFormat">
+          <DataField>Quantity_SalesLineFormat</DataField>
+        </Field>
+        <Field Name="CurrCode_SalesLine">
+          <DataField>CurrCode_SalesLine</DataField>
+        </Field>
+        <Field Name="UnitPrice_SalesLine">
+          <DataField>UnitPrice_SalesLine</DataField>
+        </Field>
+        <Field Name="UnitPrice_SalesLineFormat">
+          <DataField>UnitPrice_SalesLineFormat</DataField>
+        </Field>
+        <Field Name="Type_SalesLine">
+          <DataField>Type_SalesLine</DataField>
+        </Field>
+        <Field Name="LineNo_SalesLine">
+          <DataField>LineNo_SalesLine</DataField>
+        </Field>
+        <Field Name="UnitPriceCaption">
+          <DataField>UnitPriceCaption</DataField>
+        </Field>
+        <Field Name="SalesLineDesc_SalesLineCaption">
+          <DataField>SalesLineDesc_SalesLineCaption</DataField>
+        </Field>
+        <Field Name="No_SalesLineCaption">
+          <DataField>No_SalesLineCaption</DataField>
+        </Field>
+        <Field Name="Quantity_SalesLineCaption">
+          <DataField>Quantity_SalesLineCaption</DataField>
+        </Field>
+        <Field Name="CustProdNoCaption">
+          <DataField>CustProdNoCaption</DataField>
+        </Field>
+        <Field Name="DueDateCaption">
+          <DataField>DueDateCaption</DataField>
+        </Field>
+        <Field Name="CRYCaption">
+          <DataField>CRYCaption</DataField>
+        </Field>
+        <Field Name="DueDate">
+          <DataField>DueDate</DataField>
+        </Field>
+        <Field Name="DimText2">
+          <DataField>DimText2</DataField>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource</DataSourceName>
+        <CommandText />
+      </Query>
+    </DataSet>
+  </DataSets>
+</Report>
