@@ -77,10 +77,10 @@ codeunit 50176 "Delete Renesas PO Int (PF=0)"
         rec_POInt: Record "Renesas PO Interface";
         Text001: Label 'Do you really want to delete not processed Renesas PO Interface record?';
         Text002: Label 'Please confirm if you realy want to delete all not processed Renesas PO Interface data?';
-        Text003: Label 'Renesas PO Interface data Deletion job is aborted';
+        Text003: Label 'Renesas PO Interface data Deletion job is aborted!';
         Text004: Label 'Do you want to print the Check List again?';
         g_NoOfRec: Integer;
-        Text005: Label 'Total %1 Renesas PO Interface record had been deleted';
-        Text006: Label 'There is no record to delete';
+        Text005: Label 'Renesas PO Interface Record had been deleted: %1 records.';
+        Text006: Label 'There is no record to delete.';
 
 }
