@@ -93,8 +93,8 @@ page 50100 "Value Entry FCY"
                 field("Manufacturer Code"; Rec."Manufacturer Code") { }
                 field("Customer Name"; Rec."Customer Name") { }
                 field("Vendor Name"; Rec."Vendor Name") { }
-                field("Customer Familiar Name"; Rec."Customer familiar name") { }
-                field("Vendor Familiar Name"; Rec."Vendor familiar name") { }
+                field("Customer Familiar Name"; Rec."Customer Familiar Name") { }
+                field("Vendor Familiar Name"; Rec."Vendor Familiar Name") { }
 
                 // Virtual calculated fields
                 field("Unit Cost"; UnitCostLCY)
@@ -135,8 +135,14 @@ page 50100 "Value Entry FCY"
                         if PurchInvHeader.Get(Rec."Document No.") then begin
                             CurrencyCode := PurchInvHeader."Currency Code";
                             if PurchInvLine.Get(Rec."Document No.", Rec."Document Line No.") then begin
-                                UnitCostLCY := PurchInvLine."Direct Unit Cost";
-                                UnitPriceLCY := PurchInvLine."Direct Unit Cost";
+
+                                UnitCostLCY := PurchInvLine."Unit Cost (LCY)";
+
+                                UnitPriceLCY := PurchInvLine."Unit Price (LCY)";
+
+                                //Set AmountFCY to Unit Price (LCY) as default
+                                AmountFCY := UnitPriceLCY;
+
                                 if not Rec.Adjustment then
                                     AmountFCY := PurchInvLine."Line Amount";
                             end;
