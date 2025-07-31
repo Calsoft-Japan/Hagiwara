@@ -136,6 +136,16 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
 
         addafter("Deferral Code")
         {
+            field("Receipt Seq. No."; rec."Receipt Seq. No.")
+            {
+                ApplicationArea = all;
+
+            }
+            field("Next Receipt Seq. No."; rec."Next Receipt Seq. No.")
+            {
+                ApplicationArea = all;
+
+            }
 
             field("Update Date"; rec."Update Date")
             {
