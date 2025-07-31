@@ -274,10 +274,22 @@ report 50044 "Delivery Order List"
                 column(Quantity_AmountCaption; Quantity_AmountCaptionLbl)
                 {
                 }
+                column(Req_Del_DateCaption; Req_Del_DateCaptionLbl)
+                {
+                }
+                column(SO_NoCaption; SO_NoCaptionLbl)
+                {
+                }
+                column(Line_NoCaption; Line_NoCaptionLbl)
+                {
+                }
                 column(Sales_Line_Document_Type; "Document Type")
                 {
                 }
                 column(Sales_Line_Document_No_; "Document No.")
+                {
+                }
+                column(Sales_Line_Requested_Delivery_Date_1_; Format("Requested Delivery Date_1", 0, '<Day,2>/<Month,2>/<Year>'))
                 {
                 }
                 column(Sales_Line_Line_No_; "Line No.")
@@ -678,8 +690,11 @@ report 50044 "Delivery Order List"
         C_OCaptionLbl: Label 'C/O';
         Item_TypeCaptionLbl: Label 'Item Type';
         OEMCaptionLbl: Label 'OEM';
-        OutStanding_QtyCaptionLbl: Label 'OutStanding Qty';
+        OutStanding_QtyCaptionLbl: Label 'O/S Qty.';
         Quantity_AmountCaptionLbl: Label 'Quantity Amount';
+        Req_Del_DateCaptionLbl: Label 'Req. Del. Date';
+        SO_NoCaptionLbl: Label 'SO No.';
+        Line_NoCaptionLbl: Label 'Line No.';
         CustNo: Code[20];
         TotalQtyToShip: Decimal;
         CompanyInfo: Record "Company Information";

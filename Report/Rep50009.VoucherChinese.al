@@ -1,7 +1,9 @@
 report 50009 "Voucher Chinese"
 {
-    // ´¨‰·€Ó¸Œ…”Œ—³š–Ž´ñ
-    // *1 ESGSH.JR.1.0
+
+    // 中国标准的记帐凭证
+    // #01   Esg-Andy   2006-04-17
+    // #02 ALF 2008-07-24
     // CS092 FDD R050 Bobby.Ji 2025/7/22 - Upgade to the BC version
 
     DefaultLayout = RDLC;
@@ -10,516 +12,378 @@ report 50009 "Voucher Chinese"
     Caption = 'Voucher Chinese';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
+
     dataset
     {
-        dataitem(Integer; Integer)
+        dataitem("G/L Entry"; "G/L Entry")
         {
-            DataItemTableView = SORTING(Number)
-                                ORDER(Ascending);
-            column(Number; Number)
+            DataItemTableView = SORTING("Document No.", "Posting Date");
+            RequestFilterFields = "Document No.", "Posting Date";
+            column(G_L_Entry__Posting_Date__17; "Posting Date")
             {
             }
-            column(VOUCHERCaption; VOUCHERCaptionLbl)
+            column(G_L_EntryGroupHeader3SectionVisible; G_L_EntryGroupHeader3SectionVisible)
             {
             }
-            column(VOUCHERCaptionCN; VOUCHERCaptionCNLbl)
+            column(G_L_EntryGroupHeader4SectionVisible; G_L_EntryGroupHeader4SectionVisible)
             {
             }
-            column(CompanyName; CompanyInfo.Name)
+            column(G_L_EntryGroupHeader5SectionVisible; G_L_EntryGroupHeader5SectionVisible)
             {
             }
-            column(CompanyNameCN; CompanyNameCNLbl)
+            column(G_L_EntryBody6SectionVisible; G_L_EntryBody6SectionVisible)
             {
             }
-
-            column(TimeCaption; FORMAT(PostingDate, 0, '<Year4> 年 <Month> 月 <Day> 日'))
+            column(G_L_EntryBody7SectionVisible; G_L_EntryBody7SectionVisible)
             {
             }
-            column(Doc__No_Caption; Doc__No_CaptionLbl)
+            column(G_L_EntryGroupFooter8SectionVisible; G_L_EntryGroupFooter8SectionVisible)
             {
             }
-            column(Doc__No_CaptionCN; Doc__No_CaptionCNLbl)
+            column(G_L_EntryGroupFooter9SectionVisible; G_L_EntryGroupFooter9SectionVisible)
             {
             }
-            column(PageCaption; PageCaptionLbl)
+            column(Caption; CaptionLbl)
             {
             }
-            column(PageCaptionCN; PageCaptionCNLbl)
+            column(FORMAT__Posting_Date__0__Year4__; FORMAT("Posting Date", 0, '<Year4>'))
+            {
+            }
+            column(Caption_Control1000000013; Caption_Control1000000013Lbl)
+            {
+            }
+            column(FORMAT__Posting_Date__0__Month__; FORMAT("Posting Date", 0, '<Month>'))
+            {
+            }
+            column(Caption_Control1000000031; Caption_Control1000000031Lbl)
+            {
+            }
+            column(FORMAT__Posting_Date__0__Day__; FORMAT("Posting Date", 0, '<Day>'))
+            {
+            }
+            column(Date__Caption; Date__CaptionLbl)
+            {
+            }
+            column(S_Caption; S_CaptionLbl)
+            {
+            }
+            column(Document_No___; "Document No.")
+            {
+            }
+            column(Caption_Control1000000069; Caption_Control1000000069Lbl)
+            {
+            }
+            column(ComName; ComName)
+            {
+            }
+            column(S_Caption_Control1000000091; S_Caption_Control1000000091Lbl)
+            {
+            }
+            column(Pno; Pno)
             {
             }
             column(Reg__No__Caption; Reg__No__CaptionLbl)
             {
             }
-            column(G_L_Entry__Posting_Date_Caption; GLEntry.FIELDCAPTION("Posting Date"))
+            column(RegNo; RegNo)
             {
             }
-            column(Amount__LCY_Caption; Amount__LCY_CaptionLbl)
+            column(Amount__LCY__Caption; Amount__LCY__CaptionLbl)
             {
             }
-            column(Amount__LCY_CaptionCN; Amount__LCY_CaptionCNLbl)
+            column(Credit_Caption; Credit_CaptionLbl)
             {
             }
-            column(CreditCaption; CreditCaptionLbl)
+            column(Debit_Caption; Debit_CaptionLbl)
             {
             }
-            column(CreditCaptionCN; CreditCaptionCNLbl)
+            column(Caption_Control1000000052; Caption_Control1000000052Lbl)
             {
             }
-            column(DebitCaption; DebitCaptionLbl)
+            column(Caption_Control1000000055; Caption_Control1000000055Lbl)
             {
             }
-            column(DebitCaptionCN; DebitCaptionCNLbl)
+            column(Caption_Control1000000059; Caption_Control1000000059Lbl)
             {
             }
-            column(Account_CodeCaption; Account_CodeCaptionLbl)
-            {
-            }
-            column(GenLegAcct_CodeCaption; GenLegAcct_CodeCaptionLbl)
-            {
-            }
-            column(GenLegAcct_CodeCaptionCN; GenLegAcct_CodeCaptionCNLbl)
+            column(S_________Caption; S_________CaptionLbl)
             {
             }
             column(ExplanationCaption; ExplanationCaptionLbl)
             {
             }
-            column(ExplanationCaptionCN; ExplanationCaptionCNLbl)
+            column(Gen_Leg_Acct_Caption; Gen_Leg_Acct_CaptionLbl)
             {
             }
             column(For_Cur_Amt_Caption; For_Cur_Amt_CaptionLbl)
             {
             }
-            column(For_Cur_Amt_CaptionCN; For_Cur_Amt_CaptionCNLbl)
+            column(Exc_RatCaption; Exc_RatCaptionLbl)
+            {
+            }
+            column(Caption_Control1000000078; Caption_Control1000000078Lbl)
             {
             }
             column(For_Curr_Caption; For_Curr_CaptionLbl)
             {
             }
-            column(For_Curr_CaptionCN; For_Curr_CaptionCNLbl)
+            column(Document_No____Control1000000008; "Document No.")
             {
             }
-            column(Exc_RatCaption; Exc_RatCaptionLbl)
+            column(Document_No___Caption; FIELDCAPTION("Document No."))
             {
             }
-            column(Exc_RatCaptionCN; Exc_RatCaptionCNLbl)
+            column(Debit_Amount__; "Debit Amount")
             {
             }
-            column(CURCaption; CURCaptionLbl)
+            column(Credit_Amount__; "Credit Amount")
             {
             }
-            column(G_L_Entry__Global_Dimension_1_Code_Caption; GLEntry.FIELDCAPTION("Global Dimension 1 Code"))
+            column(ExcRate; ExcRate)
             {
+                DecimalPlaces = 4 : 4;
             }
-            column(G_L_Entry__Document_No___Caption; GLEntry.FIELDCAPTION("Document No."))
+            column(ForeignAmt; ForeignAmt)
             {
+                DecimalPlaces = 2 : 2;
             }
-            column(G_L_Entry__Document_No__; DocumentNo)
+            column(CurrCode; CurrCode)
             {
             }
-            column(Pages; Pages)
+            column(GetChineseDesc__G_L_Account_No___; GetChineseDesc("G/L Account No."))
             {
             }
-            column(RegNo; RegNo)
+            column(G_L_Account_No___Glob1Text_Glob2Text_Employee_Project_; "G/L Account No." + Glob1Text + Glob2Text + Employee + Project)
             {
             }
-            column(G_L_Entry__Posting_Date_; PostingDate)
+            column(Description_ItemInfo; Description + ItemInfo)
             {
             }
-            column(G_L_Entry_Description_1; Description[1])
+            column(VName; V_Name)
             {
             }
-            column(G_L_Entry__Global_Dimension_1_Code_1; GlobalDimCode[1])
+            column(Description_ItemInfo_Control1117700000; Description + ItemInfo)
             {
             }
-            column(G_L_Entry__Account_Description__1; AccountDesc[1])
+            column(Debit_Amount___Control1117700004; "Debit Amount")
             {
             }
-            column(G_L_Entry__Account_No__1; AccountNo[1])
+            column(Credit_Amount___Control1117700005; "Credit Amount")
             {
             }
-            column(G_L_Entry__Account_L_Name; ChineseAccountName)
+            column(ExcRate_Control1117700006; ExcRate)
             {
+                DecimalPlaces = 4 : 4;
             }
-            column(CurrCode_1; CurrCode[1])
+            column(ForeignAmt_Control1117700008; ForeignAmt)
             {
+                DecimalPlaces = 2 : 2;
             }
-            column(ForeignAmt_1; ForeignAmt[1])
+            column(CurrCode_Control1117700010; CurrCode)
             {
             }
-            column(ExcRate_1; ExcRate[1])
+            column(GetChineseDesc__G_L_Account_No____Control1117700012; GetChineseDesc("G/L Account No."))
             {
             }
-            column(DebitAmount_1; DebitAmount[1])
+            column(G_L_Account_No___Glob1Text_Glob2Text_Employee_Project__Control1117700013; "G/L Account No." + Glob1Text + Glob2Text + Employee + Project)
             {
             }
-            column(CreditAmount_1; CreditAmount[1])
+            column(TotalFor___FIELDCAPTION__Document_No___; TotalFor + FIELDCAPTION("Document No."))
             {
             }
-            column(G_L_Entry_Description_2; Description[2])
+            column(Debit_Amount___Control1000000029; "Debit Amount")
             {
             }
-            column(G_L_Entry__Global_Dimension_1_Code_2; GlobalDimCode[2])
+            column(Credit_Amount___Control1000000030; "Credit Amount")
             {
             }
-            column(G_L_Entry__Account_Description__2; AccountDesc[2])
+            column(S_Caption_Control1000000011; S_Caption_Control1000000011Lbl)
             {
             }
-            column(G_L_Entry__Account_No__2; AccountNo[2])
+            column(S_Caption_Control1000000012; S_Caption_Control1000000012Lbl)
             {
             }
-            column(CurrCode_2; CurrCode[2])
+            column(S_Caption_Control1000000038; S_Caption_Control1000000038Lbl)
             {
             }
-            column(ForeignAmt_2; ForeignAmt[2])
+            column(Manager___Caption; Manager___CaptionLbl)
             {
             }
-            column(ExcRate_2; ExcRate[2])
+            column(Checked___Caption; Checked___CaptionLbl)
             {
             }
-            column(DebitAmount_2; DebitAmount[2])
-            {
-            }
-            column(CreditAmount_2; CreditAmount[2])
-            {
-            }
-            column(G_L_Entry_Description_3; Description[3])
-            {
-            }
-            column(G_L_Entry__Global_Dimension_1_Code_3; GlobalDimCode[3])
-            {
-            }
-            column(G_L_Entry__Account_Description__3; AccountDesc[3])
-            {
-            }
-            column(G_L_Entry__Account_No__3; AccountNo[3])
-            {
-            }
-            column(CurrCode_3; CurrCode[3])
-            {
-            }
-            column(ForeignAmt_3; ForeignAmt[3])
-            {
-            }
-            column(ExcRate_3; ExcRate[3])
-            {
-            }
-            column(DebitAmount_3; DebitAmount[3])
-            {
-            }
-            column(CreditAmount_3; CreditAmount[3])
-            {
-            }
-            column(G_L_Entry_Description_4; Description[4])
-            {
-            }
-            column(G_L_Entry__Global_Dimension_1_Code_4; GlobalDimCode[4])
-            {
-            }
-            column(G_L_Entry__Account_Description__4; AccountDesc[4])
-            {
-            }
-            column(G_L_Entry__Account_No__4; AccountNo[4])
-            {
-            }
-            column(CurrCode_4; CurrCode[4])
-            {
-            }
-            column(ForeignAmt_4; ForeignAmt[4])
-            {
-            }
-            column(ExcRate_4; ExcRate[4])
-            {
-            }
-            column(DebitAmount_4; DebitAmount[4])
-            {
-            }
-            column(CreditAmount_4; CreditAmount[4])
-            {
-            }
-            column(G_L_Entry_Description_5; Description[5])
-            {
-            }
-            column(G_L_Entry__Global_Dimension_1_Code_5; GlobalDimCode[5])
-            {
-            }
-            column(G_L_Entry__Account_Description__5; AccountDesc[5])
-            {
-            }
-            column(G_L_Entry__Account_No__5; AccountNo[5])
-            {
-            }
-            column(CurrCode_5; CurrCode[5])
-            {
-            }
-            column(ForeignAmt_5; ForeignAmt[5])
-            {
-            }
-            column(ExcRate_5; ExcRate[5])
-            {
-            }
-            column(DebitAmount_5; DebitAmount[5])
-            {
-            }
-            column(CreditAmount_5; CreditAmount[5])
-            {
-            }
-            column(SourceName; SourceName)
-            {
-            }
-            column(G_L_Entry_Description_6; Description[6])
-            {
-            }
-            column(G_L_Entry__Global_Dimension_1_Code_6; GlobalDimCode[6])
-            {
-            }
-            column(G_L_Entry__Account_Description__6; AccountDesc[6])
-            {
-            }
-            column(G_L_Entry__Account_No__6; AccountNo[6])
-            {
-            }
-            column(CurrCode_6; CurrCode[6])
-            {
-            }
-            column(ForeignAmt_6; ForeignAmt[6])
-            {
-            }
-            column(ExcRate_6; ExcRate[6])
-            {
-            }
-            column(DebitAmount_6; DebitAmount[6])
-            {
-            }
-            column(CreditAmount_6; CreditAmount[6])
-            {
-            }
-            column(G_L_Entry_Description_7; Description[7])
-            {
-            }
-            column(G_L_Entry__Global_Dimension_1_Code_7; GlobalDimCode[7])
-            {
-            }
-            column(G_L_Entry__Account_Description__7; AccountDesc[7])
-            {
-            }
-            column(G_L_Entry__Account_No__7; AccountNo[7])
-            {
-            }
-            column(CurrCode_7; CurrCode[7])
-            {
-            }
-            column(ForeignAmt_7; ForeignAmt[7])
-            {
-            }
-            column(ExcRate_7; ExcRate[7])
-            {
-            }
-            column(DebitAmount_7; DebitAmount[7])
-            {
-            }
-            column(CreditAmount_7; CreditAmount[7])
-            {
-            }
-            column(TotalDebit; TotalDebit2)
-            {
-            }
-            column(TotalCredit; TotalCredit2)
-            {
-            }
-            column(TotalFor___FIELDCAPTION__Document_No___; TotalFor + GLEntry.FIELDCAPTION("Document No."))
-            {
-            }
-            column(TotalFor___FIELDCAPTION__Document_No_CN; '人民币大写金额：   零元整')
+            column(Prepared___Caption; Prepared___CaptionLbl)
             {
             }
             column(User; User)
             {
             }
-            column(Manager__Caption; Manager__CaptionLbl)
+            column(No2ChineseAmount_ABS__G_L_Entry___Debit_Amount___; No2ChineseAmount(ABS("G/L Entry"."Debit Amount")))
             {
             }
-            column(Manager__CaptionCN; Manager__CaptionCNLbl)
-            {
-            }
-            column(Checked__CaptionCN; Checked__CaptionCNLbl)
-            {
-            }
-            column(Checked__Caption; Checked__CaptionLbl)
-            {
-            }
-            column(Prepared__Caption; Prepared__CaptionLbl)
-            {
-            }
-            column(Prepared__CaptionCN; Prepared__CaptionCNLbl)
+            column(Caption_Control1117700018; Caption_Control1117700018Lbl)
             {
             }
 
             trigger OnAfterGetRecord()
-            var
-                CustLE: Record "Cust. Ledger Entry";
-                VendorLE: Record "Vendor Ledger Entry";
-                BankLE: Record "Bank Account Ledger Entry";
-                GLRegister: Record "G/L Register";
-                DimensionValue: Record "Dimension Value";
-                DimensionSetEntry: Record "Dimension Set Entry";
-                Vendor: Record Vendor;
-                Customer: Record Customer;
-                Glob1Text: Text[50];
-                Glob2Text: Text[50];
-                Project: Text[50];
-                Employee: Text[50];
-                i: Integer;
             begin
-                IF Last THEN
-                    CurrReport.BREAK;
+                Glob1Text := '';
+                Glob2Text := '';
+                Employee := '';
+                Project := '';
 
-                PageNo += 1;
-                IF NextDoc THEN BEGIN
-                    NextDoc := FALSE;
-                    TotalDebit := 0;
-                    TotalCredit := 0;
-                    PageNo := 1;
-                    GLEntry.FILTERGROUP(1);
-                    GLEntry.SETRANGE("Document No.", GLEntry."Document No.");
-                    PageQty := (GLEntry.COUNT DIV 7) + 1;
-                    GLEntry.SETRANGE("Document No.");
-                    GLEntry.FILTERGROUP(0);
+                IF DimensionValue.GET('REGION', "G/L Entry"."Global Dimension 1 Code") THEN
+                    Glob1Text := DimensionValue.Name;
+                IF DimensionValue.GET('UNIT', "G/L Entry"."Global Dimension 2 Code") THEN
+                    Glob2Text := DimensionValue.Name;
+                // SWPUP.PAM-
+                // IF DimensionEntry.GET(17,"G/L Entry"."Entry No.",'EMPLOYEE') THEN
+                //  IF DimensionValue.GET('EMPLOYEE',DimensionEntry."Dimension Value Code") THEN
+                IF DimensionSetEntry.GET("G/L Entry"."Dimension Set ID", 'EMPLOYEE') THEN
+                    IF DimensionValue.GET('EMPLOYEE', DimensionSetEntry."Dimension Value Code") THEN
+                        // SWPUP.PAM+
+                        Employee := DimensionValue.Name;
+                // SWPUP.PAM-
+                IF DimensionSetEntry.GET("G/L Entry"."Dimension Set ID", 'PROJECT') THEN
+                    IF DimensionValue.GET('PROJECT', DimensionSetEntry."Dimension Value Code") THEN
+                        // SWPUP.PAM+
+                        Project := DimensionValue.Name;
+                User := "G/L Entry"."User ID";
+
+                ForeignAmt := 0;
+                CurrCode := '';
+                ExcRate := 0;
+
+                //#02  AND ("Source Type"="Source Type"::Vendor)
+                IF ("Value Entry No." <> 0) THEN
+                    IF ValueEntry.GET("Value Entry No.") THEN
+                        ItemInfo := ' 物料' + FORMAT(ValueEntry."Item No.") + ' 数量' + FORMAT(ValueEntry."Valued Quantity")
+                    ELSE
+                        ItemInfo := ''
+                ELSE
+                    ItemInfo := '';
+                //#02
+
+                //***** ESg Andy 2006/04/21
+                IF "G/L Entry"."Source Type" IN ["G/L Entry"."Source Type"::Customer, "G/L Entry"."Source Type"::Vendor,
+                                                       "G/L Entry"."Source Type"::"Bank Account"] THEN BEGIN
+                    CASE "G/L Entry"."Source Type" OF
+                        "G/L Entry"."Source Type"::Customer:
+                            BEGIN
+                                CustLE.RESET;
+                                CustLE.SETRANGE("Entry No.", "G/L Entry"."Entry No.");
+                                IF CustLE.FIND('-') THEN
+                                    IF CustLE."Currency Code" <> '' THEN BEGIN
+                                        CustLE.CALCFIELDS(Amount, "Amount (LCY)");
+                                        ForeignAmt := ABS(CustLE.Amount);
+                                        CurrCode := CustLE."Currency Code";
+                                        IF CustLE.Amount <> 0 THEN
+                                            ExcRate := CustLE."Amount (LCY)" / CustLE.Amount;
+                                    END;
+                            END;
+                        "G/L Entry"."Source Type"::Vendor:
+                            BEGIN
+                                VendorLE.RESET;
+                                VendorLE.SETRANGE(VendorLE."Entry No.", "G/L Entry"."Entry No.");
+                                IF VendorLE.FIND('-') THEN
+                                    IF VendorLE."Currency Code" <> '' THEN BEGIN
+                                        VendorLE.CALCFIELDS(Amount, "Amount (LCY)");
+                                        ForeignAmt := ABS(VendorLE.Amount);
+                                        CurrCode := VendorLE."Currency Code";
+                                        IF VendorLE.Amount <> 0 THEN
+                                            ExcRate := VendorLE."Amount (LCY)" / VendorLE.Amount;
+                                    END;
+                            END;
+                        "G/L Entry"."Source Type"::"Bank Account":
+                            BEGIN
+                                BankLE.RESET;
+                                BankLE.SETRANGE(BankLE."Entry No.", "G/L Entry"."Entry No.");
+                                IF BankLE.FIND('-') THEN
+                                    IF BankLE."Currency Code" <> '' THEN BEGIN
+                                        ForeignAmt := ABS(BankLE.Amount);
+                                        CurrCode := BankLE."Currency Code";
+                                        IF BankLE.Amount <> 0 THEN
+                                            ExcRate := BankLE."Amount (LCY)" / BankLE.Amount;
+                                    END;
+                            END;
+                    END;
                 END;
 
-                CLEAR(Description);
-                CLEAR(GlobalDimCode);
-                CLEAR(AccountDesc);
-                CLEAR(AccountNo);
-                CLEAR(CurrCode);
-                CLEAR(ForeignAmt);
-                CLEAR(ExcRate);
-                CLEAR(DebitAmount);
-                CLEAR(CreditAmount);
-                i := 1;
-                DocumentNo := GLEntry."Document No.";
-                PostingDate := GLEntry."Posting Date";
-                Pages := FORMAT(PageNo) + ' - ' + FORMAT(PageQty);
                 GLRegister.RESET;
-                GLRegister.SETFILTER("From Entry No.", '<=%1', GLEntry."Entry No.");
-                GLRegister.SETFILTER("To Entry No.", '>=%1', GLEntry."Entry No.");
-                IF GLRegister.FINDFIRST THEN
+                GLRegister.SETFILTER(GLRegister."From Entry No.", '<=%1', "G/L Entry"."Entry No.");
+                GLRegister.SETFILTER(GLRegister."To Entry No.", '>=%1', "G/L Entry"."Entry No.");
+                IF GLRegister.FIND('-') THEN
                     RegNo := GLRegister."No.";
 
-                REPEAT
-                    Glob1Text := '';
-                    Glob2Text := '';
-                    Employee := '';
-                    Project := '';
+                //*****
 
-                    IF DimensionValue.GET('REGION', GLEntry."Global Dimension 1 Code") THEN
-                        Glob1Text := DimensionValue.Name;
-                    IF DimensionValue.GET('UNIT', GLEntry."Global Dimension 2 Code") THEN
-                        Glob2Text := DimensionValue.Name;
-                    IF DimensionSetEntry.GET(GLEntry."Dimension Set ID", 'EMPLOYEE') THEN
-                        IF DimensionValue.GET('EMPLOYEE', DimensionSetEntry."Dimension Value Code") THEN
-                            Employee := DimensionValue.Name;
-                    IF DimensionSetEntry.GET(GLEntry."Dimension Set ID", 'PROJECT') THEN
-                        IF DimensionValue.GET('PROJECT', DimensionSetEntry."Dimension Value Code") THEN
-                            Project := DimensionValue.Name;
 
-                    User := GLEntry."User ID";
-                    ForeignAmt[i] := 0;
-                    CurrCode[i] := '';
-                    ExcRate[i] := 0;
-                    ChineseAccountName := GLEntry."Chinese Account Name";
-                    //bobby FDDR050 07/23/2025 BEGIN
-                    IF GLEntry."Source Type" = GLEntry."Source Type"::Vendor then begin
-                        Vendor.Get(GLEntry."Source No.");
-                        SourceName := Vendor.Name;
-                    end else IF GLEntry."Source Type" = GLEntry."Source Type"::Customer then begin
-                        Customer.Get(GLEntry."Source No.");
-                        SourceName := Customer.Name;
-                    end;
-                    //bobby FDDR050 07/23/2025 END
-                    IF GLEntry."Bal. Account Type" IN
-                      [GLEntry."Bal. Account Type"::Customer, GLEntry."Bal. Account Type"::Vendor, GLEntry."Bal. Account Type"::"Bank Account"]
-                    THEN BEGIN
-                        CASE GLEntry."Bal. Account Type" OF
-                            GLEntry."Bal. Account Type"::Customer:
-                                BEGIN
-                                    CustLE.RESET;
-                                    CustLE.SETRANGE(CustLE."Transaction No.", GLEntry."Transaction No.");
-                                    IF CustLE.FINDFIRST THEN
-                                        IF CustLE."Currency Code" <> '' THEN BEGIN
-                                            CustLE.CALCFIELDS(Amount, "Amount (LCY)");
-                                            ForeignAmt[i] := ABS(CustLE.Amount);
-                                            CurrCode[i] := CustLE."Currency Code";
-                                            ExcRate[i] := CustLE."Amount (LCY)" / CustLE.Amount;
-                                        END;
-                                END;
-                            GLEntry."Bal. Account Type"::Vendor:
-                                BEGIN
-                                    VendorLE.RESET;
-                                    VendorLE.SETRANGE(VendorLE."Transaction No.", GLEntry."Transaction No.");
-                                    IF VendorLE.FINDFIRST THEN
-                                        IF VendorLE."Currency Code" <> '' THEN BEGIN
-                                            VendorLE.CALCFIELDS(Amount, "Amount (LCY)");
-                                            ForeignAmt[i] := ABS(VendorLE.Amount);
-                                            CurrCode[i] := VendorLE."Currency Code";
-                                            ExcRate[i] := VendorLE."Amount (LCY)" / VendorLE.Amount;
-                                        END;
-                                END;
-                            GLEntry."Bal. Account Type"::"Bank Account":
-                                BEGIN
-                                    BankLE.RESET;
-                                    BankLE.SETRANGE(BankLE."Transaction No.", GLEntry."Transaction No.");
-                                    IF BankLE.FINDFIRST THEN
-                                        IF BankLE."Currency Code" <> '' THEN BEGIN
-                                            ForeignAmt[i] := ABS(BankLE.Amount);
-                                            CurrCode[i] := BankLE."Currency Code";
-                                            ExcRate[i] := BankLE."Amount (LCY)" / BankLE.Amount;
-                                        END;
-                                END;
-                        END;
+                //#01--Start
+                IF "Source Type" IN ["Source Type"::Vendor, "Source Type"::Customer] THEN BEGIN
+                    IF ("Source Type" = "Source Type"::Vendor) AND ("Source No." <> '') THEN BEGIN
+                        Vendor.GET("G/L Entry"."Source No.");
+                        V_Name := Vendor.Name
+                    END
+                    ELSE IF ("Source Type" = "Source Type"::Customer) AND ("Source No." <> '') THEN BEGIN
+                        Customer.GET("G/L Entry"."Source No.");
+                        V_Name := Customer.Name
                     END;
+                END;
+                //#01--End
 
-                    Description[i] := GLEntry.Description;
-                    GlobalDimCode[i] := GLEntry."Global Dimension 1 Code";
-                    AccountDesc[i] := GetChineseDesc(GLEntry."G/L Account No.");
-                    AccountNo[i] := GLEntry."G/L Account No." + Glob1Text + Glob2Text + Employee + Project;
-                    DebitAmount[i] := GLEntry."Debit Amount";
-                    CreditAmount[i] := GLEntry."Credit Amount";
-                    TotalDebit += GLEntry."Debit Amount";
-                    TotalCredit += GLEntry."Credit Amount";
-                    i += 1;
-                    IF GLEntry.NEXT = 0 THEN BEGIN
-                        Last := TRUE;
-                        NextDoc := TRUE;
-                    END ELSE
-                        IF (GLEntry."Document No." <> DocumentNo) THEN
-                            NextDoc := TRUE;
-                UNTIL NextDoc OR (i > 7);
+                //code from sections
+                //Header1Section
+                Pno += 1;
+                //GroupHeader3Section
+                GroupTotalsRecRef.GETTABLE("G/L Entry");
+                ProcessGroupHeaderSectionCode(GroupTotalsRecRef, "G/L Entry".FIELDNO("Document No."), G_L_Entry_Document_No____GroupHeaderExec);
+                IF G_L_Entry_Document_No____GroupHeaderExec THEN BEGIN
+                    G_L_EntryGroupHeader3SectionVisible := FALSE;
+                    // FooterPrinted;
+                    //FooterPrinted := FALSE;
+                END;
+                //GroupHeader4Section
+                GroupTotalsRecRef.GETTABLE("G/L Entry");
+                ProcessGroupHeaderSectionCode(GroupTotalsRecRef, "G/L Entry".FIELDNO("Document No."), G_L_Entry_Document_No____GroupHeaderExec);
+                IF G_L_Entry_Document_No____GroupHeaderExec THEN BEGIN
+                    //Pno:=0;
+                    G_L_EntryGroupHeader4SectionVisible := FALSE;
+                    //  G_L_Entry_Document_No____GroupHeaderExec;
+                END;
+                //GroupHeader5Section
+                GroupTotalsRecRef.GETTABLE("G/L Entry");
+                ProcessGroupHeaderSectionCode(GroupTotalsRecRef, "G/L Entry".FIELDNO("Document No."), G_L_Entry_Document_No____GroupHeaderExec);
+                IF G_L_Entry_Document_No____GroupHeaderExec THEN BEGIN
+                    G_L_EntryGroupHeader5SectionVisible := FALSE;
+                    //  CurrReport.TOTALSCAUSEDBY = LastFieldNo;
+                END;
+                //Body6Section
+                G_L_EntryBody6SectionVisible := ("Source Type" IN ["Source Type"::Customer, "Source Type"::Vendor]);
+                //Body7Section
+                G_L_EntryBody7SectionVisible := (NOT ("Source Type" IN ["Source Type"::Customer, "Source Type"::Vendor]));
+                //GroupFooter8Section
+                GroupTotalsRecRef.GETTABLE("G/L Entry");
+                ProcessGroupFooterSectionCode(GroupTotalsRecRef, "G/L Entry".FIELDNO("Document No."), G_L_Entry_Document_No____GroupFooterExec);
+                IF G_L_Entry_Document_No____GroupFooterExec THEN BEGIN
+                    //IF NOT FooterPrinted THEN
+                    //LastFieldNo := CurrReport.TOTALSCAUSEDBY;
+                    G_L_EntryGroupFooter8SectionVisible := FALSE;// NOT FooterPrinted;
+                                                                 //FooterPrinted := TRUE;
+                END;
+                //GroupFooter9Section
+                GroupTotalsRecRef.GETTABLE("G/L Entry");
+                ProcessGroupFooterSectionCode(GroupTotalsRecRef, "G/L Entry".FIELDNO("Document No."), G_L_Entry_Document_No____GroupFooterExec);
+                IF G_L_Entry_Document_No____GroupFooterExec THEN BEGIN
 
-                IF NextDoc THEN BEGIN
-                    TotalDebit2 := TotalDebit;
-                    TotalCredit2 := TotalCredit;
-                END ELSE BEGIN
-                    TotalDebit2 := 0;
-                    TotalCredit2 := 0;
+                    G_L_EntryGroupFooter9SectionVisible :=
+                      G_L_Entry_Document_No____GroupFooterExec;
+                    Pno := 0;
                 END;
             end;
 
             trigger OnPreDataItem()
             begin
-                IF NOT GLEntry.FINDSET THEN
-                    CurrReport.QUIT;
-
-                NextDoc := TRUE;
-            end;
-        }
-        dataitem("G/L Entry"; "G/L Entry")
-        {
-            DataItemTableView = SORTING("Document No.", "Posting Date");
-            RequestFilterFields = "Document No.", "Posting Date";
-
-            trigger OnPreDataItem()
-            begin
-                CurrReport.BREAK;
+                LastFieldNo := FIELDNO("Posting Date");
             end;
         }
     }
@@ -542,82 +406,343 @@ report 50009 "Voucher Chinese"
 
     trigger OnPreReport()
     begin
-        CompanyInfo.GET;
-        GLEntry.SETCURRENTKEY("Document No.", "Posting Date");
-        GLEntry.COPYFILTERS("G/L Entry");
+        CompanyInfo.FIND('-');
+        ComName := CompanyInfo.Name;
     end;
 
     var
-        CompanyInfo: Record "Company Information";
-        GLEntry: Record "G/L Entry";
-        DocumentNo: Code[20];
-        Pages: Text;
-        PageNo: Integer;
-        PageQty: Integer;
-        RegNo: Integer;
-        PostingDate: Date;
-        TotalFor: Label 'Total for ';
-        VOUCHERCaptionLbl: Label 'VOUCHER';
-        VOUCHERCaptionCNLbl: Label '记帐凭证';
-        CompanyNameCNLbl: Label '公司名称';
-        Doc__No_CaptionLbl: Label 'Doc. No.';
-        Doc__No_CaptionCNLbl: Label '凭证编号:';
-        PageCaptionLbl: Label 'Page';
-        PageCaptionCNLbl: Label '页数:';
+        G_L_Entry_Document_No____GroupHeaderExec: Boolean;
+        G_L_Entry_Document_No____GroupFooterExec: Boolean;
+        GroupTotalsRecRef: RecordRef;
+        G_L_EntryGroupHeader3SectionVisible: Boolean;
+        G_L_EntryGroupHeader4SectionVisible: Boolean;
+        G_L_EntryGroupHeader5SectionVisible: Boolean;
+        G_L_EntryBody6SectionVisible: Boolean;
+        G_L_EntryBody7SectionVisible: Boolean;
+        G_L_EntryGroupFooter8SectionVisible: Boolean;
+        G_L_EntryGroupFooter9SectionVisible: Boolean;
+        CaptionLbl: Label '记帐凭证';
+        Caption_Control1000000013Lbl: Label '年';
+        Caption_Control1000000031Lbl: Label '月';
+        Date__CaptionLbl: Label '日';
+        S_CaptionLbl: Label '凭证编号:';
+        Caption_Control1000000069Lbl: Label '公司名称';
+        S_Caption_Control1000000091Lbl: Label '页数:';
         Reg__No__CaptionLbl: Label 'Reg. No.:';
-        Amount__LCY_CaptionLbl: Label 'Amount (LCY)';
-        Amount__LCY_CaptionCNLbl: Label '本币金额 Amount (LCY)';
-        CreditCaptionLbl: Label 'Credit';
-        CreditCaptionCNLbl: Label '贷方 Credit';
-        DebitCaptionLbl: Label 'Debit';
-        DebitCaptionCNLbl: Label '借方 Debit';
-        GenLegAcct_CodeCaptionLbl: Label 'Gen.Leg.Acct.';
-        GenLegAcct_CodeCaptionCNLbl: Label '科目';
-        Account_CodeCaptionLbl: Label 'Account Code';
+        Amount__LCY__CaptionLbl: Label '本币金额 Amount (LCY)';
+        Credit_CaptionLbl: Label '贷方 Credit';
+        Debit_CaptionLbl: Label '借方 Debit';
+        Caption_Control1000000052Lbl: Label '汇率';
+        Caption_Control1000000055Lbl: Label '外币金额';
+        Caption_Control1000000059Lbl: Label '科目';
+        S_________CaptionLbl: Label '摘         要';
         ExplanationCaptionLbl: Label 'Explanation';
-        ExplanationCaptionCNLbl: Label '摘      要';
-        For_Curr_CaptionLbl: Label 'For.Curr.';
-        For_Curr_CaptionCNLbl: Label '外币';
+        Gen_Leg_Acct_CaptionLbl: Label 'Gen.Leg.Acct.';
         For_Cur_Amt_CaptionLbl: Label 'For.Cur Amt.';
-        For_Cur_Amt_CaptionCNLbl: Label '外币金额';
         Exc_RatCaptionLbl: Label 'Exc.Rat';
-        Exc_RatCaptionCNLbl: Label '汇率';
-        CURCaptionLbl: Label 'CUR';
-        Manager__CaptionLbl: Label '(Manager):';
-        Manager__CaptionCNLbl: Label '会计主管:';
-        Checked__CaptionLbl: Label '(Checked):';
-        Checked__CaptionCNLbl: Label '复核:';
-        Prepared__CaptionLbl: Label '(Prepared):';
-        Prepared__CaptionCNLbl: Label '制单:';
-        Description: array[7] of Text;
-        GlobalDimCode: array[7] of Code[10];
-        AccountDesc: array[7] of Text;
-        AccountNo: array[7] of Text;
-        CurrCode: array[7] of Code[10];
-        ForeignAmt: array[7] of Decimal;
-        ExcRate: array[7] of Decimal;
-        DebitAmount: array[7] of Decimal;
-        CreditAmount: array[7] of Decimal;
-        TotalDebit: Decimal;
-        TotalCredit: Decimal;
-        TotalDebit2: Decimal;
-        TotalCredit2: Decimal;
+        Caption_Control1000000078Lbl: Label '外币';
+        For_Curr_CaptionLbl: Label 'For.Curr.';
+        S_Caption_Control1000000011Lbl: Label '制单:';
+        S_Caption_Control1000000012Lbl: Label '复核:';
+        S_Caption_Control1000000038Lbl: Label '会计主管:';
+        Manager___CaptionLbl: Label '(Manager):';
+        Checked___CaptionLbl: Label '(Checked):';
+        Prepared___CaptionLbl: Label '(Prepared):';
+        Caption_Control1117700018Lbl: Label '人民币大写金额：';
+        LastFieldNo: Integer;
+        FooterPrinted: Boolean;
+        TotalFor: Label 'Total for ';
+        Glob1Text: Text[50];
+        Glob2Text: Text[50];
+        DimensionValue: Record "Dimension Value";
+        Project: Text[50];
+        Employee: Text[50];
         User: Code[20];
-        NextDoc: Boolean;
-        Last: Boolean;
-        DateFilterYear: Integer;
-        DateFilterMonth: Integer;
-        DateFilterDay: Integer;
-        ChineseAccountName: Text[50];
-        SourceName: Text[100];
+        Pno: Integer;
+        ComName: Text[50];
+        CompanyInfo: Record "Company Information";
+        ForeignAmt: Decimal;
+        ExcRate: Decimal;
+        CurrCode: Code[10];
+        CustLE: Record "Cust. Ledger Entry";
+        VendorLE: Record "Vendor Ledger Entry";
+        BankLE: Record "Bank Account Ledger Entry";
+        RegNo: Integer;
+        GLRegister: Record "G/L Register";
+        Vendor: Record Vendor;
+        Customer: Record Customer;
+        V_Name: Text[50];
+        ValueEntry: Record "Value Entry";
+        ItemInfo: Text[50];
+        DimensionSetEntry: Record "Dimension Set Entry";
+        Text001: Label '%1 / %2';
+        TextFull: Label '整';
+
+
+    procedure No2ChineseAmount(ChangeMoney: Decimal): Text[100]
+    var
+        String1: Text[30];
+        String2: Text[30];
+        String3: Text[100];
+        String4: Text[100];
+        StringTemp: Text[100];
+        i: Integer;
+        J: Integer;
+        CH1: Text[100];
+        CH2: Text[100];
+        Zero: Integer;
+        ReturnValue: Text[100];
+        No: Integer;
+        Int: Integer;
+        Text001: Label '零壹贰叁肆伍陆柒捌玖';
+        Text002: Label '万仟佰拾亿仟佰拾万仟佰拾元角分';
+        Text00: Label '零';
+        Text01: Label '亿';
+        Text02: Label '万';
+        Text03: Label '元';
+        Text04: Label '整';
+        Text06: Label '仟仟';
+        Text07: Label '佰佰';
+        Text08: Label '零元';
+        Text09: Label '零万';
+        Text10: Label '零亿';
+        Text11: Label '零整';
+        Text12: Label '零佰';
+        Text13: Label '零仟';
+        Text14: Label '元元';
+        "--New": Integer;
+        TempStr: Text[50];
+        LeftStr: Text[30];
+        RightStr: Text[10];
+        Pos: Integer;
+        Len: Integer;
+    begin
+
+
+
+
+        TempStr := FORMAT(ChangeMoney, 0, '<Integer><Decimals>');
+
+        Len := STRLEN(TempStr);
+        Pos := STRPOS(TempStr, '.');
+
+        IF Pos > 0 THEN BEGIN
+            LeftStr := COPYSTR(TempStr, 1, Pos - 1);
+            RightStr := COPYSTR(TempStr, Pos + 1, Len - Pos);
+        END ELSE
+            LeftStr := TempStr;
+
+        TempStr := '';
+
+        Len := STRLEN(LeftStr);
+        IF Len > 9 THEN EXIT('CHSAmountFormat()不能处理超亿位数字');
+
+        Pos := 0;
+        REPEAT
+            CASE Pos OF
+                0:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '元';
+                1:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '拾' + TempStr;
+                2:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '佰' + TempStr;
+                3:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '仟' + TempStr;
+                4:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '万' + TempStr;
+                5:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '拾' + TempStr;
+                6:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '佰' + TempStr;
+                7:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '仟' + TempStr;
+                8:
+                    TempStr := NumToChs(COPYSTR(LeftStr, Len - Pos, 1)) + '亿' + TempStr;
+            END;
+            Pos := Pos + 1;
+        UNTIL Pos = Len;
+
+        IF RightStr <> '' THEN BEGIN
+            Len := STRLEN(RightStr);
+            Pos := 1;
+            REPEAT
+                CASE Pos OF
+                    1:
+                        TempStr := TempStr + NumToChs(COPYSTR(RightStr, Pos, 1)) + '角';
+                    2:
+                        TempStr := TempStr + NumToChs(COPYSTR(RightStr, Pos, 1)) + '分';
+                END;
+                Pos := Pos + 1;
+            UNTIL ((Pos > 2) OR (Pos > Len));
+        END ELSE
+            TempStr := TempStr + TextFull;
+
+        EXIT(TempStr);
+
+
+        EXIT;
+        String1 := Text001;    //Chinese Number
+        String2 := Text002;    //Chinese Unit
+
+        EVALUATE(Int, FORMAT(ChangeMoney * 100));
+        String4 := FORMAT(Int);
+
+        J := STRLEN(String4);
+
+        // SWPUP.ROS-
+        // String2 := COPYSTR(String2,(STRLEN(String2) - J * 2 + 1));
+        String2 := COPYSTR(String2, (STRLEN(String2) - J + 1));
+        // SWPUP.ROS+
+
+        i := 1;
+
+        WHILE i <= J DO BEGIN
+            String3 := COPYSTR(String4, i, 1);    //Get Chinese Number
+            EVALUATE(No, String3);    //Get Chinese Unit
+
+            IF String3 <> '0' THEN BEGIN
+                CH1 := COPYSTR(String1, No * 2 + 1, 2);
+                CH2 := COPYSTR(String2, i * 2 - 1, 2);
+                Zero := 0;
+            END ELSE BEGIN
+                IF (Zero = 0) OR (i = J - 9) OR (i = J - 5) OR (i = J - 1) THEN
+                    CH1 := Text00
+                ELSE
+                    CH1 := '';
+
+                Zero := Zero + 1;
+
+                CH2 := '';
+
+                IF i = J - 10 THEN BEGIN
+                    CH2 := Text01;
+                    Zero := 0;
+                END;
+
+                IF i = J - 6 THEN BEGIN
+                    CH2 := Text02;
+                    Zero := 0;
+                END;
+
+                IF i = J - 2 THEN BEGIN
+                    CH2 := Text03;
+                    Zero := 0;
+                END;
+
+                IF i = J THEN
+                    CH2 := Text04;
+
+            END;
+
+            ReturnValue := ReturnValue + CH1 + CH2;
+
+            i := i + 1;
+        END;
+
+        //At last, delete the zero which is unwanted
+        IF STRPOS(ReturnValue, Text06) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text06), 2);
+
+        IF STRPOS(ReturnValue, Text07) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text07), 2);
+
+        IF STRPOS(ReturnValue, Text08) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text08), 2);
+
+        IF STRPOS(ReturnValue, Text09) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text09), 2);
+
+        IF STRPOS(ReturnValue, Text10) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text10), 2);
+
+        IF STRPOS(ReturnValue, Text11) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text11), 2);
+
+        IF STRPOS(ReturnValue, Text12) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text12), 2);
+
+        IF STRPOS(ReturnValue, Text13) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text13), 2);
+
+        IF STRPOS(ReturnValue, Text14) <> 0 THEN
+            ReturnValue := DELSTR(ReturnValue, STRPOS(ReturnValue, Text14), 2);
+
+        EXIT(ReturnValue);
+    end;
+
 
     procedure GetChineseDesc("Account No": Code[20]): Text[100]
     var
-        GLAccount: Record "G/L Account";
+        "G/L Account": Record "G/L Account";
     begin
         IF "Account No" <> '' THEN BEGIN
-            GLAccount.GET("Account No");
-            EXIT(GLAccount.Name);
+            "G/L Account".GET("Account No");
+            EXIT("G/L Account"."L. Name");
+        END;
+    end;
+
+    local procedure ProcessGroupHeaderSectionCode(var pGroupTotalsRecRef: RecordRef; GroupFieldNo: Integer; var GroupHeaderExec: Boolean)
+    var
+        LastRecRef: RecordRef;
+    begin
+        GroupHeaderExec := FALSE;
+
+        IF pGroupTotalsRecRef.NEXT(-1) = 0 THEN
+            GroupHeaderExec := TRUE
+        ELSE BEGIN
+            LastRecRef := pGroupTotalsRecRef.DUPLICATE;
+            pGroupTotalsRecRef.NEXT;
+
+            IF pGroupTotalsRecRef.FIELD(GroupFieldNo).VALUE <> LastRecRef.FIELD(GroupFieldNo).VALUE THEN
+                GroupHeaderExec := TRUE;
+        END;
+    end;
+
+    local procedure ProcessGroupFooterSectionCode(var pGroupTotalsRecRef: RecordRef; GroupFieldNo: Integer; var GroupFooterExec: Boolean)
+    var
+        NextRecRef: RecordRef;
+    begin
+        GroupFooterExec := FALSE;
+
+        IF pGroupTotalsRecRef.NEXT = 0 THEN
+            GroupFooterExec := TRUE
+        ELSE BEGIN
+            NextRecRef := pGroupTotalsRecRef.DUPLICATE;
+            pGroupTotalsRecRef.NEXT(-1);
+
+            IF pGroupTotalsRecRef.FIELD(GroupFieldNo).VALUE <> NextRecRef.FIELD(GroupFieldNo).VALUE THEN
+                GroupFooterExec := TRUE;
+        END;
+    end;
+
+
+    procedure NumToChs(InCHR: Text[1]): Text[2]
+    begin
+
+
+        CASE InCHR OF
+            '0':
+                EXIT('零');
+            '9':
+                EXIT('玖');
+            '8':
+                EXIT('捌');
+            '7':
+                EXIT('柒');
+            '6':
+                EXIT('陆');
+            '5':
+                EXIT('伍');
+            '4':
+                EXIT('肆');
+            '3':
+                EXIT('叁');
+            '2':
+                EXIT('贰');
+            '1':
+                EXIT('壹');
+            ELSE
+                EXIT('??');
         END;
     end;
 }
