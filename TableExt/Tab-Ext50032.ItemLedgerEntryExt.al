@@ -76,6 +76,11 @@ tableextension 50032 "Item Ledger Entry Ext" extends "Item Ledger Entry"
             CalcFormula = Lookup(Location."Use As FCA In-Transit" WHERE(Code = FIELD("Location Code")));
             Description = 'CS084';
         }
+        field(50041; Hold; Boolean)
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Location."Use As PSI Hold" WHERE(Code = FIELD("Location Code")));
+        }
         field(50050; "ITE Collected"; Boolean)
         {
             Description = 'CS082';

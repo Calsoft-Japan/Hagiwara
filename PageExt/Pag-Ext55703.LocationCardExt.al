@@ -27,6 +27,10 @@ pageextension 55703 LocationCardExt extends "Location Card"
             {
                 ApplicationArea = all;
             }
+            field("Use As PSI Hold"; Rec."Use As PSI Hold")
+            {
+                ApplicationArea = all;
+            }
 
         }
     }

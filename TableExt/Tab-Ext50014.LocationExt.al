@@ -27,5 +27,8 @@ tableextension 50014 "Location Ext" extends "Location"
         {
             Description = 'CS084';
         }
+        field(59005; "Use As PSI Hold"; Boolean)
+        {
+        }
     }
 }

@@ -233,6 +233,7 @@ report 50023 "Collect Message"
         GRec_GLSetup.MODIFY;
         //SH END
 
+        cdu_PrepareMessage.Process_Message(true);
 
         IF g_optRetrieveType = g_optRetrieveType::Daily THEN BEGIN
             IF g_Daily = 0 THEN BEGIN
@@ -347,6 +348,7 @@ report 50023 "Collect Message"
     end;
 
     var
+        cdu_PrepareMessage: Codeunit "PSI Prepare Message";
         GRec_GLSetup: Record "General Ledger Setup";
         dt_ByDate: Date;
         window: Dialog;

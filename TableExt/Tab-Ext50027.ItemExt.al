@@ -384,7 +384,8 @@ tableextension 50027 "Item Ext" extends "Item"
             CalcFormula = Sum("Item Ledger Entry".Quantity WHERE("Item No." = FIELD("No."),
                                                                  "Global Dimension 1 Code" = FIELD("Global Dimension 1 Filter"),
                                                                  "Global Dimension 2 Code" = FIELD("Global Dimension 2 Filter"),
-                                                                 "Location Code" = CONST('HOLD'),
+                                                                 //"Location Code" = CONST('HOLD'), //Upgrade to BC
+                                                                 Hold = const(true), //Upgrade to BC
                                                                  "Drop Shipment" = FIELD("Drop Shipment Filter"),
                                                                  "Variant Code" = FIELD("Variant Filter"),
                                                                  "Lot No." = FIELD("Lot No. Filter"),

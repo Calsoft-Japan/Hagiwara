@@ -234,6 +234,8 @@ report 50092 "Collect Message (Auto)"
 
         GRec_GLSetup.MODIFY;
 
+        cdu_PrepareMessage.Process_Message(true);
+
         //SH 20171021 Update PSI Process Status
         //SH 20120723 Start
         //IF g_optRetrieveType = g_optRetrieveType::Daily THEN BEGIN
@@ -363,6 +365,7 @@ report 50092 "Collect Message (Auto)"
     end;
 
     var
+        cdu_PrepareMessage: Codeunit "PSI Prepare Message";
         GRec_GLSetup: Record "General Ledger Setup";
         dt_ByDate: Date;
         window: Dialog;

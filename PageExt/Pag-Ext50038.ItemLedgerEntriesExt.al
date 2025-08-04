@@ -155,6 +155,11 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
             {
                 ApplicationArea = all;
             }
+            field(Hold; Rec.Hold)
+            {
+                ApplicationArea = all;
+            }
+
 
         }
 
