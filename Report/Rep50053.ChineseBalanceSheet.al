@@ -13,6 +13,8 @@ report 50053 ChineseBalanceSheet
 
             trigger OnPreDataItem()
             begin
+
+
                 IF NOT AccScheduleName.GET('CHS-ASSETS') THEN
                     ERROR(Text001);
                 AccScheduleLine.COPYFILTERS("Acc. Schedule Line");
@@ -123,9 +125,9 @@ report 50053 ChineseBalanceSheet
                     IF Number <= RightRaws THEN
                         AccLine2.NEXT;
                     /*
-                   IF AccLine1."New Page" = TRUE THEN
-                       CurrReport.NEWPAGE;
-                     */
+                    IF AccLine1."New Page" = TRUE THEN
+                        CurrReport.NEWPAGE;
+                    */
                 END;
                 //Get Left Side
                 IF (Number <= LeftRaws) THEN BEGIN
@@ -249,7 +251,7 @@ report 50053 ChineseBalanceSheet
         "DateFilterMax-old": Date;
         "Print Description 2": Boolean;
         Balance_SheetCaptionLbl: Label '资 产 负 债 表';
-        Unit_OrganizationCaptionLbl: Label 'Unit_OrganizationCaptionLbl:';
+        Unit_OrganizationCaptionLbl: Label '编制单位:';
         YearCaptionLbl: Label '年';
         MonthCaptionLbl: Label '月';
         DayCaptionLbl: Label '日';

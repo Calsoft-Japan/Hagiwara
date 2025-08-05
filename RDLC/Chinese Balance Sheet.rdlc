@@ -397,7 +397,6 @@
                             <PaddingBottom>2pt</PaddingBottom>
                           </Style>
                         </Textbox>
-                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell>
@@ -1626,7 +1625,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=ReportItems!COMPANYNAME.Value</Value>
+                      <Value>=First(Fields!CompanyInfo_Name.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
@@ -1656,7 +1655,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value>=First(Fields!CompanyInfo_Name.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!Unit_OrganizationCaption.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontFamily>›žœÎ</FontFamily>
                         <FontSize>6pt</FontSize>
