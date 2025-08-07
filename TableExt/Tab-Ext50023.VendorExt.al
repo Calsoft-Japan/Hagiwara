@@ -92,6 +92,15 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
             Description = 'SKLV6.0';
 
         }
+
+        //2025-08-07
+        field(50023; "IRS 1099 Code"; Code[10])
+        {
+            TableRelation = "IRS 1099 Code".Code;
+            Caption = 'IRS 1099 Code';
+        }
+        //end 2025-08-07
+
         field(50030; "Company Name KR"; Text[50])
         {
             Caption = 'Company Name';
@@ -181,5 +190,6 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         {
             Description = 'HG10.00.10 NJ 10/04/2018';
         }
+
     }
 }

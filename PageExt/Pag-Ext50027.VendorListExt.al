@@ -93,6 +93,17 @@ pageextension 50027 VendorListExt extends "Vendor List"
                 ApplicationArea = all;
             }
         }
+        //2025-08-07
+        addafter("Payments (LCY)")
+        {
+            field("IRS 1099 Code"; Rec."IRS 1099 Code")
+            {
+                ApplicationArea = all;
+                Visible = false;
+                ToolTip = 'Display the IRS 1099 Code.';
+            }
+        }
+        //end 2025-08-07
 
     }
 

@@ -84,6 +84,17 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             }
         }
 
+        //2025-08-07
+        addafter("Cash Flow Payment Terms Code")
+        {
+            field("IRS 1099 Code"; Rec."IRS 1099 Code")
+            {
+                ApplicationArea = all;
+                Caption = 'IRS 1099 Code';
+                Visible = false;
+            }
+        }
+        //end 2025-08-07
 
     }
 
