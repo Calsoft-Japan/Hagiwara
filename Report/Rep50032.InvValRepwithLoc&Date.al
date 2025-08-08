@@ -1,9 +1,9 @@
-report 50032 "Inventory Valuation HA"
+report 50032 "Inv Val Rep with Loc & Date"
 {
     // CS092 FDD S001 Bobby.ji 2025/8/7 - Upgrade to the BC version
 
     DefaultLayout = RDLC;
-    RDLCLayout = './RDLC/Inventory Valuation HA.rdlc';
+    RDLCLayout = './RDLC/Inv Val Rep with Loc & Date.rdlc';
     Caption = 'Inventory Valuation With Location And Date';
     EnableHyperlinks = true;
     UsageCategory = ReportsAndAnalysis;
@@ -613,8 +613,8 @@ report 50032 "Inventory Valuation HA"
         Text005: Label 'As of %1';
         ValueEntry: Record "Value Entry";
         ItemLedgerEntry: Record "Item Ledger Entry";
-        TempItemLedgerEntry: Record "Inventory Valuation HA" temporary;
-        QItemLedgerEntry: Query "Inventory Valuation HA";
+        TempItemLedgerEntry: Record "Inv Val Rep with Loc & Date" temporary;
+        QItemLedgerEntry: Query "Inv Val Rep with Loc & Date";
         StartDate: Date;
         EndDate: Date;
         ShowExpected: Boolean;

@@ -1,4 +1,4 @@
-query 50013 "Inventory Valuation HA"
+query 50013 "Inv Val Rep with Loc & Date"
 {
 
     elements

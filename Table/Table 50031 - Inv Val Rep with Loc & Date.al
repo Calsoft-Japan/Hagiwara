@@ -1,4 +1,4 @@
-table 50031 "Inventory Valuation HA"
+table 50031 "Inv Val Rep with Loc & Date"
 {
     fields
     {
