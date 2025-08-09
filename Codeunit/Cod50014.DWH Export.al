@@ -67,8 +67,6 @@ codeunit 50014 "DWH Export"
     end;
 
     var
-        DWHExportBuffer: Record "DWH Export Buffer";
-        EntryNo: Integer;
         SaveString: Text;
         curCompany: Record "Company Information";
         curCountryRegionCode: Text[100];
@@ -85,11 +83,34 @@ codeunit 50014 "DWH Export"
         VarInteger: Integer;
         InventoryBaseDate: Date;
 
+
+        DataName: Text[50];
+        Const_DN_Customer: Label 'Customer';
+        Const_DN_Vendor: Label 'Vendor';
+        Const_DN_Item: Label 'Item';
+        Const_DN_SalesPrice: Label 'SalesPrice';
+        Const_DN_PurchasePrice: Label 'PurchasePrice';
+        Const_DN_CustomerItemNumber: Label 'CustomerItemNumber';
+        Const_DN_SalesQuote: Label 'SalesQuote';
+        Const_DN_OutstandingSalesOrder: Label 'OutstandingSalesOrder';
+        Const_DN_SalesShipment: Label 'SalesShipment';
+        Const_DN_OutstandingPurchaseOrder: Label 'OutstandingPurchaseOrder';
+        Const_DN_PurchaseLines: Label 'PurchaseLines';
+        Const_DN_PurchaseReceipt: Label 'PurchaseReceipt';
+        Const_DN_Inventory: Label 'Inventory';
+        Const_DN_ValueEntry: Label 'ValueEntry';
+        Const_DN_ShipAndDebitFlag: Label 'ShipAndDebitFlag';
+        Const_DN_InventoryLastMonth: Label 'InventoryLastMonth';
+        Const_DN_InventoryLastWeek: Label 'InventoryLastWeek';
+        Const_DN_Marker: Label 'Marker';
+
+
     local procedure ExportCustomer()
     var
         FileName: Text[200];
         CustomerRec: Record "Customer";
     begin
+        DataName := Const_DN_Customer;
         SaveString := '';
         CustomerRec.RESET();
         //IF CustomerRec.FIND('-') THEN CS059
@@ -148,6 +169,7 @@ codeunit 50014 "DWH Export"
         FileName: Text[200];
         VendorRec: Record Vendor;
     begin
+        DataName := Const_DN_Vendor;
         VendorRec.RESET();
 
         //IF VendorRec.FIND('-') THEN CS059
@@ -191,6 +213,7 @@ codeunit 50014 "DWH Export"
         SalesInvoiceLineRec: Record "Sales Invoice Line";
         SalesInvoiceHeaderRec: Record "Sales Invoice Header";
     begin
+        DataName := Const_DN_Item;
         ItemRec.RESET();
         ItemRec.SETRANGE(Blocked, FALSE);//CS071
         //IF ItemRec.FIND('-') THEN CS059
@@ -399,6 +422,7 @@ codeunit 50014 "DWH Export"
         SalesPriceRec: Record "Sales Price";
         itemRec: Record Item;
     begin
+        DataName := Const_DN_SalesPrice;
         SalesPriceRec.RESET();
         //IF SalesPriceRec.FIND('-') THEN CS059
         BEGIN
@@ -470,6 +494,7 @@ codeunit 50014 "DWH Export"
         itemRec: Record Item;
         itemRec2: Record Item;
     begin
+        DataName := Const_DN_PurchasePrice;
         PurchasePriceRec.RESET();
         //IF PurchasePriceRec.FIND('-') THEN CS059
         //itemRec2.RESET();//CS074 //CS085
@@ -547,6 +572,7 @@ codeunit 50014 "DWH Export"
         FileName: Text[200];
         CustomerItemNumberRec: Record Item;
     begin
+        DataName := Const_DN_CustomerItemNumber;
         CustomerItemNumberRec.RESET();
         //IF CustomerItemNumberRec.FIND('-') THEN CS059
         BEGIN
@@ -584,47 +610,6 @@ codeunit 50014 "DWH Export"
         END;
     end;
 
-    local procedure ExportCurrencyExchangeRate()
-    var
-        FileName: Text[200];
-        CurrencyExchangeRateRec: Record "Currency Exchange Rate";
-    begin
-        CurrencyExchangeRateRec.RESET();
-        //IF CurrencyExchangeRateRec.FIND('-') THEN CS059
-        BEGIN
-
-            SaveString := 'Original Currency';
-            SaveString := SaveString + FORMAT(tabChar) + 'Target Currency';
-            SaveString := SaveString + FORMAT(tabChar) + 'Applied From';
-            SaveString := SaveString + FORMAT(tabChar) + 'Applied To';
-            SaveString := SaveString + FORMAT(tabChar) + 'Exchange Rate';
-
-            InsertDataInBuffer();
-            IF CurrencyExchangeRateRec.FIND('-') THEN//CS059
-                REPEAT
-                    IF CurrencyExchangeRateRec."Relational Currency Code" = ''
-                      THEN
-                        SaveString := GeneralLedgerSetupRec."LCY Code" //Original Currency
-                    ELSE
-                        SaveString := CurrencyExchangeRateRec."Relational Currency Code";//Original Currency
-
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + CurrencyExchangeRateRec."Currency Code";//Target Currency
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(CurrencyExchangeRateRec."Starting Date", 0, '<Year4>/<Month,2>/<Day,2>');//Applied From
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Applied To
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(CurrencyExchangeRateRec."Exchange Rate Amount");//Exchange Rate
-
-                    SaveString := ReplaceString(SaveString, tabChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar2, '');
-                    SaveString := ReplaceString(SaveString, tabPlaceholder, tabChar);
-
-                    InsertDataInBuffer();
-                UNTIL CurrencyExchangeRateRec.NEXT() = 0;
-
-
-        END;
-    end;
-
     local procedure ExportSalesQuote()
     var
         FileName: Text[200];
@@ -633,6 +618,7 @@ codeunit 50014 "DWH Export"
         SalesHeaderRec: Record "Sales Header";
         CustomerRec: Record Customer;
     begin
+        DataName := Const_DN_SalesQuote;
         SaveString := '';
         SalesQuoteRec.RESET();
         SalesQuoteRec.SETRANGE("Document Type", SalesQuoteRec."Document Type"::Quote);
@@ -783,6 +769,7 @@ codeunit 50014 "DWH Export"
         SalesHeaderRec: Record "Sales Header";
         CustomerRec: Record Customer;
     begin
+        DataName := Const_DN_OutstandingSalesOrder;
         SaveString := '';
         OutstandingSalesOrderRec.RESET();
         OutstandingSalesOrderRec.SETRANGE("Document Type", OutstandingSalesOrderRec."Document Type"::Order);
@@ -933,6 +920,7 @@ codeunit 50014 "DWH Export"
         ItemAmtTotal: Decimal;
         ItemQtyTotal: Decimal;
     begin
+        DataName := Const_DN_SalesShipment;
         SaveString := '';
         SalesShipmentRec.RESET();
         SalesShipmentRec.SETFILTER(Type, '<>0');
@@ -1135,6 +1123,7 @@ codeunit 50014 "DWH Export"
         PurchaseHeaderRec: Record "Purchase Header";
         CustomerRec: Record "Customer";
     begin
+        DataName := Const_DN_OutstandingPurchaseOrder;
         SaveString := '';
         PurchaseLineRec.RESET();
         PurchaseLineRec.SETRANGE("Document Type", PurchaseLineRec."Document Type"::Order);
@@ -1320,6 +1309,7 @@ codeunit 50014 "DWH Export"
         writeInvoiceLine: Boolean;
         isInvoiceFirstLine: Boolean;
     begin
+        DataName := Const_DN_PurchaseLines;
         hasPurchaseLine := FALSE;
         SaveString := '';
         PurchaseLineRec.RESET();
@@ -1692,6 +1682,7 @@ codeunit 50014 "DWH Export"
         PurchaseReceiptHeaderRec: Record "Purch. Inv. Header";
         CustomerRec: Record "Customer";
     begin
+        DataName := Const_DN_PurchaseReceipt;
         SaveString := '';
         PurchaseReceiptRec.RESET();
         PurchaseReceiptRec.SETFILTER(Type, '<>0');
@@ -1869,6 +1860,7 @@ codeunit 50014 "DWH Export"
         LocationRec: Record Location;
         IsExlusionFlag: Boolean;
     begin
+        DataName := Const_DN_Inventory;
         SaveString := '';
         currentItem := '';
         currentLocation := '';
@@ -2164,6 +2156,7 @@ codeunit 50014 "DWH Export"
         DebitCostLCY: Decimal;
         DebitCostAmountLCY: Decimal;
     begin
+        DataName := Const_DN_ValueEntry;
         SaveString := '';
         ValueEntryRec.RESET();
         ValueEntryRec.SETFILTER("Posting Date", '>=%1', BaseDate);
@@ -2391,16 +2384,13 @@ codeunit 50014 "DWH Export"
     var
         FileName: Text[200];
     begin
-        BEGIN
-            SaveString := '';
-            BEGIN
+        DataName := Const_DN_Marker;
+        SaveString := '';
 
-                SaveString := FORMAT(TODAY, 0, '<Year4>/<Month,2>/<Day,2>');
+        SaveString := FORMAT(TODAY, 0, '<Year4>/<Month,2>/<Day,2>');
 
-                InsertDataInBuffer();
+        InsertDataInBuffer();
 
-            END;
-        END;
     end;
 
     local procedure ReplaceString(String: Text[1024]; OrigSubStr: Text[100]; ReplSubStr: Text[100]) ReturnInformation: Text[1024]
@@ -2431,6 +2421,7 @@ codeunit 50014 "DWH Export"
         ValueEntryRec: Record "Value Entry";
         ItemLedgerEntryRec2: Record "Item Ledger Entry";
     begin
+        DataName := Const_DN_InventoryLastMonth;
         //CS064 Begin
         EVALUATE(VarInteger, GeneralLedgerSetupRec."Date for Inventory Last Month");
         IF DATE2DMY(TODAY, 1) < VarInteger THEN
@@ -2625,6 +2616,7 @@ codeunit 50014 "DWH Export"
         ValueEntryRec: Record "Value Entry";
         ItemLedgerEntryRec2: Record "Item Ledger Entry";
     begin
+        DataName := Const_DN_InventoryLastWeek;
         //CS064 Begin
         InventoryBaseDate := CALCDATE('-' + GeneralLedgerSetupRec."Days for Inventory Last Week" + 'D', TODAY);
 
@@ -2806,6 +2798,7 @@ codeunit 50014 "DWH Export"
         FileName: Text;
         ItemRec: Record Item;
     begin
+        DataName := Const_DN_ShipAndDebitFlag;
         SaveString := '';
         PurchasePriceRec.RESET();
         PurchasePriceRec.SETRANGE("One Renesas EDI", TRUE);  //CS085
@@ -2857,14 +2850,18 @@ codeunit 50014 "DWH Export"
 
     procedure InsertDataInBuffer()
     var
+        DWHExportBuffer: Record "DWH Export Buffer";
     begin
         DWHExportBuffer.INIT;
-        DWHExportBuffer.SetData(SaveString);
+        DWHExportBuffer."Data Name" := DataName;
         DWHExportBuffer.INSERT;
+        DWHExportBuffer.SetData(SaveString);
+        DWHExportBuffer.Modify();
     end;
 
     procedure DeleteDataInBuffer()
     var
+        DWHExportBuffer: Record "DWH Export Buffer";
     begin
         DWHExportBuffer.DELETEALL;
     end;

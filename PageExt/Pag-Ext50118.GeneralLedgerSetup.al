@@ -65,6 +65,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 }
                 field("<Historical Data Period for DWH>"; Rec."Historical Data Period")
                 {
+                    ApplicationArea = all;
                     Caption = 'Historical Data Period';
                 }
                 field("Date for Inventory Last Month"; Rec."Date for Inventory Last Month")
@@ -77,6 +78,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 }
                 field("Day of Week for Inv. Last Week"; Rec."Day of Week for Inv. Last Week")
                 {
+                    ApplicationArea = all;
                     Caption = 'Day of Week for Inventory Last Week';
                     ToolTip = 'Day number of the week to export Inventory Last Week (1-7, Monday = 1, Blank = Not export)';
                 }
