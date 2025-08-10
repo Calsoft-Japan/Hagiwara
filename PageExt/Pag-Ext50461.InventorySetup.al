@@ -36,6 +36,10 @@ pageextension 50461 InventorySetupExt extends "Inventory Setup"
             {
                 ApplicationArea = all;
             }
+            field("ITE End Date for Update Price"; Rec."ITE End Date for Update Price")
+            {
+                ApplicationArea = all;
+            }
         }
 
         addafter("Internal Movement Nos.")

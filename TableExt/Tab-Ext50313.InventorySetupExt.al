@@ -44,5 +44,9 @@ tableextension 50313 "Inventory Setup Ext" extends "Inventory Setup"
         {
             Description = 'CS082';
         }
+        field(50016; "ITE End Date for Update Price"; Date)
+        {
+            Description = 'CS082';
+        }
     }
 }
