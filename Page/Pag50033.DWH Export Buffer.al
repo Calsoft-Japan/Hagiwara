@@ -77,8 +77,6 @@ page 50033 "DWH Export Buffer"
 
 
     trigger OnAfterGetRecord()
-    var
-        ICInboxOutboxMgt: Codeunit ICInboxOutboxMgt;
     begin
         DataText := Rec.GetData();
     end;
