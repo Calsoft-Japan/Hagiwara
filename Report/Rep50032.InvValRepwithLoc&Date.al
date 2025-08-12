@@ -1,9 +1,11 @@
-report 50032 "Inv Val Rep with Loc & Date"
+report 50032 "Inventory Valuation HA"
 {
-    // CS092 FDD S001 Bobby.ji 2025/8/7 - Upgrade to the BC version
-
+    // //20250531 Shawn CS090.
+    // //20250713 Shawn CS090. Include Location which End Value is not 0 (even quanity is 0).
+    // CS092 FDD S001 Bobby.Ji 2025/8/7 - Upgade to the BC version
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Inv Val Rep with Loc & Date.rdlc';
+
     Caption = 'Inventory Valuation With Location And Date';
     EnableHyperlinks = true;
     UsageCategory = ReportsAndAnalysis;
@@ -181,7 +183,61 @@ report 50032 "Inv Val Rep with Loc & Date"
             column(PostingDateCaptionLbl; PostingDateCaptionLbl)
             {
             }
-            column(LocationCaptionLbl; LocationCaptionLbl)
+            column(StartingInvoicedValue_ForGroup; StartingInvoicedValue_ForGroup)
+            {
+            }
+            column(StartingExpectedValue_ForGroup; StartingExpectedValue_ForGroup)
+            {
+            }
+            column(StartingInvoicedQty_ForGroup; StartingInvoicedQty_ForGroup)
+            {
+            }
+            column(StartingExpectedQty_ForGroup; StartingExpectedQty_ForGroup)
+            {
+            }
+            column(IncreaseInvoicedValue_ForGroup; IncreaseInvoicedValue_ForGroup)
+            {
+            }
+            column(IncreaseExpectedValue_ForGroup; IncreaseExpectedValue_ForGroup)
+            {
+            }
+            column(IncreaseInvoicedQty_ForGroup; IncreaseInvoicedQty_ForGroup)
+            {
+            }
+            column(IncreaseExpectedQty_ForGroup; IncreaseExpectedQty_ForGroup)
+            {
+            }
+            column(DecreaseInvoicedValue_ForGroup; DecreaseInvoicedValue_ForGroup)
+            {
+            }
+            column(DecreaseExpectedValue_ForGroup; DecreaseExpectedValue_ForGroup)
+            {
+            }
+            column(DecreaseInvoicedQty_ForGroup; DecreaseInvoicedQty_ForGroup)
+            {
+            }
+            column(DecreaseExpectedQty_ForGroup; DecreaseExpectedQty_ForGroup)
+            {
+            }
+            column(InvCostPostedToGL_ForGroup; InvCostPostedToGL_ForGroup)
+            {
+            }
+            column(CostPostedToGL_ForGroup; CostPostedToGL_ForGroup)
+            {
+            }
+            column(ExpCostPostedToGL_ForGroup; ExpCostPostedToGL_ForGroup)
+            {
+            }
+            column(EndingInvoicedValue_ForGroup; EndingInvoicedValue_ForGroup)
+            {
+            }
+            column(EndingInvoicedQty_ForGroup; EndingInvoicedQty_ForGroup)
+            {
+            }
+            column(EndingExpectedValue_ForGroup; EndingExpectedValue_ForGroup)
+            {
+            }
+            column(EndingExpectedQty_ForGroup; EndingExpectedQty_ForGroup)
             {
             }
             dataitem(ItemLocation; Integer)
@@ -219,31 +275,43 @@ report 50032 "Inv Val Rep with Loc & Date"
                 column(TempEndingInvoicedValue; TempItemLedgerEntry.StartingInvoicedValue + TempItemLedgerEntry.IncreaseInvoicedValue - TempItemLedgerEntry.DecreaseInvoicedValue)
                 {
                 }
-                column(TempSumStartingInvoicedValue; TempItemLedgerEntry.SumStartingInvoicedValue)
+                column(TempStartingInvoicedValue_ForGroup; TempItemLedgerEntry.SumStartingInvoicedValue)
                 {
                 }
-                column(TempSumStartingExpectedValue; TempItemLedgerEntry.SumStartingExpectedValue)
+                column(TempStartingExpectedValue_ForGroup; TempItemLedgerEntry.SumStartingExpectedValue)
                 {
                 }
-                column(TempSumIncreaseInvoicedValue; TempItemLedgerEntry.SumIncreaseInvoicedValue)
+                column(TempIncreaseInvoicedValue_ForGroup; TempItemLedgerEntry.SumIncreaseInvoicedValue)
                 {
                 }
-                column(TempSumIncreaseExpectedValue; TempItemLedgerEntry.SumIncreaseExpectedValue)
+                column(TempIncreaseExpectedValue_ForGroup; TempItemLedgerEntry.SumIncreaseExpectedValue)
                 {
                 }
-                column(TempSumDecreaseInvoicedValue; TempItemLedgerEntry.SumDecreaseInvoicedValue)
+                column(TempDecreaseInvoicedValue_ForGroup; TempItemLedgerEntry.SumDecreaseInvoicedValue)
                 {
                 }
-                column(TempSumDecreaseExpectedValue; TempItemLedgerEntry.SumDecreaseExpectedValue)
+                column(TempDecreaseExpectedValue_ForGroup; TempItemLedgerEntry.SumDecreaseExpectedValue)
                 {
                 }
-                column(TempSumInvCostPostedToGL; TempItemLedgerEntry.SumInvCostPostedToGL)
+                column(TempEndingInvoicedQty_ForGroup; TempItemLedgerEntry.SumStartingInvoicedQty + TempItemLedgerEntry.SumIncreaseInvoicedQty - TempItemLedgerEntry.SumDecreaseInvoicedQty)
                 {
                 }
-                column(TempSumExpCostPostedToGL; TempItemLedgerEntry.SumExpCostPostedToGL)
+                column(TempEndingInvoicedValue_ForGroup; TempItemLedgerEntry.SumStartingInvoicedValue + TempItemLedgerEntry.SumIncreaseInvoicedValue - TempItemLedgerEntry.SumDecreaseInvoicedValue)
                 {
                 }
-                column(TempSumCostPostedToGL; TempItemLedgerEntry.SumCostPostedToGL)
+                column(TempEndingExpectedQty_ForGroup; TempItemLedgerEntry.SumStartingExpectedQty + TempItemLedgerEntry.SumIncreaseExpectedQty - TempItemLedgerEntry.SumDecreaseExpectedQty)
+                {
+                }
+                column(TempEndingExpectedValue_ForGroup; TempItemLedgerEntry.SumStartingExpectedValue + TempItemLedgerEntry.SumIncreaseExpectedValue - TempItemLedgerEntry.SumDecreaseExpectedValue)
+                {
+                }
+                column(TempInvCostPostedToGL_ForGroup; TempItemLedgerEntry.SumInvCostPostedToGL)
+                {
+                }
+                column(TempExpCostPostedToGL_ForGroup; TempItemLedgerEntry.SumExpCostPostedToGL)
+                {
+                }
+                column(TempCostPostedToGL_ForGroup; TempItemLedgerEntry.SumCostPostedToGL)
                 {
                 }
 
@@ -287,7 +355,28 @@ report 50032 "Inv Val Rep with Loc & Date"
                 InvCostPostedToGL := 0;
                 CostPostedToGL := 0;
                 ExpCostPostedToGL := 0;
-
+                //CS090 BEGIN
+                //For those items which has no location detail data.
+                StartingInvoicedValue_ForGroup := 0;
+                StartingExpectedValue_ForGroup := 0;
+                StartingInvoicedQty_ForGroup := 0;
+                StartingExpectedQty_ForGroup := 0;
+                IncreaseInvoicedValue_ForGroup := 0;
+                IncreaseExpectedValue_ForGroup := 0;
+                IncreaseInvoicedQty_ForGroup := 0;
+                IncreaseExpectedQty_ForGroup := 0;
+                DecreaseInvoicedValue_ForGroup := 0;
+                DecreaseExpectedValue_ForGroup := 0;
+                DecreaseInvoicedQty_ForGroup := 0;
+                DecreaseExpectedQty_ForGroup := 0;
+                InvCostPostedToGL_ForGroup := 0;
+                CostPostedToGL_ForGroup := 0;
+                ExpCostPostedToGL_ForGroup := 0;
+                EndingInvoicedValue_ForGroup := 0;
+                EndingInvoicedQty_ForGroup := 0;
+                EndingExpectedValue_ForGroup := 0;
+                EndingExpectedQty_ForGroup := 0;
+                //CS090 END
 
                 IsEmptyLine := TRUE;
                 ValueEntry.RESET;
@@ -354,63 +443,64 @@ report 50032 "Inv Val Rep with Loc & Date"
                 DecreaseExpectedValue += DecreaseInvoicedValue;
                 CostPostedToGL := ExpCostPostedToGL + InvCostPostedToGL;
 
-                //SumStartingInvoicedValue := SumStartingInvoicedValue + StartingInvoicedValue;
-                //SumStartingExpectedValue := SumStartingExpectedValue + StartingExpectedValue;
-                //SumIncreaseInvoicedValue := SumIncreaseInvoicedValue + IncreaseInvoicedValue;
-                //SumIncreaseExpectedValue := SumIncreaseExpectedValue + IncreaseExpectedValue;
-                //SumDecreaseInvoicedValue := SumDecreaseInvoicedValue + DecreaseInvoicedValue;
-                //SumDecreaseExpectedValue := SumDecreaseExpectedValue + DecreaseExpectedValue;
-                //SumExpCostPostedToGL := SumExpCostPostedToGL + ExpCostPostedToGL;
-                //SumInvCostPostedToGL := SumInvCostPostedToGL + InvCostPostedToGL;
-                //SumCostPostedToGL := SumCostPostedToGL + CostPostedToGL;
                 IF IsEmptyLine THEN
                     CurrReport.SKIP;
 
+
                 //CS090 begin
                 TempItemLedgerEntry.DELETEALL();
-                CLEAR(QItemLedgerEntry);
-                QItemLedgerEntry.SETRANGE(Posting_Date, 0D, EndDate);
-                QItemLedgerEntry.SETRANGE(ItemNo, "No.");
-                QItemLedgerEntry.OPEN;
+                CLEAR(QValueEntry);
+                QValueEntry.SETRANGE(Posting_Date, 0D, EndDate);
+                QValueEntry.SETRANGE(ItemNo, "No.");
+                QValueEntry.SETFILTER(LocationCode, GETFILTER("Location Filter")); //CS090
+                QValueEntry.OPEN;
                 TempItemLedgerEntryNo := 0;
-                WHILE QItemLedgerEntry.READ() DO BEGIN
-                    IF QItemLedgerEntry.Sum_Quantity > 0 THEN BEGIN
+                IsItemDetailInserted := FALSE; //CS090
+                WHILE QValueEntry.READ() DO BEGIN
+                    //IF QValueEntry.Sum_Quantity > 0 THEN BEGIN //CS090
+                    IF QValueEntry.Sum_Cost_Actual <> 0 THEN BEGIN
+                        /*//CS090
                         TempItemLedgerEntry.RESET();
-                        TempItemLedgerEntry.SETRANGE("Item No.", QItemLedgerEntry.Item_No);
+                        TempItemLedgerEntry.SETRANGE("Item No.",QValueEntry.Item_No);
                         IF TempItemLedgerEntry.FINDFIRST() THEN BEGIN
-                            SumStartingInvoicedValue := 0;
-                            SumStartingExpectedValue := 0;
-                            SumIncreaseInvoicedValue := 0;
-                            SumIncreaseExpectedValue := 0;
-                            SumDecreaseInvoicedValue := 0;
-                            SumDecreaseExpectedValue := 0;
-                            SumExpCostPostedToGL := 0;
-                            SumInvCostPostedToGL := 0;
-                            SumCostPostedToGL := 0;
+                          SumStartingInvoicedValue := 0;
+                          SumStartingExpectedValue := 0;
+                          SumIncreaseInvoicedValue := 0;
+                          SumIncreaseExpectedValue := 0;
+                          SumDecreaseInvoicedValue := 0;
+                          SumDecreaseExpectedValue := 0;
+                          SumExpCostPostedToGL := 0;
+                          SumInvCostPostedToGL := 0;
+                          SumCostPostedToGL := 0;
                         END
                         ELSE BEGIN
-                            SumStartingInvoicedValue := StartingInvoicedValue;
-                            SumStartingExpectedValue := StartingExpectedValue;
-                            SumIncreaseInvoicedValue := IncreaseInvoicedValue;
-                            SumIncreaseExpectedValue := IncreaseExpectedValue;
-                            SumDecreaseInvoicedValue := DecreaseInvoicedValue;
-                            SumDecreaseExpectedValue := DecreaseExpectedValue;
-                            SumExpCostPostedToGL := ExpCostPostedToGL;
-                            SumInvCostPostedToGL := InvCostPostedToGL;
-                            SumCostPostedToGL := CostPostedToGL;
+                          SumStartingInvoicedValue := StartingInvoicedValue;
+                          SumStartingExpectedValue := StartingExpectedValue;
+                          SumIncreaseInvoicedValue := IncreaseInvoicedValue;
+                          SumIncreaseExpectedValue := IncreaseExpectedValue;
+                          SumDecreaseInvoicedValue := DecreaseInvoicedValue;
+                          SumDecreaseExpectedValue := DecreaseExpectedValue;
+                          SumExpCostPostedToGL := ExpCostPostedToGL;
+                          SumInvCostPostedToGL := InvCostPostedToGL;
+                          SumCostPostedToGL := CostPostedToGL;
                         END;
+                        */
 
                         TempItemLedgerEntry.INIT();
                         TempItemLedgerEntry."Entry No." := TempItemLedgerEntryNo;
-                        TempItemLedgerEntry."Item No." := QItemLedgerEntry.Item_No;
-                        TempItemLedgerEntry."Location Code" := QItemLedgerEntry.Location_Code;
-                        //TempItemLedgerEntry.Quantity := QItemLedgerEntry.Sum_Quantity;
+                        TempItemLedgerEntry."Item No." := QValueEntry.Item_No;
+                        TempItemLedgerEntry."Location Code" := QValueEntry.Location_Code;
+                        //TempItemLedgerEntry.Quantity := QValueEntry.Sum_Quantity;
 
                         ItemLedgerEntry.RESET();
                         ItemLedgerEntry.SETRANGE("Item No.", TempItemLedgerEntry."Item No.");
-                        ItemLedgerEntry.SETRANGE("Location Code", TempItemLedgerEntry."Location Code");
+                        //ItemLedgerEntry.SETRANGE("Location Code",TempItemLedgerEntry."Location Code"); //CS090
+                        //CS090 BEGIN
+                        ItemLedgerEntry.SETRANGE("Posting Date", 0D, EndDate);
+                        ItemLedgerEntry.SETRANGE("Document Type", ItemLedgerEntry."Document Type"::"Purchase Receipt");
+                        //CS090 END
                         ItemLedgerEntry.SETCURRENTKEY("Item No.", "Posting Date");
-                        ItemLedgerEntry.SETFILTER(Quantity, '>0');
+                        //ItemLedgerEntry.SETFILTER(Quantity,'>0'); //CS090
                         ItemLedgerEntry.ASCENDING(FALSE);
                         IF ItemLedgerEntry.FINDFIRST() THEN BEGIN
                             TempItemLedgerEntry."Posting Date" := ItemLedgerEntry."Posting Date";
@@ -427,8 +517,8 @@ report 50032 "Inv Val Rep with Loc & Date"
                             ValueEntry.SETRANGE("Posting Date", 0D, CALCDATE('<-1D>', StartDate));
                             ValueEntry.CALCSUMS("Item Ledger Entry Quantity", "Cost Amount (Actual)", "Cost Amount (Expected)", "Invoiced Quantity");
 
-                            TempItemLedgerEntry.StartingInvoicedQty += ValueEntry."Invoiced Quantity";
-                            TempItemLedgerEntry.StartingInvoicedValue += ValueEntry."Cost Amount (Actual)";
+                            TempItemLedgerEntry.StartingInvoicedQty := ValueEntry."Invoiced Quantity";
+                            TempItemLedgerEntry.StartingInvoicedValue := ValueEntry."Cost Amount (Actual)";
                         END;
 
                         ValueEntry.SETRANGE("Posting Date", StartDate, EndDate);
@@ -439,8 +529,8 @@ report 50032 "Inv Val Rep with Loc & Date"
                           ValueEntry."Item Ledger Entry Type"::Output,
                           ValueEntry."Item Ledger Entry Type"::"Assembly Output");
                         ValueEntry.CALCSUMS("Item Ledger Entry Quantity", "Cost Amount (Actual)", "Cost Amount (Expected)", "Invoiced Quantity");
-                        TempItemLedgerEntry.IncreaseInvoicedQty += ValueEntry."Invoiced Quantity";
-                        TempItemLedgerEntry.IncreaseInvoicedValue += ValueEntry."Cost Amount (Actual)";
+                        TempItemLedgerEntry.IncreaseInvoicedQty := ValueEntry."Invoiced Quantity";
+                        TempItemLedgerEntry.IncreaseInvoicedValue := ValueEntry."Cost Amount (Actual)";
 
                         ValueEntry.SETRANGE("Posting Date", StartDate, EndDate);
                         ValueEntry.SETFILTER(
@@ -451,8 +541,8 @@ report 50032 "Inv Val Rep with Loc & Date"
                           ValueEntry."Item Ledger Entry Type"::"Assembly Consumption");
                         ValueEntry.CALCSUMS("Item Ledger Entry Quantity", "Cost Amount (Actual)", "Cost Amount (Expected)", "Invoiced Quantity");
                         //AssignAmounts(ValueEntry,DecreaseInvoicedValue,DecreaseInvoicedQty,DecreaseExpectedValue,DecreaseExpectedQty,-1);
-                        TempItemLedgerEntry.DecreaseInvoicedQty += ValueEntry."Invoiced Quantity" * -1;
-                        TempItemLedgerEntry.DecreaseInvoicedValue += ValueEntry."Cost Amount (Actual)" * -1;
+                        TempItemLedgerEntry.DecreaseInvoicedQty := ValueEntry."Invoiced Quantity" * -1;
+                        TempItemLedgerEntry.DecreaseInvoicedValue := ValueEntry."Cost Amount (Actual)" * -1;
 
                         ValueEntry.SETRANGE("Posting Date", StartDate, EndDate);
                         ValueEntry.SETRANGE("Item Ledger Entry Type", ValueEntry."Item Ledger Entry Type"::Transfer);
@@ -468,49 +558,64 @@ report 50032 "Inv Val Rep with Loc & Date"
                                 END;
                             UNTIL ValueEntry.NEXT = 0;
 
-                        TempItemLedgerEntry.SumStartingInvoicedValue := SumStartingInvoicedValue;
-                        TempItemLedgerEntry.SumStartingExpectedValue := SumStartingExpectedValue;
-                        TempItemLedgerEntry.SumIncreaseInvoicedValue := SumIncreaseInvoicedValue;
-                        TempItemLedgerEntry.SumIncreaseExpectedValue := SumIncreaseExpectedValue;
-                        TempItemLedgerEntry.SumDecreaseInvoicedValue := SumDecreaseInvoicedValue;
-                        TempItemLedgerEntry.SumDecreaseExpectedValue := SumDecreaseExpectedValue;
-                        TempItemLedgerEntry.SumInvCostPostedToGL := SumInvCostPostedToGL;
-                        TempItemLedgerEntry.SumExpCostPostedToGL := SumExpCostPostedToGL;
-                        TempItemLedgerEntry.SumCostPostedToGL := SumCostPostedToGL;
+                        //CS090 Begin
+                        //Only set one time for one Item.
+                        //Otherwise the total on report will be multipled if there are multiple location inventory for one Item.
+                        IF NOT IsItemDetailInserted THEN BEGIN
+
+                            TempItemLedgerEntry.SumStartingInvoicedQty := StartingInvoicedQty;
+                            TempItemLedgerEntry.SumIncreaseInvoicedQty := IncreaseInvoicedQty;
+                            TempItemLedgerEntry.SumDecreaseInvoicedQty := DecreaseInvoicedQty;
+                            TempItemLedgerEntry.SumStartingExpectedQty := StartingExpectedQty;
+                            TempItemLedgerEntry.SumIncreaseExpectedQty := IncreaseExpectedQty;
+                            TempItemLedgerEntry.SumDecreaseExpectedQty := DecreaseExpectedQty;
+                            TempItemLedgerEntry.SumStartingInvoicedValue := StartingInvoicedValue;
+                            TempItemLedgerEntry.SumStartingExpectedValue := StartingExpectedValue;
+                            TempItemLedgerEntry.SumIncreaseInvoicedValue := IncreaseInvoicedValue;
+                            TempItemLedgerEntry.SumIncreaseExpectedValue := IncreaseExpectedValue;
+                            TempItemLedgerEntry.SumDecreaseInvoicedValue := DecreaseInvoicedValue;
+                            TempItemLedgerEntry.SumDecreaseExpectedValue := DecreaseExpectedValue;
+                            TempItemLedgerEntry.SumInvCostPostedToGL := InvCostPostedToGL;
+                            TempItemLedgerEntry.SumExpCostPostedToGL := ExpCostPostedToGL;
+                            TempItemLedgerEntry.SumCostPostedToGL := CostPostedToGL;
+                        END;
+                        //CS090 End
 
                         TempItemLedgerEntry.INSERT();
                         TempItemLedgerEntryNo := TempItemLedgerEntryNo + 1;
+                        IsItemDetailInserted := TRUE; //CS090
                     END
-                    ELSE BEGIN
+                    /*//CS090
+                      ELSE BEGIN
                         TempItemLedgerEntry.RESET();
-                        TempItemLedgerEntry.SETRANGE("Item No.", QItemLedgerEntry.Item_No);
+                        TempItemLedgerEntry.SETRANGE("Item No.",QValueEntry.Item_No);
                         IF TempItemLedgerEntry.FINDFIRST() THEN BEGIN
-                            SumStartingInvoicedValue := 0;
-                            SumStartingExpectedValue := 0;
-                            SumIncreaseInvoicedValue := 0;
-                            SumIncreaseExpectedValue := 0;
-                            SumDecreaseInvoicedValue := 0;
-                            SumDecreaseExpectedValue := 0;
-                            SumExpCostPostedToGL := 0;
-                            SumInvCostPostedToGL := 0;
-                            SumCostPostedToGL := 0;
+                          SumStartingInvoicedValue := 0;
+                          SumStartingExpectedValue := 0;
+                          SumIncreaseInvoicedValue := 0;
+                          SumIncreaseExpectedValue := 0;
+                          SumDecreaseInvoicedValue := 0;
+                          SumDecreaseExpectedValue := 0;
+                          SumExpCostPostedToGL := 0;
+                          SumInvCostPostedToGL := 0;
+                          SumCostPostedToGL := 0;
                         END
                         ELSE BEGIN
-                            SumStartingInvoicedValue := StartingInvoicedValue;
-                            SumStartingExpectedValue := StartingExpectedValue;
-                            SumIncreaseInvoicedValue := IncreaseInvoicedValue;
-                            SumIncreaseExpectedValue := IncreaseExpectedValue;
-                            SumDecreaseInvoicedValue := DecreaseInvoicedValue;
-                            SumDecreaseExpectedValue := DecreaseExpectedValue;
-                            SumExpCostPostedToGL := ExpCostPostedToGL;
-                            SumInvCostPostedToGL := InvCostPostedToGL;
-                            SumCostPostedToGL := CostPostedToGL;
+                          SumStartingInvoicedValue := StartingInvoicedValue;
+                          SumStartingExpectedValue := StartingExpectedValue;
+                          SumIncreaseInvoicedValue := IncreaseInvoicedValue;
+                          SumIncreaseExpectedValue := IncreaseExpectedValue;
+                          SumDecreaseInvoicedValue := DecreaseInvoicedValue;
+                          SumDecreaseExpectedValue := DecreaseExpectedValue;
+                          SumExpCostPostedToGL := ExpCostPostedToGL;
+                          SumInvCostPostedToGL := InvCostPostedToGL;
+                          SumCostPostedToGL := CostPostedToGL;
                         END;
 
                         TempItemLedgerEntry.INIT();
                         TempItemLedgerEntry."Entry No." := TempItemLedgerEntryNo;
-                        TempItemLedgerEntry."Item No." := QItemLedgerEntry.Item_No;
-                        TempItemLedgerEntry."Location Code" := '';
+                        TempItemLedgerEntry."Item No." := QValueEntry.Item_No;
+                        TempItemLedgerEntry."Location Code" :='';
 
                         TempItemLedgerEntry.SumStartingInvoicedValue := SumStartingInvoicedValue;
                         TempItemLedgerEntry.SumStartingExpectedValue := SumStartingExpectedValue;
@@ -523,13 +628,40 @@ report 50032 "Inv Val Rep with Loc & Date"
                         TempItemLedgerEntry.SumCostPostedToGL := SumCostPostedToGL;
 
                         TempItemLedgerEntry.INSERT();
-                        TempItemLedgerEntryNo := TempItemLedgerEntryNo + 1;
-                    END;
+                        TempItemLedgerEntryNo := TempItemLedgerEntryNo+1;
+                      END;
+                    */
 
                 END;
-                QItemLedgerEntry.CLOSE();
+                QValueEntry.CLOSE();
+
+                //Only Items has no location data will use these values to summarize.
+                IF NOT IsItemDetailInserted THEN BEGIN
+
+                    StartingInvoicedValue_ForGroup := StartingInvoicedValue;
+                    StartingExpectedValue_ForGroup := StartingExpectedValue;
+                    StartingInvoicedQty_ForGroup := StartingInvoicedQty;
+                    StartingExpectedQty_ForGroup := StartingExpectedQty;
+                    IncreaseInvoicedValue_ForGroup := IncreaseInvoicedValue;
+                    IncreaseExpectedValue_ForGroup := IncreaseExpectedValue;
+                    IncreaseInvoicedQty_ForGroup := IncreaseInvoicedQty;
+                    IncreaseExpectedQty_ForGroup := IncreaseExpectedQty;
+                    DecreaseInvoicedValue_ForGroup := DecreaseInvoicedValue;
+                    DecreaseExpectedValue_ForGroup := DecreaseExpectedValue;
+                    DecreaseInvoicedQty_ForGroup := DecreaseInvoicedQty;
+                    DecreaseExpectedQty_ForGroup := DecreaseExpectedQty;
+                    InvCostPostedToGL_ForGroup := InvCostPostedToGL;
+                    CostPostedToGL_ForGroup := CostPostedToGL;
+                    ExpCostPostedToGL_ForGroup := ExpCostPostedToGL;
+                    EndingInvoicedValue_ForGroup := StartingInvoicedValue + IncreaseInvoicedValue - DecreaseInvoicedValue;
+                    EndingInvoicedQty_ForGroup := StartingInvoicedQty + IncreaseInvoicedQty - DecreaseInvoicedQty;
+                    EndingExpectedValue_ForGroup := StartingExpectedValue + IncreaseExpectedValue - DecreaseExpectedValue;
+                    EndingExpectedQty_ForGroup := StartingExpectedQty + IncreaseExpectedQty - DecreaseExpectedQty;
+
+                END;
 
                 //CS090 end
+
             end;
 
             trigger OnPreDataItem()
@@ -614,7 +746,7 @@ report 50032 "Inv Val Rep with Loc & Date"
         ValueEntry: Record "Value Entry";
         ItemLedgerEntry: Record "Item Ledger Entry";
         TempItemLedgerEntry: Record "Inv Val Rep with Loc & Date" temporary;
-        QItemLedgerEntry: Query "Inv Val Rep with Loc & Date";
+        QValueEntry: Query "Inv Val Rep with Loc & Date";
         StartDate: Date;
         EndDate: Date;
         ShowExpected: Boolean;
@@ -662,10 +794,30 @@ report 50032 "Inv Val Rep with Loc & Date"
         SumCostPostedToGL: Decimal;
         IsEmptyLine: Boolean;
         PostingDateCaptionLbl: Label 'Posting Date';
-        LocationCaptionLbl: Label 'Location';
         TempItemLedgerEntryNo: Integer;
         TempItemNo: Code[20];
         BufferValue1: Decimal;
+        IsItemDetailInserted: Boolean;
+        ItemLocCnt: Integer;
+        StartingInvoicedValue_ForGroup: Decimal;
+        StartingExpectedValue_ForGroup: Decimal;
+        StartingInvoicedQty_ForGroup: Decimal;
+        StartingExpectedQty_ForGroup: Decimal;
+        IncreaseInvoicedValue_ForGroup: Decimal;
+        IncreaseExpectedValue_ForGroup: Decimal;
+        IncreaseInvoicedQty_ForGroup: Decimal;
+        IncreaseExpectedQty_ForGroup: Decimal;
+        DecreaseInvoicedValue_ForGroup: Decimal;
+        DecreaseExpectedValue_ForGroup: Decimal;
+        DecreaseInvoicedQty_ForGroup: Decimal;
+        DecreaseExpectedQty_ForGroup: Decimal;
+        InvCostPostedToGL_ForGroup: Decimal;
+        CostPostedToGL_ForGroup: Decimal;
+        ExpCostPostedToGL_ForGroup: Decimal;
+        EndingInvoicedValue_ForGroup: Decimal;
+        EndingInvoicedQty_ForGroup: Decimal;
+        EndingExpectedValue_ForGroup: Decimal;
+        EndingExpectedQty_ForGroup: Decimal;
 
     local procedure AssignAmounts(ValueEntry: Record "Value Entry"; var InvoicedValue: Decimal; var InvoicedQty: Decimal; var ExpectedValue: Decimal; var ExpectedQty: Decimal; Sign: Decimal)
     begin

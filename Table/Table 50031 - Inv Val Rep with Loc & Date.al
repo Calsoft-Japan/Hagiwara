@@ -78,6 +78,30 @@ table 50031 "Inv Val Rep with Loc & Date"
         {
             // cleaned
         }
+        field(20; SumStartingInvoicedQty; Decimal)
+        {
+            // cleaned
+        }
+        field(21; SumIncreaseInvoicedQty; Decimal)
+        {
+            // cleaned
+        }
+        field(22; SumDecreaseInvoicedQty; Decimal)
+        {
+            // cleaned
+        }
+        field(23; SumStartingExpectedQty; Decimal)
+        {
+            // cleaned
+        }
+        field(24; SumIncreaseExpectedQty; Decimal)
+        {
+            // cleaned
+        }
+        field(25; SumDecreaseExpectedQty; Decimal)
+        {
+            // cleaned
+        }
     }
 
     keys
