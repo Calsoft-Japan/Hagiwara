@@ -1,6 +1,7 @@
 table 50110 "IRS 1099 Code"
 {
     DataClassification = ToBeClassified;
+    LookupPageId = "IRS 1099 Code";//Link to source page (2025-08-08)
 
     fields
     {
