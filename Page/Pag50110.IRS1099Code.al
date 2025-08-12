@@ -3,8 +3,8 @@ page 50110 "IRS 1099 Code"
     PageType = List;
     SourceTable = "IRS 1099 Code";
     ApplicationArea = All;
-    UsageCategory = Administration;
-    //Caption = 'IRS 1099 Code';
+    UsageCategory = Administration;//
+    //Editable = true;
 
     layout
     {

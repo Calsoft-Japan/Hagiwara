@@ -97,6 +97,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         field(50023; "IRS 1099 Code"; Code[10])
         {
             TableRelation = "IRS 1099 Code".Code;
+            DataClassification = CustomerContent;
             Caption = 'IRS 1099 Code';
         }
         //end 2025-08-07

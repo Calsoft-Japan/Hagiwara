@@ -2,8 +2,6 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
 {
     layout
     {
-
-
         addafter("No.")
         {
 
@@ -89,9 +87,15 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
         {
             field("IRS 1099 Code"; Rec."IRS 1099 Code")
             {
-                ApplicationArea = all;
+                ApplicationArea = All;
                 Caption = 'IRS 1099 Code';
-                Visible = false;
+                TableRelation = "IRS 1099 Code"; //Link to source table
+                Lookup = true; // Allows 'Select from full list' and dropdown
+
+                trigger OnValidate()
+                begin
+                    CurrPage.Update(); // Optional: triggers UI updates
+                end;
             }
         }
         //end 2025-08-07
@@ -100,8 +104,6 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
 
     trigger OnOpenPage()
     begin
-
-
         IncotermVisibility := HagiwaraFunctions.GetIncotermVisibility; //HG10.00.04 NJ 13/02/2018
     end;
 
