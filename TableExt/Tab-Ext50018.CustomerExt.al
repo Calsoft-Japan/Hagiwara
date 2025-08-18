@@ -86,7 +86,7 @@ tableextension 50018 "Customer Ext" extends "Customer"
         field(50049; "Update SO Price Target Date"; Option)
         {
             Caption = 'Price Update Target Date';
-            OptionMembers = "Order Date","Shipment Date";
+            OptionMembers = " ","Order Date","Shipment Date";
         }
         field(50050; "ORE Customer Name"; Text[35])
         {

@@ -180,6 +180,16 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
             }
         }
 
+        addafter("Direct Unit Cost")
+        {
+
+            field("Price Target Update"; rec."Price Target Update")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
 
         modify("No.")
         {

@@ -47,6 +47,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             // cleaned
         }
+        field(50201; "Price Target Update"; Boolean)
+        {
+            InitValue = true;
+        }
         field(50500; "Shipment Seq. No."; Integer)
         {
             Editable = true;

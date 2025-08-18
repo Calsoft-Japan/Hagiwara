@@ -234,6 +234,16 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 
         }
 
+        addafter("Unit Price")
+        {
+
+            field("Price Target Update"; rec."Price Target Update")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
     }
 
     trigger OnAfterGetRecord()

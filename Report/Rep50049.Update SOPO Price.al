@@ -20,61 +20,61 @@ report 50049 "Update SO/PO Price"
                                           Type = CONST(Item));
 
                 trigger OnAfterGetRecord()
+                var
+                    SalesTargetDate: Date;
                 begin
                     Window.UPDATE(2, "Document No.");
 
                     UnitPrice := 0;
                     IsPriceUpdate := false;
+                    SalesTargetDate := ReqTargetDate;
 
-                    PriceList.Reset();
-                    PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
-                    PriceList.SETRANGE("Asset No.", "No.");
-                    PriceList.SetRange("Source Type", PriceList."Source Type"::Customer);
-                    PriceList.SetRange("Source No.", "Sales Line"."Sell-to Customer No.");
-                    PriceList.SetRange(Status, PriceList.Status::Active);
-                    PriceList.SETRANGE("Starting Date", 0D, TargetDate);
-                    PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, TargetDate);
-                    IF PriceList.COUNT > 1 THEN begin
-                        WriteSOPOLog("Sales Line", 0, 0, TextMsgDuplicate);
-                        CntError := CntError + 1;
-                        CurrReport.Break();
-                    end;
+                    IF "Quantity Invoiced" <> Quantity THEN BEGIN
 
-                    IF PriceList.FINDFIRST THEN BEGIN
-                        UnitPrice := PriceList."Unit Price";
-                    END;
-
-                    IF (UnitPrice <> 0) AND ("Unit Price" <> UnitPrice) AND ("Quantity Invoiced" <> Quantity) THEN BEGIN
                         Customer.get("Sales Line"."Sell-to Customer No.");
+                        if Customer."Update SO Price Target Date" = Customer."Update SO Price Target Date"::"Shipment Date" then begin
+                            SalesTargetDate := "Sales Line"."Shipment Date";
+                        end;
                         if Customer."Update SO Price Target Date" = Customer."Update SO Price Target Date"::"Order Date" then begin
                             SalesHeader.get("Sales Line"."Document Type", "Sales Line"."Document No.");
-                            if SalesHeader."Order Date" <= TargetDate then begin
-                                IsPriceUpdate := true;
-                            END;
+                            SalesTargetDate := SalesHeader."Order Date";
                         end;
 
-                        if Customer."Update SO Price Target Date" = Customer."Update SO Price Target Date"::"Shipment Date" then begin
-                            if "Sales Line"."Shipment Date" <= TargetDate then begin
-                                IsPriceUpdate := true;
-                            end;
+                        PriceList.Reset();
+                        PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
+                        PriceList.SETRANGE("Asset No.", "No.");
+                        PriceList.SetRange("Source Type", PriceList."Source Type"::Customer);
+                        PriceList.SetRange("Source No.", "Sales Line"."Sell-to Customer No.");
+                        PriceList.SetRange(Status, PriceList.Status::Active);
+                        PriceList.SETRANGE("Starting Date", 0D, SalesTargetDate);
+                        PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, SalesTargetDate);
+                        IF PriceList.COUNT > 1 THEN begin
+                            WriteSOPOLog("Sales Line", SalesTargetDate, 0, 0, TextMsgDuplicate);
+                            CntError := CntError + 1;
+                            CurrReport.Break();
                         end;
-                    end;
 
-                    if IsPriceUpdate then begin
+                        IF PriceList.FINDFIRST THEN BEGIN
+                            UnitPrice := PriceList."Unit Price";
+                        END;
 
-                        WriteSOPOLog("Sales Line", "Unit Price", UnitPrice, '');
+                        IF "Unit Price" <> UnitPrice THEN BEGIN
 
-                        //SuspendStatusCheck(TRUE);
-                        VALIDATE("Unit Price", UnitPrice);
-                        MODIFY;
+                            WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
 
-                        CntUpdated := CntUpdated + 1;
+                            //SuspendStatusCheck(TRUE);
+                            VALIDATE("Unit Price", UnitPrice);
+                            MODIFY;
 
+                            CntUpdated := CntUpdated + 1;
+
+                        end;
                     end;
                 end;
 
                 trigger OnPreDataItem()
                 begin
+                    "Sales Line".SetFilter("Unit Price", '<>%1', 0);
 
                 end;
             }
@@ -86,49 +86,47 @@ report 50049 "Update SO/PO Price"
                                           Type = CONST(Item));
 
                 trigger OnAfterGetRecord()
+                var
+                    PurchTargetDate: Date;
                 begin
                     Window.UPDATE(2, "Document No.");
 
                     DirectUnitCost := 0;
                     IsPriceUpdate := false;
+                    PurchTargetDate := ReqTargetDate;
 
-                    PriceList.Reset();
-                    PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
-                    PriceList.SETRANGE("Asset No.", "No.");
-                    PriceList.SetRange("Source Type", PriceList."Source Type"::Vendor);
-                    PriceList.SetRange("Source No.", "Purchase Line"."Buy-from Vendor No.");
-                    PriceList.SetRange(Status, PriceList.Status::Active);
-                    PriceList.SETRANGE("Starting Date", 0D, TargetDate);
-                    PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, TargetDate);
-                    IF PriceList.COUNT > 1 THEN begin
-                        WriteSOPOLog("Purchase Line", 0, 0, TextMsgDuplicate);
-                        CntError := CntError + 1;
-                        CurrReport.Break();
-                    end;
-
-                    IF PriceList.FINDFIRST THEN BEGIN
-                        DirectUnitCost := PriceList."Direct Unit Cost";
-                    END;
-
-                    IF (DirectUnitCost <> 0) AND ("Direct Unit Cost" <> DirectUnitCost) AND ("Quantity Invoiced" <> Quantity) THEN BEGIN
+                    IF "Quantity Invoiced" <> Quantity THEN BEGIN
                         Vendor.get("Purchase Line"."Buy-from Vendor No.");
-                        if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Document Date" then begin
+                        if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Expected Receipt Date" then begin
+                            PurchTargetDate := "Purchase Line"."Expected Receipt Date";
+                        end;
+
+                        if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Order Date" then begin
                             PurchHeader.get("Purchase Line"."Document Type", "Purchase Line"."Document No.");
-                            if PurchHeader."Document Date" <= TargetDate then begin
-                                IsPriceUpdate := true;
-                            END;
+                            PurchTargetDate := PurchHeader."Order Date";
                         end;
 
-                        if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Invoice Received Date" then begin
-                            if "Purchase Line"."Planned Receipt Date" <= TargetDate then begin //TODO is this date right?
-                                IsPriceUpdate := true;
-                            end;
+                        PriceList.Reset();
+                        PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
+                        PriceList.SETRANGE("Asset No.", "No.");
+                        PriceList.SetRange("Source Type", PriceList."Source Type"::Vendor);
+                        PriceList.SetRange("Source No.", "Purchase Line"."Buy-from Vendor No.");
+                        PriceList.SetRange(Status, PriceList.Status::Active);
+                        PriceList.SETRANGE("Starting Date", 0D, PurchTargetDate);
+                        PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, PurchTargetDate);
+                        IF PriceList.COUNT > 1 THEN begin
+                            WriteSOPOLog("Purchase Line", PurchTargetDate, 0, 0, TextMsgDuplicate);
+                            CntError := CntError + 1;
+                            CurrReport.Break();
                         end;
 
+                        IF PriceList.FINDFIRST THEN BEGIN
+                            DirectUnitCost := PriceList."Direct Unit Cost";
+                        END;
 
-                        if IsPriceUpdate then begin
+                        IF "Direct Unit Cost" <> DirectUnitCost THEN BEGIN
 
-                            WriteSOPOLog("Purchase Line", "Direct Unit Cost", DirectUnitCost, '');
+                            WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
 
                             //SuspendStatusCheck(TRUE);
                             VALIDATE("Direct Unit Cost", DirectUnitCost);
@@ -141,6 +139,7 @@ report 50049 "Update SO/PO Price"
 
                 trigger OnPreDataItem()
                 begin
+                    "Purchase Line".SetFilter("Direct Unit Cost", '<>%1', 0);
                 end;
             }
 
@@ -215,7 +214,7 @@ report 50049 "Update SO/PO Price"
                 group(Options)
                 {
                     Caption = 'Options';
-                    field(TargetDate; TargetDate)
+                    field(ReqTargetDate; ReqTargetDate)
                     {
                         Caption = 'Target Date';
                         NotBlank = true;
@@ -230,7 +229,7 @@ report 50049 "Update SO/PO Price"
 
         trigger OnOpenPage()
         begin
-            TargetDate := WORKDATE;
+            ReqTargetDate := WORKDATE;
         end;
     }
 
@@ -250,13 +249,13 @@ report 50049 "Update SO/PO Price"
 
     trigger OnPreReport()
     begin
-        IF TargetDate = 0D THEN
-            TargetDate := WORKDATE;
+        IF ReqTargetDate = 0D THEN
+            ReqTargetDate := WORKDATE;
     end;
 
     var
         ItemFilter: Text;
-        TargetDate: Date;
+        ReqTargetDate: Date;
         Window: Dialog;
         Text001: Label 'Updating Price...\\';
         Text002: Label 'Item No. #1####################\';
@@ -281,7 +280,7 @@ report 50049 "Update SO/PO Price"
         CntUpdated: Integer;
         CntError: Integer;
 
-    local procedure WriteSOPOLog(pSalesLine: Record "Sales Line"; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
+    local procedure WriteSOPOLog(pSalesLine: Record "Sales Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
     var
         myInt: Integer;
         RecSOPOPrice: Record "Update SOPO Price";
@@ -290,7 +289,7 @@ report 50049 "Update SO/PO Price"
 
         RecSOPOPrice.Init();
         RecSOPOPrice."Entry No." := SOPOEntryNo;
-        RecSOPOPrice."Update Target Date" := TargetDate;
+        RecSOPOPrice."Update Target Date" := pTargetDate;
         RecSOPOPrice."Document Type" := RecSOPOPrice."Document Type"::"Sales Order";
         RecSOPOPrice."Document No." := pSalesLine."Document No.";
         RecSOPOPrice."Line No." := pSalesLine."Line No.";
@@ -308,7 +307,7 @@ report 50049 "Update SO/PO Price"
 
     end;
 
-    local procedure WriteSOPOLog(pPurchLine: Record "Purchase Line"; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
+    local procedure WriteSOPOLog(pPurchLine: Record "Purchase Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
     var
         myInt: Integer;
         RecSOPOPrice: Record "Update SOPO Price";
@@ -317,7 +316,7 @@ report 50049 "Update SO/PO Price"
 
         RecSOPOPrice.Init();
         RecSOPOPrice."Entry No." := SOPOEntryNo;
-        RecSOPOPrice."Update Target Date" := TargetDate;
+        RecSOPOPrice."Update Target Date" := pTargetDate;
         RecSOPOPrice."Document Type" := RecSOPOPrice."Document Type"::"Purchase Order";
         RecSOPOPrice."Document No." := pPurchLine."Document No.";
         RecSOPOPrice."Line No." := pPurchLine."Line No.";

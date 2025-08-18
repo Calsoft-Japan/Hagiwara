@@ -55,6 +55,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             Description = 'CS060';
             Editable = false;
         }
+        field(50201; "Price Target Update"; Boolean)
+        {
+            InitValue = true;
+        }
         field(50500; "Receipt Seq. No."; Integer)
         {
             BlankZero = true;
