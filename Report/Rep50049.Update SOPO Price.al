@@ -162,7 +162,10 @@ report 50049 "Update SO/PO Price"
             begin
                 Window.CLOSE;
 
-                Message(TextMsgResult, Format(CntUpdated), Format(CntError));
+                if not RunForTestReport then
+                    Message(TextMsgResult, Format(CntUpdated), Format(CntError));
+
+
             end;
 
             trigger OnPreDataItem()
@@ -225,6 +228,7 @@ report 50049 "Update SO/PO Price"
                     Caption = 'Options';
                     field(ReqTargetDate; ReqTargetDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'Target Date';
                         NotBlank = true;
                     }
@@ -401,6 +405,9 @@ report 50049 "Update SO/PO Price"
 
         RecForTestReport.Insert();
 
+
+
+
     end;
 
     procedure SetTargetDate(pTargetDate: Date)
@@ -417,11 +424,43 @@ report 50049 "Update SO/PO Price"
         RunForTestReport := pTestReport;
     end;
 
-    procedure GetTestReportData(var pRecSOPOPrice: Record "Update SOPO Price" temporary)
+    procedure GetTestReportData(var pRecSOPOPrice: Record "Update SOPO Price")
     var
         myInt: Integer;
     begin
-        pRecSOPOPrice.Copy(RecForTestReport, true);
+
+
+        //Todo for test only start
+        SOPOEntryNo := SOPOEntryNo + 1;
+
+        RecForTestReport.Init();
+        RecForTestReport."Entry No." := SOPOEntryNo;
+        RecForTestReport."Update Target Date" := ReqTargetDate;
+        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Purchase Order";
+        RecForTestReport."Document No." := 'Test Doc001';
+        RecForTestReport."Line No." := 10000;
+        RecForTestReport."Item No." := 'Test Item';
+        RecForTestReport."Item Description" := 'Test Item';
+        RecForTestReport."Old Price" := 100;
+        RecForTestReport."New Price" := 200;
+        RecForTestReport."Quantity Invoiced" := 0;
+        RecForTestReport."Quantity" := 10;
+        RecForTestReport."Error Message" := '';
+        RecForTestReport."Log DateTime" := System.CurrentDateTime;
+        RecForTestReport."User ID" := Database.UserId;
+
+        RecForTestReport.Insert();
+        //Todo for test only end
+
+        RecForTestReport.Reset();
+        message(Format(RecForTestReport.Count));
+        if RecForTestReport.FindSet() then
+            repeat
+                pRecSOPOPrice.Init();
+                pRecSOPOPrice.TransferFields(RecForTestReport);
+                pRecSOPOPrice.Insert();
+            until RecForTestReport.Next() = 0;
+
     end;
 
 

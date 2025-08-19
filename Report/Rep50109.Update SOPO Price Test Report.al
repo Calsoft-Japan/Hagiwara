@@ -25,6 +25,7 @@ report 50109 "Update SO/PO Price Test Report"
             column(Quantity; "Quantity") { }
             column(ErrorMessage; "Error Message") { }
             column(UpdateTargetDate; 'Update Target Date    ' + FORMAT(ReqTargetDate, 0, 4)) { }
+            column(LblPage; LblPage) { }
             column(LblDocumentType; LblDocumentType) { }
             column(LblDocumentNo; LblDocumentNo) { }
             column(LblLineNo; LblLineNo) { }
@@ -46,6 +47,7 @@ report 50109 "Update SO/PO Price Test Report"
                 RepUpdateSOPOPrice.SetRunForTestReport(true);
                 RepUpdateSOPOPrice.Run();
                 RepUpdateSOPOPrice.GetTestReportData(UpdateSOPOPriceTest);
+                Message(Format(UpdateSOPOPriceTest.Count));
             end;
         }
     }
@@ -62,6 +64,7 @@ report 50109 "Update SO/PO Price Test Report"
                     Caption = 'Options';
                     field(ReqTargetDate; ReqTargetDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'Target Date';
                         NotBlank = true;
                     }
@@ -89,6 +92,7 @@ report 50109 "Update SO/PO Price Test Report"
     var
         RepUpdateSOPOPrice: Report "Update SO/PO Price";
         ReqTargetDate: Date;
+        LblPage: Label 'Page: ';
         LblDocumentType: Label 'Document Type';
         LblDocumentNo: Label 'Document No.';
         LblLineNo: Label 'Line No.';
