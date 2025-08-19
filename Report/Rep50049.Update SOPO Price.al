@@ -60,11 +60,16 @@ report 50049 "Update SO/PO Price"
 
                         IF "Unit Price" <> UnitPrice THEN BEGIN
 
-                            WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
+                            if RunForTestReport then begin
+                                WriteTestReportData("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
+                            end else begin
 
-                            //SuspendStatusCheck(TRUE);
-                            VALIDATE("Unit Price", UnitPrice);
-                            MODIFY;
+                                WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
+
+                                //SuspendStatusCheck(TRUE);
+                                VALIDATE("Unit Price", UnitPrice);
+                                MODIFY;
+                            end;
 
                             CntUpdated := CntUpdated + 1;
 
@@ -126,11 +131,15 @@ report 50049 "Update SO/PO Price"
 
                         IF "Direct Unit Cost" <> DirectUnitCost THEN BEGIN
 
-                            WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
+                            if RunForTestReport then begin
+                                WriteTestReportData("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
+                            end else begin
+                                WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
 
-                            //SuspendStatusCheck(TRUE);
-                            VALIDATE("Direct Unit Cost", DirectUnitCost);
-                            MODIFY;
+                                //SuspendStatusCheck(TRUE);
+                                VALIDATE("Direct Unit Cost", DirectUnitCost);
+                                MODIFY;
+                            end;
 
                             CntUpdated := CntUpdated + 1;
                         end;
@@ -253,7 +262,15 @@ report 50049 "Update SO/PO Price"
             ReqTargetDate := WORKDATE;
     end;
 
+    trigger OnInitReport()
+
+    begin
+        RecForTestReport.DeleteAll();
+    end;
+
     var
+        RunForTestReport: Boolean;
+        RecForTestReport: Record "Update SOPO Price" temporary;
         ItemFilter: Text;
         ReqTargetDate: Date;
         Window: Dialog;
@@ -333,5 +350,80 @@ report 50049 "Update SO/PO Price"
         RecSOPOPrice.Insert();
 
     end;
+
+    local procedure WriteTestReportData(pSalesLine: Record "Sales Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
+    var
+        myInt: Integer;
+    begin
+        SOPOEntryNo := SOPOEntryNo + 1;
+
+        RecForTestReport.Init();
+        RecForTestReport."Entry No." := SOPOEntryNo;
+        RecForTestReport."Update Target Date" := pTargetDate;
+        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Sales Order";
+        RecForTestReport."Document No." := pSalesLine."Document No.";
+        RecForTestReport."Line No." := pSalesLine."Line No.";
+        RecForTestReport."Item No." := pSalesLine."No.";
+        RecForTestReport."Item Description" := pSalesLine.Description;
+        RecForTestReport."Old Price" := pOldPrice;
+        RecForTestReport."New Price" := pNewPrice;
+        RecForTestReport."Quantity Invoiced" := pSalesLine."Quantity Invoiced";
+        RecForTestReport."Quantity" := pSalesLine.Quantity;
+        RecForTestReport."Error Message" := pErrMsg;
+        RecForTestReport."Log DateTime" := System.CurrentDateTime;
+        RecForTestReport."User ID" := Database.UserId;
+
+        RecForTestReport.Insert();
+
+    end;
+
+    local procedure WriteTestReportData(pPurchLine: Record "Purchase Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
+    var
+        myInt: Integer;
+    begin
+        SOPOEntryNo := SOPOEntryNo + 1;
+
+        RecForTestReport.Init();
+        RecForTestReport."Entry No." := SOPOEntryNo;
+        RecForTestReport."Update Target Date" := pTargetDate;
+        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Purchase Order";
+        RecForTestReport."Document No." := pPurchLine."Document No.";
+        RecForTestReport."Line No." := pPurchLine."Line No.";
+        RecForTestReport."Item No." := pPurchLine."No.";
+        RecForTestReport."Item Description" := pPurchLine.Description;
+        RecForTestReport."Old Price" := pOldPrice;
+        RecForTestReport."New Price" := pNewPrice;
+        RecForTestReport."Quantity Invoiced" := pPurchLine."Quantity Invoiced";
+        RecForTestReport."Quantity" := pPurchLine.Quantity;
+        RecForTestReport."Error Message" := pErrMsg;
+        RecForTestReport."Log DateTime" := System.CurrentDateTime;
+        RecForTestReport."User ID" := Database.UserId;
+
+        RecForTestReport.Insert();
+
+    end;
+
+    procedure SetTargetDate(pTargetDate: Date)
+    var
+        myInt: Integer;
+    begin
+        ReqTargetDate := pTargetDate;
+    end;
+
+    procedure SetRunForTestReport(pTestReport: Boolean)
+    var
+        myInt: Integer;
+    begin
+        RunForTestReport := pTestReport;
+    end;
+
+    procedure GetTestReportData(var pRecSOPOPrice: Record "Update SOPO Price" temporary)
+    var
+        myInt: Integer;
+    begin
+        pRecSOPOPrice.Copy(RecForTestReport, true);
+    end;
+
+
 }
 

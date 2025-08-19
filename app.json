@@ -1,6 +1,6 @@
 {
   "id": "0712b579-6723-4333-81d9-661e36c594cf",
-  "name": "Hagiwara Upgrade Table",
+  "name": "Hagiwara Customization",
   "publisher": "Calsoft Japan",
   "version": "1.0.0.0",
   "brief": "",
@@ -25,7 +25,7 @@
     "allowDownloadingSource": true,
     "includeSourceInSymbolFile": true
   },
-  "runtime": "12.0",
+  "runtime": "14.3",
   "features": [
     "NoImplicitWith"
   ]

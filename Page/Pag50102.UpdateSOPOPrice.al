@@ -103,6 +103,7 @@ page 50102 "Update SOPO Price"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
+                    RunObject = report "Update SO/PO Price Test Report";
                     ToolTip = 'Preview the lines that would be updated based on the price list, without applying any changes. Use this report to review potential updates and identify errors.';
 
                     trigger OnAction()
