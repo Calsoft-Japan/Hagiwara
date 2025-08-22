@@ -3,7 +3,7 @@ page 50072 "Denso Group Sales File Import"
     // HG10.00.03 NJ 26/12/2017 - New Page Created
     // CS092 FDD IE021 Channing.Zhou 8/7/2025 - upgrade to BC version
 
-    Caption = 'Denso Group Sales File Import';
+    Caption = 'Denso Group Sales File Import Errors';
     InsertAllowed = false;
     ModifyAllowed = false;
     ApplicationArea = All;
@@ -187,16 +187,16 @@ page 50072 "Denso Group Sales File Import"
                 PromotedCategory = Process;
                 trigger OnAction()
                 var
-                    CSVPort: XmlPort "Denso Group Sales File Import";
+                    XmlPortTRMISO: XmlPort "Denso Group Sales File Import";
                     InStr: InStream;
                     FileName: Text;
                 begin
                     // Prompt user to pick a CSV
                     if UploadIntoStream('Select a CSV file', '', 'CSV files (*.csv)|*.csv', FileName, InStr) then begin
                         // Pass the file name into the XMLport instance
-                        CSVPort.Filename(FileName);
-                        CSVPort.SetSource(InStr);
-                        CSVPort.Import();
+                        XmlPortTRMISO.Filename(FileName);
+                        XmlPortTRMISO.SetSource(InStr);
+                        XmlPortTRMISO.Import();
                         CurrPage.Update(false);
                     end;
                 end;
