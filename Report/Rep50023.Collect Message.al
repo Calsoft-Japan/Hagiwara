@@ -308,18 +308,6 @@ report 50023 "Collect Message"
 
         window.OPEN(TEXT_003);
 
-        IF (bln_MessageID[1]) AND (RequestOptionsPagechk_JAEDITABLE) THEN BEGIN
-            IF CollectData_JA() THEN
-                //    MESSAGE(MSG_001,'Sales Booking Data (JA)');
-                CollectData_JZ(CONST_JA, 1);
-        END;
-
-        IF (bln_MessageID[2]) AND (RequestOptionsPagechk_JBEDITABLE) THEN BEGIN
-            IF CollectData_JB() THEN
-                //    MESSAGE(MSG_001,'Sales Shipment Data (JB)');
-                CollectData_JZ(CONST_JB, 2);
-        END;
-
         //IF (bln_MessageID[3]) AND (RequestOptionsPage.chk_JC.ENABLED) THEN BEGIN
         //  IF CollectData_JC_Purch() THEN
         //    MESSAGE(MSG_001,'Sales Order Backlog Data (JC)');
@@ -336,6 +324,18 @@ report 50023 "Collect Message"
             IF CollectData_JD() THEN
                 //    MESSAGE(MSG_001,'Inventory Data (JD)');
                 CollectData_JZ(CONST_JD, 4);
+        END;
+
+        IF (bln_MessageID[1]) AND (RequestOptionsPagechk_JAEDITABLE) THEN BEGIN
+            IF CollectData_JA() THEN
+                //    MESSAGE(MSG_001,'Sales Booking Data (JA)');
+                CollectData_JZ(CONST_JA, 1);
+        END;
+
+        IF (bln_MessageID[2]) AND (RequestOptionsPagechk_JBEDITABLE) THEN BEGIN
+            IF CollectData_JB() THEN
+                //    MESSAGE(MSG_001,'Sales Shipment Data (JB)');
+                CollectData_JZ(CONST_JB, 2);
         END;
 
         IF (bln_MessageID[5]) AND (RequestOptionsPagechk_JJEDITABLE) THEN BEGIN

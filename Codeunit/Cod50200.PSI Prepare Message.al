@@ -2,7 +2,6 @@ codeunit 50200 "PSI Prepare Message"
 {
 
     // BC Update Info: update from Send Message Report and Messaging Codeunit, merged onscreen and Job queue objects.
-    // ToDo: check JZ data. (In Nav2017, twice collection: Monthly and Daily, with only once prepare Message)
 
     trigger OnRun()
     begin
@@ -256,11 +255,13 @@ codeunit 50200 "PSI Prepare Message"
                             END;
                     END;
 
-                    //>> to update info
-                    "Message Status" := "Message Status"::Sent;
-                    "File Sent By" := USERID;
-                    "File Sent On" := TODAY;
-                    MODIFY;
+                //>> to update info
+                /* Move this update to API page during BC upgrade.
+                "Message Status" := "Message Status"::Sent;
+                "File Sent By" := USERID;
+                "File Sent On" := TODAY;
+                MODIFY;
+                */
                 //<<
 
                 UNTIL NEXT = 0
@@ -1219,10 +1220,12 @@ codeunit 50200 "PSI Prepare Message"
                     //GFle_File_1.WRITE(STRSUBSTNO('%1%2',GTxt_Text01,Gtxt_Text02));
                     InsertDataInBuffer(STRSUBSTNO('%1%2', GTxt_Text01, Gtxt_Text02));
 
-                    "Message Status" := "Message Status"::Sent;
-                    "File Sent By" := USERID;
-                    "File Sent On" := TODAY;
-                    MODIFY;
+                /* Move this update to API page during BC upgrade.
+                "Message Status" := "Message Status"::Sent;
+                "File Sent By" := USERID;
+                "File Sent On" := TODAY;
+                MODIFY;
+                */
 
                 UNTIL NEXT = 0;
 
