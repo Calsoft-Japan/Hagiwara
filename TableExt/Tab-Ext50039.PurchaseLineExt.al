@@ -111,10 +111,6 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         {
             Editable = true;
         }
-        field(50517; "Country/Region of Origin Code"; Code[10])
-        {
-            Caption = 'Country/Region of Origin Code';
-        }
         field(50527; "Purchaser Code"; Code[10])
         {
             TableRelation = "Salesperson/Purchaser";
@@ -161,6 +157,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             Description = 'SKHE20121011';
             Editable = true;
 
+        }
+        field(50617; "Country/Region of Origin Code"; Code[10])
+        {
+            Caption = 'Country/Region of Origin Code';
         }
 
         modify(Type)
