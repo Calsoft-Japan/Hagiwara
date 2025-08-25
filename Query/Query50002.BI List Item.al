@@ -8,14 +8,16 @@ query 50002 "BI Item List"
     APIGroup = 'BI';
     APIVersion = 'v1.0';
     EntityName = 'BI_Item_List';
-    EntitySetName = 'BIItemLists';
-    //SourceTable = Item;
+    EntitySetName = 'BiItemLists';
     //DelayedInsert = false;
 
     elements
     {
         dataitem(Item; "Item")
         {
+            // Only non-blocked items
+            DataItemTableFilter = Blocked = const(false);
+
             // Source Table: Item
             column(No; "No.") { }
 
@@ -30,6 +32,8 @@ query 50002 "BI Item List"
             column(VendorNo; "Vendor No.") { }
 
             column(CountryRegionOfOrgCdFE; "Country/Region of Org Cd (FE)") { }
+
+            column(Products; Products) { }
 
             column(Minimum_Order_Quantity; "Minimum Order Quantity") { }
 

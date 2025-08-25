@@ -7,7 +7,7 @@ query 50004 "BI Sales Line"
     APIGroup = 'BI';
     APIVersion = 'v1.0';
     EntityName = 'BI_Sales_Line';
-    EntitySetName = 'BISalesLines';
+    EntitySetName = 'BiSalesLines';
     QueryCategory = 'PowerBI';
     //DelayedInsert = false;
 
@@ -27,6 +27,8 @@ query 50004 "BI Sales Line"
 
             column(UnitPrice; "Unit Price") { }
 
+            column(Unit_Cost; "Unit Cost") { }
+
             column(UnitCostLCY; "Unit Cost (LCY)") { }
 
             column(ShipmentDate; "Shipment Date") { }
@@ -41,9 +43,7 @@ query 50004 "BI Sales Line"
 
             column(Quantity; Quantity) { }
 
-            // Ensure the field exists in "Sales Line" or use Method = Count
-            // column(RegisteredDeliveryDate_1; "Registered Delivery Date_1") { }
-            // Removed invalid column as "Registered Delivery Date_1" does not exist in "Sales Line"
+            column(Requested_Delivery_Date_1; "Requested Delivery Date_1") { }
 
         }
     }

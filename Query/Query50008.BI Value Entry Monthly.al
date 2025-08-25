@@ -16,14 +16,14 @@ query 50008 "BI Value Entry Monthly"
         dataitem(VE; "Value Entry")
         {
             // Use these two in the client to extract Year and Month
-            column(Year_Posting_Date; "Posting Date") { }
-            column(Month_Posting_Date; "Posting Date") { }
+            column(Year_Posting_Date; "Posting Date") { Method = Year; }
+            column(Month_Posting_Date; "Posting Date") { Method = Month; }
 
             column(DocumentType; "Document Type") { }
 
-            column(CostAmount_Actual; "Cost Amount (Actual)") { }
+            column(CostAmount_Actual; "Cost Amount (Actual)") { Method = Sum; }
 
-            column(SalesAmount_Actual; "Sales Amount (Actual)") { }
+            column(SalesAmount_Actual; "Sales Amount (Actual)") { Method = Sum; }
         }
     }
 }
