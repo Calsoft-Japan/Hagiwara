@@ -76,7 +76,7 @@ query 50011 "BI Customer Ledger Entry"
 
             column(Reversed; Reversed) { }
 
-            column(Reversed_by_Entry_No) { Method = Count; }
+            column(Reversed_by_Entry_No; "Reversed by Entry No.") { }
 
             column(Reversed_Entry_No; "Reversed Entry No.") { }
 
