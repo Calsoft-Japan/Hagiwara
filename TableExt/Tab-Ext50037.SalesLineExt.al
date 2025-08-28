@@ -266,11 +266,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             Description = '//20121103 SiakHui - use for combining 2 PSI Init jobs to 1 job enhancement';
         }
-        field(50527; "Qty to Ship (2nd UOM)"; Decimal)
-        {
-            Caption = 'Qty tp Ship (2nd UOM)';
-            DecimalPlaces = 0 : 0;
-        }
         field(50528; Remarks; Text[30])
         {
             Caption = 'Remarks';
@@ -360,6 +355,11 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         field(50566; "2nd Unit of Measure"; Text[10])
         {
             Editable = false;
+        }
+        field(50567; "Qty to Ship (2nd UOM)"; Decimal)
+        {
+            Caption = 'Qty tp Ship (2nd UOM)';
+            DecimalPlaces = 0 : 0;
         }
 
         modify(Type)

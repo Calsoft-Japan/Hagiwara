@@ -1,5 +1,6 @@
 tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
 {
+
     fields
     {
         field(50000; "Order Date"; Date)
@@ -238,14 +239,6 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         {
             // cleaned
         }
-        field(50525; "2nd Unit of Measure Code"; Code[10])
-        {
-            Caption = '2nd Unit of Measure';
-        }
-        field(50526; "2nd Unit of Measure"; Text[10])
-        {
-            // cleaned
-        }
         field(50527; "Salespersonm Code"; Code[10])
         {
             // cleaned
@@ -327,7 +320,15 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
                                                                           Adjustment = CONST(FALSE)));
             Description = '//CS077';
         }
-        field(50550; "Qty to Ship (2nd UOM)"; Decimal)
+        field(50565; "2nd Unit of Measure Code"; Code[10])
+        {
+            Caption = '2nd Unit of Measure';
+        }
+        field(50566; "2nd Unit of Measure"; Text[10])
+        {
+            // cleaned
+        }
+        field(50567; "Qty to Ship (2nd UOM)"; Decimal)
         {
             Caption = 'Qty tp Ship (2nd UOM)';
             DecimalPlaces = 0 : 0;
@@ -485,6 +486,8 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
 
         "Shipment Collection Date" := 0D;
 
+        // Move this part to Codeunit, because of Sales Shipment Header modification permission.
+        /*
         IF ((Type = Type::Item) AND (Description <> ' ')) THEN BEGIN
             IF SalesShptHeader.GET("Document No.") THEN BEGIN
                 SalesShptHeader."Message Collected On(Shipment)" := 0D;
@@ -492,6 +495,7 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
                 SalesShptHeader.MODIFY;
             END;
         END;
+        */
 
     end;
 
