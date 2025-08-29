@@ -15,7 +15,7 @@ table 50029 "Purch. Receipt Import Staging"
         {
             // cleaned
         }
-        field(4; "Receipt No."; Code[20])
+        field(4; "Receipt No."; Code[35])
         {
             // cleaned
         }
