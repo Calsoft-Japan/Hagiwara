@@ -186,6 +186,9 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
             Description = 'SKLV6.0';
 
         }
+        field(50071; "GST Rate"; Decimal)
+        {
+        }
 
         modify("Buy-from Vendor No.")
         {

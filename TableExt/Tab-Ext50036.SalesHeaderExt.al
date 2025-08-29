@@ -92,7 +92,7 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
             // cleaned
         }
-        field(50021; "To"; Text[30])
+        field(50021; To; Text[30])
         {
             // cleaned
         }
