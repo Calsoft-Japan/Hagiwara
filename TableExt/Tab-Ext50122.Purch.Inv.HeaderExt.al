@@ -120,5 +120,8 @@ tableextension 50122 "Purch. Inv. Header Ext" extends "Purch. Inv. Header"
             Caption = 'VAT Company Code';
             Description = 'SKLV6.0';
         }
+        field(50071; "GST Rate"; Decimal)
+        {
+        }
     }
 }

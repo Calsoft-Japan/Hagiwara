@@ -65,6 +65,10 @@ tableextension 50114 "Sales Cr.Memo Header Ext" extends "Sales Cr.Memo Header"
             Caption = 'Submit Amount (LCY)';
             Description = 'SKLV6.0';
         }
+        field(50020; From; Text[30])
+        {
+            // cleaned
+        }
         field(50075; "Shipment Tracking Date"; Date)
         {
             Description = '//20180225 by SS';
