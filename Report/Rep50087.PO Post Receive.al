@@ -78,7 +78,7 @@ report 50087 "PO Post Receive"
                     PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
                     IF PurchReceiptImportStaging.FINDSET THEN BEGIN
                         REPEAT
-                            PurchReceiptImportStaging.Received := TRUE;
+                            //PurchReceiptImportStaging.Received := TRUE;
                             //PurchReceiptImportStaging.MODIFY;
                             PurchReceiptImportStaging.DELETE;
                         UNTIL PurchReceiptImportStaging.NEXT = 0;

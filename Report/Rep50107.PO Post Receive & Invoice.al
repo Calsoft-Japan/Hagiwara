@@ -1,7 +1,6 @@
-report 50082 "PO Post Invoice"
+report 50107 "PO Post Receive & Invoice"
 {
-    // CS023 Kenya 2021/07/28 - Roll-out Renesas Receipt/Invoice Upload
-    // CS079 Shawn 2024/06/01 - Check and Logic Change. (CO No. => PO No.+Line No. as well)
+    //BC Upgrade create new.
 
     ProcessingOnly = true;
 
@@ -11,16 +10,14 @@ report 50082 "PO Post Invoice"
         {
             DataItemTableView = SORTING("Proforma Invoice", "Batch No.", "Entry No.")
                                 ORDER(Ascending)
-                                WHERE(Received = FILTER(true),
-                                      "Proforma Invoice" = FILTER(<> ''),
+                                WHERE("Proforma Invoice" = FILTER(<> ''),
                                       Status = FILTER(Processed));
             dataitem("Purch. Receipt Import Staging"; "Purch. Receipt Import Staging")
             {
                 DataItemLink = "Proforma Invoice" = FIELD("Proforma Invoice");
                 DataItemTableView = SORTING("Batch No.", "Entry No.")
                                     ORDER(Ascending)
-                                    WHERE(Received = FILTER(true),
-                                          Posted = FILTER(false),
+                                    WHERE(Posted = FILTER(false),
                                           Status = FILTER(Processed));
 
                 trigger OnAfterGetRecord()
@@ -41,16 +38,17 @@ report 50082 "PO Post Invoice"
                     END;
                     //CS079 End
                     //CS023 Begin
-                    PurchaseLine.SETCURRENTKEY("Quantity Received");
-                    PurchaseLine.SETASCENDING("Quantity Received", TRUE);
+                    PurchaseLine.SETCURRENTKEY("Outstanding Quantity");
+                    PurchaseLine.SETASCENDING("Outstanding Quantity", TRUE);
                     //IF PurchaseLine.FINDFIRST THEN BEGIN
                     IF PurchaseLine.FINDSET THEN BEGIN
                         REPEAT
-                            IF NOT (PurchFound) AND
-                               (PurchaseLine."Quantity Received" >= "Purch. Receipt Import Staging"."Qty. To Invoice") AND
-                               ((PurchaseLine.Quantity - PurchaseLine."Quantity Invoiced") >= "Purch. Receipt Import Staging"."Qty. To Invoice") THEN BEGIN
+                            IF NOT (PurchFound) AND (PurchaseLine."Outstanding Quantity" >= "Purch. Receipt Import Staging"."Received Qty.") THEN BEGIN
                                 PurchaseLine."Goods Arrival Date" := "Purch. Receipt Import Staging"."Arrival Date";
+                                PurchaseLine.VALIDATE("Qty. to Receive", "Purch. Receipt Import Staging"."Received Qty.");
                                 PurchaseLine.VALIDATE("Qty. to Invoice", "Purch. Receipt Import Staging"."Qty. To Invoice");//sp
+                                IF "Purch. Receipt Import Staging"."Unit Cost" > 0 THEN //CS095
+                                    PurchaseLine.VALIDATE("Direct Unit Cost", "Purch. Receipt Import Staging"."Unit Cost"); //CS095
                                 PurchaseLine.MODIFY;
                                 PurchFound := TRUE;
                             END;
@@ -66,7 +64,7 @@ report 50082 "PO Post Invoice"
                     CLEAR(PurchPost);
                     PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.");
                     IF PurchaseHeader.FIND THEN BEGIN
-                        //PurchaseHeader.Receive :=TRUE;
+                        PurchaseHeader.Receive := TRUE;
                         PurchaseHeader.Invoice := TRUE;
                         PurchaseHeader."Posting No." := '';//22.05.2020
                         //PurchaseHeader."Posting Date" :=TODAY;

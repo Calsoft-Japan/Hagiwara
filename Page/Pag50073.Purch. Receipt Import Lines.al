@@ -121,7 +121,10 @@ page 50073 "Purch. Receipt Import Lines"
                     PromotedCategory = Process;
 
                     trigger OnAction()
+                    var
+                        cduImporter: Codeunit "Imp. Purch. Rcpt. & Inv. Data";
                     begin
+                        cduImporter.Run();
                     end;
                 }
                 action("Validate & Process")
@@ -178,8 +181,9 @@ page 50073 "Purch. Receipt Import Lines"
                                 PurchaseHeader.VALIDATE("Posting Date", Staging."Closed Date");
                                 PurchaseHeader.VALIDATE("Goods Arrival Date", Staging."Arrival Date");
                                 //PurchaseHeader.VALIDATE("Vendor Order No.",Staging."Proforma Invoice");//contact@splendidinfotech.com //CS023
-                                PurchaseHeader.VALIDATE("Vendor Shipment No.", Staging."Proforma Invoice");//contact@splendidinfotech.com
-                                                                                                           //PurchaseHeader.VALIDATE("Vendor Invoice No.",Staging."Proforma Invoice");//contact@splendidinfotech.com
+                                //PurchaseHeader.VALIDATE("Vendor Shipment No.", Staging."Proforma Invoice");//contact@splendidinfotech.com
+                                //PurchaseHeader.VALIDATE("Vendor Invoice No.",Staging."Proforma Invoice");//contact@splendidinfotech.com
+                                PurchaseHeader.Validate("Vendor Shipment No.", Staging."Receipt No."); // BC upgrade
 
                                 PurchaseHeader.MODIFY;
 
@@ -280,7 +284,7 @@ page 50073 "Purch. Receipt Import Lines"
 
                     end;
                 }
-                action(Receive)
+                action("Post Receive")
                 {
                     Image = Post;
                     Promoted = true;
@@ -364,11 +368,12 @@ page 50073 "Purch. Receipt Import Lines"
         ErrorDesc8: Text;
         ErrorQty: Boolean;
         ErrorDesc9: Text;
+        ErrorRcptNo: Text;
     begin
         Item.RESET;
         //Item.SETRANGE(Description,p_Staging."Imported Item No.");
         Item.SETRANGE(Description, p_Staging.Description);
-        Item.SETFILTER(Blocked, '<>%1', Item.Blocked);
+        Item.SetRange(Blocked, false);
         IF Item.FINDFIRST THEN
             ItemNo := Item."No."
         ELSE BEGIN
@@ -413,7 +418,7 @@ page 50073 "Purch. Receipt Import Lines"
                         ItemNo := Item."No."
                     ELSE
                         //Arpit-22-May-Stop
-                        ErrorDesc1 := ',Item Not Found';
+                        ErrorDesc1 := ',Item Not Found.';
                 END;
             END;
         END;
@@ -472,11 +477,11 @@ page 50073 "Purch. Receipt Import Lines"
         //CS079 Add Begin
         IF (p_Staging."CO No." = '')
           AND ((p_Staging."PO No." = '') OR (p_Staging."Line No." = 0)) THEN
-            ErrorDesc2 := ',CO No. or (PO No. and Line No.) Must Have Value'
+            ErrorDesc2 := ',CO No. or (PO No. and Line No.) Must Have Value.'
         ELSE BEGIN
             IF (p_Staging."PO No." <> '') AND (p_Staging."Line No." <> 0) THEN
                 IF NOT PurchaseLine1.GET(PurchaseLine1."Document Type"::Order, p_Staging."PO No.", p_Staging."Line No.") THEN
-                    ErrorDesc9 := ',Purchase Line Not Found';
+                    ErrorDesc9 := ',Purchase Line Not Found.';
 
             PurchaseLine1.RESET;
             PurchaseLine1.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
@@ -489,10 +494,11 @@ page 50073 "Purch. Receipt Import Lines"
             END;
             IF PurchaseLine1.ISEMPTY THEN BEGIN
                 IF ErrorDesc9 = '' THEN
-                    ErrorDesc3 := ',Purchase Order Not Found'
+                    ErrorDesc3 := ',Purchase Order Not Found.'
             END ELSE BEGIN
-                IF p_Staging."Arrival Date" = 0D THEN ErrorDesc5 := ',Arrival Date Must Have Value';
-                IF p_Staging."Proforma Invoice" = '' THEN ErrorDesc6 := ',Performa Invoice No. Must Have Value';
+                IF p_Staging."Arrival Date" = 0D THEN ErrorDesc5 := ',Arrival Date Must Have Value.';
+                IF p_Staging."Proforma Invoice" = '' THEN ErrorDesc6 := ',Performa Invoice No. Must Have Value.';
+                if p_Staging."Receipt No." = '' then ErrorRcptNo := ',Receipt No. Must Have Value';
 
                 IF ItemNo <> '' THEN BEGIN
                     ErrorQty := TRUE;
@@ -501,7 +507,7 @@ page 50073 "Purch. Receipt Import Lines"
                             IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
                                 ErrorDesc7 := ',Customer item is wrong.';
 
-                            IF PurchaseLine1.Description <> p_Staging.Description THEN
+                            IF LowerCase(PurchaseLine1.Description) <> LowerCase(p_Staging.Description) THEN
                                 ErrorDesc8 := ',Description is wrong.';
 
                             IF PurchaseLine1."Outstanding Quantity" >= p_Staging."Received Qty." THEN
@@ -523,7 +529,8 @@ page 50073 "Purch. Receipt Import Lines"
         //IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') THEN BEGIN
         //CS079 Begin
         //IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') OR (ErrorDesc5 <> '') OR (ErrorDesc6 <>'') OR (ErrorDesc7 <>'') OR (ErrorDesc8 <>'') THEN BEGIN
-        IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') OR (ErrorDesc5 <> '') OR (ErrorDesc6 <> '') OR (ErrorDesc7 <> '') OR (ErrorDesc8 <> '') OR (ErrorDesc9 <> '') THEN BEGIN
+        IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') OR (ErrorDesc5 <> '')
+        OR (ErrorDesc6 <> '') OR (ErrorDesc7 <> '') OR (ErrorDesc8 <> '') OR (ErrorDesc9 <> '') OR (ErrorRcptNo <> '') THEN BEGIN
             //CS079 End
             Staging.GET(p_Staging."Batch No.", p_Staging."Entry No.");
             IF ItemNo <> '' THEN
@@ -531,7 +538,7 @@ page 50073 "Purch. Receipt Import Lines"
             //Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4,2);
             //CS079 Begin
             //Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5+ErrorDesc6+ErrorDesc7+ErrorDesc8,2);
-            Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5 + ErrorDesc6 + ErrorDesc7 + ErrorDesc8 + ErrorDesc9, 2);
+            Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5 + ErrorDesc6 + ErrorDesc7 + ErrorDesc8 + ErrorDesc9 + ErrorRcptNo, 2);
             //CS079 End
             Staging.Status := Staging.Status::Error;
             Staging.MODIFY;
