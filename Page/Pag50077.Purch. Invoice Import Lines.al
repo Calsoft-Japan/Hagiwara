@@ -245,7 +245,7 @@ page 50077 "Purch. Invoice Import Lines"
 
                             UNTIL Staging.NEXT = 0;
 
-                        MESSAGE('Validation & Process Completed');
+                        MESSAGE('Validation & Process Completed.');
 
                         //process ends here
 
@@ -280,7 +280,7 @@ page 50077 "Purch. Invoice Import Lines"
 
 
 
-                        IF DIALOG.CONFIRM('Do You Want To Invoice', TRUE) THEN BEGIN
+                        IF DIALOG.CONFIRM('Do You Want To Invoice?', TRUE) THEN BEGIN
                             PurchReceiptImportStaging.RESET;
                             PurchReceiptImportStaging.SETRANGE("Batch No.", Rec."Batch No.");
                             PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::Processed);
@@ -290,11 +290,11 @@ page 50077 "Purch. Invoice Import Lines"
 
                                 IF (PurchReceiptImportStaging."Batch No." <> 0) THEN BEGIN
                                     REPORT.RUNMODAL(Report::"PO Post Invoice", FALSE);
-                                    MESSAGE('Invoiced Sucessfully');
+                                    MESSAGE('Invoiced Sucessfully.');
                                 END ELSE
-                                    MESSAGE('Nothing to post');
+                                    MESSAGE('Nothing to post.');
                             END ELSE
-                                MESSAGE('Nothing to post');
+                                MESSAGE('Nothing to post.');
 
                         END;
                     end;

@@ -241,7 +241,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                             UNTIL PurchReceiptImportStaging.NEXT = 0;
 
 
-                            MESSAGE('Validation & Process Completed');
+                            MESSAGE('Validation & Process Completed.');
                         END
 
                         // process ends here
@@ -257,9 +257,9 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
 
                     trigger OnAction()
                     begin
-                        IF DIALOG.CONFIRM('Do You Want To Receive and Invoice', TRUE) THEN BEGIN
+                        IF DIALOG.CONFIRM('Do You Want To Receive and Invoice?', TRUE) THEN BEGIN
                             REPORT.RUNMODAL(Report::"PO Post Receive & Invoice");
-                            MESSAGE('Received and Invoiced Sucessfully');
+                            MESSAGE('Received and Invoiced Sucessfully.');
                         END;
                     end;
                 }

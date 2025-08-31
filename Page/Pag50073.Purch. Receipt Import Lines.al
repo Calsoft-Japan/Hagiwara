@@ -277,7 +277,7 @@ page 50073 "Purch. Receipt Import Lines"
                             UNTIL PurchReceiptImportStaging.NEXT = 0;
 
 
-                            MESSAGE('Validation & Process Completed');
+                            MESSAGE('Validation & Process Completed.');
                         END
 
                         // process ends here
@@ -293,9 +293,9 @@ page 50073 "Purch. Receipt Import Lines"
 
                     trigger OnAction()
                     begin
-                        IF DIALOG.CONFIRM('Do You Want To Receive', TRUE) THEN BEGIN
+                        IF DIALOG.CONFIRM('Do You Want To Receive?', TRUE) THEN BEGIN
                             REPORT.RUNMODAL(Report::"PO Post Receive");
-                            MESSAGE('Received Sucessfully');
+                            MESSAGE('Received Sucessfully.');
                         END;
                     end;
                 }

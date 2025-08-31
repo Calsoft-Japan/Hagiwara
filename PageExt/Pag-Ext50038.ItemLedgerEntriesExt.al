@@ -60,7 +60,7 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
         addafter("Variant Code")
         {
 
-            field("Item Description"; Rec.Description)
+            field("Item Desc"; Rec.Description)
             {
                 ApplicationArea = all;
             }
