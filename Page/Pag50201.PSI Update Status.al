@@ -1,4 +1,3 @@
-//FDD301 page for the NBKAPI INSTOKUCD.
 page 50201 "PSI Update Status"
 {
     Caption = 'PSI Update Status';

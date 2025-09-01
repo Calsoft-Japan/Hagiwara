@@ -1,16 +1,16 @@
-page 50200 "PSI Get Message"
+page 50034 "DWH Export API"
 {
-    Caption = 'PSI Get Message';
+    Caption = 'DWHExport';
     PageType = API;
     APIPublisher = 'Calsoft';
-    APIGroup = 'PSI';
+    APIGroup = 'DWH';
     APIVersion = 'v2.0';
-    EntitySetCaption = 'PSIGetMessage';
-    EntitySetName = 'PSIGetMessage';
-    EntityCaption = 'PSIGetMessage';
-    EntityName = 'PSIGetMessage';
+    EntitySetCaption = 'DWHExport';
+    EntitySetName = 'DWHExport';
+    EntityCaption = 'DWHExport';
+    EntityName = 'DWHExport';
     ODataKeyFields = "Entry No.";
-    SourceTable = "Send Message Buffer";
+    SourceTable = "DWH Export Buffer";
     DelayedInsert = true;
     DeleteAllowed = false;
     ModifyAllowed = false;
@@ -26,15 +26,22 @@ page 50200 "PSI Get Message"
                 {
                     ApplicationArea = All;
                 }
-                field(ExportText; Rec."Export Text")
+                field(DataName; Rec."Data Name")
                 {
                     ApplicationArea = All;
                 }
-                field(ExportText2; Rec."Export Text 2")
+                field(Data; DataText)
                 {
                     ApplicationArea = All;
                 }
             }
         }
     }
+    trigger OnAfterGetRecord()
+    begin
+        DataText := Rec.GetData();
+    end;
+
+    var
+        DataText: Text;
 }

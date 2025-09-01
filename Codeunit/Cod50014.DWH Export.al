@@ -1679,7 +1679,7 @@ codeunit 50014 "DWH Export"
         FileName: Text[200];
         PurchaseReceiptRec: Record "Purch. Rcpt. Line";
         ItemRec: Record Item;
-        PurchaseReceiptHeaderRec: Record "Purch. Inv. Header";
+        PurchaseReceiptHeaderRec: Record "Purch. Rcpt. Header";
         CustomerRec: Record "Customer";
     begin
         DataName := Const_DN_PurchaseReceipt;
@@ -2148,7 +2148,7 @@ codeunit 50014 "DWH Export"
         ItemApplicationEntryRec: Record "Item Application Entry";
         ItemLedgerEntryRec: Record "Item Ledger Entry";
         PurchaseInvoiceHeaderRec: Record "Purch. Inv. Header";
-        PurchaseRcptHeaderRec: Record "Purch. Inv. Header";
+        PurchaseRcptHeaderRec: Record "Purch. Rcpt. Header";
         VendorRec: Record Vendor;
         PurchasePriceRec: Record "Purchase Price";
         CurrencyExchangeRateRec: Record "Currency Exchange Rate";
