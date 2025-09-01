@@ -22,7 +22,7 @@ table 50101 "Receipt Import Line"
         {
 
         }
-        field(7; "CO No."; Code[35])
+        field(7; "CO No."; Code[6])
         {
         }
         field(8; "Received Quantity"; Decimal)

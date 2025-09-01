@@ -165,7 +165,7 @@ page 50101 "Receipt Import Lines"
         VendorNo: Code[20];
         ItemNo: Code[20];
         CustomerItemNo: Code[20];
-        CONo: Code[35];
+        CONo: Code[6];
         ReceiveQty: Decimal;
     begin
 
