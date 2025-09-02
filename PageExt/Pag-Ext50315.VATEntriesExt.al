@@ -17,6 +17,7 @@ pageextension 50315 VATEntriesExt extends "VAT Entries"
             {
                 ApplicationArea = all;
                 Visible = False;
+                Editable = false;
             }
         }
         addafter("Bill-to/Pay-to No.")
