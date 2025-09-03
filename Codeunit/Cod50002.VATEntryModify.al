@@ -7,5 +7,13 @@ codeunit 50002 VATEntryModify
         VATEntry."GST Rate" := FromVATEntry."GST Rate";
         VATEntry.From := FromVATEntry.From;
     end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Line", OnInsertVATOnAfterAssignVATEntryFields, '', false, false)]
+    local procedure "Gen. Jnl.-Post Line_OnInsertVATOnAfterAssignVATEntryFields"(GenJnlLine: Record "Gen. Journal Line"; var VATEntry: Record "VAT Entry"; CurrExchRate: Record "Currency Exchange Rate")
+    begin
+        VATEntry."GST Rate" := GenJnlLine."GST Rate";
+    end;
+
+
 }
 
