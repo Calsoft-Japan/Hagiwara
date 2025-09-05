@@ -14,7 +14,7 @@ codeunit 50003 ValidateSOLine
             //RecRef.OPEN(DATABASE::"Sales Invoice Import Line");
             VlidateInvoice();
         END
-        ELSE BEGIN
+        ELSE IF TransType = TransType::ShipInvoice THEN BEGIN
             //RecRef.OPEN(DATABASE::"Sales Invoice Import Line");
             VlidateShipInvoice();
         END;
