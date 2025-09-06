@@ -359,6 +359,8 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                             ELSE BEGIN
                                 "ORE Line No." := 1;
                             END;
+
+                            Modify();
                         END;
                     END;
                 END;
@@ -388,6 +390,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                         IF (Item."One Renesas EDI") THEN BEGIN
                             IF (xRec.Quantity <> Rec.Quantity) OR (xRec."Requested Receipt Date_1" <> Rec."Requested Receipt Date_1") THEN BEGIN
                                 "ORE Change Status" := "ORE Change Status"::Changed;
+                                Modify();
                             END;
                         END;
                     END;
@@ -413,6 +416,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                                 "ORE Change Status" := "ORE Change Status"::"Not Applicable";
                             END;
                         END;
+                        Modify();
                     END;
                 END;
             END;

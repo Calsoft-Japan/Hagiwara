@@ -3,7 +3,7 @@ page 50200 "PSI Get Message"
     Caption = 'PSI Get Message';
     PageType = API;
     APIPublisher = 'Calsoft';
-    APIGroup = 'PSI';
+    APIGroup = 'HWBC';
     APIVersion = 'v2.0';
     EntitySetCaption = 'PSIGetMessage';
     EntitySetName = 'PSIGetMessage';

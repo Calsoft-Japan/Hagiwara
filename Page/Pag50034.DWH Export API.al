@@ -3,7 +3,7 @@ page 50034 "DWH Export API"
     Caption = 'DWHExport';
     PageType = API;
     APIPublisher = 'Calsoft';
-    APIGroup = 'DWH';
+    APIGroup = 'HWBC';
     APIVersion = 'v2.0';
     EntitySetCaption = 'DWHExport';
     EntitySetName = 'DWHExport';

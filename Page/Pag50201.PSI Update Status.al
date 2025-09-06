@@ -3,7 +3,7 @@ page 50201 "PSI Update Status"
     Caption = 'PSI Update Status';
     PageType = API;
     APIPublisher = 'Calsoft';
-    APIGroup = 'PSI';
+    APIGroup = 'HWBC';
     APIVersion = 'v2.0';
     EntitySetCaption = 'PSIUpdateStatus';
     EntitySetName = 'PSIUpdateStatus';

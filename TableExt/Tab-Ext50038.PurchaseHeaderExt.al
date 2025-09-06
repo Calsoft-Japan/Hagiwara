@@ -238,6 +238,7 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
     trigger OnAfterInsert()
     begin
         "Goods Arrival Date" := WORKDATE;
+        Modify();
     end;
 
     procedure ResetReleaseNos()

@@ -506,6 +506,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         "Shipment Seq. No." := 1; //>>
         "Next Shipment Seq. No." := 1; //>>
+        Modify();
     end;
 
 
