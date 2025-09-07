@@ -92,7 +92,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 }
                 field("ORE Country Qualifier"; Rec."ORE Country Qualifier")
                 {
-                    Caption = 'ORE Country Qualifier';
+                    ApplicationArea = all;
                 }
                 field("ORE Reverse Routing Address"; Rec."ORE Reverse Routing Address")
                 {

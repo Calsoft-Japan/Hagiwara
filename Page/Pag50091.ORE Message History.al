@@ -5,9 +5,12 @@ page 50091 "ORE Message History"
     ApplicationArea = All;
     UsageCategory = Lists;
     DeleteAllowed = false;
+    //TODO for test.
+    /*
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
+    */
     PageType = List;
     SourceTable = "ORE Message History";
 
