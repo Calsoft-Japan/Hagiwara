@@ -24,16 +24,6 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
             group("PSI System Setting")
             {
                 Caption = 'PSI System Setting';
-                field("Messaging File Path"; rec."Messaging File Path")
-                {
-                    ApplicationArea = all;
-                    Caption = 'Messaging File Path';
-                }
-                field("Messaging File Name"; rec."Messaging File Name")
-                {
-                    ApplicationArea = all;
-                    Caption = 'Messaging File Name';
-                }
                 field("PSI Job Status"; rec."PSI Job Status")
                 {
                     ApplicationArea = all;
@@ -46,11 +36,11 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 {
                     ApplicationArea = all;
                 }
-                field("PSI Data Deletion"; rec."PSI Data Deletion")
+                field("Exclude Zero Balance (JD)"; rec."Exclude Zero Balance (JD)")
                 {
                     ApplicationArea = all;
                 }
-                field("Backup Cutoff Date"; rec."Backup Cutoff Date")
+                field("Get Purch. Price (JD)"; rec."Get Purch. Price (JD)")
                 {
                     ApplicationArea = all;
                 }

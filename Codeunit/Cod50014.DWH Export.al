@@ -419,7 +419,7 @@ codeunit 50014 "DWH Export"
     local procedure ExportSalesPrice()
     var
         FileName: Text[200];
-        SalesPriceRec: Record "Sales Price";
+        SalesPriceRec: Record "Price List Line";
         itemRec: Record Item;
     begin
         DataName := Const_DN_SalesPrice;
@@ -448,14 +448,17 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Spare5'; //CS051
 
             InsertDataInBuffer();
+
+            SalesPriceRec.SetRange("Price Type", SalesPriceRec."Price Type"::Sale);
+            SalesPriceRec.SetRange(Status, SalesPriceRec.Status::Active);
             IF SalesPriceRec.FIND('-') THEN//CS059
                 REPEAT
                     SaveString := curCountryRegionCode;
-                    itemRec.GET(SalesPriceRec."Item No.");
+                    itemRec.GET(SalesPriceRec."Asset No.");
                     SaveString := SaveString + FORMAT(tabPlaceholder) + itemRec."Manufacturer Code";
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesPriceRec."Item No.";
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesPriceRec."Asset No.";
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '3';//SalesPriceRec."Customer Group"; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesPriceRec."Sales Code";//Customer Code
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesPriceRec."Assign-to No.";//Customer Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + itemRec."OEM No.";
                     IF SalesPriceRec."Currency Code" = ''
                       THEN
@@ -490,7 +493,7 @@ codeunit 50014 "DWH Export"
     local procedure ExportPurchasePrice()
     var
         FileName: Text[200];
-        PurchasePriceRec: Record "Purchase Price";
+        PurchasePriceRec: Record "Price List Line";
         itemRec: Record Item;
         itemRec2: Record Item;
     begin
@@ -527,13 +530,15 @@ codeunit 50014 "DWH Export"
             //CS074
             IF itemRec2.FIND('-') THEN
                 REPEAT
-                    PurchasePriceRec.SETRANGE("Item No.", itemRec2."No.");
+                    PurchasePriceRec.SetRange("Price Type", PurchasePriceRec."Price Type"::Purchase);
+                    PurchasePriceRec.SetRange(Status, PurchasePriceRec.Status::Active);
+                    PurchasePriceRec.SETRANGE("Asset No.", itemRec2."No.");
                     IF PurchasePriceRec.FIND('-') THEN//CS059
                         REPEAT
                             SaveString := curCountryRegionCode;
-                            itemRec.GET(PurchasePriceRec."Item No.");
+                            itemRec.GET(PurchasePriceRec."Asset No.");
                             SaveString := SaveString + FORMAT(tabPlaceholder) + itemRec."Manufacturer Code";//'Maker Code'
-                            SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Item No.";
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Asset No.";
                             SaveString := SaveString + FORMAT(tabPlaceholder) + '3';//PurchasePriceRec."Customer Group"; //CS051
                             SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode + ';' + itemRec."Customer No." + ';' + itemRec."OEM No.";//Customer Inventory Group //CS051
                             SaveString := SaveString + FORMAT(tabPlaceholder) + itemRec."Customer No.";//PurchasePriceRec."Purchase Code";//Customer Code
@@ -548,7 +553,7 @@ codeunit 50014 "DWH Export"
                             SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchasePriceRec."Starting Date", 0, '<Year4>/<Month,2>/<Day,2>');
                             SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchasePriceRec."Ending Date", 0, '<Year4>/<Month,2>/<Day,2>');
                             SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchasePriceRec."Direct Unit Cost");
-                            SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Vendor No.";
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Assign-to No.";
                             SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
                             SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
                             SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
@@ -2150,7 +2155,7 @@ codeunit 50014 "DWH Export"
         PurchaseInvoiceHeaderRec: Record "Purch. Inv. Header";
         PurchaseRcptHeaderRec: Record "Purch. Rcpt. Header";
         VendorRec: Record Vendor;
-        PurchasePriceRec: Record "Purchase Price";
+        PurchasePriceRec: Record "Price List Line";
         CurrencyExchangeRateRec: Record "Currency Exchange Rate";
         DebitCostACY: Decimal;
         DebitCostLCY: Decimal;
@@ -2326,7 +2331,9 @@ codeunit 50014 "DWH Export"
                     PurchasePriceRec.RESET();
                     PurchasePriceRec.SETCURRENTKEY("Starting Date");
                     PurchasePriceRec.ASCENDING(FALSE); // Added by Calsoft Japan
-                    PurchasePriceRec.SETRANGE("Item No.", ValueEntryRec."Item No.");
+                    PurchasePriceRec.SetRange("Price Type", PurchasePriceRec."Price Type"::Purchase);
+                    PurchasePriceRec.SetRange(Status, PurchasePriceRec.Status::Active);
+                    PurchasePriceRec.SETRANGE("Asset No.", ValueEntryRec."Item No.");
                     PurchasePriceRec.SETFILTER("Starting Date", '<=%1', TODAY);
                     PurchasePriceRec.SETFILTER("Currency Code", '<>%1', '');
                     IF PurchasePriceRec.FINDFIRST() THEN BEGIN
@@ -2794,7 +2801,7 @@ codeunit 50014 "DWH Export"
 
     local procedure ExportShipAndDebitFlag()
     var
-        PurchasePriceRec: Record "Purchase Price";
+        PurchasePriceRec: Record "Price List Line";
         FileName: Text;
         ItemRec: Record Item;
     begin
@@ -2822,9 +2829,9 @@ codeunit 50014 "DWH Export"
             IF PurchasePriceRec.FINDFIRST() THEN
                 REPEAT
                     SaveString := curCountryRegionCode; //Company Code
-                    ItemRec.GET(PurchasePriceRec."Item No.");
+                    ItemRec.GET(PurchasePriceRec."Asset No.");
                     SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Manufacturer Code"; //Manufacturer Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Item No.";//Item Code
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchasePriceRec."Asset No.";//Item Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."OEM No."; //End Customer Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchasePriceRec."Starting Date", 0, '<Month,2>/<Day,2>/<Year4>');//Starting Date
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchasePriceRec."Ending Date", 0, '<Month,2>/<Day,2>/<Year4>');//Ending Date

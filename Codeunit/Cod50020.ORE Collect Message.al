@@ -848,7 +848,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetSLSRPT_OREDebitCost(pItemNo: Code[20]; pPostingDate: Date) rCost: Decimal
     var
-        l_recPurchPrice: Record "Purchase Price";
+        l_recPurchPrice: Record "Price List Line";
         l_recItem: Record "Item";
     begin
         rCost := 0;
@@ -857,8 +857,10 @@ codeunit 50020 "ORE Collect Message"
         l_recPurchPrice.RESET;
         l_recPurchPrice.SETCURRENTKEY("Starting Date");
         l_recPurchPrice.ASCENDING(FALSE);
-        l_recPurchPrice.SETRANGE("Item No.", pItemNo);
-        l_recPurchPrice.SETRANGE("Vendor No.", l_recItem."Vendor No.");
+        l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase);
+        l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active);
+        l_recPurchPrice.SETRANGE("Asset No.", pItemNo);
+        l_recPurchPrice.SETRANGE("Assign-to No.", l_recItem."Vendor No.");
         l_recPurchPrice.SETFILTER("Starting Date", '..%1', pPostingDate);
 
         IF l_recPurchPrice.FINDFIRST THEN
@@ -869,7 +871,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetSLSRPT_OREDBCCost(pItemNo: Code[20]; pPostingDate: Date) rCost: Decimal
     var
-        l_recPurchPrice: Record "Purchase Price";
+        l_recPurchPrice: Record "Price List Line";
         l_recItem: Record "Item";
     begin
         rCost := 0;
@@ -878,8 +880,10 @@ codeunit 50020 "ORE Collect Message"
         l_recPurchPrice.RESET;
         l_recPurchPrice.SETCURRENTKEY("Starting Date");
         l_recPurchPrice.ASCENDING(FALSE);
-        l_recPurchPrice.SETRANGE("Item No.", pItemNo);
-        l_recPurchPrice.SETRANGE("Vendor No.", l_recItem."Vendor No.");
+        l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase);
+        l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active);
+        l_recPurchPrice.SETRANGE("Asset No.", pItemNo);
+        l_recPurchPrice.SETRANGE("Assign-to No.", l_recItem."Vendor No.");
         l_recPurchPrice.SETFILTER("Starting Date", '..%1', pPostingDate);
 
         IF l_recPurchPrice.FINDFIRST THEN
@@ -890,7 +894,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetSLSRPT_PurchCurrCode(pItemNo: Code[20]; pPostingDate: Date) rCurrCode: Code[10]
     var
-        l_recPurchPrice: Record "Purchase Price";
+        l_recPurchPrice: Record "Price List Line";
         l_recItem: Record "Item";
         l_recGLSetup: Record "General Ledger Setup";
     begin
@@ -900,8 +904,10 @@ codeunit 50020 "ORE Collect Message"
         l_recPurchPrice.RESET;
         l_recPurchPrice.SETCURRENTKEY("Starting Date");
         l_recPurchPrice.ASCENDING(FALSE);
-        l_recPurchPrice.SETRANGE("Item No.", pItemNo);
-        l_recPurchPrice.SETRANGE("Vendor No.", l_recItem."Vendor No.");
+        l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase);
+        l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active);
+        l_recPurchPrice.SETRANGE("Asset No.", pItemNo);
+        l_recPurchPrice.SETRANGE("Assign-to No.", l_recItem."Vendor No.");
         l_recPurchPrice.SETFILTER("Starting Date", '..%1', pPostingDate);
 
         IF l_recPurchPrice.FINDFIRST THEN
@@ -917,7 +923,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetINTRPT_OREUnitCost(pItemNo: Code[20]; pPostingDate: Date) rCost: Decimal
     var
-        l_recPurchPrice: Record "Purchase Price";
+        l_recPurchPrice: Record "Price List Line";
         l_recItem: Record "Item";
     begin
         rCost := 0;
@@ -926,8 +932,10 @@ codeunit 50020 "ORE Collect Message"
         l_recPurchPrice.RESET;
         l_recPurchPrice.SETCURRENTKEY("Starting Date");
         l_recPurchPrice.ASCENDING(FALSE);
-        l_recPurchPrice.SETRANGE("Item No.", pItemNo);
-        l_recPurchPrice.SETRANGE("Vendor No.", l_recItem."Vendor No.");
+        l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase);
+        l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active);
+        l_recPurchPrice.SETRANGE("Asset No.", pItemNo);
+        l_recPurchPrice.SETRANGE("Assign-to No.", l_recItem."Vendor No.");
         l_recPurchPrice.SETFILTER("Starting Date", '..%1', pPostingDate);
 
         IF l_recPurchPrice.FINDFIRST THEN
@@ -957,7 +965,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetRevRoutingAddr(pItemNo: Code[20]; pStartDate: Date; pRRAddr: Code[40]; pRRAddrSD: Code[40]) rRevRoutingAddr: Code[40]
     var
-        l_recPurchPrice: Record "Purchase Price";
+        l_recPurchPrice: Record "Price List Line";
         l_recItem: Record "Item";
     begin
         rRevRoutingAddr := pRRAddr;
@@ -966,8 +974,10 @@ codeunit 50020 "ORE Collect Message"
         l_recPurchPrice.RESET;
         l_recPurchPrice.SETCURRENTKEY("Starting Date");
         l_recPurchPrice.ASCENDING(FALSE);
-        l_recPurchPrice.SETRANGE("Item No.", pItemNo);
-        l_recPurchPrice.SETRANGE("Vendor No.", l_recItem."Vendor No.");
+        l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase);
+        l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active);
+        l_recPurchPrice.SETRANGE("Asset No.", pItemNo);
+        l_recPurchPrice.SETRANGE("Assign-to No.", l_recItem."Vendor No.");
         l_recPurchPrice.SETFILTER("Starting Date", '..%1', pStartDate);
 
         IF (l_recPurchPrice.FINDFIRST) AND (l_recPurchPrice."Ship&Debit Flag") THEN
@@ -1006,7 +1016,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetSLSRPT_RenesasReportUnitPrice(pItemNo: Code[20]; pCustomerNo: Code[20]; pPostingDate: Date) rPrice: Decimal
     var
-        l_recSalesPrice: Record "Sales Price";
+        l_recSalesPrice: Record "Price List Line";
         l_recItem: Record "Item";
     begin
         //CS089 Add LOCAL Function
@@ -1016,8 +1026,12 @@ codeunit 50020 "ORE Collect Message"
         l_recSalesPrice.RESET;
         l_recSalesPrice.SETCURRENTKEY("Starting Date");
         l_recSalesPrice.ASCENDING(FALSE);
-        l_recSalesPrice.SETRANGE("Item No.", pItemNo);
-        l_recSalesPrice.SETRANGE("Sales Code", pCustomerNo);
+        //l_recSalesPrice.SETRANGE("Item No.", pItemNo);
+        //l_recSalesPrice.SETRANGE("Sales Code", pCustomerNo);
+        l_recSalesPrice.SetRange("Price Type", l_recSalesPrice."Price Type"::Sale);
+        l_recSalesPrice.SetRange(Status, l_recSalesPrice.Status::Active);
+        l_recSalesPrice.SETRANGE("Asset No.", pItemNo);
+        l_recSalesPrice.SETRANGE("Assign-to No.", pCustomerNo);
         l_recSalesPrice.SETFILTER("Starting Date", '<=%1', pPostingDate);
 
         IF l_recSalesPrice.FINDFIRST THEN
@@ -1028,7 +1042,7 @@ codeunit 50020 "ORE Collect Message"
 
     local procedure GetSLSRPT_RenesasReportUnitPriceCurrCode(pItemNo: Code[20]; pCustomerNo: Code[20]; pPostingDate: Date) rCurrCode: Code[10]
     var
-        l_recSalesPrice: Record "Sales Price";
+        l_recSalesPrice: Record "Price List Line";
         l_recItem: Record "Item";
         l_recGLSetup: Record "General Ledger Setup";
     begin
@@ -1039,8 +1053,12 @@ codeunit 50020 "ORE Collect Message"
         l_recSalesPrice.RESET;
         l_recSalesPrice.SETCURRENTKEY("Starting Date");
         l_recSalesPrice.ASCENDING(FALSE);
-        l_recSalesPrice.SETRANGE("Item No.", pItemNo);
-        l_recSalesPrice.SETRANGE("Sales Code", pCustomerNo);
+        //l_recSalesPrice.SETRANGE("Item No.", pItemNo);
+        //l_recSalesPrice.SETRANGE("Sales Code", pCustomerNo);
+        l_recSalesPrice.SetRange("Price Type", l_recSalesPrice."Price Type"::Sale);
+        l_recSalesPrice.SetRange(Status, l_recSalesPrice.Status::Active);
+        l_recSalesPrice.SETRANGE("Asset No.", pItemNo);
+        l_recSalesPrice.SETRANGE("Assign-to No.", pCustomerNo);
         l_recSalesPrice.SETFILTER("Starting Date", '<=%1', pPostingDate);
 
         IF l_recSalesPrice.FINDFIRST THEN

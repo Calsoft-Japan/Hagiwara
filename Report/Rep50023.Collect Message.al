@@ -417,29 +417,29 @@ report 50023 "Collect Message"
         MSG_007: Label 'Daily PSI Data Collection Completed!l ';
         MSG_008: Label 'Monthly PSI Data Collection Completed!';
         MSG_009: Label 'There is no PSI Data to Collect!';
-        [InDataSet]
+
         RequestOptionsPageByMonthlyVISIBLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPageByDailyVISIBLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JAEDITABLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JBEDITABLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JCEDITABLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JDEDITABLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JJEDITABLE: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JAENABLED: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JBENABLED: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JCENABLED: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JDENABLED: Boolean;
-        [InDataSet]
+
         RequestOptionsPagechk_JJENABLED: Boolean;
         s_CollectPSI: Boolean;
         intMonth: Integer;
@@ -603,7 +603,7 @@ report 50023 "Collect Message"
                             "Update Date" := rec_SalesLine."Update Date";
                             "Update Time" := rec_SalesLine."Update Time";
                             //sh 20110426 - END
-                            "Currency Code" := Get_CurrCode(rec_SalesHdr."Currency Code");
+                            "Currency Code" := Get_CurrCode_BC(rec_SalesHdr."Currency Code");
                             "Sales Price" := 0;                         //Not in use
                             "Sales Amount" := 0;                        //Not in use
                             "SOLDTO Customer" := '';                    //Not in use
@@ -789,10 +789,10 @@ report 50023 "Collect Message"
                             //sh 20110426 - END
 
                             //Now use Sanjeev Begin 12/03/2020
-                            "Currency Code" := Get_CurrCode(rec_SalesShipmentHdr."Currency Code");    //Not in use
-                                                                                                      //"Sales Price" := rec_SalesShipmentLine."Unit Price";  //v20201112.
-                                                                                                      //"Sales Price" := 0;                         //Not in use
-                                                                                                      //Now use Sanjeev END 12/03/2020
+                            "Currency Code" := Get_CurrCode_BC(rec_SalesShipmentHdr."Currency Code");    //Not in use
+                                                                                                         //"Sales Price" := rec_SalesShipmentLine."Unit Price";  //v20201112.
+                                                                                                         //"Sales Price" := 0;                         //Not in use
+                                                                                                         //Now use Sanjeev END 12/03/2020
 
                             "Sales Amount" := 0;                        //Not in use
                             "SOLDTO Customer" := '';                    //Not in use
@@ -957,7 +957,7 @@ report 50023 "Collect Message"
                                           + PADSTR(rec_SalesLine."No.", g_ItemNo_Len);
 
                     //Now use Sanjeev Begin 12/03/2020
-                    "Currency Code" := Get_CurrCode(rec_SalesHdr."Currency Code");
+                    "Currency Code" := Get_CurrCode_BC(rec_SalesHdr."Currency Code");
                     // "Sales Price" := rec_SalesLine."Unit Price";  //v20201112.
                     // "Sales Price" := 0;                       //Not in use
                     //Now use Sanjeev END 12/03/2020
@@ -1073,7 +1073,7 @@ report 50023 "Collect Message"
                             "Order No" := FORMAT(COPYSTR(rec_PurchLine."CO No.", 1, 20));
                             "Pos/Neg Class" := CONST_Class;
                             Quantity := rec_PurchLine."Outstanding Quantity";
-                            "Currency Code" := Get_CurrCode(rec_PurchHdr."Currency Code");
+                            "Currency Code" := Get_CurrCode_BC(rec_PurchHdr."Currency Code");
                             "Sales Price" := 0;                       //Not in use
                             "Sales Amount" := 0;                      //Not in use
                             "Backlog Collection Day" := TODAY;
@@ -1111,7 +1111,7 @@ report 50023 "Collect Message"
     procedure CollectData_JD() DataExist: Boolean
     var
         dec_InvPrice: Decimal;
-        RecPurchasePrice: Record "Purchase Price";
+        RecPurchasePrice: Record "Price List Line";
     begin
         //
         DataExist := FALSE;
@@ -1198,7 +1198,7 @@ report 50023 "Collect Message"
                     //sh20110427 END
 
                     //CS109 Begin
-                    "Currency Code" := Get_CurrCode('');
+                    "Currency Code" := Get_CurrCode_BC('');
                     /*
                     //CS106 Begin
                     //"Currency Code" := Get_CurrCode('');
@@ -1230,7 +1230,9 @@ report 50023 "Collect Message"
                     RecPurchasePrice.RESET();
                     RecPurchasePrice.SETCURRENTKEY("Starting Date");
                     RecPurchasePrice.ASCENDING(FALSE);
-                    RecPurchasePrice.SETRANGE("Item No.", rec_Item."No.");
+                    RecPurchasePrice.SetRange("Price Type", RecPurchasePrice."Price Type"::Purchase);
+                    RecPurchasePrice.SetRange(Status, RecPurchasePrice.Status::Active);
+                    RecPurchasePrice.SETRANGE("Asset No.", rec_Item."No.");
                     RecPurchasePrice.SETFILTER("Starting Date", '<=%1', TODAY);
                     IF RecPurchasePrice.FINDFIRST() THEN BEGIN
                         rec_MessageCollection."PC. Currency Code" := RecPurchasePrice."PC. Currency Code";
@@ -1371,7 +1373,7 @@ report 50023 "Collect Message"
                                                   + PADSTR(rec_PurchRcptLine."No.", g_ItemNo_Len);
                             //sh 20110426 - END
                             //
-                            "Currency Code" := Get_CurrCode(rec_PurchRcptHdr."Currency Code");
+                            "Currency Code" := Get_CurrCode_BC(rec_PurchRcptHdr."Currency Code");
                             //EVALUATE("Purchase Price",FORMAT(rec_PurchRcptLine."Unit Cost",0,'<Precision,3><Standard Format,1>'));
                             EVALUATE("Purchase Price", FORMAT(rec_PurchRcptLine."Unit Cost", 0, '<Precision,4><Standard Format,1>'));
                             "Purchase Amount" := (rec_PurchRcptLine.Quantity * "Purchase Price");
@@ -1517,9 +1519,17 @@ report 50023 "Collect Message"
         END;
     end;
 
+    procedure Get_CurrCode_BC(pcod_Curr: Code[10]) CurrCode: Code[10]
+    var
+    begin
+        IF pcod_Curr = '' THEN
+            CurrCode := GRec_GLSetup."LCY Code"
+        ELSE
+            CurrCode := pcod_Curr;
+    end;
+
     procedure Get_CurrCode(pcod_Curr: Code[10]) CurrCode: Code[10]
     var
-        rec_GLSetup: Record "General Ledger Setup";
         rec_CompInfo: Record "Company Information";
     begin
         //CS109 Begin
@@ -1546,7 +1556,7 @@ report 50023 "Collect Message"
         END;
 
         IF pcod_Curr = '' THEN
-            CurrCode := rec_GLSetup."LCY Code"
+            CurrCode := GRec_GLSetup."LCY Code"
         ELSE
             CurrCode := pcod_Curr;
     end;

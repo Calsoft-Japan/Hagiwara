@@ -89,6 +89,6 @@ codeunit 50179 "Renesas PO Interface (Update)"
         Line_No_CaptionLbl: Label 'Line No.';
         PO_No_CaptionLbl: Label 'PO No.';
         rec_PurchHeader: Record "Purchase Header";
-        g_POStatus_Org: Option;
+        g_POStatus_Org: Enum "Purchase Document Status";
 
 }

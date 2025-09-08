@@ -487,7 +487,6 @@ report 50077 "Renesas PO Check List"
         g_PONo: Code[20];
         g_POQty: Decimal;
         g_PriceMark: Text[1];
-        rec_PurchasePrice: Record "Purchase Price";
         g_Price: Decimal;
         g_DupRec: Text[7];
         g_CreRec: Integer;

@@ -407,7 +407,9 @@ pageextension 50031 ItemListExt extends "Item List"
     begin
         // Load latest sales price
         SalesPriceRec.Reset();
-        SalesPriceRec.SetRange("Item No.", Rec."No.");
+        SalesPriceRec.SetRange("Price Type", SalesPriceRec."Price Type"::Sale);
+        SalesPriceRec.SetRange(Status, SalesPriceRec.Status::Active);
+        SalesPriceRec.SetRange("Asset No.", Rec."No.");
         SalesPriceRec.SetAscending("Starting Date", false);
         if SalesPriceRec.FindFirst() then
             LatestSalesPrice := SalesPriceRec."Unit Price"
@@ -416,7 +418,9 @@ pageextension 50031 ItemListExt extends "Item List"
 
         // Load latest purchase price
         PurchasePriceRec.Reset();
-        PurchasePriceRec.SetRange("Item No.", Rec."No.");
+        PurchasePriceRec.SetRange("Price Type", PurchasePriceRec."Price Type"::Purchase);
+        PurchasePriceRec.SetRange(Status, PurchasePriceRec.Status::Active);
+        PurchasePriceRec.SetRange("Asset No.", Rec."No.");
         PurchasePriceRec.SetAscending("Starting Date", false);
         if PurchasePriceRec.FindFirst() then
             LatestPurchasePrice := PurchasePriceRec."Direct Unit Cost"
@@ -491,8 +495,8 @@ pageextension 50031 ItemListExt extends "Item List"
 
     var
         GLSetup: Record "General Ledger Setup";
-        SalesPriceRec: Record "Sales Price";
-        PurchasePriceRec: Record "Purchase Price";
+        SalesPriceRec: Record "Price List Line";
+        PurchasePriceRec: Record "Price List Line";
 
         LatestSalesPrice: Decimal;
         LatestPurchasePrice: Decimal;

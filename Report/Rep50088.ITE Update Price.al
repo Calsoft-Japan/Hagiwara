@@ -38,7 +38,7 @@ report 50088 "ITE Update Price"
 
     trigger OnPostReport()
     var
-        RecPurchasePrice: Record "Purchase Price";
+        RecPurchasePrice: Record "Price List Line";
         RecInventoryTraceEntry: Record "Inventory Trace Entry";
         RecInventorySetup: Record "Inventory Setup";
     begin
@@ -57,7 +57,9 @@ report 50088 "ITE Update Price"
         IF RecItem.FINDSET() THEN BEGIN
             REPEAT
                 RecPurchasePrice.RESET();
-                RecPurchasePrice.SETRANGE("Item No.", RecItem."No.");
+                RecPurchasePrice.SETRANGE("Price Type", RecPurchasePrice."Price Type"::Purchase);
+                RecPurchasePrice.SETRANGE(Status, RecPurchasePrice.Status::Active);
+                RecPurchasePrice.SETRANGE("Asset No.", RecItem."No.");
                 //CS112 Begin
                 //RecPurchasePrice.SETFILTER("Starting Date",'>=%1',StartingDate);
                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', IteEndDateForUpdatePrice);
