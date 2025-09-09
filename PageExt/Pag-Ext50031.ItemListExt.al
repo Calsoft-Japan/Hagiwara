@@ -410,6 +410,7 @@ pageextension 50031 ItemListExt extends "Item List"
         SalesPriceRec.SetRange("Price Type", SalesPriceRec."Price Type"::Sale);
         SalesPriceRec.SetRange(Status, SalesPriceRec.Status::Active);
         SalesPriceRec.SetRange("Asset No.", Rec."No.");
+        SalesPriceRec.SetCurrentKey("Starting Date");
         SalesPriceRec.SetAscending("Starting Date", false);
         if SalesPriceRec.FindFirst() then
             LatestSalesPrice := SalesPriceRec."Unit Price"
@@ -421,6 +422,7 @@ pageextension 50031 ItemListExt extends "Item List"
         PurchasePriceRec.SetRange("Price Type", PurchasePriceRec."Price Type"::Purchase);
         PurchasePriceRec.SetRange(Status, PurchasePriceRec.Status::Active);
         PurchasePriceRec.SetRange("Asset No.", Rec."No.");
+        PurchasePriceRec.SetCurrentKey("Starting Date");
         PurchasePriceRec.SetAscending("Starting Date", false);
         if PurchasePriceRec.FindFirst() then
             LatestPurchasePrice := PurchasePriceRec."Direct Unit Cost"
