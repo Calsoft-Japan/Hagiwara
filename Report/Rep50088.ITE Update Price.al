@@ -2,6 +2,7 @@ report 50088 "ITE Update Price"
 {
     //T20250508.0050 Shawn 2025/05/10
     //CS112 Mei 2025/7/30 UpdatePrice logic changed
+    //CS112 Mei 2025/8/22 If Purchase Price. Currency Code or PC Currency Code is blank, use General Ledger Setup. LCY Code to update inventory trace entry records.
 
     ProcessingOnly = true;
 
@@ -114,6 +115,9 @@ report 50088 "ITE Update Price"
                                         RecInventoryTraceEntry."SLS. Purchase Currency" := RecPurchasePrice."Currency Code";
                                         RecInventoryTraceEntry."SLS. Purchase Price" := RecPurchasePrice."Direct Unit Cost";
                                     END;
+                                END;
+                                IF (RecInventoryTraceEntry."SLS. Purchase Currency" = '') THEN BEGIN
+                                    RecInventoryTraceEntry."SLS. Purchase Currency" := RecGeneralLedgerSetup."LCY Code";
                                 END;
                                 //CS112 End
 
