@@ -1278,6 +1278,7 @@ report 50023 "Collect Message"
     procedure CollectData_JJ() DataExist: Boolean
     var
         recMsgCollection: Record "Message Collection";
+        bHdrUpdated: Boolean;
     begin
         //
         DataExist := FALSE;
@@ -1305,6 +1306,9 @@ report 50023 "Collect Message"
 
         IF rec_PurchRcptHdr.FINDSET THEN
             REPEAT
+
+                bHdrUpdated := false;
+
                 rec_PurchRcptLine.RESET;
                 rec_PurchRcptLine.SETRANGE("Document No.", rec_PurchRcptHdr."No.");
                 rec_PurchRcptLine.SETFILTER(Type, '=%1', rec_PurchRcptLine.Type::Item);
@@ -1423,23 +1427,28 @@ report 50023 "Collect Message"
                             //      DataExist := TRUE;
                             //      Collect_ControlMaster(5,Quantity,"Purchase Amount");
                         END;
+
+                        //>>
+                        if not bHdrUpdated then begin
+
+                            //  cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.",TRUE);
+                            IF rec_PurchRcptLine.Quantity = 0 THEN BEGIN
+                                IF rec_PurchRcptLine.Insertion THEN BEGIN
+                                    //cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE); // Changed during BC Upgrade.
+                                    Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE);
+                                    bHdrUpdated := true;
+                                END ELSE BEGIN
+                                END;
+                            END;
+                            IF rec_PurchRcptLine.Quantity <> 0 THEN BEGIN
+                                //cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE); // Changed during BC Upgrade.
+                                Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE);
+                                bHdrUpdated := true;
+                            END;
+
+                        end;
+                    //<<
                     UNTIL rec_PurchRcptLine.NEXT = 0;
-
-                //>>
-                //  cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.",TRUE);
-                IF rec_PurchRcptLine.Quantity = 0 THEN BEGIN
-                    IF rec_PurchRcptLine.Insertion THEN BEGIN
-                        //cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE); // Changed during BC Upgrade.
-                        Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE);
-                    END ELSE BEGIN
-                    END;
-                END;
-                IF rec_PurchRcptLine.Quantity <> 0 THEN BEGIN
-                    //cdu_PurchPost.Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE); // Changed during BC Upgrade.
-                    Update_PurchRcptHdr(rec_PurchRcptHdr."No.", TRUE);
-                END;
-
-            //<<
 
             UNTIL rec_PurchRcptHdr.NEXT = 0;
 

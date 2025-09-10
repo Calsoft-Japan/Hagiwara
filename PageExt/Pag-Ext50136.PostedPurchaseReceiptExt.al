@@ -12,6 +12,10 @@ pageextension 50136 PostedPurchaseReceiptExt extends "Posted Purchase Receipt"
             {
                 ApplicationArea = all;
             }
+            field("Message Status(Incoming)"; rec."Message Status(Incoming)")
+            {
+                ApplicationArea = all;
+            }
             field("Message Collected By(Incoming)"; Rec."Message Collected By(Incoming)")
             {
                 ApplicationArea = all;
