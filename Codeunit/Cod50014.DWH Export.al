@@ -13,7 +13,9 @@ codeunit 50014 "DWH Export"
     // CS086 Shawn 2024/11/21 - DWH Export Modification.
     //                          Round to 0.00001: Sales Shipment (Cost Amount), Purchase Lines (Outstanding Amount)
     //                          Output items even if there aren’t ILE data: Inventory.
-    // 
+    // CS093 Naoto 2025/01/17 - Change the order of column for Outstanding Purchase Order
+    // CS107 Naoto 2025/05/14 - Change the logic to fetch Purchase Price records 
+    ///CS110 NieRM 2025/06/24 - Output [Item Supplier Source] for Customer and Output [Original Item No.] for ShipAndDebitFlag 
     // #################################################################
     // # For SH & HS, modify codes 'For SH' and 'For HS' after import. #
     // #################################################################
@@ -122,7 +124,10 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Vendor Cust. Code';
             //CS074 Begin
             SaveString := SaveString + FORMAT(tabChar) + 'ORE Customer Name';
-            SaveString := SaveString + FORMAT(tabChar) + 'Spare1';
+            //CS110 Begin
+            //SaveString := SaveString + FORMAT(tabChar) + 'Spare1';
+            SaveString := SaveString + FORMAT(tabChar) + 'Item Supplier Source';
+            //CS110 End
             SaveString := SaveString + FORMAT(tabChar) + 'Spare2';
             SaveString := SaveString + FORMAT(tabChar) + 'Spare3';
             SaveString := SaveString + FORMAT(tabChar) + 'Spare4';
@@ -142,7 +147,10 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec."Familiar Name"; //CS052
                     SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec."Vendor Cust. Code";
                     SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec."ORE Customer Name";//CS074
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//CS074
+                    //CS110 Begin
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//CS074
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(CustomerRec."Item Supplier Source");
+                    //CS110 End
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//CS074
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//CS074
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//CS074
@@ -381,8 +389,7 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(availableInventoryBalance);
                     */
 
-                    ItemRec.CALCFIELDS(Inventory);
-                    ItemRec.CALCFIELDS(Hold);
+                    ItemRec.CALCFIELDS(Inventory, Hold, "Qty. on Purch. Order", "Qty. on Sales Quote", "Qty. on Sales Order");
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec.Inventory);
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec.Hold);
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec.Inventory);
@@ -1147,7 +1154,8 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Customer Inventory Group';
             SaveString := SaveString + FORMAT(tabChar) + 'Item Code';
             SaveString := SaveString + FORMAT(tabChar) + 'Item Name';
-            SaveString := SaveString + FORMAT(tabChar) + 'Quantity';
+            //SaveString := SaveString + FORMAT(tabChar) + 'Quantity'; //CS093
+            SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity'; //CS093
             SaveString := SaveString + FORMAT(tabChar) + 'Order Price';
             SaveString := SaveString + FORMAT(tabChar) + 'Order Amount';
             SaveString := SaveString + FORMAT(tabChar) + 'Order Currency';
@@ -1164,7 +1172,8 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Item Supplier Source';
             SaveString := SaveString + FORMAT(tabChar) + 'Location Code';
             SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Amount';
-            SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity';
+            //SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity'; //CS093
+            SaveString := SaveString + FORMAT(tabChar) + 'Quantity'; //CS093
             SaveString := SaveString + FORMAT(tabChar) + 'Quantity Invoiced';
             SaveString := SaveString + FORMAT(tabChar) + 'Quantity Received';
             SaveString := SaveString + FORMAT(tabChar) + 'Unit Cost';
@@ -1206,7 +1215,10 @@ codeunit 50014 "DWH Export"
                     //CS051 End
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."No.";//Item Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.Description;//Item Name
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity
+                    //CS093
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity 
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity"); //Outstanding Quantity
+                    //CS093
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, "Line Amount (Excl. VAT)"
 
@@ -1217,7 +1229,7 @@ codeunit 50014 "DWH Export"
 
                     //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Currency Code";//Order Currency, Currency Code in Purchase Header/Purchase Rcpt. Header
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Document No.";//Order No.
-                                                                                                       //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//PurchaseLineRec."Order No. 2" //CS059
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//PurchaseLineRec."Order No. 2" //CS059
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No. //CS059
 
                     IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
@@ -1231,7 +1243,7 @@ codeunit 50014 "DWH Export"
                     END;
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor Name";//Vendor Name
-                                                                                                                 //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No.
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Amount);//Amount
@@ -1241,13 +1253,14 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Item Supplier Source");//Item Supplier Source
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Location Code";//Location Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity" * PurchaseLineRec."Direct Unit Cost");//Outstanding Amount(Set blank for Purchase Invoice Line)
-                                                                                                                                                            //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
-
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity");//Outstanding Quantity(Set blank for Purchase Invoice Line)
-                                                                                                                       //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
-
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
+                    //CS093
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity");//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity); //Quantity
+                    //CS093
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Invoiced");//Quantity Invoiced(Set blank for Purchase Invoice Line)
-                                                                                                                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Quantity Invoiced(Set blank for Purchase Invoice Line)
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Quantity Invoiced(Set blank for Purchase Invoice Line)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Received");//Quantity Received(Set Quantity for Purchase Invoice Line)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost");//Unit Cost
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost (LCY)");//Unit Cost (LCY)
@@ -1791,9 +1804,11 @@ codeunit 50014 "DWH Export"
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Expected Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//Expected Receipt Date
 
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Goods Arrival Date", 0, '<Year4>/<Month,2>/<Day,2>');//Goods Arrival Date
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Goods Arrival Date", 0, '<Year4>/<Month,2>/<Day,2>');//Goods Arrival Date
+                    /*
                     //For HS
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Goods Arrival Date
+                    */
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Item Supplier Source");//Item Supplier Source
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseReceiptRec."Location Code";//Location Code
@@ -1802,7 +1817,7 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Requested Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//Requested Receipt Date
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Unit Cost");//Unit Cost
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Unit Cost (LCY)");//Unit Cost (LCY)
-                                                                                                                     //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Unit Price (LCY)");//Unit Price (LCY)
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseReceiptRec."Unit Price (LCY)");//Unit Price (LCY)
 
                     IF PurchaseReceiptRec.Type = PurchaseReceiptRec.Type::Item THEN BEGIN
                         //ItemRec.Get(PurchaseReceiptRec."Item No");
@@ -1863,7 +1878,6 @@ codeunit 50014 "DWH Export"
         ValueEntryRec: Record "Value Entry";
         ItemLedgerEntryRec2: Record "Item Ledger Entry";
         LocationRec: Record Location;
-        IsExlusionFlag: Boolean;
     begin
         DataName := Const_DN_Inventory;
         SaveString := '';
@@ -2004,13 +2018,8 @@ codeunit 50014 "DWH Export"
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
                                 */
 
-                                IsExlusionFlag := false;
-                                if LocationRec.Get(ItemLedgerEntryRec."Location Code") then begin
-                                    if LocationRec."Use As PSI Hold" = true then begin
-                                        IsExlusionFlag := true;
-                                    end;
-                                end;
-                                if IsExlusionFlag then begin
+                                ItemLedgerEntryRec.CalcFields(Hold);
+                                if ItemLedgerEntryRec.Hold then begin
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'//Exclusion Flag
                                 end else begin
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
@@ -2334,8 +2343,11 @@ codeunit 50014 "DWH Export"
                     PurchasePriceRec.SetRange("Price Type", PurchasePriceRec."Price Type"::Purchase);
                     PurchasePriceRec.SetRange(Status, PurchasePriceRec.Status::Active);
                     PurchasePriceRec.SETRANGE("Asset No.", ValueEntryRec."Item No.");
-                    PurchasePriceRec.SETFILTER("Starting Date", '<=%1', TODAY);
-                    PurchasePriceRec.SETFILTER("Currency Code", '<>%1', '');
+                    //CS107 Begin
+                    //PurchasePriceRec.SETFILTER("Starting Date",'<=%1',TODAY);
+                    //PurchasePriceRec.SETFILTER("Currency Code",'<>%1','');
+                    PurchasePriceRec.SETFILTER("Starting Date", '<=%1', ValueEntryRec."Posting Date");
+                    //CS107 END
                     IF PurchasePriceRec.FINDFIRST() THEN BEGIN
                         DebitCostACY := ROUND(PurchasePriceRec."ORE Debit Cost", 0.0001, '=');
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(DebitCostACY);//Debit Cost (ACY)
@@ -2553,6 +2565,8 @@ codeunit 50014 "DWH Export"
 
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(InventoryBaseDate, 0, '<Year4>/<Month,2>/<Day,2>');//Inventory Base Date
 
+                                //BC Update Begin
+                                /*
                                 //CS051 Begin
                                 //IF ItemLedgerEntryRec."Location Code" = 'HOLD' THEN
                                 //For HS
@@ -2560,6 +2574,16 @@ codeunit 50014 "DWH Export"
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'//Exclusion Flag
                                 ELSE
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
+                                */
+
+                                ItemLedgerEntryRec.CalcFields(Hold);
+                                if ItemLedgerEntryRec.Hold then begin
+                                    SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'//Exclusion Flag
+                                end else begin
+                                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
+                                end;
+                                //BC Update End
+
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of SO
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of Work
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of PO
@@ -2744,6 +2768,8 @@ codeunit 50014 "DWH Export"
 
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(InventoryBaseDate, 0, '<Year4>/<Month,2>/<Day,2>');//Inventory Base Date
 
+                                //BC Update Begin
+                                /*
                                 //CS051 Begin
                                 //IF ItemLedgerEntryRec."Location Code" = 'HOLD' THEN
                                 //For HS
@@ -2751,6 +2777,16 @@ codeunit 50014 "DWH Export"
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'//Exclusion Flag
                                 ELSE
                                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
+                                */
+
+                                ItemLedgerEntryRec.CalcFields(Hold);
+                                if ItemLedgerEntryRec.Hold then begin
+                                    SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'//Exclusion Flag
+                                end else begin
+                                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Exclusion Flag
+                                end;
+                                //BC Update End
+
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of SO
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of Work
                                 SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//In charge of PO
@@ -2819,7 +2855,10 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Starting Date';
             SaveString := SaveString + FORMAT(tabChar) + 'Ending Date';
             SaveString := SaveString + FORMAT(tabChar) + 'Ship and Debit Flag';
-            SaveString := SaveString + FORMAT(tabChar) + 'Spare1';
+            //CS110 Begin
+            //SaveString := SaveString + FORMAT(tabChar) + 'Spare1';
+            SaveString := SaveString + FORMAT(tabChar) + 'Original Item No.';
+            //CS110 End
             SaveString := SaveString + FORMAT(tabChar) + 'Spare2';
             SaveString := SaveString + FORMAT(tabChar) + 'Spare3';
             SaveString := SaveString + FORMAT(tabChar) + 'Spare4';
@@ -2839,7 +2878,10 @@ codeunit 50014 "DWH Export"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + 'True'
                     ELSE
                         SaveString := SaveString + FORMAT(tabPlaceholder) + 'False';
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Spare1
+                    //CS110 Begin
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Spare1
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Original Item No.";//Spare1
+                    //CS110 End
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Spare2
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Spare3
                     SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Spare4
