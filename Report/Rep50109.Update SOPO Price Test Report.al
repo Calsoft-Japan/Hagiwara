@@ -23,33 +23,53 @@ report 50109 "Update SO/PO Price Test Report"
                 trigger OnAfterGetRecord()
                 var
                     SalesTargetDate: Date;
+                    SalesHeader: Record "Sales Header";
+                    PriceList_perCust: Record "Price List Line";
+                    PriceList_allCust: Record "Price List Line";
+                    Cnt_perCust: Integer;
+                    Cnt_allCust: Integer;
                 begin
                     Window.UPDATE(2, "Document No.");
 
                     UnitPrice := 0;
                     IsPriceUpdate := false;
                     SalesTargetDate := ReqTargetDate;
+                    Cnt_perCust := 0;
+                    Cnt_allCust := 0;
 
                     IF "Quantity Invoiced" <> Quantity THEN BEGIN
 
+                        SalesHeader.get("Sales Line"."Document Type", "Sales Line"."Document No.");
                         Customer.get("Sales Line"."Sell-to Customer No.");
                         if Customer."Update SO Price Target Date" = Customer."Update SO Price Target Date"::"Shipment Date" then begin
                             SalesTargetDate := "Sales Line"."Shipment Date";
                         end;
                         if Customer."Update SO Price Target Date" = Customer."Update SO Price Target Date"::"Order Date" then begin
-                            SalesHeader.get("Sales Line"."Document Type", "Sales Line"."Document No.");
                             SalesTargetDate := SalesHeader."Order Date";
                         end;
 
-                        PriceList.Reset();
-                        PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
-                        PriceList.SETRANGE("Asset No.", "No.");
-                        PriceList.SetRange("Source Type", PriceList."Source Type"::Customer);
-                        PriceList.SetRange("Source No.", "Sales Line"."Sell-to Customer No.");
-                        PriceList.SetRange(Status, PriceList.Status::Active);
-                        PriceList.SETRANGE("Starting Date", 0D, SalesTargetDate);
-                        PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, SalesTargetDate);
-                        IF PriceList.COUNT > 1 THEN begin
+                        PriceList_perCust.Reset();
+                        PriceList_perCust.SetRange("Asset Type", PriceList_perCust."Asset Type"::Item);
+                        PriceList_perCust.SETRANGE("Asset No.", "No.");
+                        PriceList_perCust.SetRange("Source Type", PriceList_perCust."Source Type"::Customer);
+                        PriceList_perCust.SetRange("Source No.", "Sales Line"."Sell-to Customer No.");
+                        PriceList_perCust.SetRange(Status, PriceList_perCust.Status::Active);
+                        PriceList_perCust.SETRANGE("Starting Date", 0D, SalesTargetDate);
+                        PriceList_perCust.SETFILTER("Ending Date", '%1|>=%2', 0D, SalesTargetDate);
+                        PriceList_perCust.SETFILTER("Unit Price", '<>%1', 0);
+                        Cnt_perCust := PriceList_perCust.Count;
+
+                        PriceList_allCust.Reset();
+                        PriceList_allCust.SetRange("Asset Type", PriceList_allCust."Asset Type"::Item);
+                        PriceList_allCust.SETRANGE("Asset No.", "No.");
+                        PriceList_allCust.SetRange("Source Type", PriceList_allCust."Source Type"::"All Customers");
+                        PriceList_allCust.SetRange(Status, PriceList_allCust.Status::Active);
+                        PriceList_allCust.SETRANGE("Starting Date", 0D, SalesTargetDate);
+                        PriceList_allCust.SETFILTER("Ending Date", '%1|>=%2', 0D, SalesTargetDate);
+                        PriceList_allCust.SETFILTER("Unit Price", '<>%1', 0);
+                        Cnt_allCust := PriceList_allCust.Count;
+
+                        IF (Cnt_perCust + Cnt_allCust) > 1 THEN begin
 
                             WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", 0, TextMsgDuplicate);
 
@@ -57,11 +77,13 @@ report 50109 "Update SO/PO Price Test Report"
                             CurrReport.Break();
                         end;
 
-                        IF PriceList.FINDFIRST THEN BEGIN
-                            UnitPrice := PriceList."Unit Price";
+                        IF PriceList_perCust.FINDFIRST THEN BEGIN
+                            UnitPrice := PriceList_perCust."Unit Price";
+                        END else if PriceList_allCust.FINDFIRST THEN BEGIN
+                            UnitPrice := PriceList_allCust."Unit Price";
                         END;
 
-                        IF "Unit Price" <> UnitPrice THEN BEGIN
+                        IF (UnitPrice <> 0) and ("Unit Price" <> UnitPrice) THEN BEGIN
 
                             WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
                             CntUpdated := CntUpdated + 1;
@@ -88,44 +110,66 @@ report 50109 "Update SO/PO Price Test Report"
                 trigger OnAfterGetRecord()
                 var
                     PurchTargetDate: Date;
+                    PurchHeader: Record "Purchase Header";
+                    PriceList_perVend: Record "Price List Line";
+                    PriceList_allVend: Record "Price List Line";
+                    Cnt_perVend: Integer;
+                    Cnt_allVend: Integer;
                 begin
                     Window.UPDATE(2, "Document No.");
 
                     DirectUnitCost := 0;
                     IsPriceUpdate := false;
                     PurchTargetDate := ReqTargetDate;
+                    Cnt_perVend := 0;
+                    Cnt_allVend := 0;
 
                     IF "Quantity Invoiced" <> Quantity THEN BEGIN
+                        PurchHeader.get("Purchase Line"."Document Type", "Purchase Line"."Document No.");
                         Vendor.get("Purchase Line"."Buy-from Vendor No.");
                         if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Expected Receipt Date" then begin
                             PurchTargetDate := "Purchase Line"."Expected Receipt Date";
                         end;
 
                         if Vendor."Update PO Price Target Date" = Vendor."Update PO Price Target Date"::"Order Date" then begin
-                            PurchHeader.get("Purchase Line"."Document Type", "Purchase Line"."Document No.");
                             PurchTargetDate := PurchHeader."Order Date";
                         end;
 
-                        PriceList.Reset();
-                        PriceList.SetRange("Asset Type", PriceList."Asset Type"::Item);
-                        PriceList.SETRANGE("Asset No.", "No.");
-                        PriceList.SetRange("Source Type", PriceList."Source Type"::Vendor);
-                        PriceList.SetRange("Source No.", "Purchase Line"."Buy-from Vendor No.");
-                        PriceList.SetRange(Status, PriceList.Status::Active);
-                        PriceList.SETRANGE("Starting Date", 0D, PurchTargetDate);
-                        PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, PurchTargetDate);
-                        IF PriceList.COUNT > 1 THEN begin
+                        PriceList_perVend.Reset();
+                        PriceList_perVend.SetRange("Asset Type", PriceList_perVend."Asset Type"::Item);
+                        PriceList_perVend.SETRANGE("Asset No.", "No.");
+                        PriceList_perVend.SetRange("Source Type", PriceList_perVend."Source Type"::Vendor);
+                        PriceList_perVend.SetRange("Source No.", "Purchase Line"."Buy-from Vendor No.");
+                        PriceList_perVend.SetRange(Status, PriceList_perVend.Status::Active);
+                        PriceList_perVend.SETRANGE("Starting Date", 0D, PurchTargetDate);
+                        PriceList_perVend.SETFILTER("Ending Date", '%1|>=%2', 0D, PurchTargetDate);
+                        PriceList_perVend.SETFILTER("Direct Unit Cost", '<>%1', 0);
+                        Cnt_perVend := PriceList_perVend.Count;
+
+                        PriceList_allVend.Reset();
+                        PriceList_allVend.SetRange("Asset Type", PriceList_allVend."Asset Type"::Item);
+                        PriceList_allVend.SETRANGE("Asset No.", "No.");
+                        PriceList_allVend.SetRange("Source Type", PriceList_allVend."Source Type"::"All Vendors");
+                        PriceList_allVend.SetRange(Status, PriceList_allVend.Status::Active);
+                        PriceList_allVend.SETRANGE("Starting Date", 0D, PurchTargetDate);
+                        PriceList_allVend.SETFILTER("Ending Date", '%1|>=%2', 0D, PurchTargetDate);
+                        PriceList_allVend.SETFILTER("Direct Unit Cost", '<>%1', 0);
+                        Cnt_allVend := PriceList_allVend.Count;
+
+                        IF (Cnt_perVend + Cnt_allVend) > 1 THEN begin
                             WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", 0, TextMsgDuplicate);
 
                             CntError := CntError + 1;
                             CurrReport.Break();
                         end;
 
-                        IF PriceList.FINDFIRST THEN BEGIN
-                            DirectUnitCost := PriceList."Direct Unit Cost";
+                        IF PriceList_perVend.FINDFIRST THEN BEGIN
+                            DirectUnitCost := PriceList_perVend."Direct Unit Cost";
+                        END else IF PriceList_allVend.FINDFIRST THEN BEGIN
+                            DirectUnitCost := PriceList_allVend."Direct Unit Cost";
                         END;
 
-                        IF "Direct Unit Cost" <> DirectUnitCost THEN BEGIN
+                        IF (DirectUnitCost <> 0) and ("Direct Unit Cost" <> DirectUnitCost) THEN BEGIN
                             WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
                             CntUpdated := CntUpdated + 1;
                         end;
@@ -297,7 +341,6 @@ report 50109 "Update SO/PO Price Test Report"
         Text002: Label 'Item No. #1####################\';
         Text003: Label 'Order No. #2####################\';
 
-        PriceList: Record "Price List Line";
         UnitPrice: Decimal;
         DirectUnitCost: Decimal;
         Text004: Label 'More than one %1 exist for item %2.';
@@ -305,8 +348,6 @@ report 50109 "Update SO/PO Price Test Report"
         VendorNo: Code[20];
         Customer: Record Customer;
         Vendor: Record Vendor;
-        SalesHeader: Record "Sales Header";
-        PurchHeader: Record "Purchase Header";
         IsPriceUpdate: Boolean;
         SOPOEntryNo: Integer;
         SOPOPrice: Record "Update SOPO Price";
