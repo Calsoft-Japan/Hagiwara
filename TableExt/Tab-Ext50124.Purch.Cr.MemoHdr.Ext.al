@@ -60,5 +60,8 @@ tableextension 50124 "Purch. Cr. Memo Hdr. Ext" extends "Purch. Cr. Memo Hdr."
         {
             Description = 'SKLV6.0';
         }
+        field(50071; "GST Rate"; Decimal)
+        {
+        }
     }
 }

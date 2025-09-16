@@ -2,7 +2,6 @@ codeunit 50200 "PSI Prepare Message"
 {
 
     // BC Update Info: update from Send Message Report and Messaging Codeunit, merged onscreen and Job queue objects.
-    // ToDo: check JZ data. (In Nav2017, twice collection: Monthly and Daily, with only once prepare Message)
 
     trigger OnRun()
     begin
@@ -256,11 +255,13 @@ codeunit 50200 "PSI Prepare Message"
                             END;
                     END;
 
-                    //>> to update info
-                    "Message Status" := "Message Status"::Sent;
-                    "File Sent By" := USERID;
-                    "File Sent On" := TODAY;
-                    MODIFY;
+                //>> to update info
+                /* Move this update to API page during BC upgrade.
+                "Message Status" := "Message Status"::Sent;
+                "File Sent By" := USERID;
+                "File Sent On" := TODAY;
+                MODIFY;
+                */
                 //<<
 
                 UNTIL NEXT = 0
@@ -854,6 +855,10 @@ codeunit 50200 "PSI Prepare Message"
         LTxt_F015: Text[32];
         LTxt_Padstr: Text[50];
     begin
+        //CS101 Begin
+        IF (GRec_GLSetup."Exclude Zero Balance (JD)") AND (rec_MsgCollection.Quantity = 0) THEN
+            EXIT;
+        //CS101 End
 
         CLEAR(LTxt_F001);
         CLEAR(LTxt_F002);
@@ -938,6 +943,27 @@ codeunit 50200 "PSI Prepare Message"
         LTxt_F010 := STRSUBSTNO('%1',
            DELCHR(LTxt_Padstr + DELCHR(FORMAT(rec_MsgCollection."Inventory Amount", 0, '<Precision,4><Standard Format,1>'), '=', '.')), '=', ',');
 
+        //CS101 Begin
+        IF GRec_GLSetup."Get Purch. Price (JD)" THEN BEGIN
+            IF (rec_MsgCollection."PC. Currency Code" <> '') AND (rec_MsgCollection."PC. Unit Cost" > 0) THEN BEGIN
+                //Currency Code
+                LTxt_F008 := STRSUBSTNO('%1', DELCHR(PADSTR(rec_MsgCollection."PC. Currency Code", 3), '=', ','));
+                IF rec_MsgCollection."Currency Code" = '' THEN LTxt_F008 := PADSTR('', 3);
+
+                //Inventory Price
+                LTxt_Padstr :=
+                  PADSTR('', 13 - STRLEN(DELCHR(FORMAT(rec_MsgCollection."PC. Unit Cost", 0, '<Precision,4><Standard Format,1>'), '=', '.')), '0');
+                LTxt_F009 := STRSUBSTNO('%1',
+                    DELCHR(LTxt_Padstr + DELCHR(FORMAT(rec_MsgCollection."PC. Unit Cost", 0, '<Precision,4><Standard Format,1>'), '=', '.')), '=', ',');
+
+                //Inventory Amount
+                LTxt_Padstr :=
+                  PADSTR('', 16 - STRLEN(DELCHR(FORMAT(rec_MsgCollection."PC. Inventory Amount", 0, '<Precision,4><Standard Format,1>'), '=', '.')), '0');
+                LTxt_F010 := STRSUBSTNO('%1',
+                   DELCHR(LTxt_Padstr + DELCHR(FORMAT(rec_MsgCollection."PC. Inventory Amount", 0, '<Precision,4><Standard Format,1>'), '=', '.')), '=', ',');
+            END;
+        END;
+        //CS101 End
         GTxt_Text01 := STRSUBSTNO('%1%2%3%4%5%6%7%8%9%10',
                               LTxt_F001, LTxt_F002, LTxt_F003, LTxt_F004, LTxt_F005, LTxt_F006, LTxt_F007, LTxt_F008, LTxt_F009, LTxt_F010);
 
@@ -1219,10 +1245,12 @@ codeunit 50200 "PSI Prepare Message"
                     //GFle_File_1.WRITE(STRSUBSTNO('%1%2',GTxt_Text01,Gtxt_Text02));
                     InsertDataInBuffer(STRSUBSTNO('%1%2', GTxt_Text01, Gtxt_Text02));
 
-                    "Message Status" := "Message Status"::Sent;
-                    "File Sent By" := USERID;
-                    "File Sent On" := TODAY;
-                    MODIFY;
+                /* Move this update to API page during BC upgrade.
+                "Message Status" := "Message Status"::Sent;
+                "File Sent By" := USERID;
+                "File Sent On" := TODAY;
+                MODIFY;
+                */
 
                 UNTIL NEXT = 0;
 

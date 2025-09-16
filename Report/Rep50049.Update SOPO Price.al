@@ -49,7 +49,9 @@ report 50049 "Update SO/PO Price"
                         PriceList.SETRANGE("Starting Date", 0D, SalesTargetDate);
                         PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, SalesTargetDate);
                         IF PriceList.COUNT > 1 THEN begin
-                            WriteSOPOLog("Sales Line", SalesTargetDate, 0, 0, TextMsgDuplicate);
+
+                            WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", 0, TextMsgDuplicate);
+
                             CntError := CntError + 1;
                             CurrReport.Break();
                         end;
@@ -60,26 +62,22 @@ report 50049 "Update SO/PO Price"
 
                         IF "Unit Price" <> UnitPrice THEN BEGIN
 
-                            if RunForTestReport then begin
-                                WriteTestReportData("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
-                            end else begin
+                            WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
 
-                                WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
-
-                                //SuspendStatusCheck(TRUE);
-                                VALIDATE("Unit Price", UnitPrice);
-                                MODIFY;
-                            end;
-
-                            CntUpdated := CntUpdated + 1;
-
+                            //SuspendStatusCheck(TRUE);
+                            VALIDATE("Unit Price", UnitPrice);
+                            MODIFY;
                         end;
+
+                        CntUpdated := CntUpdated + 1;
+
                     end;
                 end;
 
                 trigger OnPreDataItem()
                 begin
                     "Sales Line".SetFilter("Unit Price", '<>%1', 0);
+                    "Sales Line".SetRange("Price Target Update", true);
 
                 end;
             }
@@ -120,7 +118,8 @@ report 50049 "Update SO/PO Price"
                         PriceList.SETRANGE("Starting Date", 0D, PurchTargetDate);
                         PriceList.SETFILTER("Ending Date", '%1|>=%2', 0D, PurchTargetDate);
                         IF PriceList.COUNT > 1 THEN begin
-                            WriteSOPOLog("Purchase Line", PurchTargetDate, 0, 0, TextMsgDuplicate);
+                            WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", 0, TextMsgDuplicate);
+
                             CntError := CntError + 1;
                             CurrReport.Break();
                         end;
@@ -130,25 +129,21 @@ report 50049 "Update SO/PO Price"
                         END;
 
                         IF "Direct Unit Cost" <> DirectUnitCost THEN BEGIN
+                            WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
 
-                            if RunForTestReport then begin
-                                WriteTestReportData("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
-                            end else begin
-                                WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
-
-                                //SuspendStatusCheck(TRUE);
-                                VALIDATE("Direct Unit Cost", DirectUnitCost);
-                                MODIFY;
-                            end;
-
-                            CntUpdated := CntUpdated + 1;
+                            //SuspendStatusCheck(TRUE);
+                            VALIDATE("Direct Unit Cost", DirectUnitCost);
+                            MODIFY;
                         end;
+
+                        CntUpdated := CntUpdated + 1;
                     end;
                 end;
 
                 trigger OnPreDataItem()
                 begin
                     "Purchase Line".SetFilter("Direct Unit Cost", '<>%1', 0);
+                    "Purchase Line".SetRange("Price Target Update", true);
                 end;
             }
 
@@ -162,9 +157,7 @@ report 50049 "Update SO/PO Price"
             begin
                 Window.CLOSE;
 
-                if not RunForTestReport then
-                    Message(TextMsgResult, Format(CntUpdated), Format(CntError));
-
+                Message(TextMsgResult, Format(CntUpdated), Format(CntError));
 
             end;
 
@@ -208,11 +201,10 @@ report 50049 "Update SO/PO Price"
 
                 Window.OPEN(Text001 + Text002 + Text003);
 
-                SOPOEntryNo := 0;
-                if SOPOPrice.FindLast() then begin
-                    SOPOEntryNo := SOPOPrice."Entry No.";
-                end;
             end;
+
+
+
         }
     }
 
@@ -269,14 +261,19 @@ report 50049 "Update SO/PO Price"
     trigger OnInitReport()
 
     begin
-        RecForTestReport.DeleteAll();
+        SOPOEntryNo := 0;
+        if SOPOPrice.FindLast() then begin
+            SOPOEntryNo := SOPOPrice."Entry No.";
+        end;
+
+        CurDateTime := System.CurrentDateTime;
     end;
 
+
     var
-        RunForTestReport: Boolean;
-        RecForTestReport: Record "Update SOPO Price" temporary;
         ItemFilter: Text;
         ReqTargetDate: Date;
+        CurDateTime: DateTime;
         Window: Dialog;
         Text001: Label 'Updating Price...\\';
         Text002: Label 'Item No. #1####################\';
@@ -321,7 +318,7 @@ report 50049 "Update SO/PO Price"
         RecSOPOPrice."Quantity Invoiced" := pSalesLine."Quantity Invoiced";
         RecSOPOPrice."Quantity" := pSalesLine.Quantity;
         RecSOPOPrice."Error Message" := pErrMsg;
-        RecSOPOPrice."Log DateTime" := System.CurrentDateTime;
+        RecSOPOPrice."Log DateTime" := CurDateTime;
         RecSOPOPrice."User ID" := Database.UserId;
 
         RecSOPOPrice.Insert();
@@ -348,121 +345,11 @@ report 50049 "Update SO/PO Price"
         RecSOPOPrice."Quantity Invoiced" := pPurchLine."Quantity Invoiced";
         RecSOPOPrice."Quantity" := pPurchLine.Quantity;
         RecSOPOPrice."Error Message" := pErrMsg;
-        RecSOPOPrice."Log DateTime" := System.CurrentDateTime;
+        RecSOPOPrice."Log DateTime" := CurDateTime;
         RecSOPOPrice."User ID" := Database.UserId;
 
         RecSOPOPrice.Insert();
 
     end;
-
-    local procedure WriteTestReportData(pSalesLine: Record "Sales Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
-    var
-        myInt: Integer;
-    begin
-        SOPOEntryNo := SOPOEntryNo + 1;
-
-        RecForTestReport.Init();
-        RecForTestReport."Entry No." := SOPOEntryNo;
-        RecForTestReport."Update Target Date" := pTargetDate;
-        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Sales Order";
-        RecForTestReport."Document No." := pSalesLine."Document No.";
-        RecForTestReport."Line No." := pSalesLine."Line No.";
-        RecForTestReport."Item No." := pSalesLine."No.";
-        RecForTestReport."Item Description" := pSalesLine.Description;
-        RecForTestReport."Old Price" := pOldPrice;
-        RecForTestReport."New Price" := pNewPrice;
-        RecForTestReport."Quantity Invoiced" := pSalesLine."Quantity Invoiced";
-        RecForTestReport."Quantity" := pSalesLine.Quantity;
-        RecForTestReport."Error Message" := pErrMsg;
-        RecForTestReport."Log DateTime" := System.CurrentDateTime;
-        RecForTestReport."User ID" := Database.UserId;
-
-        RecForTestReport.Insert();
-
-    end;
-
-    local procedure WriteTestReportData(pPurchLine: Record "Purchase Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
-    var
-        myInt: Integer;
-    begin
-        SOPOEntryNo := SOPOEntryNo + 1;
-
-        RecForTestReport.Init();
-        RecForTestReport."Entry No." := SOPOEntryNo;
-        RecForTestReport."Update Target Date" := pTargetDate;
-        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Purchase Order";
-        RecForTestReport."Document No." := pPurchLine."Document No.";
-        RecForTestReport."Line No." := pPurchLine."Line No.";
-        RecForTestReport."Item No." := pPurchLine."No.";
-        RecForTestReport."Item Description" := pPurchLine.Description;
-        RecForTestReport."Old Price" := pOldPrice;
-        RecForTestReport."New Price" := pNewPrice;
-        RecForTestReport."Quantity Invoiced" := pPurchLine."Quantity Invoiced";
-        RecForTestReport."Quantity" := pPurchLine.Quantity;
-        RecForTestReport."Error Message" := pErrMsg;
-        RecForTestReport."Log DateTime" := System.CurrentDateTime;
-        RecForTestReport."User ID" := Database.UserId;
-
-        RecForTestReport.Insert();
-
-
-
-
-    end;
-
-    procedure SetTargetDate(pTargetDate: Date)
-    var
-        myInt: Integer;
-    begin
-        ReqTargetDate := pTargetDate;
-    end;
-
-    procedure SetRunForTestReport(pTestReport: Boolean)
-    var
-        myInt: Integer;
-    begin
-        RunForTestReport := pTestReport;
-    end;
-
-    procedure GetTestReportData(var pRecSOPOPrice: Record "Update SOPO Price")
-    var
-        myInt: Integer;
-    begin
-
-
-        //Todo for test only start
-        SOPOEntryNo := SOPOEntryNo + 1;
-
-        RecForTestReport.Init();
-        RecForTestReport."Entry No." := SOPOEntryNo;
-        RecForTestReport."Update Target Date" := ReqTargetDate;
-        RecForTestReport."Document Type" := RecForTestReport."Document Type"::"Purchase Order";
-        RecForTestReport."Document No." := 'Test Doc001';
-        RecForTestReport."Line No." := 10000;
-        RecForTestReport."Item No." := 'Test Item';
-        RecForTestReport."Item Description" := 'Test Item';
-        RecForTestReport."Old Price" := 100;
-        RecForTestReport."New Price" := 200;
-        RecForTestReport."Quantity Invoiced" := 0;
-        RecForTestReport."Quantity" := 10;
-        RecForTestReport."Error Message" := '';
-        RecForTestReport."Log DateTime" := System.CurrentDateTime;
-        RecForTestReport."User ID" := Database.UserId;
-
-        RecForTestReport.Insert();
-        //Todo for test only end
-
-        RecForTestReport.Reset();
-        message(Format(RecForTestReport.Count));
-        if RecForTestReport.FindSet() then
-            repeat
-                pRecSOPOPrice.Init();
-                pRecSOPOPrice.TransferFields(RecForTestReport);
-                pRecSOPOPrice.Insert();
-            until RecForTestReport.Next() = 0;
-
-    end;
-
-
 }
 

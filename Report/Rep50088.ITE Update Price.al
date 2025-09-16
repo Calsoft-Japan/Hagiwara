@@ -2,6 +2,7 @@ report 50088 "ITE Update Price"
 {
     //T20250508.0050 Shawn 2025/05/10
     //CS112 Mei 2025/7/30 UpdatePrice logic changed
+    //CS112 Mei 2025/8/22 If Purchase Price. Currency Code or PC Currency Code is blank, use General Ledger Setup. LCY Code to update inventory trace entry records.
 
     ProcessingOnly = true;
 
@@ -38,7 +39,7 @@ report 50088 "ITE Update Price"
 
     trigger OnPostReport()
     var
-        RecPurchasePrice: Record "Purchase Price";
+        RecPurchasePrice: Record "Price List Line";
         RecInventoryTraceEntry: Record "Inventory Trace Entry";
         RecInventorySetup: Record "Inventory Setup";
     begin
@@ -57,7 +58,9 @@ report 50088 "ITE Update Price"
         IF RecItem.FINDSET() THEN BEGIN
             REPEAT
                 RecPurchasePrice.RESET();
-                RecPurchasePrice.SETRANGE("Item No.", RecItem."No.");
+                RecPurchasePrice.SETRANGE("Price Type", RecPurchasePrice."Price Type"::Purchase);
+                RecPurchasePrice.SETRANGE(Status, RecPurchasePrice.Status::Active);
+                RecPurchasePrice.SETRANGE("Asset No.", RecItem."No.");
                 //CS112 Begin
                 //RecPurchasePrice.SETFILTER("Starting Date",'>=%1',StartingDate);
                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', IteEndDateForUpdatePrice);
@@ -112,6 +115,9 @@ report 50088 "ITE Update Price"
                                         RecInventoryTraceEntry."SLS. Purchase Currency" := RecPurchasePrice."Currency Code";
                                         RecInventoryTraceEntry."SLS. Purchase Price" := RecPurchasePrice."Direct Unit Cost";
                                     END;
+                                END;
+                                IF (RecInventoryTraceEntry."SLS. Purchase Currency" = '') THEN BEGIN
+                                    RecInventoryTraceEntry."SLS. Purchase Currency" := RecGeneralLedgerSetup."LCY Code";
                                 END;
                                 //CS112 End
 

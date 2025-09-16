@@ -6,7 +6,7 @@ pageextension 55802 ValueEntriesExt extends "Value Entries"
         addafter("Item No.")
         {
 
-            field("Item Description"; Rec.ItemDesc)
+            field("Item Desc"; Rec.ItemDesc)
             {
                 ApplicationArea = all;
             }

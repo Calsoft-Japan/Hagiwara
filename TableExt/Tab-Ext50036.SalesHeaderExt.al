@@ -92,7 +92,7 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
             // cleaned
         }
-        field(50021; "To"; Text[30])
+        field(50021; To; Text[30])
         {
             // cleaned
         }
@@ -390,6 +390,7 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
     trigger OnAfterInsert()
     begin
         "Shipment Tracking Date" := WORKDATE;
+        Modify();
     end;
 
     local procedure UpdateSalesLines_Ext(ChangedFieldName: Text[100]; AskQuestion: Boolean)

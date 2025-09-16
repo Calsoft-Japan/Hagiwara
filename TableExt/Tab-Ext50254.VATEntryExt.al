@@ -148,5 +148,69 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
         {
             Description = 'SKLV6.0';
         }
+        field(50035; "GST Rate"; Decimal)
+        {
+        }
+        field(50036; "From"; Text[30])
+        {
+        }
     }
+    trigger OnInsert()
+    var
+        //PurchaseHeader: Record "Purchase Header";
+        PurchInvHeader: Record "Purch. Inv. Header";
+        PurchCrMemoHdr: Record "Purch. Cr. Memo Hdr.";
+        //SalesHeader: Record "Sales Header";
+        SalesInvoiceHeader: Record "Sales Invoice Header";
+        SalesCrMemoHeader: Record "Sales Cr.Memo Header";
+    begin
+        case Rec.Type of
+            Rec.Type::Sale:
+                begin
+                    CASE Rec."Document Type" OF
+                        Rec."Document Type"::Invoice:
+                            begin
+                                SalesInvoiceHeader.Reset();
+                                SalesInvoiceHeader.SetRange("No.", Rec."Document No.");
+                                SalesInvoiceHeader.SetRange("Posting Date", Rec."Posting Date");
+                                if SalesInvoiceHeader.FindFirst() then begin
+                                    Rec.From := SalesInvoiceHeader.From;
+                                end;
+                            end;
+                        Rec."Document Type"::"Credit Memo":
+                            begin
+                                SalesCrMemoHeader.Reset();
+                                SalesCrMemoHeader.SetRange("No.", Rec."Document No.");
+                                SalesCrMemoHeader.SetRange("Posting Date", Rec."Posting Date");
+                                if SalesCrMemoHeader.FindFirst() then begin
+                                    Rec.From := SalesCrMemoHeader.From;
+                                end;
+                            end;
+                    end;
+                end;
+            Rec.Type::Purchase:
+                begin
+                    CASE Rec."Document Type" OF
+                        Rec."Document Type"::Invoice:
+                            begin
+                                PurchInvHeader.Reset();
+                                PurchInvHeader.SetRange("No.", Rec."Document No.");
+                                PurchInvHeader.SetRange("Posting Date", Rec."Posting Date");
+                                if PurchInvHeader.FindFirst() then begin
+                                    Rec."GST Rate" := PurchInvHeader."GST Rate";
+                                end;
+                            end;
+                        Rec."Document Type"::"Credit Memo":
+                            begin
+                                PurchCrMemoHdr.Reset();
+                                PurchCrMemoHdr.SetRange("No.", Rec."Document No.");
+                                PurchCrMemoHdr.SetRange("Posting Date", Rec."Posting Date");
+                                if PurchCrMemoHdr.FindFirst() then begin
+                                    Rec."GST Rate" := PurchCrMemoHdr."GST Rate";
+                                end;
+                            end;
+                    end;
+                end;
+        end;
+    end;
 }

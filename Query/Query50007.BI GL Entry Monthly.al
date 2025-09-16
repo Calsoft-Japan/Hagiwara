@@ -16,8 +16,8 @@ query 50007 "BI GL Entry Monthly"
         dataitem(GLE; "G/L Entry")
         {
             // Use these two in the client to extract Year and Month
-            column(Year_Posting_Date; "Posting Date") { }
-            column(Month_Posting_Date; "Posting Date") { }
+            column(Year_Posting_Date; "Posting Date") { Method = Year; }
+            column(Month_Posting_Date; "Posting Date") { Method = Month; }
 
             // Grouping keys per FDD
             column(Document_Type; "Document Type") { }

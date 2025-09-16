@@ -109,7 +109,7 @@ codeunit 50021 "ORE Send Message"
                     HistoryEntryNo := OREMessageHistory."Entry No.";
                     RevRoutingAddr := OREMessageHistory."Reverse Routing Address";
                     RevRoutingAddrSD := OREMessageHistory."Reverse Routing Address (SD)";
-                    InsertDataInBuffer();
+                    InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
                     LineNumber := 1;
@@ -141,29 +141,36 @@ codeunit 50021 "ORE Send Message"
                                     SaveString := SaveString + OREMessageCollectionORDERS."ORE Customer Name" + lineTab2 + FORMAT(OREMessageCollectionORDERS."Direct Unit Cost") + lineTab2 + FORMAT(OREMessageCollectionORDERS."ORE Line No.") + lineTab2;
                                     SaveString := SaveString + FORMAT(OREMessageCollectionORDERS."Requested Receipt Date", 8, '<Year4><Month,2><Day,2>') + lineTab2 + FORMAT(CountLine) + lineTab2 + FORMAT(OREMessageCollectionORDERS."Line No.");
 
-                                    PurchaseLine.RESET;
-                                    PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDERS."Line No.");
-                                    PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDERS."Order No.");
-                                    PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
-                                    PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                                    IF PurchaseLine.FIND('-') THEN BEGIN
-                                        REPEAT
-                                            PurchaseLine."ORE Message Status" := PurchaseLine."ORE Message Status"::Sent;
-                                            PurchaseLine.MODIFY(TRUE);
-                                        UNTIL PurchaseLine.NEXT = 0;
-                                    END;
                                     LineNumber := LineNumber + 1;
-                                    OREMessageCollectionORDERS."Message Status" := OREMessageCollectionORDERS."Message Status"::Sent;
-                                    OREMessageCollectionORDERS.MODIFY(TRUE);
 
                                     InsertDataInBuffer(); //BC Upgrade
+
+                                //Status change moved to API.
+                                /*
+                                PurchaseLine.RESET;
+                                PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDERS."Line No.");
+                                PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDERS."Order No.");
+                                PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
+                                PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
+                                IF PurchaseLine.FIND('-') THEN BEGIN
+                                    REPEAT
+                                        PurchaseLine."ORE Message Status" := PurchaseLine."ORE Message Status"::Sent;
+                                        PurchaseLine.MODIFY(TRUE);
+                                    UNTIL PurchaseLine.NEXT = 0;
+                                END;
+                                OREMessageCollectionORDERS."Message Status" := OREMessageCollectionORDERS."Message Status"::Sent;
+                                OREMessageCollectionORDERS.MODIFY(TRUE);
+                                */
+
                                 UNTIL OREMessageCollectionORDERS.NEXT = 0;
                             END;
 
-                            OREMessageHistory1."File Sent By" := USERID;
-                            OREMessageHistory1."File Sent On" := CURRENTDATETIME;
-                            OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
-                            OREMessageHistory1.MODIFY(TRUE);
+                        /*
+                        OREMessageHistory1."File Sent By" := USERID;
+                        OREMessageHistory1."File Sent On" := CURRENTDATETIME;
+                        OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
+                        OREMessageHistory1.MODIFY(TRUE);
+                        */
 
                         UNTIL OREMessageHistory1.NEXT = 0;
 
@@ -235,7 +242,7 @@ codeunit 50021 "ORE Send Message"
                     HistoryEntryNo := OREMessageHistory."Entry No.";
                     RevRoutingAddr := OREMessageHistory."Reverse Routing Address";
                     RevRoutingAddrSD := OREMessageHistory."Reverse Routing Address (SD)";
-                    InsertDataInBuffer();
+                    InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
                     LineNumber := 1;
@@ -266,29 +273,36 @@ codeunit 50021 "ORE Send Message"
                                     SaveString := SaveString + FORMAT(OREMessageCollectionORDCHG.Quantity, 0, 2) + lineTab2 + 'PCE' + lineTab2 + FORMAT(OREMessageCollectionORDCHG."ORE Line No.") + lineTab2;
                                     SaveString := SaveString + FORMAT(OREMessageCollectionORDCHG."Requested Receipt Date", 8, '<Year4><Month,2><Day,2>') + lineTab2 + FORMAT(CountLine) + lineTab2 + FORMAT(OREMessageCollectionORDCHG."Line No.");
 
-                                    PurchaseLine.RESET;
-                                    PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDCHG."Line No.");
-                                    PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDCHG."Order No.");
-                                    PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
-                                    PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                                    IF PurchaseLine.FIND('-') THEN BEGIN
-                                        REPEAT
-                                            PurchaseLine."ORE Change Status" := PurchaseLine."ORE Change Status"::Sent;
-                                            PurchaseLine.MODIFY(TRUE);
-                                        UNTIL PurchaseLine.NEXT = 0;
-                                    END;
                                     LineNumber := LineNumber + 1;
-                                    OREMessageCollectionORDCHG."Message Status" := OREMessageCollectionORDCHG."Message Status"::Sent;
-                                    OREMessageCollectionORDCHG.MODIFY(TRUE);
-
                                     InsertDataInBuffer(); //BC Upgrade
+
+                                //Status change moved to API.
+                                /*
+                                PurchaseLine.RESET;
+                                PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDCHG."Line No.");
+                                PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDCHG."Order No.");
+                                PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
+                                PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
+                                IF PurchaseLine.FIND('-') THEN BEGIN
+                                    REPEAT
+                                        PurchaseLine."ORE Change Status" := PurchaseLine."ORE Change Status"::Sent;
+                                        PurchaseLine.MODIFY(TRUE);
+                                    UNTIL PurchaseLine.NEXT = 0;
+                                END;
+                                OREMessageCollectionORDCHG."Message Status" := OREMessageCollectionORDCHG."Message Status"::Sent;
+                                OREMessageCollectionORDCHG.MODIFY(TRUE);
+                                */
+
                                 UNTIL OREMessageCollectionORDCHG.NEXT = 0;
                             END;
 
-                            OREMessageHistory1."File Sent By" := USERID;
-                            OREMessageHistory1."File Sent On" := CURRENTDATETIME;
-                            OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
-                            OREMessageHistory1.MODIFY(TRUE);
+
+                        /*
+                        OREMessageHistory1."File Sent By" := USERID;
+                        OREMessageHistory1."File Sent On" := CURRENTDATETIME;
+                        OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
+                        OREMessageHistory1.MODIFY(TRUE);
+                        */
 
                         UNTIL OREMessageHistory1.NEXT = 0;
 
@@ -368,7 +382,7 @@ codeunit 50021 "ORE Send Message"
                     HistoryEntryNo := OREMessageHistory."Entry No.";
                     RevRoutingAddr := OREMessageHistory."Reverse Routing Address";
                     RevRoutingAddrSD := OREMessageHistory."Reverse Routing Address (SD)";
-                    InsertDataInBuffer();
+                    InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
                     LineNumber := 1;
@@ -411,17 +425,23 @@ codeunit 50021 "ORE Send Message"
                                     //CS089
 
                                     LineNumber := LineNumber + 1;
-                                    OREMessageCollectionINVRPT."Message Status" := OREMessageCollectionINVRPT."Message Status"::Sent;
-                                    OREMessageCollectionINVRPT.MODIFY(TRUE);
-
                                     InsertDataInBuffer(); //BC Upgrade
+
+                                //Status change moved to API.
+                                /*
+                                OREMessageCollectionINVRPT."Message Status" := OREMessageCollectionINVRPT."Message Status"::Sent;
+                                OREMessageCollectionINVRPT.MODIFY(TRUE);
+                                */
+
                                 UNTIL OREMessageCollectionINVRPT.NEXT = 0;
                             END;
 
-                            OREMessageHistory1."File Sent By" := USERID;
-                            OREMessageHistory1."File Sent On" := CURRENTDATETIME;
-                            OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
-                            OREMessageHistory1.MODIFY(TRUE);
+                        /*
+                        OREMessageHistory1."File Sent By" := USERID;
+                        OREMessageHistory1."File Sent On" := CURRENTDATETIME;
+                        OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
+                        OREMessageHistory1.MODIFY(TRUE);
+                        */
 
                         UNTIL OREMessageHistory1.NEXT = 0;
 
@@ -508,7 +528,7 @@ codeunit 50021 "ORE Send Message"
                     HistoryEntryNo := OREMessageHistory."Entry No.";
                     RevRoutingAddr := OREMessageHistory."Reverse Routing Address";
                     RevRoutingAddrSD := OREMessageHistory."Reverse Routing Address (SD)";
-                    InsertDataInBuffer();
+                    InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
                     LineNumber := 1;
@@ -578,16 +598,22 @@ codeunit 50021 "ORE Send Message"
                                     //CS089
 
                                     LineNumber := LineNumber + 1;
-                                    OREMessageCollectionSLSRPT."Message Status" := OREMessageCollectionSLSRPT."Message Status"::Sent;
-                                    OREMessageCollectionSLSRPT.MODIFY(TRUE);
-
                                     InsertDataInBuffer(); //BC Upgrade
+
+                                //Status change moved to API.
+                                /*
+                                OREMessageCollectionSLSRPT."Message Status" := OREMessageCollectionSLSRPT."Message Status"::Sent;
+                                OREMessageCollectionSLSRPT.MODIFY(TRUE);
+                                */
+
                                 UNTIL OREMessageCollectionSLSRPT.NEXT = 0;
 
+                                /*
                                 OREMessageHistory1."File Sent By" := USERID;
                                 OREMessageHistory1."File Sent On" := CURRENTDATETIME;
                                 OREMessageHistory1."Message Status" := OREMessageHistory."Message Status"::Sent;
                                 OREMessageHistory1.MODIFY(TRUE);
+                                */
 
                             END;
                         UNTIL OREMessageHistory1.NEXT = 0;

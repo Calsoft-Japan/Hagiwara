@@ -22,6 +22,8 @@ query 50011 "BI Customer Ledger Entry"
 
             column(ExternalDocumentNo; "External Document No.") { }
 
+            column(DocumentNo; "Document No.") { }
+
             column(CustomerNo; "Customer No.") { }
 
             column(MessageToRecipient; "Message to Recipient") { }
@@ -29,6 +31,8 @@ query 50011 "BI Customer Ledger Entry"
             column(Description; Description) { }
 
             column(CurrencyCode; "Currency Code") { }
+
+            column(Original_Amount; "Original Amount") { }
 
             column(RemainingAmount; "Remaining Amount") { }
 
@@ -54,7 +58,9 @@ query 50011 "BI Customer Ledger Entry"
 
             column(EntryNo; "Entry No.") { }
 
-            column(exportedToPaymentFile; "exported to payment file") { }
+            column(Exported_to_Payment_File; "exported to payment file") { }
+
+            column(Amount__LCY_; "Amount (LCY)") { }
 
             column(Amount; Amount) { }
 
@@ -70,14 +76,15 @@ query 50011 "BI Customer Ledger Entry"
 
             column(Reversed; Reversed) { }
 
-            // Ensure the field "Reversal by Entry No." exists in "Cust. Ledger Entry" table.
-            // If not, use a valid field or set Method = Count.
-            // Example using Method = Count:
-            column(Reversal_by_Entry_No) { Method = Count; }
+            column(Reversed_by_Entry_No; "Reversed by Entry No.") { }
 
             column(Reversed_Entry_No; "Reversed Entry No.") { }
 
             column(SalespersonCode; "Salesperson Code") { }
+
+            column(Source_Code; "Source Code") { }
+
+            column(User_ID; "User ID") { }
 
         }
     }

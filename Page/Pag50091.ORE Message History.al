@@ -5,9 +5,12 @@ page 50091 "ORE Message History"
     ApplicationArea = All;
     UsageCategory = Lists;
     DeleteAllowed = false;
+    //TODO for test.
+    /*
     Editable = false;
     InsertAllowed = false;
     ModifyAllowed = false;
+    */
     PageType = List;
     SourceTable = "ORE Message History";
 
@@ -76,13 +79,9 @@ page 50091 "ORE Message History"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Collect Message';
                     Image = "Report";
-                    Promoted = false;
-                    //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedCategory = "Report";
-                    //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedIsBig = false;
-                    //The property 'PromotedOnly' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedOnly = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -143,13 +142,9 @@ page 50091 "ORE Message History"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Send Message';
                     Image = "Report";
-                    Promoted = false;
-                    //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedCategory = "Report";
-                    //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedIsBig = false;
-                    //The property 'PromotedOnly' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedOnly = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -184,13 +179,9 @@ page 50091 "ORE Message History"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Cancel Message';
                     Image = "Report";
-                    Promoted = false;
-                    //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedCategory = "Report";
-                    //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedIsBig = false;
-                    //The property 'PromotedOnly' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedOnly = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
 
                     trigger OnAction()
                     begin
@@ -281,13 +272,9 @@ page 50091 "ORE Message History"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Open Message Collection';
                     Image = "Report";
-                    Promoted = false;
-                    //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedCategory = "Report";
-                    //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedIsBig = false;
-                    //The property 'PromotedOnly' can only be set if the property 'Promoted' is set to 'true'
-                    //PromotedOnly = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
 
                     trigger OnAction()
                     begin

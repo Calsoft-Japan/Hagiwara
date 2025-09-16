@@ -1,11 +1,9 @@
-//FDD301 page for the NBKAPI INSTOKUCD.
 page 50200 "PSI Get Message"
 {
-    ApplicationArea = All;
     Caption = 'PSI Get Message';
     PageType = API;
     APIPublisher = 'Calsoft';
-    APIGroup = 'PSI';
+    APIGroup = 'HWBC';
     APIVersion = 'v2.0';
     EntitySetCaption = 'PSIGetMessage';
     EntitySetName = 'PSIGetMessage';
@@ -13,7 +11,6 @@ page 50200 "PSI Get Message"
     EntityName = 'PSIGetMessage';
     ODataKeyFields = "Entry No.";
     SourceTable = "Send Message Buffer";
-    UsageCategory = Administration;
     DelayedInsert = true;
     DeleteAllowed = false;
     ModifyAllowed = false;

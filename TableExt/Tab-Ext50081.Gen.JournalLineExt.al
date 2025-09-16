@@ -237,5 +237,8 @@ tableextension 50081 "Gen. Journal Line Ext" extends "Gen. Journal Line"
             Description = 'SKLN6.0';
             TableRelation = "No. Series";
         }
+        field(50042; "GST Rate"; Decimal)
+        {
+        }
     }
 }

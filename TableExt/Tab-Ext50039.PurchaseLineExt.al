@@ -111,10 +111,6 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         {
             Editable = true;
         }
-        field(50517; "Country/Region of Origin Code"; Code[10])
-        {
-            Caption = 'Country/Region of Origin Code';
-        }
         field(50527; "Purchaser Code"; Code[10])
         {
             TableRelation = "Salesperson/Purchaser";
@@ -161,6 +157,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             Description = 'SKHE20121011';
             Editable = true;
 
+        }
+        field(50617; "Country/Region of Origin Code"; Code[10])
+        {
+            Caption = 'Country/Region of Origin Code';
         }
 
         modify(Type)
@@ -359,6 +359,8 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                             ELSE BEGIN
                                 "ORE Line No." := 1;
                             END;
+
+                            Modify();
                         END;
                     END;
                 END;
@@ -388,6 +390,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                         IF (Item."One Renesas EDI") THEN BEGIN
                             IF (xRec.Quantity <> Rec.Quantity) OR (xRec."Requested Receipt Date_1" <> Rec."Requested Receipt Date_1") THEN BEGIN
                                 "ORE Change Status" := "ORE Change Status"::Changed;
+                                Modify();
                             END;
                         END;
                     END;
@@ -413,6 +416,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                                 "ORE Change Status" := "ORE Change Status"::"Not Applicable";
                             END;
                         END;
+                        Modify();
                     END;
                 END;
             END;

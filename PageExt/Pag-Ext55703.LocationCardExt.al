@@ -5,10 +5,12 @@ pageextension 55703 LocationCardExt extends "Location Card"
 
         addafter(Contact)
         {
+            /* MS Base equipped. 
             field("County"; Rec."COUNTY")
             {
                 ApplicationArea = all;
             }
+            */
 
             field("Attention1"; Rec."ATTENTION1")
             {

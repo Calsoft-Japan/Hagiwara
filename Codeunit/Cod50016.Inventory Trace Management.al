@@ -61,7 +61,7 @@ codeunit 50016 "Inventory Trace Management"
         RecPurchRcptLine: Record "Purch. Rcpt. Line";
         RecItem: Record "Item";
         RecCustomer: Record "Customer";
-        RecPurchasePrice: Record "Purchase Price";
+        RecPurchasePrice: Record "Price List Line";
         RecVendor: Record "Vendor";
         RecPurchRcptHeader: Record "Purch. Rcpt. Header";
         RecSalesShipmentHeader: Record "Sales Shipment Header";
@@ -220,7 +220,7 @@ codeunit 50016 "Inventory Trace Management"
                         RecInventoryTraceEntry."Vendor Name" := RecVendor.Name;
 
                         RecPurchasePrice.RESET();
-                        RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                        RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                         RecPurchasePrice.SETCURRENTKEY("Starting Date");
                         RecPurchasePrice.ASCENDING(FALSE);
                         RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -375,7 +375,7 @@ codeunit 50016 "Inventory Trace Management"
             //          RecInventoryTraceEntry."Vendor Name" := RecVendor.Name;
             //
             //          RecPurchasePrice.RESET();
-            //          RecPurchasePrice.SETRANGE("Item No.",RecInventoryTraceEntry."Item No");
+            //          RecPurchasePrice.SETRANGE("Asset No.",RecInventoryTraceEntry."Item No");
             //          RecPurchasePrice.SETCURRENTKEY("Starting Date");
             //          RecPurchasePrice.ASCENDING(FALSE);
             //          RecPurchasePrice.SETFILTER("Starting Date",'<=%1',RecInventoryTraceEntry."Posting Date");
@@ -617,7 +617,7 @@ codeunit 50016 "Inventory Trace Management"
                                 RecInventoryTraceEntry."Vendor Name" := RecVendor.Name;
 
                                 RecPurchasePrice.RESET();
-                                RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                                RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                 RecPurchasePrice.ASCENDING(FALSE);
                                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -782,7 +782,7 @@ codeunit 50016 "Inventory Trace Management"
                             RecInventoryTraceEntry."Purch. Hagiwara Group" := RecVendor."Hagiwara Group";
 
                             RecPurchasePrice.RESET();
-                            RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                            RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                             RecPurchasePrice.SETCURRENTKEY("Starting Date");
                             RecPurchasePrice.ASCENDING(FALSE);
                             RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -897,7 +897,7 @@ codeunit 50016 "Inventory Trace Management"
                                     //RecInventoryTraceEntry."New Ship&Debit Flag" := TempInventoryTraceEntry."Ship&Debit Flag";
 
                                     RecPurchasePrice.RESET();
-                                    RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                                    RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                                     RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                     RecPurchasePrice.ASCENDING(FALSE);
                                     RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -995,7 +995,7 @@ codeunit 50016 "Inventory Trace Management"
                             END;
 
                             RecPurchasePrice.RESET();
-                            RecPurchasePrice.SETRANGE("Item No.",RecInventoryTraceEntry."Item No");
+                            RecPurchasePrice.SETRANGE("Asset No.",RecInventoryTraceEntry."Item No");
                             RecPurchasePrice.SETCURRENTKEY("Starting Date");
                             RecPurchasePrice.ASCENDING(FALSE);
                             RecPurchasePrice.SETFILTER("Starting Date",'<=%1',RecInventoryTraceEntry."Posting Date");
@@ -1142,7 +1142,7 @@ codeunit 50016 "Inventory Trace Management"
                                 RecInventoryTraceEntry."Vendor Name" := RecVendor.Name;
 
                                 RecPurchasePrice.RESET();
-                                RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                                RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                 RecPurchasePrice.ASCENDING(FALSE);
                                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1322,7 +1322,7 @@ codeunit 50016 "Inventory Trace Management"
                     RecInventoryTraceEntry."Purch. Hagiwara Group" := RecVendor."Hagiwara Group";
 
                     RecPurchasePrice.RESET();
-                    RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                    RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                     RecPurchasePrice.SETCURRENTKEY("Starting Date");
                     RecPurchasePrice.ASCENDING(FALSE);
                     RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1492,7 +1492,7 @@ codeunit 50016 "Inventory Trace Management"
             RecInventoryTraceEntry."Purch. Hagiwara Group" := RecVendor."Hagiwara Group";
 
             RecPurchasePrice.RESET();
-            RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+            RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
             RecPurchasePrice.SETCURRENTKEY("Starting Date");
             RecPurchasePrice.ASCENDING(FALSE);
             RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1710,7 +1710,7 @@ codeunit 50016 "Inventory Trace Management"
         RecInventoryTraceEntry: Record "Inventory Trace Entry";
         RecPurchRcptLine: Record "Purch. Rcpt. Line";
         RecCustomer: Record "Customer";
-        RecPurchasePrice: Record "Purchase Price";
+        RecPurchasePrice: Record "Price List Line";
         RecPurchRcptHeader: Record "Purch. Rcpt. Header";
         RecSalesShipmentHeader: Record "Sales Shipment Header";
         RecSalesShipmentLine: Record "Sales Shipment Line";
@@ -1804,7 +1804,7 @@ codeunit 50016 "Inventory Trace Management"
                 RecInventoryTraceEntry."Purch. Hagiwara Group" := RecVendor."Hagiwara Group";
 
                 RecPurchasePrice.RESET();
-                RecPurchasePrice.SETRANGE("Item No.", RecInventoryTraceEntry."Item No");
+                RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                 RecPurchasePrice.ASCENDING(FALSE);
                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");

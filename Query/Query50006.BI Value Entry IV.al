@@ -19,7 +19,7 @@ query 50006 "BI Value Entry IV"
 
             column(PostingDate; "Posting Date") { }
 
-            column(SourceType; "Source Type") { }
+            column(Source_No; "Source No.") { }
 
             column(InvoicedQuantity; "Invoiced Quantity") { }
 
