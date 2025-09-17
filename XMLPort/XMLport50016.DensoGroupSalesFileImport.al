@@ -177,6 +177,8 @@ xmlport 50016 "Denso Group Sales File Import"
     }
 
     trigger OnPostXmlPort()
+    var
+        RecItem: Record Item;
     begin
         ImportCounter := 0;
         RecTEMPSalesFileImportBuffer.RESET;
@@ -188,17 +190,17 @@ xmlport 50016 "Denso Group Sales File Import"
         IF RecTEMPSalesFileImportBuffer.FINDSET THEN BEGIN
             REPEAT
 
-                IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") THEN BEGIN
+                IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") OR (SalesHeaderCreated = false) THEN BEGIN
                     Status := RecTEMPSalesFileImportBuffer.Status;
                     ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
-                    IF CreateSalesHeader THEN
+                    IF CreateSalesHeader(RecItem) THEN
                         SalesHeaderCreated := TRUE;
                 END;
 
                 IF SalesHeaderCreated THEN begin
-                    CreateSalesLine;
+                    CreateSalesLine(RecItem);
                 end
                 ELSE begin
                     //InsertDataInBuffer(ErrorMsg);
@@ -213,31 +215,19 @@ xmlport 50016 "Denso Group Sales File Import"
         IF RecTEMPSalesFileImportBuffer.FINDSET THEN BEGIN
             REPEAT
 
-                IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") OR (DeliveryOrder <> RecTEMPSalesFileImportBuffer."Delivery Order") THEN BEGIN
+                IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") OR (DeliveryOrder <> RecTEMPSalesFileImportBuffer."Delivery Order") OR (SalesHeaderCreated = false) THEN BEGIN
                     Status := RecTEMPSalesFileImportBuffer.Status;
                     ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
                     DeliveryOrder := RecTEMPSalesFileImportBuffer."Delivery Order";
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
 
-                    //HG10.00.11 NJ 16/04/2018 -->
-                    SameDOAnswer := TRUE;
-                    RecSalesHeader.RESET;
-                    RecSalesHeader.SETRANGE("Document Type", RecSalesHeader."Document Type"::Order);
-                    RecSalesHeader.SETRANGE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
-                    IF RecSalesHeader.FINDFIRST THEN BEGIN
-                        IF NOT CONFIRM(STRSUBSTNO(Text001, RecTEMPSalesFileImportBuffer."Delivery Order"), FALSE) THEN
-                            SameDOAnswer := FALSE;
-                    END;
-                    IF SameDOAnswer THEN
-                        //HG10.00.11 NJ 16/04/2018 <--
-
-                        IF CreateSalesHeader THEN
-                            SalesHeaderCreated := TRUE;
+                    IF CreateSalesHeader(RecItem) THEN
+                        SalesHeaderCreated := TRUE;
                 END;
 
                 IF SalesHeaderCreated THEN begin
-                    CreateSalesLine;
+                    CreateSalesLine(RecItem);
                 end
                 ELSE begin
                     //InsertDataInBuffer(ErrorMsg);
@@ -264,7 +254,7 @@ xmlport 50016 "Denso Group Sales File Import"
         SalesHeaderCreated: Boolean;
         ErrorMsg: Text[100];
         DeliveryOrder: Code[35];
-        Text001: Label 'Same DO No. %1 exist .Do you want to add this DO.';
+        Text001: Label 'DO No. %1 already exists. Do you want to add this DO?';
         SameDOAnswer: Boolean;
 
     local procedure InsertDataInTemp()
@@ -346,17 +336,52 @@ xmlport 50016 "Denso Group Sales File Import"
         RecSalesFileImportBuffer.INSERT(TRUE);
     end;
 
-    local procedure CreateSalesHeader(): Boolean
+    local procedure CreateSalesHeader(var RecItem: Record Item): Boolean
     var
         RecCustomer: Record Customer;
         SalesHeaderError: Boolean;
     begin
+
+        RecItem.Reset();
+        RecItem.SETRANGE("Customer No.", RecSalesHeader."Sell-to Customer No.");
+        RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
+        IF NOT RecItem.FINDFIRST THEN BEGIN
+            ErrorMsg := 'Item Not Found';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
+        IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
+            ErrorMsg := 'Qty is 0';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
         RecCustomer.SETRANGE("Import File Ship To", RecTEMPSalesFileImportBuffer."Ship To");
         IF NOT RecCustomer.FINDFIRST THEN BEGIN
             ErrorMsg := 'Customer Not Found';
             InsertDataInBuffer(ErrorMsg);
             EXIT(FALSE);
         END;
+
+        //HG10.00.11 NJ 16/04/2018
+        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation-->
+        IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Firm THEN BEGIN
+            SameDOAnswer := TRUE;
+            RecSalesHeader.RESET;
+            RecSalesHeader.SETRANGE("Document Type", RecSalesHeader."Document Type"::Order);
+            RecSalesHeader.SETRANGE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
+            IF RecSalesHeader.FINDFIRST THEN BEGIN
+                IF NOT CONFIRM(STRSUBSTNO(Text001, RecTEMPSalesFileImportBuffer."Delivery Order"), FALSE) THEN BEGIN
+                    SameDOAnswer := FALSE;
+                END;
+            END;
+            IF NOT SameDOAnswer THEN BEGIN
+                EXIT(FALSE);
+            END;
+        END;
+        //HG10.00.11 NJ 16/04/2018
+        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation <--
 
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Planned THEN BEGIN
             RecSalesHeader.RESET;
@@ -397,24 +422,8 @@ xmlport 50016 "Denso Group Sales File Import"
         EXIT(TRUE);
     end;
 
-    local procedure CreateSalesLine(): Boolean
-    var
-        RecItem: Record Item;
+    local procedure CreateSalesLine(var RecItem: Record Item): Boolean
     begin
-        RecItem.SETRANGE("Customer No.", RecSalesHeader."Sell-to Customer No.");
-        RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
-        IF NOT RecItem.FINDFIRST THEN BEGIN
-            ErrorMsg := 'Item Not Found';
-            InsertDataInBuffer(ErrorMsg);
-            EXIT(FALSE);
-        END;
-
-        IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
-            ErrorMsg := 'Qty is 0';
-            InsertDataInBuffer(ErrorMsg);
-            EXIT(FALSE);
-        END;
-
         LineNo := LineNo + 10000;
 
         RecSalesLine.INIT;
