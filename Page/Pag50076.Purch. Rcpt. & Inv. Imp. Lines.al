@@ -119,7 +119,9 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                     trigger OnAction()
                     var
                         cduImporter: Codeunit "Imp. Purch. Rcpt. & Inv. Data";
+                        TransType: Option Receipt,Invoice,ReceiptInvoice;
                     begin
+                        cduImporter.SetTransType(TransType::ReceiptInvoice);
                         cduImporter.Run();
                     end;
                 }

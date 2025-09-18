@@ -123,7 +123,9 @@ page 50073 "Purch. Receipt Import Lines"
                     trigger OnAction()
                     var
                         cduImporter: Codeunit "Imp. Purch. Rcpt. & Inv. Data";
+                        TransType: Option Receipt,Invoice,ReceiptInvoice;
                     begin
+                        cduImporter.SetTransType(TransType::Receipt);
                         cduImporter.Run();
                     end;
                 }
@@ -497,7 +499,7 @@ page 50073 "Purch. Receipt Import Lines"
                     ErrorDesc3 := ',Purchase Order Not Found.'
             END ELSE BEGIN
                 IF p_Staging."Arrival Date" = 0D THEN ErrorDesc5 := ',Arrival Date Must Have Value.';
-                IF p_Staging."Proforma Invoice" = '' THEN ErrorDesc6 := ',Performa Invoice No. Must Have Value.';
+                //IF p_Staging."Proforma Invoice" = '' THEN ErrorDesc6 := ',Performa Invoice No. Must Have Value.'; //BC Upgrade
                 if p_Staging."Receipt No." = '' then ErrorRcptNo := ',Receipt No. Must Have Value';
 
                 IF ItemNo <> '' THEN BEGIN
@@ -507,8 +509,11 @@ page 50073 "Purch. Receipt Import Lines"
                             IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
                                 ErrorDesc7 := ',Customer item is wrong.';
 
+                            //BC Upgrade
+                            /*
                             IF LowerCase(PurchaseLine1.Description) <> LowerCase(p_Staging.Description) THEN
                                 ErrorDesc8 := ',Description is wrong.';
+                            */
 
                             IF PurchaseLine1."Outstanding Quantity" >= p_Staging."Received Qty." THEN
                                 ErrorQty := FALSE;

@@ -9,7 +9,8 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
 
 
     var
-        IsInvoice: Boolean;
+        TransType: Option Receipt,Invoice,ReceiptInvoice;
+
         FileName: Text[250];
         SheetName: Text[100];
 
@@ -18,11 +19,9 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
         NoFileFoundMsg: Label 'No Excel file found!';
         ExcelImportSucess: Label 'Excel is successfully imported.';
 
-    procedure SetInvoice(pInvoice: Boolean)
-    var
-        myInt: Integer;
+    procedure SetTransType(pType: Option Ship,Invoice,ReceiptInvoice)
     begin
-        IsInvoice := pInvoice;
+        TransType := pType;
     end;
 
     local procedure ReadExcelSheet()
@@ -67,17 +66,42 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
             Evaluate(rec_POStaging."Line No.", GetValueAtCell(RowNo, 5));
             Evaluate(rec_POStaging."Arrival Date", GetValueAtCell(RowNo, 6));
             Evaluate(rec_POStaging."Closed Date", GetValueAtCell(RowNo, 7));
-            Evaluate(rec_POStaging."Received Qty.", GetValueAtCell(RowNo, 8));
-            Evaluate(rec_POStaging."Qty. To Invoice", GetValueAtCell(RowNo, 9));
-            Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 10));
-            Evaluate(rec_POStaging."LPN", GetValueAtCell(RowNo, 11));
-            Evaluate(rec_POStaging."Description", GetValueAtCell(RowNo, 12));
-            Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 13));
-            Evaluate(rec_POStaging."Proforma Invoice", GetValueAtCell(RowNo, 14));
-            Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 15));
 
-            if IsInvoice then
+            if TransType = TransType::Receipt then begin
+                Evaluate(rec_POStaging."Received Qty.", GetValueAtCell(RowNo, 8));
+                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 9));
+                Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 10));
+            end;
+
+            if TransType = TransType::Invoice then begin
+                Evaluate(rec_POStaging."Qty. To Invoice", GetValueAtCell(RowNo, 8));
+                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 9));
+                Evaluate(rec_POStaging."Description", GetValueAtCell(RowNo, 10));
+                Evaluate(rec_POStaging."Proforma Invoice", GetValueAtCell(RowNo, 11));
+                if StrLen(GetValueAtCell(RowNo, 12)) > 0 then begin
+                    Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 12));
+                end;
+            end;
+
+            if TransType = TransType::ReceiptInvoice then begin
+                Evaluate(rec_POStaging."Received Qty.", GetValueAtCell(RowNo, 8));
+                Evaluate(rec_POStaging."Qty. To Invoice", GetValueAtCell(RowNo, 9));
+                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 10));
+                Evaluate(rec_POStaging."LPN", GetValueAtCell(RowNo, 11));
+                Evaluate(rec_POStaging."Description", GetValueAtCell(RowNo, 12));
+                Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 13));
+                Evaluate(rec_POStaging."Proforma Invoice", GetValueAtCell(RowNo, 14));
+                if StrLen(GetValueAtCell(RowNo, 15)) > 0 then begin
+                    Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 15));
+                end;
+            end;
+
+            rec_POStaging."Import Date" := Today;
+            rec_POStaging."Import User ID" := database.UserId;
+
+            if TransType = TransType::Invoice then begin
                 rec_POStaging.Received := true; //BC upgrade. (Received is set true while using configuration package in NAV2017.)
+            end;
 
             rec_POStaging.Insert();
         end;

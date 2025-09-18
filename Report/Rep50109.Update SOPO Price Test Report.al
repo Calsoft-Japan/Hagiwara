@@ -256,7 +256,7 @@ report 50109 "Update SO/PO Price Test Report"
             column(QuantityInvoiced; "Quantity Invoiced") { }
             column(Quantity; "Quantity") { }
             column(ErrorMessage; "Error Message") { }
-            column(UpdateTargetDate; FORMAT("Update Target Date", 0, 4)) { }
+            column(UpdateTargetDate; FORMAT("Update Target Date", 0, '<Month,2>/<Day,2>/<Year4>')) { }
             column(LblPage; LblPage) { }
             column(LblDocumentType; LblDocumentType) { }
             column(LblDocumentNo; LblDocumentNo) { }

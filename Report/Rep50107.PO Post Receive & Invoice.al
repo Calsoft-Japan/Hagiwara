@@ -25,6 +25,15 @@ report 50107 "PO Post Receive & Invoice"
                     PurchFound: Boolean;
                 begin
                     PurchFound := FALSE;  //CS023
+
+                    if PurchaseHeader.get(PurchaseHeader."Document Type"::Order, "PO No.") then begin
+                        POStatus := PurchaseHeader.status;
+                        if POStatus <> POStatus::Open then begin
+                            PurchaseHeader.Status := POStatus::Open;
+                            purchaseheader.Modify();
+                        end;
+                    end;
+
                     PurchaseLine.RESET;
                     PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
                     PurchaseLine.SETRANGE("Document No.", "Purch. Receipt Import Staging"."PO No.");
@@ -62,8 +71,7 @@ report 50107 "PO Post Receive & Invoice"
                     //IF DIALOG.CONFIRM('Do You Want To Receive And Invoice', TRUE) THEN BEGIN
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
-                    PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.");
-                    IF PurchaseHeader.FIND THEN BEGIN
+                    if PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.") then begin
                         PurchaseHeader.Receive := TRUE;
                         PurchaseHeader.Invoice := TRUE;
                         PurchaseHeader."Posting No." := '';//22.05.2020
@@ -128,5 +136,6 @@ report 50107 "PO Post Receive & Invoice"
         PurchReceiptImportStaging: Record "Purch. Receipt Import Staging";
         PurchaseHeader2: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
+        POStatus: enum "Purchase Document Status";
 }
 

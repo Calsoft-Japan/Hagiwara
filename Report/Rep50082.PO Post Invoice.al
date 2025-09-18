@@ -64,8 +64,7 @@ report 50082 "PO Post Invoice"
                     //IF DIALOG.CONFIRM('Do You Want To Receive And Invoice', TRUE) THEN BEGIN
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
-                    PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.");
-                    IF PurchaseHeader.FIND THEN BEGIN
+                    if PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "Purch. Receipt Import Staging"."PO No.") then begin
                         //PurchaseHeader.Receive :=TRUE;
                         PurchaseHeader.Invoice := TRUE;
                         PurchaseHeader."Posting No." := '';//22.05.2020
@@ -80,11 +79,11 @@ report 50082 "PO Post Invoice"
                         //110220
 
                         PurchaseHeader2.RESET;
-                        PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "PO No.");
+                        PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "Purch. Receipt Import Staging"."PO No.");
                         //PurchaseHeader2.SETRANGE("Vendor Invoice No.",PurchaseHeader."Vendor Invoice No.");
                         PurchPost.RUN(PurchaseHeader2);
                         PurchReceiptImportStaging.RESET;
-                        PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
+                        PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
                         PurchReceiptImportStaging.SETRANGE("Proforma Invoice", "Purch. Receipt Import Staging"."Proforma Invoice");
                         //PurchReceiptImportStaging.SETRANGE("CO No.","Purch. Receipt Import Staging"."CO No.");
 
