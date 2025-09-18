@@ -461,10 +461,10 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         //SH 04 Nov 12 - Improve PSI Data Mantenance
         //Manual Insert Shipment Line Qty must be Zero since it is not linked to Sales Order
 
-        Quantity := 0;
+        //Quantity := 0; //BC Upgrade
         Insertion := FALSE;
         Edition := FALSE;
-        Correction := FALSE;
+        //Correction := FALSE; //BC Upgrade
 
         IF ((Type = Type::" ") AND (Description = ' ')) THEN BEGIN
             "Message Status" := "Message Status"::" ";

@@ -256,7 +256,7 @@ report 50109 "Update SO/PO Price Test Report"
             column(QuantityInvoiced; "Quantity Invoiced") { }
             column(Quantity; "Quantity") { }
             column(ErrorMessage; "Error Message") { }
-            column(UpdateTargetDate; 'Update Target Date    ' + FORMAT(ReqTargetDate, 0, 4)) { }
+            column(UpdateTargetDate; FORMAT("Update Target Date", 0, 4)) { }
             column(LblPage; LblPage) { }
             column(LblDocumentType; LblDocumentType) { }
             column(LblDocumentNo; LblDocumentNo) { }
@@ -267,6 +267,7 @@ report 50109 "Update SO/PO Price Test Report"
             column(LblNewPrice; LblNewPrice) { }
             column(LblQuantityInvoiced; LblQuantityInvoiced) { }
             column(LblQuantity; LblQuantity) { }
+            column(LblUpdateTargetDate; LblUpdateTargetDate) { }
             column(LblErrorMessage; LblErrorMessage) { }
         }
     }
@@ -368,6 +369,7 @@ report 50109 "Update SO/PO Price Test Report"
         LblNewPrice: Label 'New Price';
         LblQuantityInvoiced: Label 'Quantity Invoiced';
         LblQuantity: Label 'Quantity';
+        LblUpdateTargetDate: Label 'Update Target Date';
         LblErrorMessage: Label 'Error Message';
 
     local procedure WriteSOPOLog(pSalesLine: Record "Sales Line"; pTargetDate: Date; pOldPrice: Decimal; pNewPrice: Decimal; pErrMsg: Text[250])
