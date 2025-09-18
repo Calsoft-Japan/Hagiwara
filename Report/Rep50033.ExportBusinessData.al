@@ -130,7 +130,7 @@ report 50033 "Export Business Data"
         datacompresion.SaveZipArchive(ZipedFile);
         datacompresion.CloseZipArchive();
         TempBlob.CreateInStream(ZipStream);
-        FileName := 'Export Business Data.zip';
+        FileName := 'Export Business Data' + Format(Today()) + '.zip';
         DownloadFromStream(ZipStream, 'Dialog', 'Folder', '', FileName);
     end;
 
@@ -168,9 +168,8 @@ report 50033 "Export Business Data"
     begin
         i := 1;
         ConfigPackageTable.Reset();
-        ConfigPackageTable.SetAutoCalcFields("Table Name");
         ConfigPackageTable.SetRange("Package Code", PackageCode);
-        //ConfigPackageTable.SetRange("Table ID", 21);//test
+        ConfigPackageTable.SetAutoCalcFields("Table Name");
         if ConfigPackageTable.FindFirst() then begin
             repeat
                 FileName := ConfigPackageTable."Export Field Name";
@@ -384,18 +383,14 @@ report 50033 "Export Business Data"
     begin
         CompanyInfo.Get();
         GLSetup.Get();
-        // Create XML Document
         XmlDoc := XmlDocument.Create();
 
-        // Add Declaration
         Declaration := XmlDeclaration.Create('1.0', 'utf-8', 'yes');
         XmlDoc.SetDeclaration(Declaration);
         DOCTYPE := XmlDocumentType.Create('DataSet', 'SYSTEM', 'gdpdu-' + Format(Today, 0, '<Day,2>.<Month,2>.<Year4>') + '.dtd', '');
         XmlDoc.Add(DOCTYPE);
-        // Create Root Element
         Root := XmlElement.Create('DataSet');
 
-        // Add Child Elements
         Child := XmlElement.Create('Version');
 
         Root.Add(Child);
