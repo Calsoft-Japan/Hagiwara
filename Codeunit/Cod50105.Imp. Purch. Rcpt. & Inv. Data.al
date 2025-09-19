@@ -69,17 +69,17 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
 
             if TransType = TransType::Receipt then begin
                 Evaluate(rec_POStaging."Received Qty.", GetValueAtCell(RowNo, 8));
-                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 9));
-                Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 10));
+                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 10));
+                Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 13));
             end;
 
             if TransType = TransType::Invoice then begin
-                Evaluate(rec_POStaging."Qty. To Invoice", GetValueAtCell(RowNo, 8));
-                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 9));
-                Evaluate(rec_POStaging."Description", GetValueAtCell(RowNo, 10));
-                Evaluate(rec_POStaging."Proforma Invoice", GetValueAtCell(RowNo, 11));
-                if StrLen(GetValueAtCell(RowNo, 12)) > 0 then begin
-                    Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 12));
+                Evaluate(rec_POStaging."Qty. To Invoice", GetValueAtCell(RowNo, 9));
+                Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 10));
+                Evaluate(rec_POStaging."Description", GetValueAtCell(RowNo, 12));
+                Evaluate(rec_POStaging."Proforma Invoice", GetValueAtCell(RowNo, 14));
+                if StrLen(GetValueAtCell(RowNo, 15)) > 0 then begin
+                    Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 15));
                 end;
             end;
 
