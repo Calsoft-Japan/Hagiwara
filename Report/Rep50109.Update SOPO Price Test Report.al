@@ -16,7 +16,7 @@ report 50109 "Update SO/PO Price Test Report"
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "No." = FIELD("No.");
-                DataItemTableView = SORTING("Document Type", Type, "No.")
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order),
                                           Type = CONST(Item));
 
@@ -103,7 +103,7 @@ report 50109 "Update SO/PO Price Test Report"
             dataitem("Purchase Line"; "Purchase Line")
             {
                 DataItemLink = "No." = FIELD("No.");
-                DataItemTableView = SORTING("Document Type", Type, "No.")
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order),
                                           Type = CONST(Item));
 
@@ -242,7 +242,6 @@ report 50109 "Update SO/PO Price Test Report"
         dataitem(UpdateSOPOPriceTest; "Update SOPO Price")
         {
             UseTemporary = true;
-            DataItemTableView = sorting("Entry No.");
 
             column(ReportName; 'Update SO/PO Price Test Report') { }
             column(CompanyName; Database.CompanyName) { }

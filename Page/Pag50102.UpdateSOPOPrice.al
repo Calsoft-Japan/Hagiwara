@@ -45,7 +45,7 @@ page 50102 "Update SOPO Price"
                 {
                     ApplicationArea = all;
                 }
-                field("New Price"; Rec."New Price")
+                field("New Price"; NewPrice)
                 {
                     ApplicationArea = all;
                 }
@@ -72,6 +72,8 @@ page 50102 "Update SOPO Price"
             }
         }
     }
+
+
     actions
     {
         area(navigation)
@@ -115,4 +117,17 @@ page 50102 "Update SOPO Price"
             }
         }
     }
+
+    var
+        NewPrice: Text;
+
+    trigger OnAfterGetRecord()
+    begin
+        if rec."Error Message" = '' then begin
+            NewPrice := Format(rec."New Price");
+        end else begin
+            NewPrice := '***';
+        end;
+        NewPrice := NewPrice.PadLeft(15);
+    end;
 }

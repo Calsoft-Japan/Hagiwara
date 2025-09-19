@@ -589,7 +589,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Fields!NewPrice.Value</Value>
+                                  <Value>=iif(Fields!ErrorMessage.Value="", Fields!NewPrice.Value, "***")</Value>
                                   <Style>
                                     <FontSize>7pt</FontSize>
                                   </Style>

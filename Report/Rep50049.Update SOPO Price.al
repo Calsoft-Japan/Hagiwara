@@ -15,7 +15,7 @@ report 50049 "Update SO/PO Price"
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "No." = FIELD("No.");
-                DataItemTableView = SORTING("Document Type", Type, "No.")
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order),
                                           Type = CONST(Item));
 
@@ -118,7 +118,7 @@ report 50049 "Update SO/PO Price"
             dataitem("Purchase Line"; "Purchase Line")
             {
                 DataItemLink = "No." = FIELD("No.");
-                DataItemTableView = SORTING("Document Type", Type, "No.")
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order),
                                           Type = CONST(Item));
 

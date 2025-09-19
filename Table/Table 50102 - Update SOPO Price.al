@@ -33,10 +33,12 @@ table 50102 "Update SOPO Price"
         }
         field(8; "Old Price"; Decimal)
         {
+            AutoFormatType = 2;
 
         }
         field(9; "New Price"; Decimal)
         {
+            AutoFormatType = 2;
 
         }
         field(10; "Quantity Invoiced"; Decimal)
@@ -65,6 +67,10 @@ table 50102 "Update SOPO Price"
     {
         key(Key1; "Entry No.")
         {
+        }
+        key(Key2; "Document Type", "Document No.", "Line No.")
+        {
+
         }
     }
 
