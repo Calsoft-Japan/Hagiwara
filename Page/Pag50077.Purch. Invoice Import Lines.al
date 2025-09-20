@@ -51,6 +51,7 @@ page 50077 "Purch. Invoice Import Lines"
                 }
                 field("Arrival Date"; REC."Arrival Date")
                 {
+                    ApplicationArea = all;
                     Caption = 'Invoice Date';
                 }
                 field("Closed Date"; REC."Closed Date")
@@ -59,6 +60,7 @@ page 50077 "Purch. Invoice Import Lines"
                 }
                 field("Imported Item No."; REC."Imported Item No.")
                 {
+                    ApplicationArea = all;
                     Caption = 'Item No.';
                 }
                 field("Received Qty."; REC."Received Qty.")
@@ -83,6 +85,7 @@ page 50077 "Purch. Invoice Import Lines"
                 }
                 field("Proforma Invoice"; REC."Proforma Invoice")
                 {
+                    ApplicationArea = all;
                     Caption = 'Invoice No.';
                 }
                 field("Error Description"; REC."Error Description")
@@ -91,6 +94,7 @@ page 50077 "Purch. Invoice Import Lines"
                 }
                 field("Item No."; REC."Item No.")
                 {
+                    ApplicationArea = all;
                     Caption = 'NAV Item No.';
                     Visible = false;
                 }
@@ -263,6 +267,7 @@ page 50077 "Purch. Invoice Import Lines"
                     trigger OnAction()
                     var
                         Purchheader7: Record "PURCHASE HEADER";
+                        RptPostInvoice: Report "PO Post Invoice";
                     begin
                         // added to clear posting no 12.07.20
 
@@ -279,63 +284,59 @@ page 50077 "Purch. Invoice Import Lines"
 
                         // end 12.07.20
 
+                        IF not DIALOG.CONFIRM('Are you sure you want to post the invoice?', TRUE) THEN
+                            exit;
 
 
-                        IF DIALOG.CONFIRM('Do You Want To Invoice?', TRUE) THEN BEGIN
-                            PurchReceiptImportStaging.RESET;
-                            PurchReceiptImportStaging.SETRANGE("Batch No.", Rec."Batch No.");
-                            PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::Processed);
+                        // BC Upgrade
+                        /*
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE("Batch No.", Rec."Batch No.");
+                        PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::Processed);
 
-                            IF PurchReceiptImportStaging.FINDSET THEN BEGIN
-                                //IF ("Batch No." <> 0) AND (Status = Status::Processed) THEN BEGIN
+                        IF PurchReceiptImportStaging.FINDSET THEN BEGIN
+                            //IF ("Batch No." <> 0) AND (Status = Status::Processed) THEN BEGIN
 
-                                IF (PurchReceiptImportStaging."Batch No." <> 0) THEN BEGIN
-                                    REPORT.RUNMODAL(Report::"PO Post Invoice", FALSE);
-                                    MESSAGE('Invoiced Sucessfully.');
-                                END ELSE
-                                    MESSAGE('Nothing to post.');
+                            IF (PurchReceiptImportStaging."Batch No." <> 0) THEN BEGIN
+                                REPORT.RUNMODAL(Report::"PO Post Invoice", FALSE);
+                                MESSAGE('Posting Done.');
                             END ELSE
                                 MESSAGE('Nothing to post.');
+                        END ELSE
+                            MESSAGE('Nothing to post.');
+                        */
 
-                        END;
-                    end;
+                        //BC Upgrade
+                        RptPostInvoice.Run();
+
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::OK);
+                        IF PurchReceiptImportStaging.FINDSET() THEN
+                            PurchReceiptImportStaging.DELETEALL();
+
+                        CurrPage.UPDATE();
+
+                        //BC Upgrade
+
+                    END;
                 }
-                action("Delete Complete Batch")
+                action("Delete All")
                 {
+                    ApplicationArea = All;
+                    Caption = 'Delete All';
                     Image = Delete;
                     Promoted = true;
-                    PromotedIsBig = true;
                     PromotedCategory = Process;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     var
-                        Staging: Record "PURCH. RECEIPT IMPORT STAGING";
+                        Staging: Record "Purch. Receipt Import Staging";
                     begin
-                        IF CONFIRM('Do you want to delete batches?', TRUE) THEN BEGIN
-                            Staging.SETCURRENTKEY(Status, "Batch No.");
-                            //Staging.SETFILTER(Status,'<>%1',Status::Processed);
-                            Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                            IF Staging.FINDFIRST THEN
-                                Staging.DELETEALL;
-                        END
-                    end;
-                }
-                action("Delete Only Error Lines")
-                {
-                    Image = Delete;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
+                        IF NOT CONFIRM('Do you want to delete all the records?') THEN
+                            EXIT;
 
-                    trigger OnAction()
-                    var
-                        Staging: Record "PURCH. RECEIPT IMPORT STAGING";
-                    begin
-                        Staging.SETCURRENTKEY(Status, "Batch No.");
-                        Staging.SETFILTER(Status, '=%1', Staging.Status::Error);
-                        Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                        IF Staging.FINDFIRST THEN
-                            Staging.DELETEALL;
+                        Staging.DELETEALL;
                     end;
                 }
             }

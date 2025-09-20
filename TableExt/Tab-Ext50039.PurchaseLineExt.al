@@ -223,6 +223,8 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                     // YUKA for Hagiwara 20030225 - END
                 end;
 
+                /*BC Upgrade
+                // The logic in OnAfterInsert has created ORE Line No., logic here is no need in BC.
                 // CS060 Begin
                 IF l_recVendor.GET(PurchHeader."Buy-from Vendor No.") THEN BEGIN
                     IF NOT l_recVendor."Excluded in ORE Collection" THEN BEGIN
@@ -253,6 +255,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                     END;
                 END;
                 // CS060 End
+                */
 
             end;
         }

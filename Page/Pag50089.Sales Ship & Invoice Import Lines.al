@@ -49,6 +49,7 @@ page 50089 "Sales Ship&Inv Import Lines"
                 }
                 field("Qty. to Invoice"; Rec."Qty. to Invoice")
                 {
+                    Caption = 'Qty. to Post';
                     ApplicationArea = all;
                 }
                 field("Shipment Method Code"; Rec."Shipment Method Code")

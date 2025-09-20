@@ -17,7 +17,7 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
         TempExcelBuffer: Record "Excel Buffer" temporary;
         UploadExcelMsg: Label 'Please Choose the Excel file.';
         NoFileFoundMsg: Label 'No Excel file found!';
-        ExcelImportSucess: Label 'Excel is successfully imported.';
+        ExcelImportSucess: Label 'Excel import finished.';
 
     procedure SetTransType(pType: Option Ship,Invoice,ReceiptInvoice)
     begin

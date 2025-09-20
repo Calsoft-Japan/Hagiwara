@@ -113,7 +113,7 @@ page 50087 "Sales Ship Import Lines"
                     MESSAGE('Validation finished.');
                 end;
             }
-            action(ShipPost)
+            action("Post Ship")
             {
                 ApplicationArea = Basic, Suit;
                 Image = PostBatch;

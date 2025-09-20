@@ -15,7 +15,7 @@ codeunit 50106 "Import Receipt Data"
         TempExcelBuffer: Record "Excel Buffer" temporary;
         UploadExcelMsg: Label 'Please Choose the Excel file.';
         NoFileFoundMsg: Label 'No Excel file found!';
-        ExcelImportSucess: Label 'Excel is successfully imported.';
+        ExcelImportSucess: Label 'Excel import finished.';
 
     local procedure ReadExcelSheet()
     var

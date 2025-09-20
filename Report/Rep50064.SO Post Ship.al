@@ -91,8 +91,10 @@ report 50064 "SO Post Ship"
                     SOHeader.Ship := TRUE;
                     SOHeader.Invoice := FALSE; //Post Only for Shipment
 
-                    IF NOT SOPost.RUN(SOHeader) THEN
+                    IF NOT SOPost.RUN(SOHeader) THEN begin
                         ErrMsg := GETLASTERRORTEXT;
+                        IsError := true;
+                    end;
 
                     //SOShipLine.RESET;
                     //SOShipLine.SETRANGE("Order No.", PreviouslyOrdNo);
@@ -138,7 +140,11 @@ report 50064 "SO Post Ship"
 
     trigger OnPostReport()
     begin
-        MESSAGE('Posting Done.');
+        if IsError then begin
+            MESSAGE('Posting Error.');
+        end else begin
+            MESSAGE('Posting Done.');
+        end;
     end;
 
     trigger OnPreReport()
@@ -161,5 +167,6 @@ report 50064 "SO Post Ship"
         CurLineCount: Integer;
         TotalLineCount: Integer;
         DocDate: Date;
+        IsError: Boolean;
 }
 

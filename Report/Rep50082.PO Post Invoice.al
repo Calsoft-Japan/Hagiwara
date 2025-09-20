@@ -4,6 +4,7 @@ report 50082 "PO Post Invoice"
     // CS079 Shawn 2024/06/01 - Check and Logic Change. (CO No. => PO No.+Line No. as well)
 
     ProcessingOnly = true;
+    UseRequestPage = false;
 
     dataset
     {
@@ -60,7 +61,12 @@ report 50082 "PO Post Invoice"
                 end;
 
                 trigger OnPostDataItem()
+                var
+                    ErrMsg: Text;
                 begin
+                    CLEAR(ErrMsg);
+                    CLEARLASTERROR;
+
                     //IF DIALOG.CONFIRM('Do You Want To Receive And Invoice', TRUE) THEN BEGIN
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
@@ -78,10 +84,24 @@ report 50082 "PO Post Invoice"
 
                         //110220
 
+                        // BC Upgrade
+                        Commit();
+
                         PurchaseHeader2.RESET;
                         PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "Purch. Receipt Import Staging"."PO No.");
                         //PurchaseHeader2.SETRANGE("Vendor Invoice No.",PurchaseHeader."Vendor Invoice No.");
-                        PurchPost.RUN(PurchaseHeader2);
+                        //PurchPost.RUN(PurchaseHeader2); // BC Upgrade
+
+                        if not PurchPost.RUN(PurchaseHeader2) then begin
+
+                            ErrMsg := GETLASTERRORTEXT;
+                            IsError := true;
+
+                        end;
+                        // BC Upgrade
+
+                        // BC Upgrade
+                        /*
                         PurchReceiptImportStaging.RESET;
                         PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
                         PurchReceiptImportStaging.SETRANGE("Proforma Invoice", "Purch. Receipt Import Staging"."Proforma Invoice");
@@ -94,8 +114,28 @@ report 50082 "PO Post Invoice"
                                 PurchReceiptImportStaging.DELETE;
                             UNTIL PurchReceiptImportStaging.NEXT = 0;
                         END
-                        // MESSAGE('Invoiced Sucessfully');
+                        */
 
+                        // BC Upgrade
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
+                        IF PurchReceiptImportStaging.FindSet() THEN
+                            REPEAT
+                                IF ErrMsg <> '' THEN BEGIN
+                                    PurchReceiptImportStaging."Error Description" := ErrMsg;
+                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::Error;
+                                END
+                                ELSE BEGIN
+                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::OK;
+                                    PurchReceiptImportStaging."Error Description" := '';
+                                END;
+
+                                PurchReceiptImportStaging.MODIFY();
+                            UNTIL PurchReceiptImportStaging.NEXT() = 0;
+
+                        // BC Upgrade
+
+                        // MESSAGE('Invoiced Sucessfully');
                     END
 
                     ELSE
@@ -122,6 +162,14 @@ report 50082 "PO Post Invoice"
     labels
     {
     }
+    trigger OnPostReport()
+    begin
+        if IsError then begin
+            MESSAGE('Posting Error.');
+        end else begin
+            MESSAGE('Posting Done.');
+        end;
+    end;
 
     var
         PurchPost: Codeunit "Purch.-Post";
@@ -129,5 +177,6 @@ report 50082 "PO Post Invoice"
         PurchReceiptImportStaging: Record "Purch. Receipt Import Staging";
         PurchaseHeader2: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
+        IsError: Boolean;
 }
 

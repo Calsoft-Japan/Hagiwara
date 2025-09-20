@@ -294,49 +294,41 @@ page 50073 "Purch. Receipt Import Lines"
                     PromotedCategory = Process;
 
                     trigger OnAction()
+                    var
+                        RptPostRcpt: Report "PO Post Receive";
                     begin
-                        IF DIALOG.CONFIRM('Do You Want To Receive?', TRUE) THEN BEGIN
-                            REPORT.RUNMODAL(Report::"PO Post Receive");
-                            MESSAGE('Received Sucessfully.');
-                        END;
+                        IF not DIALOG.CONFIRM('Are you sure you want to post the receipt?', TRUE) THEN
+                            exit;
+
+                        //BC Upgrade
+                        RptPostRcpt.Run();
+
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::OK);
+                        IF PurchReceiptImportStaging.FINDSET() THEN PurchReceiptImportStaging.DELETEALL();
+
+                        CurrPage.UPDATE();
+
+                        //BC Upgrade
                     end;
                 }
-                action("Delete Complete Batch")
+                action("Delete All")
                 {
+                    ApplicationArea = All;
+                    Caption = 'Delete All';
                     Image = Delete;
                     Promoted = true;
-                    PromotedIsBig = true;
                     PromotedCategory = Process;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     var
                         Staging: Record "Purch. Receipt Import Staging";
                     begin
-                        IF CONFIRM('Do you want to delete batches?', TRUE) THEN BEGIN
-                            Staging.SETCURRENTKEY(Status, "Batch No.");
-                            //Staging.SETFILTER(Status,'<>%1',Status::Processed);
-                            Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                            IF Staging.FINDFIRST THEN
-                                Staging.DELETEALL;
-                        END
-                    end;
-                }
-                action("Delete Only Error Lines")
-                {
-                    Image = Delete;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
+                        IF NOT CONFIRM('Do you want to delete all the records?') THEN
+                            EXIT;
 
-                    trigger OnAction()
-                    var
-                        Staging: Record "Purch. Receipt Import Staging";
-                    begin
-                        Staging.SETCURRENTKEY(Status, "Batch No.");
-                        Staging.SETFILTER(Status, '=%1', Staging.Status::Error);
-                        Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                        IF Staging.FINDFIRST THEN
-                            Staging.DELETEALL;
+                        Staging.DELETEALL;
                     end;
                 }
             }
@@ -347,7 +339,6 @@ page 50073 "Purch. Receipt Import Lines"
         PurchReceiptImportStaging: Record "PURCH. RECEIPT IMPORT STAGING";
         PurchaseLine: Record "Purchase Line";
         PurchaseLine1: Record "Purchase Line";
-        Staging: Record "PURCH. RECEIPT IMPORT STAGING";
         Staging1: Record "PURCH. RECEIPT IMPORT STAGING";
         PurchaseHeader: Record "Purchase Header";
         PurchaseLine2: Record "Purchase Line";

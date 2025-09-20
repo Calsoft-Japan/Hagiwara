@@ -49,6 +49,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 field("Arrival Date"; REC."Arrival Date")
                 {
                     ApplicationArea = all;
+                    Caption = 'Invoice Date';
                 }
                 field("Closed Date"; REC."Closed Date")
                 {
@@ -56,6 +57,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 }
                 field("Imported Item No."; REC."Imported Item No.")
                 {
+                    ApplicationArea = all;
                     Caption = 'Item No.';
                 }
                 field("Received Qty."; REC."Received Qty.")
@@ -63,10 +65,6 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                     ApplicationArea = all;
                 }
                 field("Qty. To Invoice"; REC."Qty. To Invoice")
-                {
-                    ApplicationArea = all;
-                }
-                field("Unit Cost"; REC."Unit Cost")
                 {
                     ApplicationArea = all;
                 }
@@ -85,6 +83,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 field("Proforma Invoice"; REC."Proforma Invoice")
                 {
                     ApplicationArea = all;
+                    Caption = 'Invoice No.';
                 }
                 field("Error Description"; REC."Error Description")
                 {
@@ -92,10 +91,15 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 }
                 field("Item No."; REC."Item No.")
                 {
+                    ApplicationArea = all;
                     Caption = 'NAV Item No.';
                     Visible = false;
                 }
                 field(Description; Rec.Description)
+                {
+                    ApplicationArea = all;
+                }
+                field("Unit Cost"; REC."Unit Cost")
                 {
                     ApplicationArea = all;
                 }
@@ -258,49 +262,52 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                     PromotedCategory = Process;
 
                     trigger OnAction()
+                    var
+                        RptPostInvoice: Report "PO Post Receive & Invoice";
                     begin
-                        IF DIALOG.CONFIRM('Do You Want To Receive and Invoice?', TRUE) THEN BEGIN
+
+                        // BC Upgrade
+                        /*
+                        IF DIALOG.CONFIRM('Are you sure you want to post the receive and invoice?', TRUE) THEN BEGIN
                             REPORT.RUNMODAL(Report::"PO Post Receive & Invoice");
-                            MESSAGE('Received and Invoiced Sucessfully.');
+                            MESSAGE('Posting Done.');
                         END;
+                        */
+
+                        //BC Upgrade
+                        IF not DIALOG.CONFIRM('Are you sure you want to post the receive and invoice?', TRUE) THEN
+                            exit;
+
+                        RptPostInvoice.Run();
+
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE(Status, PurchReceiptImportStaging.Status::OK);
+                        IF PurchReceiptImportStaging.FINDSET() THEN
+                            PurchReceiptImportStaging.DELETEALL();
+
+                        CurrPage.UPDATE();
+
+                        //BC Upgrade
+
                     end;
                 }
-                action("Delete Complete Batch")
+                action("Delete All")
                 {
+                    ApplicationArea = All;
+                    Caption = 'Delete All';
                     Image = Delete;
                     Promoted = true;
-                    PromotedIsBig = true;
                     PromotedCategory = Process;
+                    PromotedIsBig = true;
 
                     trigger OnAction()
                     var
                         Staging: Record "Purch. Receipt Import Staging";
                     begin
-                        IF CONFIRM('Do you want to delete batches?', TRUE) THEN BEGIN
-                            Staging.SETCURRENTKEY(Status, "Batch No.");
-                            //Staging.SETFILTER(Status,'<>%1',Status::Processed);
-                            Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                            IF Staging.FINDFIRST THEN
-                                Staging.DELETEALL;
-                        END
-                    end;
-                }
-                action("Delete Only Error Lines")
-                {
-                    Image = Delete;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
+                        IF NOT CONFIRM('Do you want to delete all the records?') THEN
+                            EXIT;
 
-                    trigger OnAction()
-                    var
-                        Staging: Record "Purch. Receipt Import Staging";
-                    begin
-                        Staging.SETCURRENTKEY(Status, "Batch No.");
-                        Staging.SETFILTER(Status, '=%1', Staging.Status::Error);
-                        Staging.SETRANGE("Batch No.", Rec."Batch No.");
-                        IF Staging.FINDFIRST THEN
-                            Staging.DELETEALL;
+                        Staging.DELETEALL;
                     end;
                 }
             }
@@ -423,8 +430,11 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                             IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
                                 ErrorDesc7 := ',Customer item is wrong.';
 
+                            //BC Upgrade
+                            /*
                             IF LowerCase(PurchaseLine1.Description) <> LowerCase(p_Staging.Description) THEN
                                 ErrorDesc8 := ',Description is wrong.';
+                            */
 
                             IF PurchaseLine1."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
                                 ErrorDesc8 := ',Unit cost is wrong.';

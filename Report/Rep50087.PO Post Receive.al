@@ -5,6 +5,7 @@ report 50087 "PO Post Receive"
     // CS095 Kenya 2025/02/06 - Add Unit Cost in Import File
 
     ProcessingOnly = true;
+    UseRequestPage = false;
 
     dataset
     {
@@ -18,8 +19,12 @@ report 50087 "PO Post Receive"
             var
                 PurchFound: Boolean;
                 PurchaseLine: Record "Purchase Line";
+                ErrMsg: Text;
             begin
                 //IF DIALOG.CONFIRM('Do You Want To Receive', TRUE) THEN BEGIN
+
+                CLEAR(ErrMsg);
+                CLEARLASTERROR;
 
                 //CS054 Begin
                 PurchReceiptImportStaging2.RESET;
@@ -69,11 +74,24 @@ report 50087 "PO Post Receive"
 
                     //PurchaseHeader.Invoice :=TRUE;
                     PurchaseHeader.MODIFY;
+
+                    // BC Upgrade
+                    COMMIT;
+
                     PurchaseHeader2.RESET;
                     PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "PO No.");
-                    PurchPost.RUN(PurchaseHeader2);
-                    //PurchPost.RUN(PurchaseHeader);
+                    if not PurchPost.RUN(PurchaseHeader2) then begin
 
+                        ErrMsg := GETLASTERRORTEXT;
+                        IsError := true;
+
+                    end;
+                    //PurchPost.RUN(PurchaseHeader);
+                    // BC Upgrade
+
+
+                    // BC Upgrade
+                    /*
                     PurchReceiptImportStaging.RESET;
                     PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
                     IF PurchReceiptImportStaging.FINDSET THEN BEGIN
@@ -83,9 +101,26 @@ report 50087 "PO Post Receive"
                             PurchReceiptImportStaging.DELETE;
                         UNTIL PurchReceiptImportStaging.NEXT = 0;
 
-                    END
-                END
-                ELSE
+                    END;
+                    */
+
+                    // BC Upgrade
+                    IF PurchReceiptImportStaging2.FindSet() THEN
+                        REPEAT
+                            IF ErrMsg <> '' THEN BEGIN
+                                PurchReceiptImportStaging2."Error Description" := ErrMsg;
+                                PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::Error;
+                            END
+                            ELSE BEGIN
+                                PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::OK;
+                                PurchReceiptImportStaging2."Error Description" := '';
+                            END;
+
+                            PurchReceiptImportStaging2.MODIFY();
+                        UNTIL PurchReceiptImportStaging2.NEXT() = 0;
+                    // BC Upgrade
+
+                END ELSE
                     EXIT;
                 // END;
                 // MESSAGE('Recevied Sucessfully');
@@ -109,11 +144,21 @@ report 50087 "PO Post Receive"
     {
     }
 
+    trigger OnPostReport()
+    begin
+        if IsError then begin
+            MESSAGE('Posting Error.');
+        end else begin
+            MESSAGE('Posting Done.');
+        end;
+    end;
+
     var
         PurchPost: Codeunit "Purch.-Post";
         PurchaseHeader: Record "Purchase Header";
         PurchReceiptImportStaging: Record "Purch. Receipt Import Staging";
         PurchaseHeader2: Record "Purchase Header";
         PurchReceiptImportStaging2: Record "Purch. Receipt Import Staging";
+        IsError: Boolean;
 }
 

@@ -3,6 +3,7 @@ report 50107 "PO Post Receive & Invoice"
     //BC Upgrade create new.
 
     ProcessingOnly = true;
+    UseRequestPage = false;
 
     dataset
     {
@@ -67,8 +68,14 @@ report 50107 "PO Post Receive & Invoice"
                 end;
 
                 trigger OnPostDataItem()
+                var
+                    ErrMsg: Text;
                 begin
                     //IF DIALOG.CONFIRM('Do You Want To Receive And Invoice', TRUE) THEN BEGIN
+
+                    CLEAR(ErrMsg);
+                    CLEARLASTERROR;
+
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
                     if PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.") then begin
@@ -82,15 +89,29 @@ report 50107 "PO Post Receive & Invoice"
                         PurchaseHeader.MODIFY;
                         //110220
 
-
                         //110220
+
+                        // BC Upgrade
+                        Commit();
 
                         PurchaseHeader2.RESET;
                         PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "PO No.");
                         //PurchaseHeader2.SETRANGE("Vendor Invoice No.",PurchaseHeader."Vendor Invoice No.");
-                        PurchPost.RUN(PurchaseHeader2);
+                        //PurchPost.RUN(PurchaseHeader2);
+
+                        if not PurchPost.RUN(PurchaseHeader2) then begin
+
+                            ErrMsg := GETLASTERRORTEXT;
+                            IsError := true;
+
+                        end;
+                        // BC Upgrade
+
+
+                        // BC Upgrade
+                        /*
                         PurchReceiptImportStaging.RESET;
-                        PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
+                        PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
                         PurchReceiptImportStaging.SETRANGE("Proforma Invoice", "Purch. Receipt Import Staging"."Proforma Invoice");
                         //PurchReceiptImportStaging.SETRANGE("CO No.","Purch. Receipt Import Staging"."CO No.");
 
@@ -101,6 +122,27 @@ report 50107 "PO Post Receive & Invoice"
                                 PurchReceiptImportStaging.DELETE;
                             UNTIL PurchReceiptImportStaging.NEXT = 0;
                         END
+                        */
+
+                        // BC Upgrade
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
+                        IF PurchReceiptImportStaging.FindSet() THEN
+                            REPEAT
+                                IF ErrMsg <> '' THEN BEGIN
+                                    PurchReceiptImportStaging."Error Description" := ErrMsg;
+                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::Error;
+                                END
+                                ELSE BEGIN
+                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::OK;
+                                    PurchReceiptImportStaging."Error Description" := '';
+                                END;
+
+                                PurchReceiptImportStaging.MODIFY();
+                            UNTIL PurchReceiptImportStaging.NEXT() = 0;
+
+                        // BC Upgrade
+
                         // MESSAGE('Invoiced Sucessfully');
 
                     END
@@ -129,6 +171,14 @@ report 50107 "PO Post Receive & Invoice"
     labels
     {
     }
+    trigger OnPostReport()
+    begin
+        if IsError then begin
+            MESSAGE('Posting Error.');
+        end else begin
+            MESSAGE('Posting Done.');
+        end;
+    end;
 
     var
         PurchPost: Codeunit "Purch.-Post";
@@ -137,5 +187,6 @@ report 50107 "PO Post Receive & Invoice"
         PurchaseHeader2: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
         POStatus: enum "Purchase Document Status";
+        IsError: Boolean;
 }
 

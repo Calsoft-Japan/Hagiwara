@@ -16,7 +16,7 @@ codeunit 50100 "Import Sales Ship Data"
         TempExcelBuffer: Record "Excel Buffer" temporary;
         UploadExcelMsg: Label 'Please Choose the Excel file.';
         NoFileFoundMsg: Label 'No Excel file found!';
-        ExcelImportSucess: Label 'Excel is successfully imported.';
+        ExcelImportSucess: Label 'Excel import finished.';
 
     procedure SetInvoice(pInvoice: Boolean)
     var

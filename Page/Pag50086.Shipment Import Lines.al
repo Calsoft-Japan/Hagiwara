@@ -84,7 +84,7 @@ page 50086 "Shipment Import Lines"
                         cduImporter.Run();
                     end;
                 }
-                action("Validate & Process")
+                action(Validate)
                 {
                     Image = ViewCheck;
                     Promoted = true;

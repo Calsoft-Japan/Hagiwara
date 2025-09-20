@@ -16,7 +16,7 @@ codeunit 50101 "Import Sales Invoice Data"
         TempExcelBuffer: Record "Excel Buffer" temporary;
         UploadExcelMsg: Label 'Please Choose the Excel file.';
         NoFileFoundMsg: Label 'No Excel file found!';
-        ExcelImportSucess: Label 'Excel is successfully imported.';
+        ExcelImportSucess: Label 'Excel import finished.';
 
     procedure SetInvoice(pInvoice: Boolean)
     var

@@ -89,8 +89,10 @@ report 50104 "SO Post Ship & Invoice"
                     SOHeader.Ship := TRUE;
                     SOHeader.Invoice := TRUE;
 
-                    IF NOT SOPost.RUN(SOHeader) THEN
+                    IF NOT SOPost.RUN(SOHeader) THEN begin
                         ErrMsg := GETLASTERRORTEXT;
+                        IsError := true;
+                    end;
 
                     //SOINVLine.RESET;
                     //SOINVLine.SETRANGE("Order No.", PreviouslyOrdNo);
@@ -130,7 +132,11 @@ report 50104 "SO Post Ship & Invoice"
 
     trigger OnPostReport()
     begin
-        MESSAGE('Posting Done.');
+        if IsError then begin
+            MESSAGE('Posting Error.');
+        end else begin
+            MESSAGE('Posting Done.');
+        end;
     end;
 
     trigger OnPreReport()
@@ -151,5 +157,6 @@ report 50104 "SO Post Ship & Invoice"
         ShpMtd: Code[20];
         ShpAgt: Code[10];
         PkgTrkNo: Text;
+        IsError: Boolean;
 }
 

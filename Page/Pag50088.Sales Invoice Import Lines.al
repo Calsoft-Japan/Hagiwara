@@ -122,7 +122,7 @@ page 50088 "Sales Invoice Import Lines"
                     MESSAGE('Validation finished.');
                 end;
             }
-            action(InvoicePost)
+            action("Post Invoice")
             {
                 ApplicationArea = Basic, Suit;
                 Image = PostDocument;
