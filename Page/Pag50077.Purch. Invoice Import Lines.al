@@ -283,7 +283,7 @@ page 50077 "Purch. Invoice Import Lines"
 
 
                         // end 12.07.20
-
+                        //BC Upgrade
                         IF not DIALOG.CONFIRM('Are you sure you want to post the invoice?', TRUE) THEN
                             exit;
 

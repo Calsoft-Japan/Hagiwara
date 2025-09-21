@@ -154,8 +154,6 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
 
                         //process starts here
 
-
-
                         Staging.SETCURRENTKEY(Status, "Batch No.");
                         Staging.SETFILTER(Staging.Status, '=%1', Staging.Status::OK);
                         Staging.SETRANGE(Staging."Batch No.", Rec."Batch No.");
