@@ -342,8 +342,15 @@ xmlport 50016 "Denso Group Sales File Import"
         SalesHeaderError: Boolean;
     begin
 
+        RecCustomer.SETRANGE("Import File Ship To", RecTEMPSalesFileImportBuffer."Ship To");
+        IF NOT RecCustomer.FINDFIRST THEN BEGIN
+            ErrorMsg := 'Customer Not Found';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
         RecItem.Reset();
-        RecItem.SETRANGE("Customer No.", RecSalesHeader."Sell-to Customer No.");
+        RecItem.SETRANGE("Customer No.", RecCustomer."No.");
         RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
         IF NOT RecItem.FINDFIRST THEN BEGIN
             ErrorMsg := 'Item Not Found';
@@ -353,13 +360,6 @@ xmlport 50016 "Denso Group Sales File Import"
 
         IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
             ErrorMsg := 'Qty is 0';
-            InsertDataInBuffer(ErrorMsg);
-            EXIT(FALSE);
-        END;
-
-        RecCustomer.SETRANGE("Import File Ship To", RecTEMPSalesFileImportBuffer."Ship To");
-        IF NOT RecCustomer.FINDFIRST THEN BEGIN
-            ErrorMsg := 'Customer Not Found';
             InsertDataInBuffer(ErrorMsg);
             EXIT(FALSE);
         END;
