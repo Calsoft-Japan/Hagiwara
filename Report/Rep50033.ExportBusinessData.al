@@ -207,7 +207,10 @@ report 50033 "Export Business Data"
                             DeleteKeyToConfigPackage(TempConfigPackageField, PackageCode, ConfigPackageTable."Table ID");
                             AddFieldsToConfigPackage(TempConfigPackageField, PackageCode, ConfigPackageTable."Table ID");
                         end;
-                        TempConfigPackageField.SetCurrentKey("Processing Order");
+                        if (ConfigPackageTable."Table ID" = 112) OR (ConfigPackageTable."Table ID" = 114) then
+                            TempConfigPackageField.SetCurrentKey("Processing Order")
+                        else
+                            TempConfigPackageField.SetCurrentKey("Field ID");
                         if TempConfigPackageField.FindSet() then begin
                             repeat
                                 FieldValue += FormatFieldValue(RecordRef.Field(TempConfigPackageField."Field ID"), RecordRef);
@@ -656,16 +659,16 @@ report 50033 "Export Business Data"
             112:
                 begin
                     if not TempConfigPackageField.Get(PackageCode, TableID, 60) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 60, 'Amount', 60, 'Betrag');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 60, 'Amount', 27, 'Betrag');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 61) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Amount Including VAT', 61, 'BetraginklMwSt');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Amount Including VAT', 28, 'BetraginklMwSt');
                 end;
             114:
                 begin
                     if not TempConfigPackageField.Get(PackageCode, TableID, 60) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 60, 'Amount', 60, 'Betrag');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 60, 'Amount', 26, 'Betrag');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 61) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Amount Including VAT', 61, 'BetraginklMwSt');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Amount Including VAT', 27, 'BetraginklMwSt');
                 end;
         end;
     end;
