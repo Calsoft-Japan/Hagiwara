@@ -106,6 +106,11 @@ codeunit 50003 ValidateSOLine
                     ERROR('Shipping Agent Code does not exist in Shipping Agents.');
             'Package Tracking No.':
                 SOHeader.VALIDATE(SOHeader."Package Tracking No.", ShipLine."Package Tracking No.");
+            'Unit Price':
+                if ShipLine."Unit Price" <> 0 then begin
+                    IF SOLine."Unit Price" <> ShipLine."Unit Price" THEN
+                        ERROR('"Unit Price" is wrong.');
+                end;
         END;
 
 
@@ -176,8 +181,10 @@ codeunit 50003 ValidateSOLine
             'Package Tracking No.':
                 SOHeader.VALIDATE(SOHeader."Package Tracking No.", InvoiceLine."Package Tracking No.");
             'Unit Price':
-                IF SOLine."Unit Price" <> InvoiceLine."Unit Price" THEN
-                    ERROR('"Unit Price" is wrong.');
+                if InvoiceLine."Unit Price" <> 0 then begin
+                    IF SOLine."Unit Price" <> InvoiceLine."Unit Price" THEN
+                        ERROR('"Unit Price" is wrong.');
+                end;
             'Due Date':
                 SOHeader.VALIDATE(SOHeader."Due Date", InvoiceLine."Due Date");
         END;
@@ -254,8 +261,10 @@ codeunit 50003 ValidateSOLine
             'Package Tracking No.':
                 SOHeader.VALIDATE(SOHeader."Package Tracking No.", InvoiceLine."Package Tracking No.");
             'Unit Price':
-                IF SOLine."Unit Price" <> InvoiceLine."Unit Price" THEN
-                    ERROR('"Unit Price" is wrong.');
+                if InvoiceLine."Unit Price" <> 0 then begin
+                    IF SOLine."Unit Price" <> InvoiceLine."Unit Price" THEN
+                        ERROR('"Unit Price" is wrong.');
+                end;
             'Due Date':
                 SOHeader.VALIDATE(SOHeader."Due Date", InvoiceLine."Due Date");
         END;

@@ -290,7 +290,8 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
                     VALIDATE("Ship-to Code", ShipToAddr.Code);
                 //HG10.00.02 NJ 01/06/2017 <--
 
-                VALIDATE("Posting Date"); //HG10.00.02 NJ 01/06/2017
+                //BC Upgrade(comment out)
+                //VALIDATE("Posting Date"); //HG10.00.02 NJ 01/06/2017
 
             end;
         }

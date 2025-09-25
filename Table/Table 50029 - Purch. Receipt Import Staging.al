@@ -8,8 +8,8 @@ table 50029 "Purch. Receipt Import Staging"
         }
         field(2; Status; Option)
         {
-            OptionCaption = 'Pending,Error,Processed,OK';
-            OptionMembers = Pending,Error,Processed,OK;
+            OptionCaption = 'Pending,Error,Processed,PostError,OK';
+            OptionMembers = Pending,Error,Processed,PostError,OK;
         }
         field(3; Owner; Text[30])
         {

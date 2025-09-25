@@ -64,6 +64,10 @@ page 50087 "Sales Ship Import Lines"
                 {
                     ApplicationArea = all;
                 }
+                field("Unit Price"; Rec."Unit Price")
+                {
+                    ApplicationArea = all;
+                }
                 field(Status; Rec.Status)
                 {
                     ApplicationArea = all;

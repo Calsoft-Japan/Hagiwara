@@ -57,8 +57,12 @@ report 50107 "PO Post Receive & Invoice"
                                 PurchaseLine."Goods Arrival Date" := "Purch. Receipt Import Staging"."Arrival Date";
                                 PurchaseLine.VALIDATE("Qty. to Receive", "Purch. Receipt Import Staging"."Received Qty.");
                                 PurchaseLine.VALIDATE("Qty. to Invoice", "Purch. Receipt Import Staging"."Qty. To Invoice");//sp
+                                //BC Upgrade
+                                /*
                                 IF "Purch. Receipt Import Staging"."Unit Cost" > 0 THEN //CS095
                                     PurchaseLine.VALIDATE("Direct Unit Cost", "Purch. Receipt Import Staging"."Unit Cost"); //CS095
+                                */
+                                //BC Upgrade
                                 PurchaseLine.MODIFY;
                                 PurchFound := TRUE;
                             END;
@@ -129,7 +133,9 @@ report 50107 "PO Post Receive & Invoice"
                         PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
                         IF PurchReceiptImportStaging.FindSet() THEN
                             REPEAT
-                                IF ErrMsg <> '' THEN BEGIN
+                                IF IsError THEN BEGIN
+                                    if ErrMsg = '' then
+                                        ErrMsg := 'Error detail can not be shown, please check your setup or data.';
                                     PurchReceiptImportStaging."Error Description" := ErrMsg;
                                     PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::Error;
                                 END

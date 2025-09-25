@@ -63,7 +63,7 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
             Evaluate(rec_POStaging."Entry No.", GetValueAtCell(RowNo, 2));
             Evaluate(rec_POStaging."CO No.", GetValueAtCell(RowNo, 3));
             Evaluate(rec_POStaging."PO No.", GetValueAtCell(RowNo, 4));
-            Evaluate(rec_POStaging."Line No.", GetValueAtCell(RowNo, 5));
+            if Evaluate(rec_POStaging."Line No.", GetValueAtCell(RowNo, 5)) then;
             Evaluate(rec_POStaging."Arrival Date", GetValueAtCell(RowNo, 6));
             Evaluate(rec_POStaging."Closed Date", GetValueAtCell(RowNo, 7));
 
@@ -71,6 +71,9 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
                 Evaluate(rec_POStaging."Received Qty.", GetValueAtCell(RowNo, 8));
                 Evaluate(rec_POStaging."Imported Item No.", GetValueAtCell(RowNo, 10));
                 Evaluate(rec_POStaging."Receipt No.", GetValueAtCell(RowNo, 13));
+                if StrLen(GetValueAtCell(RowNo, 15)) > 0 then begin
+                    Evaluate(rec_POStaging."Unit Cost", GetValueAtCell(RowNo, 15));
+                end;
             end;
 
             if TransType = TransType::Invoice then begin

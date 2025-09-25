@@ -51,8 +51,12 @@ report 50087 "PO Post Receive"
                                 IF NOT (PurchFound) AND (PurchaseLine."Outstanding Quantity" >= PurchReceiptImportStaging2."Received Qty.") THEN BEGIN
                                     PurchaseLine."Goods Arrival Date" := PurchReceiptImportStaging2."Arrival Date";
                                     PurchaseLine.VALIDATE("Qty. to Receive", PurchReceiptImportStaging2."Received Qty.");
+                                    //BC Upgrade
+                                    /*
                                     IF PurchReceiptImportStaging2."Unit Cost" > 0 THEN //CS095
                                         PurchaseLine.VALIDATE("Direct Unit Cost", PurchReceiptImportStaging2."Unit Cost"); //CS095
+                                    */
+                                    //BC Upgrade
                                     PurchaseLine.MODIFY;
                                     PurchFound := TRUE;
                                 END;
@@ -107,7 +111,9 @@ report 50087 "PO Post Receive"
                     // BC Upgrade
                     IF PurchReceiptImportStaging2.FindSet() THEN
                         REPEAT
-                            IF ErrMsg <> '' THEN BEGIN
+                            IF IsError THEN BEGIN
+                                if ErrMsg = '' then
+                                    ErrMsg := 'Error detail can not be shown, please check your setup or data.';
                                 PurchReceiptImportStaging2."Error Description" := ErrMsg;
                                 PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::Error;
                             END

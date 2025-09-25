@@ -92,12 +92,6 @@ page 50077 "Purch. Invoice Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Item No."; REC."Item No.")
-                {
-                    ApplicationArea = all;
-                    Caption = 'NAV Item No.';
-                    Visible = false;
-                }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = all;
@@ -393,21 +387,30 @@ page 50077 "Purch. Invoice Import Lines"
             END
         END;
 
+        //BC Upgrade
+        IF ItemNo = '' THEN begin
+            ErrorDesc1 := ',Item Not Found.';
+        end;
+
+        /*
         //Arpit-28.06.2018-START
         IF ItemNo = '' THEN BEGIN
             Item.RESET;
             Item.SETRANGE(Description, p_Staging.LPN);
+            Item.SetRange(Blocked, false);
             IF Item.FINDFIRST THEN
                 ItemNo := Item."No."
             ELSE BEGIN
                 Item.RESET;
                 Item.SETRANGE("Customer Item No.", p_Staging.LPN);
+                Item.SetRange(Blocked, false);
                 IF Item.FINDFIRST THEN
                     ItemNo := Item."No."
                 ELSE BEGIN
                     //Arpit-22-May-Start
                     Item.RESET;
                     Item.SETRANGE("Vendor Item No.", p_Staging.LPN);
+                    Item.SetRange(Blocked, false);
                     IF Item.FINDFIRST THEN
                         ItemNo := Item."No."
                     ELSE
@@ -417,6 +420,8 @@ page 50077 "Purch. Invoice Import Lines"
             END;
         END;
         //Arpit-28.06.2018-STOP
+        */
+        //BC Upgrade
 
         //CS079 Del Begin
         /*
@@ -506,14 +511,23 @@ page 50077 "Purch. Invoice Import Lines"
                     ErrorQty := TRUE;
                     IF PurchaseLine.FINDSET THEN BEGIN
                         REPEAT
-                            IF PurchaseLine."Customer Item No." <> p_Staging."Imported Item No." THEN
-                                ErrorDesc7 := ',Customer item is wrong.';
 
-                            IF LowerCase(PurchaseLine.Description) <> LowerCase(p_Staging.Description) THEN
-                                ErrorDesc8 := ',Description is wrong.';
+                            //BC Upgrade (check mandatory when has value)
+                            if p_Staging."Imported Item No." <> '' then begin
+                                IF PurchaseLine."Customer Item No." <> p_Staging."Imported Item No." THEN
+                                    ErrorDesc7 := ',Customer item is wrong.';
+                            end;
 
-                            IF PurchaseLine."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
-                                ErrorDesc8 := ',Unit cost is wrong.';
+                            if p_Staging.Description <> '' then begin
+                                IF LowerCase(PurchaseLine.Description) <> LowerCase(p_Staging.Description) THEN
+                                    ErrorDesc8 := ',Description is wrong.';
+                            end;
+
+                            if p_Staging."Unit Cost" <> 0 then begin
+                                IF PurchaseLine."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
+                                    ErrorDesc8 := ',Unit cost is wrong.';
+                            end;
+                            //BC Upgrade
 
                             IF (PurchaseLine."Quantity Received" - PurchaseLine."Quantity Invoiced") >= p_Staging."Qty. To Invoice" THEN
                                 ErrorQty := FALSE;

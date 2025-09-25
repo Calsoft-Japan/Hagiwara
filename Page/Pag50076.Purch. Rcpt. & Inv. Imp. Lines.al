@@ -89,12 +89,6 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Item No."; REC."Item No.")
-                {
-                    ApplicationArea = all;
-                    Caption = 'NAV Item No.';
-                    Visible = false;
-                }
                 field(Description; Rec.Description)
                 {
                     ApplicationArea = all;
@@ -425,17 +419,22 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                     ErrorQty := TRUE;
                     IF PurchaseLine1.FINDSET THEN BEGIN
                         REPEAT
-                            IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
-                                ErrorDesc7 := ',Customer item is wrong.';
+                            //BC Upgrade (check mandatory when has value)
+                            if p_Staging."Imported Item No." <> '' then begin
+                                IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
+                                    ErrorDesc7 := ',Customer item is wrong.';
+                            end;
 
+                            if p_Staging.Description <> '' then begin
+                                IF LowerCase(PurchaseLine1.Description) <> LowerCase(p_Staging.Description) THEN
+                                    ErrorDesc8 := ',Description is wrong.';
+                            end;
+
+                            if p_Staging."Unit Cost" <> 0 then begin
+                                IF PurchaseLine1."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
+                                    ErrorDesc8 := ',Unit cost is wrong.';
+                            end;
                             //BC Upgrade
-                            /*
-                            IF LowerCase(PurchaseLine1.Description) <> LowerCase(p_Staging.Description) THEN
-                                ErrorDesc8 := ',Description is wrong.';
-                            */
-
-                            IF PurchaseLine1."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
-                                ErrorDesc8 := ',Unit cost is wrong.';
 
                             IF (PurchaseLine1."Outstanding Quantity" >= p_Staging."Received Qty.")
                                 and ((PurchaseLine1."Quantity Received" + p_Staging."Received Qty." - PurchaseLine1."Quantity Invoiced") >= p_Staging."Qty. To Invoice") THEN

@@ -121,9 +121,11 @@ report 50082 "PO Post Invoice"
                         PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
                         IF PurchReceiptImportStaging.FindSet() THEN
                             REPEAT
-                                IF ErrMsg <> '' THEN BEGIN
+                                IF IsError THEN BEGIN
+                                    if ErrMsg = '' then
+                                        ErrMsg := 'Error detail can not be shown, please check your setup or data.';
                                     PurchReceiptImportStaging."Error Description" := ErrMsg;
-                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::Error;
+                                    PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::PostError;
                                 END
                                 ELSE BEGIN
                                     PurchReceiptImportStaging.Status := PurchReceiptImportStaging.Status::OK;

@@ -71,6 +71,9 @@ codeunit 50100 "Import Sales Ship Data"
             Evaluate(rec_ImpLine."Shipment Method Code", GetValueAtCell(RowNo, 9));
             Evaluate(rec_ImpLine."Shipping Agent Code", GetValueAtCell(RowNo, 10));
             Evaluate(rec_ImpLine."Package Tracking No.", GetValueAtCell(RowNo, 11));
+            if StrLen(GetValueAtCell(RowNo, 12)) > 0 then begin
+                Evaluate(rec_ImpLine."Unit Price", GetValueAtCell(RowNo, 12));
+            end;
 
             rec_ImpLine.Insert();
         end;

@@ -42,15 +42,19 @@ table 50020 "Sales Ship Import Line"
         {
             // cleaned
         }
-        field(11; Status; Option)
-        {
-            OptionMembers = Pending,Error,Processed,PostError,OK;
-        }
-        field(12; "Error Description"; Text[250])
+        field(11; "Unit Price"; Decimal)
         {
             // cleaned
         }
-        field(13; "Entry No."; Integer)
+        field(12; Status; Option)
+        {
+            OptionMembers = Pending,Error,Processed,PostError,OK;
+        }
+        field(13; "Error Description"; Text[250])
+        {
+            // cleaned
+        }
+        field(14; "Entry No."; Integer)
         {
             // cleaned
         }

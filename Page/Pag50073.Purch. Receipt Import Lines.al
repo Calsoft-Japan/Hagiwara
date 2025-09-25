@@ -94,15 +94,6 @@ page 50073 "Purch. Receipt Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Item No."; REC."Item No.")
-                {
-                    Caption = 'NAV Item No.';
-                    Visible = false;
-                }
-                field(Description; Rec.Description)
-                {
-                    ApplicationArea = all;
-                }
             }
         }
     }
@@ -389,6 +380,12 @@ page 50073 "Purch. Receipt Import Lines"
             END
         END;
 
+        //BC Upgrade
+        IF ItemNo = '' THEN begin
+            ErrorDesc1 := ',Item Not Found.';
+        end;
+
+        /*
         //Arpit-28.06.2018-START
         IF ItemNo = '' THEN BEGIN
             Item.RESET;
@@ -416,6 +413,8 @@ page 50073 "Purch. Receipt Import Lines"
             END;
         END;
         //Arpit-28.06.2018-STOP
+        */
+        //BC Upgrade
 
         //CS079 Del Begin
         /*
@@ -434,7 +433,7 @@ page 50073 "Purch. Receipt Import Lines"
           ELSE BEGIN
             IF p_Staging."Arrival Date" = 0D THEN ErrorDesc5 :=',Arrival Date Must Have Value';
             IF p_Staging."Proforma Invoice" = '' THEN ErrorDesc6 :=',Performa Invoice No. Must Have Value';
-        
+
             IF ItemNo <> '' THEN BEGIN
               PurchaseLine1.RESET;
               //PurchaseLine1.SETRANGE("Document No.",p_Staging."PO No.");  //CS023
@@ -450,7 +449,7 @@ page 50073 "Purch. Receipt Import Lines"
                 REPEAT //CS023
                   IF PurchaseLine1."Customer Item No." <> p_Staging."Imported Item No." THEN
                     ErrorDesc7 := ',Customer item is wrong.';
-        
+
                     IF PurchaseLine1.Description <> p_Staging.Description THEN
                     ErrorDesc8 := ',Description is wrong.';
                 //CS023 Begin
@@ -506,6 +505,13 @@ page 50073 "Purch. Receipt Import Lines"
                                 ErrorDesc8 := ',Description is wrong.';
                             */
 
+                            //BC Upgrade
+                            if p_Staging."Unit Cost" <> 0 then begin
+                                IF PurchaseLine1."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
+                                    ErrorDesc8 := ',Unit cost is wrong.';
+                            end;
+                            //BC Upgrade
+
                             IF PurchaseLine1."Outstanding Quantity" >= p_Staging."Received Qty." THEN
                                 ErrorQty := FALSE;
                         UNTIL PurchaseLine1.NEXT = 0;
@@ -535,7 +541,7 @@ page 50073 "Purch. Receipt Import Lines"
             //CS079 Begin
             //Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5+ErrorDesc6+ErrorDesc7+ErrorDesc8,2);
             Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5 + ErrorDesc6 + ErrorDesc7 + ErrorDesc8 + ErrorDesc9 + ErrorRcptNo, 2);//BC Upgrade
-            //CS079 End
+                                                                                                                                                                                        //CS079 End
             Staging.Status := Staging.Status::Error;
             Staging.MODIFY;
         END ELSE BEGIN

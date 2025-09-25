@@ -68,7 +68,7 @@ report 50104 "SO Post Ship & Invoice"
                             SOLine.SETRANGE("Document No.", SOINVLine."Order No.");
                             SOLine.SETRANGE("Line No.", SOINVLine."Line No.");
                             IF SOLine.FIND('-') THEN BEGIN
-                                SOLine.VALIDATE("Unit Price", SOINVLine."Unit Price");
+                                //SOLine.VALIDATE("Unit Price", SOINVLine."Unit Price"); //BC Upgrade
                                 SOLine.VALIDATE("Qty. to Ship", SOINVLine."Qty. to Invoice");
                                 SOLine.VALIDATE("Qty. to Invoice", SOINVLine."Qty. to Invoice");
 
@@ -98,7 +98,9 @@ report 50104 "SO Post Ship & Invoice"
                     //SOINVLine.SETRANGE("Order No.", PreviouslyOrdNo);
                     IF SOINVLine.FIND('-') THEN
                         REPEAT
-                            IF ErrMsg <> '' THEN BEGIN
+                            IF IsError THEN BEGIN
+                                if ErrMsg = '' then
+                                    ErrMsg := 'Error detail can not be shown, please check your setup or data.';
                                 SOINVLine."Error Description" := ErrMsg;
                                 SOINVLine.Status := SOINVLine.Status::PostError;
                             END

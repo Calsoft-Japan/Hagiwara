@@ -100,7 +100,9 @@ report 50064 "SO Post Ship"
                     //SOShipLine.SETRANGE("Order No.", PreviouslyOrdNo);
                     IF SOShipLine.FIND('-') THEN
                         REPEAT
-                            IF ErrMsg <> '' THEN BEGIN
+                            IF IsError THEN BEGIN
+                                if ErrMsg = '' then
+                                    ErrMsg := 'Error detail can not be shown, please check your setup or data.';
                                 SOShipLine."Error Description" := ErrMsg;
                                 SOShipLine.Status := SOShipLine.Status::PostError;
                             END

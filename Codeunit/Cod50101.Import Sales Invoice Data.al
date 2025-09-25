@@ -71,8 +71,8 @@ codeunit 50101 "Import Sales Invoice Data"
             Evaluate(rec_ImpLine."Shipment Method Code", GetValueAtCell(RowNo, 9));
             Evaluate(rec_ImpLine."Shipping Agent Code", GetValueAtCell(RowNo, 10));
             Evaluate(rec_ImpLine."Package Tracking No.", GetValueAtCell(RowNo, 11));
-            Evaluate(rec_ImpLine."Unit Price", GetValueAtCell(RowNo, 12));
-            Evaluate(rec_ImpLine."Due Date", GetValueAtCell(RowNo, 13));
+            if Evaluate(rec_ImpLine."Unit Price", GetValueAtCell(RowNo, 12)) then;
+            if Evaluate(rec_ImpLine."Due Date", GetValueAtCell(RowNo, 13)) then;
 
             rec_ImpLine.Insert();
         end;
