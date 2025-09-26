@@ -186,10 +186,52 @@ report 50033 "Export Business Data"
                 ConfigPackageFilter.Reset();
                 ConfigPackageFilter.SetRange("Package Code", PackageCode);
                 ConfigPackageFilter.SetRange("Table ID", ConfigPackageTable."Table ID");
+                ConfigPackageFilter.SetAutoCalcFields("Field Name");
                 if ConfigPackageFilter.FindFirst() then begin
+
+                    RecordRef.Ascending := true;
+                    case ConfigPackageTable."Table ID" of
+                        17:
+                            begin
+                                RecordRef.SetView('SORTING(G/L Account No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        21:
+                            begin
+                                RecordRef.SetView('SORTING(Customer No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        25:
+                            begin
+                                RecordRef.SetView('SORTING(Vendor No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        32:
+                            begin
+                                RecordRef.SetView('SORTING(Item No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        112:
+                            begin
+                                RecordRef.SetView('SORTING(No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        254:
+                            begin
+                                RecordRef.SetView('SORTING(Entry No.,Document No,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        379:
+                            begin
+                                RecordRef.SetView('SORTING(Customer No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        380:
+                            begin
+                                RecordRef.SetView('SORTING(Vendor No.,Entry No.,' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                            end;
+                        else begin
+                            RecordRef.SetView('SORTING(' + ConfigPackageFilter."Field Name" + ') Order(Ascending)');
+                        end;
+                    end;
+
                     FieldRef := RecordRef.Field(ConfigPackageFilter."Field ID");
                     FieldRef.SetRange(StartDate, EndDate);
                 end;
+
                 FileCount[i] := RecordRef.Count;
                 TableName[i] := ConfigPackageTable."Table Name";
                 ExportFileName[i] := ConfigPackageTable."Export Field Name";
