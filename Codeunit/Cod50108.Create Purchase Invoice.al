@@ -26,6 +26,8 @@ codeunit 50108 "Create Purchase Invoice"
             repeat
                 if GroupKey <> Staging1."Group Key" then begin
 
+                    GroupKey := Staging1."Group Key";
+
                     //create purchaes header.
                     PurchHeader.Init();
                     PurchHeader."Document Type" := PurchHeader."Document Type"::Invoice;
@@ -48,7 +50,7 @@ codeunit 50108 "Create Purchase Invoice"
                             PurchRcptLine.SetFilter("Qty. Rcd. Not Invoiced", '<>%1', 0);
                             PurchRcptLine.SetRange(Quantity, Staging2."Received Quantity");
 
-                            if PurchRcptLine.FindFirst() then begin
+                            if not PurchRcptLine.IsEmpty() then begin
                                 PurchGetReceipt.SetPurchHeader(PurchHeader);
                                 PurchGetReceipt.CreateInvLines(PurchRcptLine);
 

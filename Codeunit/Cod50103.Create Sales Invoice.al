@@ -26,6 +26,8 @@ codeunit 50103 "Create Sales Invoice"
             repeat
                 if GroupKey <> Staging1."Group Key" then begin
 
+                    GroupKey := Staging1."Group Key";
+
                     //create sales header.
                     SalesHeader.Init();
                     SalesHeader."Document Type" := SalesHeader."Document Type"::Invoice;
@@ -50,7 +52,7 @@ codeunit 50103 "Create Sales Invoice"
                             SalesShipLine.SetRange(Quantity, Staging2."Shipped Quantity");
                             SalesShipLine.SetRange("Authorized for Credit Card", false);
 
-                            if SalesShipLine.FindFirst() then begin
+                            if not SalesShipLine.IsEmpty() then begin
                                 SalesGetReceipt.SetSalesHeader(SalesHeader);
                                 SalesGetReceipt.CreateInvLines(SalesShipLine);
 
