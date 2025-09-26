@@ -97,4 +97,20 @@ table 50054 "ORE Message Collection INVRPT"
     fieldgroups
     {
     }
+
+    trigger OnInsert()
+    var
+        GenSetup: Record "General Ledger Setup";
+    begin
+        GenSetup.GET();
+        "Sold-to Code" := GenSetup."Sold-to Code";
+        "Ship-to Code" := GenSetup."Ship-to Code";
+        "Ship-to Name" := GenSetup."Ship-to Name";
+        "Ship-to Address" := GenSetup."Ship-to Address";
+        "Ship-to Address2" := GenSetup."Ship-to Address2";
+        "Ship-to City" := GenSetup."Ship-to City";
+        "Ship-to County" := GenSetup."Ship-to County";
+        "Ship-to Post Code" := GenSetup."Ship-to Post Code";
+        "Ship-to Country" := GenSetup."Ship-to Country/Region Code";
+    end;
 }

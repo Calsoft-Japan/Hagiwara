@@ -76,4 +76,10 @@ table 50051 "ORE Message History"
     fieldgroups
     {
     }
+
+    trigger OnInsert()
+    begin
+        "Collected By" := USERID;
+        "Collected On" := CURRENTDATETIME;
+    end;
 }
