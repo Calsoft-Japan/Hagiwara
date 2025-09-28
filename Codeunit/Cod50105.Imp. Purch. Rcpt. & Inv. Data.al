@@ -99,9 +99,6 @@ codeunit 50105 "Imp. Purch. Rcpt. & Inv. Data"
                 end;
             end;
 
-            rec_POStaging."Import Date" := Today;
-            rec_POStaging."Import User ID" := database.UserId;
-
             if TransType = TransType::Invoice then begin
                 rec_POStaging.Received := true; //BC upgrade. (Received is set true while using configuration package in NAV2017.)
             end;

@@ -1,5 +1,8 @@
 table 50063 "Inventory Trace Entry"
 {
+    DrillDownPageID = "Inventory Trace Entries";
+    LookupPageID = "Inventory Trace Entries";
+
     fields
     {
         field(1; "Entry No."; Integer)

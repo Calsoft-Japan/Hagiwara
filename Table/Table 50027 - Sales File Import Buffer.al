@@ -224,4 +224,15 @@ table 50027 "Sales File Import Buffer"
     {
     }
 
+    trigger OnInsert()
+    begin
+        IF SalesFileImportBuffer.FINDLAST THEN
+            "Entry No." := SalesFileImportBuffer."Entry No." + 1
+        ELSE
+            "Entry No." := 1;
+    end;
+
+    var
+        SalesFileImportBuffer: Record "Sales File Import Buffer";
+
 }

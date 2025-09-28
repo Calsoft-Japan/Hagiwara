@@ -123,4 +123,10 @@ table 50029 "Purch. Receipt Import Staging"
     fieldgroups
     {
     }
+
+    trigger OnInsert()
+    begin
+        "Import Date" := TODAY;
+        "Import User ID" := USERID;
+    end;
 }
