@@ -349,6 +349,8 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
+        //<!--CS092 Channing.Zhou 15/9/2025 move to here to prevent SO Header created event there is errors in the SO Line input data
+
         RecItem.Reset();
         RecItem.SETRANGE("Customer No.", RecCustomer."No.");
         RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
@@ -364,8 +366,10 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
+        //CS092 Channing.Zhou 15/9/2025 move to here to prevent SO Header created event there is errors in the SO Line input data-->
+
+        //<!--CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation
         //HG10.00.11 NJ 16/04/2018
-        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation-->
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Firm THEN BEGIN
             SameDOAnswer := TRUE;
             RecSalesHeader.RESET;
@@ -381,7 +385,7 @@ xmlport 50016 "Denso Group Sales File Import"
             END;
         END;
         //HG10.00.11 NJ 16/04/2018
-        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation <--
+        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation-->
 
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Planned THEN BEGIN
             RecSalesHeader.RESET;

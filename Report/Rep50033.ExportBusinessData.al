@@ -74,10 +74,10 @@ report 50033 "Export Business Data"
 
         IF EndDate = 0D THEN
             ERROR(EndDateErr);
-
+        /*
         if not ShowExpected then begin
             EndDate := EndDate - 1;
-        end;
+        end;*/
 
         StartTime := CurrentDateTime;
         FillCharsToDelete();
@@ -116,7 +116,6 @@ report 50033 "Export Business Data"
         ZipStream: InStream;
         TempBlob: Codeunit "Temp Blob";
         FileName: Text;
-        ConfigPackage: Record "Config. Package";
     begin
         datacompresion.CreateZipArchive();
 
@@ -170,6 +169,7 @@ report 50033 "Export Business Data"
         ConfigPackageTable.Reset();
         ConfigPackageTable.SetRange("Package Code", PackageCode);
         ConfigPackageTable.SetAutoCalcFields("Table Name");
+        ConfigPackageTable.SetCurrentKey("Processing Order");
         if ConfigPackageTable.FindFirst() then begin
             repeat
                 FileName := ConfigPackageTable."Export Field Name";
@@ -187,6 +187,7 @@ report 50033 "Export Business Data"
                 ConfigPackageFilter.SetRange("Package Code", PackageCode);
                 ConfigPackageFilter.SetRange("Table ID", ConfigPackageTable."Table ID");
                 ConfigPackageFilter.SetAutoCalcFields("Field Name");
+
                 if ConfigPackageFilter.FindFirst() then begin
 
                     RecordRef.Ascending := true;
@@ -286,7 +287,12 @@ report 50033 "Export Business Data"
 
         case FieldRef.Type of
             FieldType::Date:
-                FieldValueText := Format(Value, 0, '<Day,2>.<Month,2>.<Year4>');
+                begin
+                    if Value then
+                        FieldValueText := Format(Value, 0, '<Day,2>.<Month,2>.<Year4>')
+                    else
+                        FieldValueText := '          ';
+                end;
             FieldType::Decimal:
                 FieldValueText := Format(Value, 0, '<Precision,2:2><Standard Format,0>');
             FieldType::Option:
@@ -316,7 +322,7 @@ report 50033 "Export Business Data"
         NoOfDefinedTables := 0;
         NoOfEmptyTables := 0;
 
-        ContentBuilder.AppendLine(Format(StartDate) + ' to ' + Format(EndDate));
+        ContentBuilder.AppendLine(Format(StartDate) + ' to ' + Format(CalcEndDate(EndDate)) + '.');
         ContentBuilder.AppendLine(Format(Today));
         ContentBuilder.AppendLine(PackageCode + ';' + PackageCode);
         for i := 1 to 17 do begin
@@ -338,7 +344,6 @@ report 50033 "Export Business Data"
 
     procedure ExportXML()
     var
-
         TempBlob: Codeunit "Temp Blob";
         OutStr: OutStream;
         InStr: InStream;
@@ -419,6 +424,7 @@ report 50033 "Export Business Data"
         XmlWriteOptions: XmlWriteOptions;
         Symbol: array[2] of Text[1];
         CompanyInfo: Record "Company Information";
+        ConfigPackage: Record "Config. Package";
         ConfigPackageField: Record "Config. Package Field";
         ConfigPackageTable: Record "Config. Package Table";
         TempKeyConfigPackageField: Record "Config. Package Field" temporary;
@@ -428,11 +434,12 @@ report 50033 "Export Business Data"
     begin
         CompanyInfo.Get();
         GLSetup.Get();
+        ConfigPackage.Get(PackageCode);
         XmlDoc := XmlDocument.Create();
 
-        Declaration := XmlDeclaration.Create('1.0', 'utf-8', 'yes');
+        Declaration := XmlDeclaration.Create('1.0', 'utf-8', '');
         XmlDoc.SetDeclaration(Declaration);
-        DOCTYPE := XmlDocumentType.Create('DataSet', 'SYSTEM', 'gdpdu-' + Format(Today, 0, '<Day,2>.<Month,2>.<Year4>') + '.dtd', '');
+        DOCTYPE := XmlDocumentType.Create('DataSetSYSTEM', '', ConfigPackage."DTD File Name", '');
         XmlDoc.Add(DOCTYPE);
         Root := XmlElement.Create('DataSet');
 
@@ -458,6 +465,7 @@ report 50033 "Export Business Data"
 
         ConfigPackageTable.Reset();
         ConfigPackageTable.SetRange("Package Code", PackageCode);
+        ConfigPackageTable.SetCurrentKey("Processing Order");
         if ConfigPackageTable.FindFirst() then begin
             repeat
                 TableRoot := XmlElement.Create('Table');
@@ -466,7 +474,7 @@ report 50033 "Export Business Data"
                 TableRoot.add(Child);
                 TableMetadata.Get(ConfigPackageTable."Table ID");
                 Child := XmlElement.Create('Name');
-                Child.add(ConvertString(TableMetadata.Name));
+                Child.add(CustomClean(ConvertString(TableMetadata.Name)));
                 TableRoot.add(Child);
                 Child := XmlElement.Create('Description');
                 Child.add(ConvertString(TableMetadata.Caption));
@@ -477,7 +485,7 @@ report 50033 "Export Business Data"
                 ConfigPackageFilter.SetRange("Table ID", ConfigPackageTable."Table ID");
                 if ConfigPackageFilter.FindFirst() then begin
                     ValidityRoot := XmlElement.Create('Validity');
-                    RangeRoot := XmlElement.Create('RangeRoot');
+                    RangeRoot := XmlElement.Create('Range');
                     Child := XmlElement.Create('From');
                     Child.add(FORMAT(StartDate, 0, '<Day,2>.<Month,2>.<Year4>'));
                     RangeRoot.add(Child);
@@ -521,7 +529,8 @@ report 50033 "Export Business Data"
         Root.Add(SecondRoot);
         XmlDoc.Add(Root);
 
-        XmlWriteOptions.PreserveWhitespace(true);
+        //XmlWriteOptions.PreserveWhitespace(true);
+        //XmlDoc.WriteTo(XmlData, XmlWriteOptions::Indented);
         XmlDoc.WriteTo(XmlWriteOptions, XmlData);
     end;
 
@@ -651,7 +660,7 @@ report 50033 "Export Business Data"
             18:
                 begin
                     if not TempConfigPackageField.Get(PackageCode, TableID, 61) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Net Change (LCY)]', 61, 'BewegungMW');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Net Change (LCY)', 61, 'BewegungMW');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 99) then
                         AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 99, 'Debit Amount (LCY)', 99, 'SollbetragMW');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 100) then
@@ -671,7 +680,7 @@ report 50033 "Export Business Data"
             23:
                 begin
                     if not TempConfigPackageField.Get(PackageCode, TableID, 61) then
-                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Net Change (LCY)]', 61, 'BewegungMW');
+                        AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 61, 'Net Change (LCY)', 61, 'BewegungMW');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 99) then
                         AddFieldNoToBuffer(TempConfigPackageField, PackageCode, TableID, 99, 'Debit Amount (LCY)', 99, 'SollbetragMW');
                     if not TempConfigPackageField.Get(PackageCode, TableID, 100) then
@@ -784,6 +793,21 @@ report 50033 "Export Business Data"
     local procedure ConvertStringText(String: Text) NewString: Text
     begin
         NewString := DELCHR(String, '=', CharsToDelete);
+    end;
+
+    local procedure CalcEndDate(Date: Date): Date
+    begin
+        IF ShowExpected THEN
+            EXIT(CLOSINGDATE(Date));
+        EXIT(Date);
+    end;
+
+    local procedure CustomClean(InputText: Text): Text
+    begin
+        InputText := ConvertStr(InputText, '.', ' ');
+        InputText := ConvertStr(InputText, '/', ' ');
+        InputText := DelChr(InputText, '=', ' ');
+        exit(InputText);
     end;
 
 }
