@@ -15,6 +15,11 @@ page 50201 "PSI Update Status"
     DelayedInsert = true;
     DeleteAllowed = false;
     ModifyAllowed = false;
+    Permissions = tabledata "Sales Shipment Header" = rm,
+                    tabledata "Sales Shipment Line" = rm,
+                    tabledata "Purch. Rcpt. Header" = rm,
+                    tabledata "Purch. Rcpt. Line" = rm;
+
 
     layout
     {

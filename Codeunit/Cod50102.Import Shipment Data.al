@@ -59,8 +59,10 @@ codeunit 50102 "Import Shipment Data"
             Evaluate(rec_POStaging."Item Description", GetValueAtCell(RowNo, 5));
             Evaluate(rec_POStaging."Customer Item No.", GetValueAtCell(RowNo, 6));
             Evaluate(rec_POStaging."Customer Order No.", GetValueAtCell(RowNo, 7));
-            if Evaluate(rec_POStaging."Shipped Quantity", GetValueAtCell(RowNo, 8)) then;
-            if Evaluate(rec_POStaging."Unit Price", GetValueAtCell(RowNo, 9)) then;
+            Evaluate(rec_POStaging."Shipped Quantity", GetValueAtCell(RowNo, 8));
+            if StrLen(GetValueAtCell(RowNo, 9)) > 0 then begin
+                Evaluate(rec_POStaging."Unit Price", GetValueAtCell(RowNo, 9));
+            end;
             Evaluate(rec_POStaging."Currency Code", GetValueAtCell(RowNo, 10));
 
             rec_POStaging.Insert();

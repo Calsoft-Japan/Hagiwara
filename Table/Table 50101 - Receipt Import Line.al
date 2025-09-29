@@ -30,6 +30,7 @@ table 50101 "Receipt Import Line"
         }
         field(9; "Unit Cost"; Decimal)
         {
+            DecimalPlaces = 2 : 4;
         }
         field(10; "Currency Code"; Code[10])
         {

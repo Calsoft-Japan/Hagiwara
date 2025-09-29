@@ -53,6 +53,7 @@ codeunit 50103 "Create Sales Invoice"
                             SalesShipLine.SetRange("Authorized for Credit Card", false);
 
                             if not SalesShipLine.IsEmpty() then begin
+                                clear(SalesGetReceipt);
                                 SalesGetReceipt.SetSalesHeader(SalesHeader);
                                 SalesGetReceipt.CreateInvLines(SalesShipLine);
 

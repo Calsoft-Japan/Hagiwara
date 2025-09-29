@@ -30,6 +30,7 @@ table 50100 "Shipment Import Line"
         }
         field(9; "Unit Price"; Decimal)
         {
+            DecimalPlaces = 2 : 4;
         }
         field(10; "Currency Code"; Code[10])
         {

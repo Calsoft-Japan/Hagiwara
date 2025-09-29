@@ -51,6 +51,7 @@ codeunit 50108 "Create Purchase Invoice"
                             PurchRcptLine.SetRange(Quantity, Staging2."Received Quantity");
 
                             if not PurchRcptLine.IsEmpty() then begin
+                                clear(PurchGetReceipt);
                                 PurchGetReceipt.SetPurchHeader(PurchHeader);
                                 PurchGetReceipt.CreateInvLines(PurchRcptLine);
 
