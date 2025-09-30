@@ -214,13 +214,13 @@ page 50086 "Shipment Import Lines"
                         SalesShipLine.SetRange(Quantity, Staging1."Shipped Quantity");
                         SalesShipLine.SetRange("Authorized for Credit Card", false);
                         if SalesShipLine.IsEmpty then begin
-                            Staging1.ModifyAll(Status, Staging1.Status::Error);
-                            Staging1.ModifyAll("Error Description", 'There is no matched record in Sales Shipment Line.');
+                            Staging1.Status := Staging1.Status::Error;
+                            Staging1."Error Description" := 'There is no matched record in Sales Shipment Line.';
+                            Staging1.Modify();
                         end;
                     end;
                 end;
             until Staging1.Next() = 0;
-
 
     end;
 

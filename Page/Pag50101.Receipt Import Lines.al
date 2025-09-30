@@ -161,6 +161,7 @@ page 50101 "Receipt Import Lines"
 
         Staging1: Record "Receipt Import Line";
         Staging2: Record "Receipt Import Line";
+        PurchRcptLine: Record "Purch. Rcpt. Line";
         GroupKey: Integer;
         VendorNo: Code[20];
         ItemNo: Code[20];
@@ -200,10 +201,24 @@ page 50101 "Receipt Import Lines"
 
                         Staging2.ModifyAll(Status, Staging2.Status::Error);
                         Staging2.ModifyAll("Error Description", 'The same data exists in "Group Key", "Vendor No.", "Item No.", "Customer Item No.", "CO No." and " Received Quantity".');
+                    end else begin
+                        //check purchase receipt line exists.
+                        PurchRcptLine.Reset();
+                        PurchRcptLine.SetRange("Buy-from Vendor No.", Staging1."Vendor No.");
+                        PurchRcptLine.SetRange("CO No.", Staging1."CO No.");
+                        PurchRcptLine.SetRange("Customer Item No.", Staging1."Customer Item No.");
+                        PurchRcptLine.SetRange(Description, Staging1."Item Description");
+                        PurchRcptLine.SetRange("Currency Code", Staging1."Currency Code");
+                        PurchRcptLine.SetFilter("Qty. Rcd. Not Invoiced", '<>%1', 0);
+                        PurchRcptLine.SetRange(Quantity, Staging1."Received Quantity");
+                        if PurchRcptLine.IsEmpty then begin
+                            Staging1.Status := Staging1.Status::Error;
+                            Staging1."Error Description" := 'There is no matched record in Purchase Receipt Line.';
+                            Staging1.Modify();
+                        end;
                     end;
                 end;
             until Staging1.Next() = 0;
-
 
     end;
 
