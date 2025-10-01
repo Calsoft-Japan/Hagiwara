@@ -59,20 +59,6 @@ codeunit 50108 "Create Purchase Invoice"
                                 Staging2.Modify();
                             end;
 
-                            PurchLine.SetRange("Document Type", PurchHeader."Document Type"::Invoice);
-                            PurchLine.SetRange("Document No.", PurchHeader."No.");
-                            PurchLine.SetRange("CO No.", Staging2."CO No.");
-                            PurchLine.SetRange("Customer Item No.", Staging2."Customer Item No.");
-                            PurchLine.SetRange(Description, Staging2."Item Description");
-                            PurchLine.SetRange("Currency Code", Staging2."Currency Code");
-                            PurchLine.SetRange(Quantity, Staging2."Received Quantity");
-                            if PurchLine.FindFirst() then begin
-                                if (Staging2."Unit Cost" <> 0) and (Staging2."Unit Cost" <> PurchLine."Direct Unit Cost") then begin
-                                    PurchLine.Validate("Direct Unit Cost", Staging2."Unit Cost");
-                                    PurchLine.Modify();
-                                end;
-                            end;
-
                         until Staging2.Next() = 0;
                 end;
             until Staging1.Next() = 0;

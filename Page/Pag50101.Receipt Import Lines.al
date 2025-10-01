@@ -211,6 +211,9 @@ page 50101 "Receipt Import Lines"
                         PurchRcptLine.SetRange("Currency Code", Staging1."Currency Code");
                         PurchRcptLine.SetFilter("Qty. Rcd. Not Invoiced", '<>%1', 0);
                         PurchRcptLine.SetRange(Quantity, Staging1."Received Quantity");
+                        if Staging1."Unit Cost" <> 0 then begin
+                            PurchRcptLine.SetRange("Unit Cost", Staging1."Unit Cost");
+                        end;
                         if PurchRcptLine.IsEmpty then begin
                             Staging1.Status := Staging1.Status::Error;
                             Staging1."Error Description" := 'There is no matched record in Purchase Receipt Line.';

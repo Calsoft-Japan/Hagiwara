@@ -213,6 +213,10 @@ page 50086 "Shipment Import Lines"
                         SalesShipLine.SetFilter("Qty. Shipped Not Invoiced", '<>%1', 0);
                         SalesShipLine.SetRange(Quantity, Staging1."Shipped Quantity");
                         SalesShipLine.SetRange("Authorized for Credit Card", false);
+                        if Staging1."Unit Price" <> 0 then begin
+                            SalesShipLine.SetRange("Unit Price", Staging1."Unit Price");
+                        end;
+
                         if SalesShipLine.IsEmpty then begin
                             Staging1.Status := Staging1.Status::Error;
                             Staging1."Error Description" := 'There is no matched record in Sales Shipment Line.';
