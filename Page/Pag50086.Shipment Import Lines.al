@@ -168,6 +168,7 @@ page 50086 "Shipment Import Lines"
         CustomerItemNo: Code[20];
         CustOrderNo: Text[35];
         ShipQty: Decimal;
+        ErrDesc: Text;
     begin
 
         Staging1.SETFILTER(Status, '%1|%2', Staging1.Status::Pending, Staging1.Status::Error);
@@ -189,6 +190,8 @@ page 50086 "Shipment Import Lines"
                     CustOrderNo := Staging1."Customer Order No.";
                     ShipQty := Staging1."Shipped Quantity";
 
+                    ErrDesc := '';
+
                     Staging2.Reset();
                     Staging2.SETFILTER(Status, '%1|%2', Staging2.Status::Pending, Staging2.Status::Error);
                     Staging2.SetRange("Group Key", GroupKey);
@@ -203,6 +206,43 @@ page 50086 "Shipment Import Lines"
                         Staging2.ModifyAll("Error Description", 'The same data exists in "Group Key", "Customer No.", "Item No.", "Customer Item No.", "Customer Order No." and " Shipped Quantity".');
                     end else begin
                         //check sales shipment line exists.
+                        if Staging1."Customer Order No." = '' then begin
+                            ErrDesc := 'Customer Order No. is blank. ';
+                        end else begin
+                            SalesShipLine.Reset();
+                            SalesShipLine.SetRange("Customer Order No.", Staging1."Customer Order No.");
+                            if SalesShipLine.IsEmpty then begin
+                                ErrDesc := 'Customer Order No. is not found. ';
+                            end else begin
+                                SalesShipLine.FindFirst();
+
+                                if (SalesShipLine."Sell-to Customer No." <> Staging1."Customer No.") or (SalesShipLine."Bill-to Customer No." <> Staging1."Customer No.") then
+                                    ErrDesc := ErrDesc + 'Customer No. is wrong. ';
+                                if SalesShipLine."Customer Item No." <> Staging1."Customer Item No." then
+                                    ErrDesc := ErrDesc + 'Customer Item No. is wrong. ';
+                                if SalesShipLine."Description" <> Staging1."Item Description" then
+                                    ErrDesc := ErrDesc + 'Item Description is wrong. ';
+                                if SalesShipLine."Currency Code" <> Staging1."Currency Code" then
+                                    ErrDesc := ErrDesc + 'Currency Code is wrong. ';
+                                if SalesShipLine."Qty. Shipped Not Invoiced" = 0 then
+                                    ErrDesc := ErrDesc + 'Qty. Shipped Not Invoiced is zero. ';
+                                if SalesShipLine."Quantity" <> Staging1."Shipped Quantity" then
+                                    ErrDesc := ErrDesc + 'Shipped Quantity is wrong. ';
+                                if SalesShipLine."Authorized for Credit Card" = true then
+                                    ErrDesc := ErrDesc + 'Sales Shipment Line''s Authorized for Credit Card is true. ';
+                                if Staging1."Unit Price" <> 0 then begin
+                                    if SalesShipLine."Unit Price" <> Staging1."Unit Price" then
+                                        ErrDesc := ErrDesc + 'Unit Price is wrong. ';
+                                end;
+                            end;
+                        end;
+                        if ErrDesc <> '' then begin
+                            Staging1.Status := Staging1.Status::Error;
+                            Staging1."Error Description" := PadStr(ErrDesc, StrLen(ErrDesc) - 1);
+                            Staging1.Modify();
+                        end;
+
+                        /*
                         SalesShipLine.Reset();
                         SalesShipLine.SetRange("Sell-to Customer No.", Staging1."Customer No.");
                         SalesShipLine.SetRange("Bill-to Customer No.", Staging1."Customer No.");
@@ -222,6 +262,8 @@ page 50086 "Shipment Import Lines"
                             Staging1."Error Description" := 'There is no matched record in Sales Shipment Line.';
                             Staging1.Modify();
                         end;
+                        */
+
                     end;
                 end;
             until Staging1.Next() = 0;
