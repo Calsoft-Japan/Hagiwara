@@ -229,7 +229,7 @@ page 50101 "Receipt Import Lines"
                                     ErrDesc := ErrDesc + 'Received Quantity is wrong. ';
                                 if Staging1."Unit Cost" <> 0 then begin
                                     if PurchRcptLine."Unit Cost" <> Staging1."Unit Cost" then
-                                        ErrDesc := 'Unit Cost is wrong. ';
+                                        ErrDesc := ErrDesc + 'Unit Cost is wrong. ';
                                 end;
                             end;
                         end;
