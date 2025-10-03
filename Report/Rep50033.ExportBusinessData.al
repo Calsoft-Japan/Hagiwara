@@ -817,23 +817,16 @@ report 50033 "Export Business Data"
         OutStr: OutStream;
         TempBlob: Codeunit "Temp Blob";
     begin
+        Clear(TempBlob);
         TempBlob.CreateInStream(InStr);
         if UploadIntoStream('Select File', '', 'All Files (*.*)|*.*', FileName, InStr) then begin
-            //Record.Get(PackageCode);
-            SetDTDFileFormBlob(Record, TempBlob);
+            Record."DTD File".CreateOutStream(OutStr);
+            CopyStream(OutStr, InStr);
             Record."DTD File Name" := FileName;
             Record.Modify();
             Message('File imported successfully to BLOB field');
         end;
     end;
 
-    procedure SetDTDFileFormBlob(Record: Record "Config. Package"; TempBlob: Codeunit "Temp Blob")
-    var
-        RecordRef: RecordRef;
-    begin
-        RecordRef.GetTable(Record);
-        TempBlob.ToRecordRef(RecordRef, Record.FieldNo("DTD File"));
-        RecordRef.SetTable(Record);
-    end;
 }
 
