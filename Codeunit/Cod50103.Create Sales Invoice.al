@@ -42,10 +42,10 @@ codeunit 50103 "Create Sales Invoice"
                     Staging2.SetRange("Group Key", Staging1."Group Key");
                     if Staging2.FindSet() then
                         repeat
-                            SalesShipLine.SetRange("Sell-to Customer No.", Staging1."Customer No.");
-                            SalesShipLine.SetRange("Bill-to Customer No.", Staging1."Customer No.");
-                            SalesShipLine.SetRange("Customer Item No.", Staging1."Customer Item No.");
-                            SalesShipLine.SetRange("Customer Order No.", Staging1."Customer Order No.");
+                            SalesShipLine.SetRange("Sell-to Customer No.", Staging2."Customer No.");
+                            SalesShipLine.SetRange("Bill-to Customer No.", Staging2."Customer No.");
+                            SalesShipLine.SetRange("Customer Item No.", Staging2."Customer Item No.");
+                            SalesShipLine.SetRange("Customer Order No.", Staging2."Customer Order No.");
                             SalesShipLine.SetRange(Description, Staging2."Item Description");
                             SalesShipLine.SetRange("Currency Code", Staging2."Currency Code");
                             SalesShipLine.SetFilter("Qty. Shipped Not Invoiced", '<>%1', 0);
