@@ -4,7 +4,7 @@ report 50003 "ActualOrderAmountOrderBalance"
     Caption = 'Actual Order Amount & Order Balance';
     UsageCategory = ReportsAndAnalysis;
 
-    DefaultRenderingLayout = MyLayout;
+    DefaultRenderingLayout = ExecelLayout;
 
     dataset
     {
@@ -25,6 +25,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         {
             DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order));
+            RequestFilterFields = "Document Type", "Outstanding Quantity";
+            RequestFilterHeading = 'Remaining Sales Orders';
             column(DocumentType; "Document Type")
             {
             }
@@ -119,7 +121,6 @@ report 50003 "ActualOrderAmountOrderBalance"
             }
             column(CustomerPostingGroup; CustPostingGroup)
             {
-                Caption = 'Customer Posting Group';
             }
 
             trigger OnPreDataItem()
@@ -145,6 +146,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         //2.4.3	Sales Order Actual Sheet
         dataitem(SalesOrderActual; "Sales Invoice Header")
         {
+            RequestFilterFields = "Order Date", "Customer Posting Group";
+            RequestFilterHeading = 'Sales Order - Actual';
             column(ShipmentDate111; "Shipment Date")
             {
             }
@@ -242,6 +245,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         // 2.4.4	Sales Order Balance Sheet
         dataitem(SalesOrderBalanceSheet; "Sales Invoice Header")
         {
+            RequestFilterFields = "Order Date", "Customer Posting Group", "Posting Date";
+            RequestFilterHeading = 'Sales Order - Balance';
             column(ShipmentDate222222; "Shipment Date")
             {
             }
@@ -329,6 +334,7 @@ report 50003 "ActualOrderAmountOrderBalance"
         // 2.4.5	Customer Sheet
         dataitem(CustomerSheet; "Customer")
         {
+            DataItemTableView = SORTING("No.");
             column(No333; "No.")
             {
             }
@@ -399,7 +405,7 @@ report 50003 "ActualOrderAmountOrderBalance"
     }
     rendering
     {
-        layout(MyLayout)
+        layout(ExecelLayout)
         {
             Type = Excel;
             LayoutFile = './XLSX/ActualOrderAmountOrderBalance.xlsx';
