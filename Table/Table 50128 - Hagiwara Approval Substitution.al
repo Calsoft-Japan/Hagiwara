@@ -1,0 +1,34 @@
+table 50128 "Hagiwara Approval Substitution"
+{
+
+    fields
+    {
+        field(1; "Approver User Name"; Code[50])
+        {
+            TableRelation = user."User Name";
+        }
+        field(2; "Substitution User Name"; Code[50])
+        {
+            TableRelation = user."User Name";
+        }
+
+        field(3; "Start Date"; Date)
+        {
+            NotBlank = true;
+        }
+        field(4; "End Date"; Date)
+        {
+            NotBlank = true;
+        }
+
+    }
+
+    keys
+    {
+        key(Key1; "Approver User Name", "Substitution User Name", "Start Date", "End Date")
+        {
+        }
+    }
+
+}
+
