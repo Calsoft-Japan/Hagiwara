@@ -25,7 +25,7 @@ report 50003 "ActualOrderAmountOrderBalance"
         {
             DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
                                     WHERE("Document Type" = CONST(Order));
-            RequestFilterFields = "Document Type", "Outstanding Quantity";
+            //RequestFilterFields = "Document Type", "Outstanding Quantity";
             RequestFilterHeading = 'Remaining Sales Orders';
             column(DocumentType; "Document Type")
             {
@@ -102,7 +102,7 @@ report 50003 "ActualOrderAmountOrderBalance"
             column(LineAmountExclVAT; "Line Amount")
             {
             }
-            column(LineAmountExclVATLCY; "Unit Price" * Quantity)
+            column(LineAmountExclVATLCY; RemainingSOAmountLCY)
             {
                 //ToDo
                 //should be LCY Amount.
@@ -139,6 +139,8 @@ report 50003 "ActualOrderAmountOrderBalance"
 
                 SalesHeader.get(RemainingSalesOrder."Document Type", RemainingSalesOrder."Document No.");
                 OrderDate := SalesHeader."Order Date";
+
+                RemainingSOAmountLCY := CalcRemSOAmountLCY(RemainingSalesOrder);
             end;
 
         }
@@ -146,7 +148,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         //2.4.3	Sales Order Actual Sheet
         dataitem(SalesOrderActual; "Sales Invoice Header")
         {
-            RequestFilterFields = "Order Date", "Customer Posting Group";
+            DataItemTableView = SORTING("No.");
+            //RequestFilterFields = "Order Date", "Customer Posting Group";
             RequestFilterHeading = 'Sales Order - Actual';
             column(ShipmentDate111; "Shipment Date")
             {
@@ -245,7 +248,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         // 2.4.4	Sales Order Balance Sheet
         dataitem(SalesOrderBalanceSheet; "Sales Invoice Header")
         {
-            RequestFilterFields = "Order Date", "Customer Posting Group", "Posting Date";
+            DataItemTableView = SORTING("No.");
+            //RequestFilterFields = "Order Date", "Customer Posting Group", "Posting Date";
             RequestFilterHeading = 'Sales Order - Balance';
             column(ShipmentDate222222; "Shipment Date")
             {
@@ -412,11 +416,35 @@ report 50003 "ActualOrderAmountOrderBalance"
             ExcelLayoutMultipleDataSheets = true;
         }
     }
+    procedure CalcRemSOAmountLCY(pSalesLine: Record "Sales Line"): Decimal
+    var
+        SalesHeader: Record "Sales Header";
+        CurrencyLocal: Record Currency;
+        rtnAmountLCY: Decimal;
+    begin
+        SalesHeader.get(pSalesLine."Document Type", pSalesLine."Document No.");
+        CurrencyLocal.InitRoundingPrecision();
+        if SalesHeader."Currency Code" <> '' then
+            rtnAmountLCY :=
+              Round(
+                CurrExchRate.ExchangeAmtFCYToLCY(
+                  pSalesLine.GetDate(), pSalesLine."Currency Code",
+                  pSalesLine."Line Amount", SalesHeader."Currency Factor"),
+                CurrencyLocal."Amount Rounding Precision")
+        else
+            rtnAmountLCY :=
+              Round(pSalesLine."Line Amount", CurrencyLocal."Amount Rounding Precision");
+
+        exit(rtnAmountLCY);
+    end;
+
     var
         StartDate: Date;
         EndDate: Date;
         CustPostingGroup: Code[20];
         CustomerGroupCode: Code[20];
         OrderDate: Date;
+        RemainingSOAmountLCY: Decimal;
+        CurrExchRate: Record "Currency Exchange Rate";
 
 }
