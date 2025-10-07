@@ -5,11 +5,11 @@ table 50128 "Hagiwara Approval Substitution"
     {
         field(1; "Approver User Name"; Code[50])
         {
-            TableRelation = user."User Name";
+            TableRelation = "User Setup"."User ID";
         }
         field(2; "Substitution User Name"; Code[50])
         {
-            TableRelation = user."User Name";
+            TableRelation = "User Setup"."User ID";
         }
 
         field(3; "Start Date"; Date)

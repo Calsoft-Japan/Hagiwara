@@ -101,6 +101,47 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
     }
     actions
     {
+
+        modify("Request Approval")
+        {
+            Visible = false;
+        }
+        modify(SendApprovalRequest)
+        {
+            Visible = false;
+        }
+
+        modify(CancelApprovalRequest)
+        {
+            Visible = false;
+        }
+
+        addbefore("P&osting")
+        {
+            group("Hagiwara Approval")
+            {
+                action("Submit")
+                {
+
+                    ApplicationArea = all;
+                    Image = SendApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+            }
+        }
+
+
         addafter("AttachAsPDF")
         {
             action("DeliveryOrderList")

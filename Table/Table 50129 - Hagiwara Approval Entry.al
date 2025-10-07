@@ -8,9 +8,8 @@ table 50129 "Hagiwara Approval Entry"
         {
             AutoIncrement = true;
         }
-        field(2; Data; Option)
+        field(2; Data; Enum "Hagiwara Approval Data")
         {
-            OptionMembers = "","Customer","Vendor","Item","G/L Account","Price List","Sales Order","Purchase Order","Sales Credit Memo","Purchase Credit Memo","Sales Return Order","Purchase Return Order","Item Reclass Journal","Transfer Order","Item Journal","Assembly Order";
         }
         field(3; "No."; Code[20])
         {
@@ -18,7 +17,7 @@ table 50129 "Hagiwara Approval Entry"
         }
         field(4; "Requester"; Code[50])
         {
-            TableRelation = User."User Name";
+            TableRelation = "User Setup"."User ID";
         }
         field(5; "Request Group"; Code[30])
         {
@@ -26,7 +25,7 @@ table 50129 "Hagiwara Approval Entry"
         }
         field(6; "Approver"; Code[50])
         {
-            TableRelation = User."User Name";
+            TableRelation = "User Setup"."User ID";
         }
         field(7; "Approval Group"; Code[30])
         {
@@ -39,9 +38,8 @@ table 50129 "Hagiwara Approval Entry"
         {
 
         }
-        field(10; Status; Option)
+        field(10; Status; Enum "Hagiwara Approval Status")
         {
-            OptionMembers = "","Submitted","Re-Submitted","Cancelled","Approved","Rejected","Auto Approved";
         }
         field(11; Comment; Blob)
         {

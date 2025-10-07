@@ -4,27 +4,148 @@ codeunit 50109 "Hagiwara Approval Management"
     begin
     end;
 
+    procedure Submit(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pRequester: Code[50])
+    var
+        SalesHeader: Record "Sales Header";
+        recReqGroupMem: Record "Hagiwara Request Group Member";
+        recApprCondition: Record "Hagiwara Approval Condition";
+        recApprHrcy: Record "Hagiwara Approval Hierarchy";
+        ReqGroup: Code[30];
+        ApprGroup: Code[30];
+        AmountLCY: Decimal;
+        Approver: Code[50];
+        ReqComment: BigText;
+    begin
+        recReqGroupMem.SetRange(Data, pData);
+        recReqGroupMem.SetRange("Request User Name", pRequester);
+        if recReqGroupMem.FindFirst() then
+            ReqGroup := recReqGroupMem."Request Group Code";
+
+        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+        SalesHeader.CalcFields(Amount);
+        AmountLCY := CalcSOAmountLCY(SalesHeader);
+
+        recApprCondition.SetRange(Data, pData);
+        recApprCondition.SetRange("Request Group Code", reqGroup);
+        recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
+        recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
+        recApprCondition.SetFilter("Amount (LCY)", '%1|%2..', 0, AmountLCY);
+        if not recApprCondition.FindFirst() then
+            error('Hagiwara Approval Condition seems not setup right.');
+
+        ApprGroup := recApprCondition."Approval Group Code";
+
+        recApprHrcy.SetRange("Approval Group Code", ApprGroup);
+        if not recApprHrcy.FindFirst() then
+            error('Hagiwara Approval Hierarchy seems not setup right.');
+
+        Approver := recApprHrcy."Approver User Name";
+
+
+        //ToDo, consider Approval Substitution.
+
+        ReqComment.AddText('Request Comment.');
+
+        InsertApprEntry(
+            pData,
+            pDataNo,
+            pRequester,
+            ReqGroup,
+            Approver,
+            ApprGroup,
+            recApprHrcy."Sequence No.",
+            "Hagiwara Approval Status"::Submitted,
+            ReqComment
+        );
+
+        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+        SalesHeader.Requester := UserId;
+        SalesHeader."Hagi Approver" := Approver;
+        SalesHeader.Modify();
+
+        SendNotificationEmail(pData, pDataNo, pRequester, Approver, EmailType::Submit);
+
+        Message('Approval Request submitted.');
+
+    end;
+
+    procedure InsertApprEntry(
+        pData: Enum "Hagiwara Approval Data";
+        pDataNo: Code[20];
+        pRequester: Code[50];
+        pReqGroup: Code[30];
+        pApprover: Code[50];
+        pApprGroup: Code[30];
+        pApprSeq: Integer;
+        pStatus: Enum "Hagiwara Approval Status";
+        pComment: BigText
+    )
+    var
+        recApprEntry: Record "Hagiwara Approval Entry";
+    begin
+        recApprEntry.Data := pData;
+        recApprEntry."No." := pDataNo;
+        recApprEntry.Requester := pRequester;
+        recApprEntry."Request Group" := pReqGroup;
+        recApprEntry.Approver := pApprover;
+        recApprEntry."Approval Group" := pApprGroup;
+        recApprEntry."Approval Sequence No." := pApprSeq;
+        recApprEntry."Request Date" := WorkDate();
+        recApprEntry.Status := pStatus;
+        //recApprEntry.Comment := pComment; //ToDo
+        recApprEntry.Open := true;
+
+        recApprEntry.Insert();
+    end;
+
     var
         EmailType: Option Submit,Cancel,Approval,Reject;
 
+    procedure CalcSOAmountLCY(pSalesHeader: Record "Sales Header"): Decimal
+    var
+        CurrencyLocal: Record Currency;
+        CurrExchRate: Record "Currency Exchange Rate";
+        RateDate: Date;
+        rtnAmountLCY: Decimal;
+    begin
+        RateDate := pSalesHeader."Posting Date";
+        if RateDate = 0D then
+            RateDate := WorkDate();
 
-    local procedure CreateDataLink(Data: Option; DataNo: Code[20]) dataLink: Text
+        CurrencyLocal.InitRoundingPrecision();
+        if pSalesHeader."Currency Code" <> '' then
+            rtnAmountLCY :=
+              Round(
+                CurrExchRate.ExchangeAmtFCYToLCY(
+                  RateDate, pSalesHeader."Currency Code",
+                  pSalesHeader.Amount, pSalesHeader."Currency Factor"),
+                CurrencyLocal."Amount Rounding Precision")
+        else
+            rtnAmountLCY :=
+              Round(pSalesHeader.Amount, CurrencyLocal."Amount Rounding Precision");
+
+        exit(rtnAmountLCY);
+    end;
+
+
+    local procedure CreateDataLink(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
     var
         AADTenant: Codeunit "Azure AD Tenant";
         EnvInfo: Codeunit "Environment Information";
+        dataLink: Text;
     begin
         dataLink := 'https://businesscentral.dynamics.com/';
         dataLink := dataLink + AADTenant.GetAadTenantId() + '/';
         dataLink := dataLink + EnvInfo.GetEnvironmentName();
         dataLink := dataLink + '?company=' + CompanyName;
         dataLink := dataLink + '&page=42';
-        dataLink := dataLink + '&filter=''No.'' is ''' + DataNo + '''';
+        dataLink := dataLink + '&filter=''No.'' is ''' + pDataNo + '''';
 
         exit(dataLink);
     end;
 
     [TryFunction]
-    procedure SendNotificationEmail(Data: Option; DataNo: code[20]; SendFrom: Code[50]; SendTo: Code[50]; EmailType: Option Submit,Cancel,Approval,Reject)
+    procedure SendNotificationEmail(pData: Enum "Hagiwara Approval Data"; pDataNo: code[20]; SendFrom: Code[50]; SendTo: Code[50]; EmailType: Option Submit,Cancel,Approval,Reject)
     var
         subject, body : text;
         isSent: boolean;
@@ -36,9 +157,9 @@ codeunit 50109 "Hagiwara Approval Management"
             EmailType::Submit:
                 begin
 
-                    subject := Format(Data) + ' : ' + DataNo + ' Approval Request has been made.';
+                    subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been made.';
                     //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
-                    body := body + '<p>' + CreateDataLink(Data, DataNo) + '</p><br/>';
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
                     //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
                 end;
         end;

@@ -11,10 +11,9 @@ table 50123 "Hagiwara Request Group"
 
         }
 
-        field(3; Data; Option)
+        field(3; Data; Enum "Hagiwara Approval Data")
         {
             NotBlank = true;
-            OptionMembers = "","Customer","Vendor","Item","G/L Account","Price List","Sales Order","Purchase Order","Sales Credit Memo","Purchase Credit Memo","Sales Return Order","Purchase Return Order","Item Reclass Journal","Transfer Order","Item Journal","Assembly Order";
         }
     }
 

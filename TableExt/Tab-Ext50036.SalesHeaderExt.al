@@ -262,6 +262,18 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         {
             Description = 'ACWHKGT01.1,ACWSH';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+
+        }
+        field(50092; Requester; Code[50])
+        {
+
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+        }
         field(50545; "Requested Delivery Date_1"; Date)
         {
 

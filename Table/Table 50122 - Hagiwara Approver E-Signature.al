@@ -5,7 +5,7 @@ table 50122 "Hagiwara Approver E-Signature"
     {
         field(1; "User Name"; Code[50])
         {
-            TableRelation = user."User Name";
+            TableRelation = "User Setup"."User ID";
         }
         field(2; "E-Signature"; Blob)
         {

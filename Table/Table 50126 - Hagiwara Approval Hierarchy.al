@@ -14,7 +14,7 @@ table 50126 "Hagiwara Approval Hierarchy"
         field(4; "Approver User Name"; Code[50])
         {
             NotBlank = true;
-            TableRelation = user."User Name";
+            TableRelation = "User Setup"."User ID";
         }
 
     }

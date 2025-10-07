@@ -8,16 +8,15 @@ table 50124 "Hagiwara Request Group Member"
             TableRelation = "Hagiwara Request Group".Code;
         }
 
-        field(3; Data; Option)
+        field(3; Data; Enum "Hagiwara Approval Data")
         {
             FieldClass = FlowField;
             CalcFormula = lookup("Hagiwara Request Group".Data where(Code = field("Request Group Code")));
-            OptionMembers = "","Customer","Vendor","Item","G/L Account","Price List","Sales Order","Purchase Order","Sales Credit Memo","Purchase Credit Memo","Sales Return Order","Purchase Return Order","Item Reclass Journal","Transfer Order","Item Journal","Assembly Order";
         }
         field(4; "Request User Name"; Code[50])
         {
             NotBlank = true;
-            TableRelation = user."User Name";
+            TableRelation = "User Setup"."User ID";
         }
 
     }

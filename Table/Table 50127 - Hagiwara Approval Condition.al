@@ -4,9 +4,8 @@ table 50127 "Hagiwara Approval Condition"
     fields
     {
 
-        field(1; Data; Option)
+        field(1; Data; Enum "Hagiwara Approval Data")
         {
-            OptionMembers = "","Customer","Vendor","Item","G/L Account","Price List","Sales Order","Purchase Order","Sales Credit Memo","Purchase Credit Memo","Sales Return Order","Purchase Return Order","Item Reclass Journal","Transfer Order","Item Journal","Assembly Order";
         }
         field(2; "Request Group Code"; Code[30])
         {
