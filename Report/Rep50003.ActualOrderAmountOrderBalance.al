@@ -9,13 +9,13 @@ report 50003 "ActualOrderAmountOrderBalance"
     dataset
     {
         // 2.4.1	Date Sheet
-        dataitem(DateSheet; Integer)
+        dataitem(Date; Integer)
         {
             DataItemTableView = sorting(Number) where(Number = const(1));
-            column(StartDate; StartDate)
+            column(From; StartDate)
             {
             }
-            column(EndDate; EndDate)
+            column(To; EndDate)
             {
             }
         }
@@ -23,108 +23,106 @@ report 50003 "ActualOrderAmountOrderBalance"
         // 2.4.2	Remaining Sales Order Sheet
         dataitem(RemainingSalesOrder; "Sales Line")
         {
-            DataItemTableView = SORTING("Document Type", "Document No.", "Line No.")
-                                    WHERE("Document Type" = CONST(Order));
+            DataItemTableView = SORTING("Document Type", "Document No.", "Line No.");
             //RequestFilterFields = "Document Type", "Outstanding Quantity";
             RequestFilterHeading = 'Remaining Sales Orders';
-            column(DocumentType; "Document Type")
+            column(SO_DocumentType; "Document Type")
             {
             }
-            column(DocumentNo; "Document No.")
+            column(SO_DocumentNo; "Document No.")
             {
             }
-            column(SelltoCustomerNo; "Sell-to Customer No.")
+            column(SO_SelltoCustomerNo; "Sell-to Customer No.")
             {
             }
-            column(Type; "Type")
+            column(SO_Type; "Type")
             {
             }
-            column(No; "No.")
+            column(SO_No; "No.")
             {
             }
-            column(CustomerItemNo; "Customer Item No.")
+            column(SO_CustomerItemNo; "Customer Item No.")
             {
             }
-            column(PartsNo; "Parts No.")
+            column(SO_PartsNo; "Parts No.")
             {
             }
-            column(Rank; Rank)
+            column(SO_Rank; Rank)
             {
             }
-            column(Products; "Products")
+            column(SO_Products; "Products")
             {
             }
-            column(OEMNo; "OEM No.")
+            column(SO_OEMNo; "OEM No.")
             {
             }
-            column(OrderDate; OrderDate)
+            column(SO_OrderDate; OrderDate)
             {
             }
-            column(PromisedDeliveryDate1; "Promised Delivery Date_1")
+            column(SO_PromisedDeliveryDate1; "Promised Delivery Date_1")
             {
             }
-            column(RequestedDeliveryDate1; "Requested Delivery Date_1")
+            column(SO_RequestedDeliveryDate1; "Requested Delivery Date_1")
             {
             }
-            column(Description; "Description")
+            column(SO_Description; "Description")
             {
             }
-            column(CustomerOrderNo; "Customer Order No.")
+            column(SO_CustomerOrderNo; "Customer Order No.")
             {
             }
-            column(LocationCode; "Location Code")
+            column(SO_LocationCode; "Location Code")
             {
             }
-            column(Reserve; "Reserve")
+            column(SO_Reserve; "Reserve")
             {
             }
-            column(Quantity; "Quantity")
+            column(SO_Quantity; "Quantity")
             {
             }
-            column(ReservedQtyBase; "Reserved Qty. (Base)")
+            column(SO_ReservedQtyBase; "Reserved Qty. (Base)")
             {
             }
-            column(FullyReserved; "Fully Reserved")
+            column(SO_FullyReserved; "Fully Reserved")
             {
             }
-            column(UnitofMeasureCode; "Unit of Measure Code")
+            column(SO_UnitofMeasureCode; "Unit of Measure Code")
             {
             }
-            column(UnitPriceExcl_VAT; "Unit Price")
+            column(SO_UnitPriceExcl_VAT; "Unit Price")
             {
             }
-            column(UnitCost; "Unit Cost")
+            column(SO_UnitCost; "Unit Cost")
             {
             }
-            column(UnitCost_LCY; "Unit Cost (LCY)")
+            column(SO_UnitCost_LCY; "Unit Cost (LCY)")
             {
             }
-            column(LineAmountExclVAT; "Line Amount")
+            column(SO_LineAmountExclVAT; "Line Amount")
             {
             }
-            column(LineAmountExclVATLCY; RemainingSOAmountLCY)
-            {
-                //ToDo
-                //should be LCY Amount.
-            }
-            column(ShipmentDate; "Shipment Date")
+            column(SO_LineAmountExclVATLCY; RemainingSOAmountLCY)
             {
             }
-            column(OutstandingQuantity; "Outstanding Quantity")
+            column(SO_ShipmentDate; "Shipment Date")
             {
             }
-            column(OutstandingQtyBase; "Outstanding Qty. (Base)")
+            column(SO_OutstandingQuantity; "Outstanding Quantity")
             {
             }
-            column(Calculated; "Unit Price" * "Outstanding Quantity")
+            column(SO_OutstandingQtyBase; "Outstanding Qty. (Base)")
             {
             }
-            column(CustomerPostingGroup; CustPostingGroup)
+            column(SO_Calculated; "Unit Price" * "Outstanding Quantity")
+            {
+            }
+            column(SO_CustomerPostingGroup; CustPostingGroup)
             {
             }
 
             trigger OnPreDataItem()
             begin
+                RemainingSalesOrder.SetRange("Document Type", RemainingSalesOrder."Document Type"::Order);
                 RemainingSalesOrder.SetFilter("Outstanding Quantity", '>%1', 0);
             end;
 
@@ -151,80 +149,77 @@ report 50003 "ActualOrderAmountOrderBalance"
             DataItemTableView = SORTING("No.");
             //RequestFilterFields = "Order Date", "Customer Posting Group";
             RequestFilterHeading = 'Sales Order - Actual';
-            column(ShipmentDate111; "Shipment Date")
+            column(ACT_ShipmentDate; "Shipment Date")
             {
             }
-            column(PostingDate; "Posting Date")
+            column(ACT_PostingDate; "Posting Date")
             {
             }
-            column(DocumentDate; "Document Date")
+            column(ACT_DocumentDate; "Document Date")
             {
             }
-            column(No111; "No.")
+            column(ACT_No; "No.")
             {
             }
-            column(CustomerNo; "Sell-to Customer No.")
+            column(ACT_CustomerNo; "Sell-to Customer No.")
             {
             }
-            column(Customer; "Sell-to Customer Name")
+            column(ACT_Customer; "Sell-to Customer Name")
             {
             }
-            column(OrderNo; "Order No.")
+            column(ACT_OrderNo; "Order No.")
             {
             }
-            column(OEMNo111; "OEM No.")
+            column(ACT_OEMNo; "OEM No.")
             {
             }
-            column(OEMName; "OEM Name")
+            column(ACT_OEMName; "OEM Name")
             {
             }
-            column(CurrencyCode; "Currency Code")
+            column(ACT_CurrencyCode; "Currency Code")
             {
             }
-            column(DueDate; "Due Date")
+            column(ACT_DueDate; "Due Date")
             {
             }
-            column(Amount; "Amount")
+            column(ACT_Amount; "Amount")
             {
             }
-            column(AmountLCY; "Amount")
-            {
-                //ToDo
-                //should be LCY Amount.
-            }
-            column(AmountIncludingVAT; "Amount Including VAT")
+            column(ACT_AmountLCY; InvoiceAmountLCY)
             {
             }
-            column(ExternalDocumentNo; "External Document No.")
+            column(ACT_AmountIncludingVAT; "Amount Including VAT")
             {
             }
-            column(RemainingAmount; "Remaining Amount")
+            column(ACT_ExternalDocumentNo; "External Document No.")
             {
             }
-            column(LocationCode111; "Location Code")
+            column(ACT_RemainingAmount; "Remaining Amount")
             {
             }
-            column(PrintedNo; "No. Printed")
+            column(ACT_LocationCode; "Location Code")
             {
             }
-            column(Closed; "Closed")
+            column(ACT_PrintedNo; "No. Printed")
             {
             }
-            column(Cancelled; "Cancelled")
+            column(ACT_Closed; "Closed")
             {
             }
-            column(Corrective; "Corrective")
+            column(ACT_Cancelled; "Cancelled")
             {
             }
-            column(ShipmentMethodCode; "Shipment Method Code")
+            column(ACT_Corrective; "Corrective")
             {
             }
-            column(CustomerGroupCode; CustomerGroupCode)
+            column(ACT_ShipmentMethodCode; "Shipment Method Code")
             {
             }
-            column(CustomerPostingGroup111; "Customer Posting Group")
+            column(ACT_CustomerGroupCode; CustomerGroupCode)
             {
-                Caption = 'Customer Posting Group';
+            }
+            column(ACT_CustomerPostingGroup; "Customer Posting Group")
+            {
             }
 
             trigger OnPreDataItem()
@@ -241,96 +236,101 @@ report 50003 "ActualOrderAmountOrderBalance"
             begin
                 Cust.get(SalesOrderActual."Sell-to Customer No.");
                 CustomerGroupCode := Cust."Customer Group";
+
+                InvoiceAmountLCY := CalcInvoiceAmountLCY(SalesOrderActual);
             end;
 
         }
 
         // 2.4.4	Sales Order Balance Sheet
-        dataitem(SalesOrderBalanceSheet; "Sales Invoice Header")
+        dataitem(SalesOrderBalance; "Sales Invoice Header")
         {
             DataItemTableView = SORTING("No.");
             //RequestFilterFields = "Order Date", "Customer Posting Group", "Posting Date";
             RequestFilterHeading = 'Sales Order - Balance';
-            column(ShipmentDate222222; "Shipment Date")
+            column(BAL_ShipmentDate; "Shipment Date")
             {
             }
-            column(PostingDate222; "Posting Date")
+            column(BAL_PostingDate; "Posting Date")
             {
             }
-            column(DocumentDate222; "Document Date")
+            column(BAL_DocumentDate; "Document Date")
             {
             }
-            column(No222; "No.")
+            column(BAL_No; "No.")
             {
             }
-            column(CustomerNo222; "Sell-to Customer No.")
+            column(BAL_CustomerNo; "Sell-to Customer No.")
             {
             }
-            column(Customer222; "Sell-to Customer Name")
+            column(BAL_Customer; "Sell-to Customer Name")
             {
             }
-            column(OrderNo222; "Order No.")
+            column(BAL_OrderNo; "Order No.")
             {
             }
-            column(OEMNo222; "OEM No.")
+            column(BAL_OEMNo; "OEM No.")
             {
             }
-            column(OEMName222; "OEM Name")
+            column(BAL_OEMName; "OEM Name")
             {
             }
-            column(CurrencyCode222; "Currency Code")
+            column(BAL_CurrencyCode; "Currency Code")
             {
             }
-            column(DueDate222; "Due Date")
+            column(BAL_DueDate; "Due Date")
             {
             }
-            column(Amount222; "Amount")
+            column(BAL_Amount; "Amount")
             {
             }
-            column(AmountLCY222; "Amount")
-            {
-                //ToDo
-                //should be LCY Amount.
-            }
-            column(AmountIncludingVAT222; "Amount Including VAT")
+            column(BAL_AmountLCY; InvoiceAmountLCY)
             {
             }
-            column(ExternalDocumentNo222; "External Document No.")
+            column(BAL_AmountIncludingVAT; "Amount Including VAT")
             {
             }
-            column(RemainingAmount222; "Remaining Amount")
+            column(BAL_ExternalDocumentNo; "External Document No.")
             {
             }
-            column(LocationCode222; "Location Code")
+            column(BAL_RemainingAmount; "Remaining Amount")
             {
             }
-            column(PrintedNo222; "No. Printed")
+            column(BAL_LocationCode; "Location Code")
             {
             }
-            column(Closed222; "Closed")
+            column(BAL_PrintedNo; "No. Printed")
             {
             }
-            column(Cancelled222; "Cancelled")
+            column(BAL_Closed; "Closed")
             {
             }
-            column(Corrective222; "Corrective")
+            column(BAL_Cancelled; "Cancelled")
             {
             }
-            column(ShipmentMethodCode222; "Shipment Method Code")
+            column(BAL_Corrective; "Corrective")
             {
             }
-            column(CustomerGroupCode222; CustomerGroupCode)
+            column(BAL_ShipmentMethodCode; "Shipment Method Code")
             {
             }
-            column(CustomerPostingGroup222; "Customer Posting Group")
+            column(BAL_CustomerGroupCode; CustomerGroupCode)
+            {
+            }
+            column(BAL_CustomerPostingGroup; "Customer Posting Group")
             {
             }
 
             trigger OnPreDataItem()
             begin
-                SalesOrderBalanceSheet.SETFILTER("Order Date", '..%1', EndDate);
-                SalesOrderBalanceSheet.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
-                SalesOrderBalanceSheet.SETFILTER("Posting Date", '%1..', StartDate);
+                SalesOrderBalance.SETFILTER("Order Date", '..%1', EndDate);
+                SalesOrderBalance.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
+                SalesOrderBalance.SETFILTER("Posting Date", '%1..', StartDate);
+            end;
+
+            trigger OnAfterGetRecord()
+            begin
+                InvoiceAmountLCY := CalcInvoiceAmountLCY(SalesOrderBalance);
             end;
 
         }
@@ -339,28 +339,28 @@ report 50003 "ActualOrderAmountOrderBalance"
         dataitem(CustomerSheet; "Customer")
         {
             DataItemTableView = SORTING("No.");
-            column(No333; "No.")
+            column(CU_No; "No.")
             {
             }
-            column(FamiliarName; "Familiar Name")
+            column(CU_FamiliarName; "Familiar Name")
             {
             }
-            column(Name; "Name")
+            column(CU_Name; "Name")
             {
             }
-            column(CountryRegionCode; "Country/Region Code")
+            column(CU_CountryRegionCode; "Country/Region Code")
             {
             }
-            column(County; "County")
+            column(CU_County; "County")
             {
             }
-            column(CustomerPostingGroup333; "Customer Posting Group")
+            column(CU_CustomerPostingGroup; "Customer Posting Group")
             {
             }
-            column(ShipmentMethodCode333; "Shipment Method Code")
+            column(CU_ShipmentMethodCode; "Shipment Method Code")
             {
             }
-            column(ShippingAgentCode; "Shipping Agent Code")
+            column(CU_ShippingAgentCode; "Shipping Agent Code")
             {
             }
 
@@ -438,6 +438,26 @@ report 50003 "ActualOrderAmountOrderBalance"
         exit(rtnAmountLCY);
     end;
 
+    procedure CalcInvoiceAmountLCY(pSalesInvoiceHeader: Record "Sales Invoice Header"): Decimal
+    var
+        CurrencyLocal: Record Currency;
+        rtnAmountLCY: Decimal;
+    begin
+        CurrencyLocal.InitRoundingPrecision();
+        if pSalesInvoiceHeader."Currency Code" <> '' then
+            rtnAmountLCY :=
+              Round(
+                CurrExchRate.ExchangeAmtFCYToLCY(
+                  pSalesInvoiceHeader."Posting Date", pSalesInvoiceHeader."Currency Code",
+                  pSalesInvoiceHeader.Amount, pSalesInvoiceHeader."Currency Factor"),
+                CurrencyLocal."Amount Rounding Precision")
+        else
+            rtnAmountLCY :=
+              Round(pSalesInvoiceHeader.Amount, CurrencyLocal."Amount Rounding Precision");
+
+        exit(rtnAmountLCY);
+    end;
+
     var
         StartDate: Date;
         EndDate: Date;
@@ -445,6 +465,7 @@ report 50003 "ActualOrderAmountOrderBalance"
         CustomerGroupCode: Code[20];
         OrderDate: Date;
         RemainingSOAmountLCY: Decimal;
+        InvoiceAmountLCY: Decimal;
         CurrExchRate: Record "Currency Exchange Rate";
 
 }
