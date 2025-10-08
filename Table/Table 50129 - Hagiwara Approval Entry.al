@@ -61,5 +61,23 @@ table 50129 "Hagiwara Approval Entry"
         }
     }
 
+    procedure AddComment(pComment: BigText)
+    var
+        OutStream: OutStream;
+    begin
+        Comment.CreateOutStream(OutStream);
+        OutStream.Write(pComment);
+        Modify();
+    end;
+
+    procedure GetComment() CommentText: BigText
+    var
+        InStream: InStream;
+    begin
+        CalcFields(Comment);
+        Comment.CreateInStream(InStream, TEXTENCODING::UTF8);
+        CommentText.Read(InStream);
+        exit(CommentText);
+    end;
 }
 

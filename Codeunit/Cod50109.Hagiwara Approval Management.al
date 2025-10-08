@@ -10,11 +10,12 @@ codeunit 50109 "Hagiwara Approval Management"
         recReqGroupMem: Record "Hagiwara Request Group Member";
         recApprCondition: Record "Hagiwara Approval Condition";
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
+        pagComment: page "Hagiwara Approval Comment";
+        recApprEntry: Record "Hagiwara Approval Entry";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
         AmountLCY: Decimal;
         Approver: Code[50];
-        ReqComment: BigText;
     begin
         recReqGroupMem.SetRange(Data, pData);
         recReqGroupMem.SetRange("Request User Name", pRequester);
@@ -44,28 +45,32 @@ codeunit 50109 "Hagiwara Approval Management"
 
         //ToDo, consider Approval Substitution.
 
-        ReqComment.AddText('Request Comment.');
 
-        InsertApprEntry(
-            pData,
-            pDataNo,
-            pRequester,
-            ReqGroup,
-            Approver,
-            ApprGroup,
-            recApprHrcy."Sequence No.",
-            "Hagiwara Approval Status"::Submitted,
-            ReqComment
-        );
+        pagComment.SetData(pData, pDataNo);
+        if pagComment.RunModal() = Action::OK then begin
+            InsertApprEntry(
+                pData,
+                pDataNo,
+                pRequester,
+                ReqGroup,
+                Approver,
+                ApprGroup,
+                recApprHrcy."Sequence No.",
+                "Hagiwara Approval Status"::Submitted,
+                pagComment.GetComment()
+            );
 
-        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
-        SalesHeader.Requester := UserId;
-        SalesHeader."Hagi Approver" := Approver;
-        SalesHeader.Modify();
+            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+            SalesHeader.Requester := UserId;
+            SalesHeader."Hagi Approver" := Approver;
+            SalesHeader.Modify();
 
-        SendNotificationEmail(pData, pDataNo, pRequester, Approver, EmailType::Submit);
+            SendNotificationEmail(pData, pDataNo, pRequester, Approver, EmailType::Submit);
 
-        Message('Approval Request submitted.');
+            Message('Approval Request submitted.');
+        end;
+
+
 
     end;
 
@@ -82,6 +87,8 @@ codeunit 50109 "Hagiwara Approval Management"
     )
     var
         recApprEntry: Record "Hagiwara Approval Entry";
+        ReqComment: BigText;
+        Ostream: OutStream;
     begin
         recApprEntry.Data := pData;
         recApprEntry."No." := pDataNo;
@@ -92,10 +99,13 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprEntry."Approval Sequence No." := pApprSeq;
         recApprEntry."Request Date" := WorkDate();
         recApprEntry.Status := pStatus;
-        //recApprEntry.Comment := pComment; //ToDo
         recApprEntry.Open := true;
 
         recApprEntry.Insert();
+
+        recApprEntry.AddComment(pComment);
+
+
     end;
 
     var

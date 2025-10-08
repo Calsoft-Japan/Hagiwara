@@ -51,7 +51,7 @@ page 50129 "Hagiwara Approval Entries"
                 {
                     ApplicationArea = all;
                 }
-                field(Comment; Rec.Comment)
+                field(Comment; CommentText)
                 {
                     ApplicationArea = all;
                 }
@@ -66,5 +66,12 @@ page 50129 "Hagiwara Approval Entries"
             }
         }
     }
+    trigger OnAfterGetRecord()
+    begin
+        CommentText := Rec.GetComment();
+    end;
+
+    var
+        CommentText: BigText;
 }
 
