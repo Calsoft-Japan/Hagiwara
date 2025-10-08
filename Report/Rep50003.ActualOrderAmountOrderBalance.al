@@ -9,7 +9,7 @@ report 50003 "ActualOrderAmountOrderBalance"
     dataset
     {
         // 2.4.1	Date Sheet
-        dataitem(Date; Integer)
+        dataitem(DateSheet; Integer)
         {
             DataItemTableView = sorting(Number) where(Number = const(1));
             column(From; StartDate)
