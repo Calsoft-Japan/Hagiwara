@@ -4,7 +4,7 @@ report 50003 "ActualOrderAmountOrderBalance"
     Caption = 'Actual Order Amount & Order Balance';
     UsageCategory = ReportsAndAnalysis;
 
-    DefaultRenderingLayout = ExecelLayout;
+    DefaultRenderingLayout = ExcelLayout;
 
     dataset
     {
@@ -409,7 +409,7 @@ report 50003 "ActualOrderAmountOrderBalance"
     }
     rendering
     {
-        layout(ExecelLayout)
+        layout(ExcelLayout)
         {
             Type = Excel;
             LayoutFile = './XLSX/ActualOrderAmountOrderBalance.xlsx';
