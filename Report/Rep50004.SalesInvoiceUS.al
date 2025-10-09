@@ -3,6 +3,7 @@ report 50004 "Sales Invoice US"
     // HG10.00.02 NJ 01/06/2017 - Hagirawa US Upgrade
     // Bobby 05/21/2024 - Bug fix of Sales Invoice US
     // CS092 Bobby.Ji 2025/6/19 - Upgade to the BC version
+    // CS092 Bobby.Ji 2025/10/08 - Add Currency Code to the Sales Invoice layout Line and Footer parts.
     DefaultLayout = RDLC;
     RDLCLayout = './RDLC/SalesInvoiceUS.rdlc';
 
@@ -18,6 +19,9 @@ report 50004 "Sales Invoice US"
             RequestFilterFields = "No.", "Sell-to Customer No.", "Bill-to Customer No.", "Ship-to Code", "No. Printed";
             RequestFilterHeading = 'Sales Invoice';
             column(No_SalesInvHeader; "No.")
+            {
+            }
+            column(CurrencyCode; "Currency Code")
             {
             }
             dataitem("Sales Invoice Line"; "Sales Invoice Line")
@@ -292,6 +296,9 @@ report 50004 "Sales Invoice US"
                         column(TotalPriceCaption; TotalPriceCaptionLbl)
                         {
                         }
+                        column(CurrencyCaption; CurrencyCaptionLbl)
+                        {
+                        }
                         column(TotalCaption; TotalCaption)
                         {
                         }
@@ -412,6 +419,7 @@ report 50004 "Sales Invoice US"
                         CompanyInformation."Fax No." := RespCenter."Fax No.";
                     END;
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
+
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
                 IF "Salesperson Code" = '' THEN
@@ -443,6 +451,7 @@ report 50004 "Sales Invoice US"
 
                 IF "Currency Code" = '' THEN BEGIN
                     GLSetup.TESTFIELD("LCY Code");
+                    "Currency Code" := GLSetup."LCY Code";
                     TotalCaption := STRSUBSTNO(TotalCaptionTxt, GLSetup."LCY Code");
                     AmountExemptfromSalesTaxCaption := STRSUBSTNO(AmountExemptfromSalesTaxCaptionTxt, GLSetup."LCY Code");
                     AmountSubjecttoSalesTaxCaption := STRSUBSTNO(AmountSubjecttoSalesTaxCaptionTxt, GLSetup."LCY Code");
@@ -643,7 +652,8 @@ report 50004 "Sales Invoice US"
         QuantityCaptionLbl: Label 'Quantity';
         UnitPriceCaptionLbl: Label 'Unit Price';
         TotalPriceCaptionLbl: Label 'Total Price';
-        TotalCaptionTxt: Label 'Total:';
+        CurrencyCaptionLbl: Label 'Currency';
+        TotalCaptionTxt: Label 'Total(%1):';
         TotalCaption: Text;
         AmountSubjecttoSalesTaxCaption: Text;
         AmountExemptfromSalesTaxCaption: Text;

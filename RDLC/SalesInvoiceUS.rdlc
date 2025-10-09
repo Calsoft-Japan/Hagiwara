@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
@@ -31,16 +31,19 @@
                   <Width>1.13979cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.6192cm</Width>
+                  <Width>1.79792cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.40922cm</Width>
+                  <Width>2.32984cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>1.82921cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>0.92105cm</Width>
+                  <Width>0.49772cm</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.58856cm</Width>
                 </TablixColumn>
                 <TablixColumn>
                   <Width>0.07938cm</Width>
@@ -58,7 +61,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Cstr(Fields!CompanyAddress1.Value) + Chr(177) + 
+                                  <Value>=Cstr(Fields!CompanyAddress1.Value) + Chr(177) + 
 Cstr(Fields!CompanyAddress2.Value) + Chr(177) + 
 Cstr(Fields!CompanyAddress3.Value) + Chr(177) + 
 Cstr(Fields!CompanyAddress4.Value) + Chr(177) + 
@@ -198,7 +201,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -230,6 +233,38 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox21">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Color>Red</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox21</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                            <PaddingRight>5pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox3">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -237,7 +272,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -273,7 +308,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!ItemDescriptionCaption.Value</Value>
+                                  <Value>=Fields!ItemDescriptionCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -308,7 +343,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!UnitCaption.Value</Value>
+                                  <Value>=Fields!UnitCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -342,7 +377,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!OrderQtyCaption.Value</Value>
+                                  <Value>=Fields!OrderQtyCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -378,7 +413,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!QuantityCaption.Value</Value>
+                                  <Value>=Fields!QuantityCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -413,7 +448,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!UnitPriceCaption.Value</Value>
+                                  <Value>=Fields!UnitPriceCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -448,7 +483,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!TotalPriceCaption.Value</Value>
+                                  <Value>=Fields!TotalPriceCaption.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -478,6 +513,40 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox22">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CurrencyCaption.Value</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox22</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Middle</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox4">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -485,7 +554,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -521,7 +590,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -559,7 +628,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -583,6 +652,37 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox23">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox23</rd:DefaultName>
+                          <Style>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingRight>5pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox15">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -590,7 +690,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -626,7 +726,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -670,7 +770,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -700,6 +800,43 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox24">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox24</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <TopBorder>
+                              <Style>Solid</Style>
+                            </TopBorder>
+                            <VerticalAlign>Bottom</VerticalAlign>
+                            <PaddingRight>5pt</PaddingRight>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox16">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -707,7 +844,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -749,7 +886,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!TempSalesInvoiceCustItemNo.Value</Value>
+                                  <Value>=Fields!TempSalesInvoiceCustItemNo.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -782,7 +919,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!DescriptionToPrint.Value</Value>
+                                  <Value>=Fields!DescriptionToPrint.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -815,7 +952,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Fields!CustPO.Value</Value>
+                                  <Value>=Fields!CustPO.Value</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -851,7 +988,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Code.BlankZero(Fields!TempSalesInvoiceLineQty.Value)</Value>
+                                  <Value>=Code.BlankZero(Fields!TempSalesInvoiceLineQty.Value)</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -886,7 +1023,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Code.BlankZero(Fields!UnitPriceToPrint.Value)</Value>
+                                  <Value>=Code.BlankZero(Fields!UnitPriceToPrint.Value)</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -921,7 +1058,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto">=Code.BlankZero(Fields!AmountExclInvDisc.Value)</Value>
+                                  <Value>=Code.BlankZero(Fields!AmountExclInvDisc.Value)</Value>
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -950,6 +1087,39 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                     <TablixCell />
                     <TablixCell>
                       <CellContents>
+                        <Textbox Name="Textbox25">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CurrencyCode.Value</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontFamily>Segoe UI</FontFamily>
+                                    <FontSize>9pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Right</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox25</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <VerticalAlign>Top</VerticalAlign>
+                            <PaddingLeft>5pt</PaddingLeft>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
                         <Textbox Name="Textbox5">
                           <CanGrow>true</CanGrow>
                           <KeepTogether>true</KeepTogether>
@@ -957,7 +1127,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value EvaluationMode="Auto" />
+                                  <Value />
                                   <Style>
                                     <FontStyle>Normal</FontStyle>
                                     <FontFamily>Segoe UI</FontFamily>
@@ -985,6 +1155,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
             </TablixBody>
             <TablixColumnHierarchy>
               <TablixMembers>
+                <TablixMember />
                 <TablixMember />
                 <TablixMember />
                 <TablixMember />
@@ -1059,14 +1230,14 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
             </TablixRowHierarchy>
             <DataSetName>DataSet_Result</DataSetName>
             <Height>1.49896cm</Height>
-            <Width>17.86674cm</Width>
+            <Width>18.13131cm</Width>
             <Style />
           </Tablix>
         </ReportItems>
         <Height>1.49896cm</Height>
         <Style />
       </Body>
-      <Width>18.05193cm</Width>
+      <Width>18.13131cm</Width>
       <Page>
         <PageHeader>
           <Height>8.65603cm</Height>
@@ -1079,7 +1250,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(38, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(38, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1108,7 +1279,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(39, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(39, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1138,7 +1309,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Code.GetData(40,1)</Value>
+                      <Value>=Code.GetData(40,1)</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1196,7 +1367,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(43, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(43, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1224,7 +1395,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(44, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(44, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1252,7 +1423,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(45, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(45, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1280,7 +1451,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(46, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(46, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1308,7 +1479,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(47, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(47, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1336,7 +1507,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(48, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(48, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1367,7 +1538,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(49, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(49, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1448,7 +1619,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(9, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(9, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1478,7 +1649,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(32, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(32, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1508,7 +1679,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(31, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(31, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1538,7 +1709,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(30, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(30, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1568,7 +1739,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(26, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(26, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1598,7 +1769,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(25, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(25, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1628,7 +1799,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(24, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(24, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1658,7 +1829,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(23, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(23, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1688,7 +1859,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(22, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(22, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1718,7 +1889,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(21, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(21, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1746,7 +1917,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(20, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(20, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1776,7 +1947,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(19, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(19, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1809,7 +1980,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(51, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(51, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1837,7 +2008,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(15, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(15, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1865,7 +2036,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(14, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(14, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1893,7 +2064,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(13, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(13, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1921,7 +2092,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(12, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(12, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1949,7 +2120,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(11, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(11, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -1977,7 +2148,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(33, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(33, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2066,7 +2237,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(10, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(10, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2113,7 +2284,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Globals!PageNumber</Value>
+                      <Value>=Globals!PageNumber</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2144,7 +2315,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto" />
+                      <Value />
                       <Style>
                         <FontSize>9pt</FontSize>
                       </Style>
@@ -2154,9 +2325,9 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox11</rd:DefaultName>
-              <Top>8.35441cm</Top>
-              <Height>0.02646cm</Height>
-              <Width>17.94612cm</Width>
+              <Top>8.33664cm</Top>
+              <Height>0.04423cm</Height>
+              <Width>18.13131cm</Width>
               <ZIndex>37</ZIndex>
               <Style>
                 <Border>
@@ -2177,7 +2348,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(52, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(52, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2206,7 +2377,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2246,7 +2417,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Cstr(Choose(37, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=Cstr(Choose(37, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2279,7 +2450,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=CDEC(Choose(34, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
+                      <Value>=CDEC(Choose(34, Split(Cstr(ReportItems!HeaderCompanyAddressInfo.Value), Chr(177))))</Value>
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Segoe UI</FontFamily>
@@ -2316,7 +2487,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">="P/S :"</Value>
+                      <Value>="P/S :"</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2347,7 +2518,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=First(Fields!BankName.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!BankName.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Normal</FontWeight>
@@ -2378,7 +2549,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">="Bank ABA : " + First(Fields!BankABA.Value, "DataSet_Result")</Value>
+                      <Value>="Bank ABA : " + First(Fields!BankABA.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Normal</FontWeight>
@@ -2409,7 +2580,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">="Bank Account # : " + First(Fields!BankAccount.Value, "DataSet_Result")</Value>
+                      <Value>="Bank Account # : " + First(Fields!BankAccount.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Normal</FontWeight>
@@ -2440,7 +2611,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">="Bank SWIFT : " + First(Fields!SwiftCode.Value, "DataSet_Result")</Value>
+                      <Value>="Bank SWIFT : " + First(Fields!SwiftCode.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Normal</FontWeight>
@@ -2483,7 +2654,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
+                      <Value>=First(Fields!CompanyName.Value, "DataSet_Result")</Value>
                       <Style>
                         <FontSize>9pt</FontSize>
                         <FontWeight>Bold</FontWeight>
@@ -2552,7 +2723,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
         <PageHeight>27.94cm</PageHeight>
         <PageWidth>21.59cm</PageWidth>
         <LeftMargin>0.8cm</LeftMargin>
-        <RightMargin>0cm</RightMargin>
+        <RightMargin>0.8cm</RightMargin>
         <TopMargin>0.75cm</TopMargin>
         <BottomMargin>1.3cm</BottomMargin>
         <ColumnSpacing>1.27cm</ColumnSpacing>
@@ -2653,6 +2824,9 @@ End Function</Code>
       <Fields>
         <Field Name="No_SalesInvHeader">
           <DataField>No_SalesInvHeader</DataField>
+        </Field>
+        <Field Name="CurrencyCode">
+          <DataField>CurrencyCode</DataField>
         </Field>
         <Field Name="CompanyInformationPicture">
           <DataField>CompanyInformationPicture</DataField>
@@ -2872,6 +3046,9 @@ End Function</Code>
         </Field>
         <Field Name="TotalPriceCaption">
           <DataField>TotalPriceCaption</DataField>
+        </Field>
+        <Field Name="CurrencyCaption">
+          <DataField>CurrencyCaption</DataField>
         </Field>
         <Field Name="TotalCaption">
           <DataField>TotalCaption</DataField>
