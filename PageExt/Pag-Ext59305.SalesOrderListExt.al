@@ -134,8 +134,31 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         recApprSetup.Get();
                         if not recApprSetup."Sales Order" then
                             exit;
+                        if rec."Approval Status" = Enum::"Hagiwara Approval Status"::Submitted then
+                            Error('This approval request has been sent.');
 
                         cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Cancel")
+                {
+
+                    ApplicationArea = all;
+                    Image = CancelApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
+                            Error('This approval request can not be cancelled.');
+
+                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
                     end;
                 }
             }

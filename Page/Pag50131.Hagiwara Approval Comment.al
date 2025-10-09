@@ -34,7 +34,7 @@ page 50131 "Hagiwara Approval Comment"
         Data: Enum "Hagiwara Approval Data";
         DataNo: Code[20];
         TitleText: Text;
-        MsgText: BigText;
+        MsgText: Text;
 
 
     procedure SetData(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20])
@@ -44,12 +44,10 @@ page 50131 "Hagiwara Approval Comment"
 
     end;
 
-    procedure GetComment(): BigText
+    procedure GetComment(): Text
     begin
         exit(MsgText);
 
     end;
-
-
 
 }

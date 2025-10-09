@@ -16,6 +16,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ApprGroup: Code[30];
         AmountLCY: Decimal;
         Approver: Code[50];
+        MsgComment: Text;
     begin
         recReqGroupMem.SetRange(Data, pData);
         recReqGroupMem.SetRange("Request User Name", pRequester);
@@ -48,6 +49,8 @@ codeunit 50109 "Hagiwara Approval Management"
 
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
+            MsgComment := pagComment.GetComment();
+            MsgComment := Format(CurrentDateTime) + '. ' + 'Submit. ' + UserId() + '\' + MsgComment;
             InsertApprEntry(
                 pData,
                 pDataNo,
@@ -57,7 +60,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 ApprGroup,
                 recApprHrcy."Sequence No.",
                 "Hagiwara Approval Status"::Submitted,
-                pagComment.GetComment()
+                MsgComment
             );
 
             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
@@ -70,8 +73,57 @@ codeunit 50109 "Hagiwara Approval Management"
             Message('Approval Request submitted.');
         end;
 
+    end;
 
 
+    procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pRequester: Code[50])
+    var
+        SalesHeader: Record "Sales Header";
+        pagComment: page "Hagiwara Approval Comment";
+        MsgComment: Text;
+    begin
+
+        pagComment.SetData(pData, pDataNo);
+        if pagComment.RunModal() = Action::OK then begin
+            MsgComment := pagComment.GetComment();
+            MsgComment := Format(CurrentDateTime) + '. ' + 'Cancel. ' + UserId() + '\' + MsgComment;
+            CancelApprEntry(
+                pData,
+                pDataNo,
+                MsgComment
+            );
+
+            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+            SalesHeader.Requester := '';
+            SalesHeader."Hagi Approver" := '';
+            SalesHeader.Modify();
+
+            SendNotificationEmail(pData, pDataNo, pRequester, '', EmailType::Cancel);
+
+            Message('Approval Request cancelled.');
+        end;
+    end;
+
+
+    procedure CancelApprEntry(
+        pData: Enum "Hagiwara Approval Data";
+        pDataNo: Code[20];
+        pComment: Text
+    )
+    var
+        recApprEntry: Record "Hagiwara Approval Entry";
+    begin
+        recApprEntry.SetRange(Open, true);
+        recApprEntry.SetRange(Data, pData);
+        recApprEntry.SetRange("No.", pDataNo);
+
+        if recApprEntry.FindFirst() then begin
+            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Cancelled;
+            recApprEntry.Modify();
+
+            recApprEntry.AddComment(pComment);
+        end;
     end;
 
     procedure InsertApprEntry(
@@ -83,7 +135,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pApprGroup: Code[30];
         pApprSeq: Integer;
         pStatus: Enum "Hagiwara Approval Status";
-        pComment: BigText
+        pComment: Text
     )
     var
         recApprEntry: Record "Hagiwara Approval Entry";
@@ -168,6 +220,14 @@ codeunit 50109 "Hagiwara Approval Management"
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been made.';
+                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
+                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                end;
+            EmailType::Cancel:
+                begin
+
+                    subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been cancelled.';
                     //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
                     body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
                     //body := body + '<p>' + approver's info+'</p><br/>'; //TODO

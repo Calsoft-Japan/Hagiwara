@@ -61,13 +61,33 @@ table 50129 "Hagiwara Approval Entry"
         }
     }
 
-    procedure AddComment(pComment: BigText)
+    procedure AddComment(pComment: Text)
     var
         OutStream: OutStream;
+        InStream: InStream;
+        CommentText: BigText;
+        tempBlob: Record "Hagiwara Approval Entry" temporary;
     begin
-        Comment.CreateOutStream(OutStream);
-        OutStream.Write(pComment);
-        Modify();
+        CalcFields(Comment);
+        if Comment.HasValue then begin
+            tempBlob.Comment := Comment;
+
+            Comment.CreateInStream(InStream, TEXTENCODING::UTF8);
+
+            CommentText.Read(InStream);
+            CommentText.AddText(pComment);
+
+            Comment.CreateOutStream(OutStream, TextEncoding::UTF8);
+            OutStream.Write(CommentText);
+            Modify();
+        end else begin
+
+            Comment.CreateOutStream(OutStream, TextEncoding::UTF8);
+            OutStream.WriteText(pComment);
+            Modify();
+
+        end;
+
     end;
 
     procedure GetComment() CommentText: BigText
