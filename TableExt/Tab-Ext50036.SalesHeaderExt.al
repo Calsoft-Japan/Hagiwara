@@ -400,6 +400,32 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
 
     }
 
+    trigger OnBeforeModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
     trigger OnAfterInsert()
     begin
         "Shipment Tracking Date" := WORKDATE;

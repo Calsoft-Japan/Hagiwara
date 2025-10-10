@@ -65,17 +65,15 @@ table 50129 "Hagiwara Approval Entry"
     var
         OutStream: OutStream;
         InStream: InStream;
-        CommentText: BigText;
+        CommentText: Text;
         tempBlob: Record "Hagiwara Approval Entry" temporary;
     begin
         CalcFields(Comment);
         if Comment.HasValue then begin
-            tempBlob.Comment := Comment;
+            //tempBlob.Comment := Comment;
 
-            Comment.CreateInStream(InStream, TEXTENCODING::UTF8);
-
-            CommentText.Read(InStream);
-            CommentText.AddText(pComment);
+            CommentText := GetComment();
+            CommentText := CommentText + pComment;
 
             Comment.CreateOutStream(OutStream, TextEncoding::UTF8);
             OutStream.Write(CommentText);
@@ -83,21 +81,21 @@ table 50129 "Hagiwara Approval Entry"
         end else begin
 
             Comment.CreateOutStream(OutStream, TextEncoding::UTF8);
-            OutStream.WriteText(pComment);
+            OutStream.Write(pComment);
             Modify();
 
         end;
 
     end;
 
-    procedure GetComment() CommentText: BigText
+    procedure GetComment() CommentText: Text
     var
+        TypeHelper: Codeunit "Type Helper";
         InStream: InStream;
     begin
         CalcFields(Comment);
         Comment.CreateInStream(InStream, TEXTENCODING::UTF8);
-        CommentText.Read(InStream);
-        exit(CommentText);
+        exit(TypeHelper.TryReadAsTextWithSepAndFieldErrMsg(InStream, TypeHelper.LFSeparator(), FieldName(Comment)));
     end;
 }
 

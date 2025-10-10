@@ -184,6 +184,22 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
         SalesHeader: Record "Sales Header";
         SalesLine: Record "Sales Line";
 
+
+    trigger OnOpenPage()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                CurrPage.Editable(false);
+            end else begin
+                CurrPage.Editable(true);
+            end;
+        end;
+    end;
+
     procedure ChangeQty()
     var
         myInt: Integer;

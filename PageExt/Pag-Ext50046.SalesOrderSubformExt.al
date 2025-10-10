@@ -246,6 +246,24 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 
     }
 
+    trigger OnOpenPage()
+    var
+        SalesHeader: Record "Sales Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        /*
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            SalesHeader := Rec.GetSalesHeader();
+            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                CurrPage.Editable(false);
+            end else begin
+                CurrPage.Editable(true);
+            end;
+        end;
+        */
+    end;
+
     trigger OnAfterGetRecord()
     begin
         rec."Fully Reserved" := (rec."Reserved Quantity" > 0) AND (rec."Reserved Quantity" = rec."Outstanding Quantity");//CS018

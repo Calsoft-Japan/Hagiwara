@@ -72,6 +72,6 @@ page 50129 "Hagiwara Approval Entries"
     end;
 
     var
-        CommentText: BigText;
+        CommentText: Text;
 }
 

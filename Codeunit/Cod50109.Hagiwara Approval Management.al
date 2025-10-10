@@ -4,7 +4,7 @@ codeunit 50109 "Hagiwara Approval Management"
     begin
     end;
 
-    procedure Submit(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pRequester: Code[50])
+    procedure Submit(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
         SalesHeader: Record "Sales Header";
         recReqGroupMem: Record "Hagiwara Request Group Member";
@@ -18,8 +18,11 @@ codeunit 50109 "Hagiwara Approval Management"
         Approver: Code[50];
         MsgComment: Text;
     begin
+        CRLF[1] := 13;
+        CRLF[2] := 10;
+
         recReqGroupMem.SetRange(Data, pData);
-        recReqGroupMem.SetRange("Request User Name", pRequester);
+        recReqGroupMem.SetRange("Request User Name", pUsername);
         if recReqGroupMem.FindFirst() then
             ReqGroup := recReqGroupMem."Request Group Code";
 
@@ -50,11 +53,11 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := Format(CurrentDateTime) + '. ' + 'Submit. ' + UserId() + '\' + MsgComment;
+            MsgComment := 'Requster (' + pUsername + '):' + CRLF + MsgComment + CRLF;
             InsertApprEntry(
                 pData,
                 pDataNo,
-                pRequester,
+                pUsername,
                 ReqGroup,
                 Approver,
                 ApprGroup,
@@ -68,65 +71,160 @@ codeunit 50109 "Hagiwara Approval Management"
             SalesHeader."Hagi Approver" := Approver;
             SalesHeader.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pRequester, Approver, EmailType::Submit);
+            SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit);
 
             Message('Approval Request submitted.');
         end;
 
     end;
 
-
-    procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pRequester: Code[50])
+    procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
         SalesHeader: Record "Sales Header";
+        recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
         MsgComment: Text;
     begin
+        CRLF[1] := 13;
+        CRLF[2] := 10;
+
+        recApprEntry.SetRange(Open, true);
+        recApprEntry.SetRange(Data, pData);
+        recApprEntry.SetRange("No.", pDataNo);
+        if not recApprEntry.FindFirst() then
+            Error('No Approval Entry found!');
 
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := Format(CurrentDateTime) + '. ' + 'Cancel. ' + UserId() + '\' + MsgComment;
-            CancelApprEntry(
-                pData,
-                pDataNo,
-                MsgComment
-            );
+            MsgComment := 'Approver (' + recApprEntry.Requester + '):' + CRLF + MsgComment + CRLF;
 
+            // update approval entry data.
+            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Cancelled;
+            recApprEntry.Open := false;
+            recApprEntry."Close Date" := WorkDate();
+            recApprEntry.Modify();
+
+            recApprEntry.AddComment(MsgComment);
+
+            // update transaction data.
             SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
             SalesHeader.Requester := '';
             SalesHeader."Hagi Approver" := '';
             SalesHeader.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pRequester, '', EmailType::Cancel);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel);
 
             Message('Approval Request cancelled.');
         end;
     end;
 
-
-    procedure CancelApprEntry(
-        pData: Enum "Hagiwara Approval Data";
-        pDataNo: Code[20];
-        pComment: Text
-    )
+    procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
+        SalesHeader: Record "Sales Header";
+        recApprHrcy: Record "Hagiwara Approval Hierarchy";
         recApprEntry: Record "Hagiwara Approval Entry";
+        pagComment: page "Hagiwara Approval Comment";
+        nextApprover: Code[50];
+        MsgComment: Text;
     begin
+        CRLF[1] := 13;
+        CRLF[2] := 10;
+
         recApprEntry.SetRange(Open, true);
         recApprEntry.SetRange(Data, pData);
         recApprEntry.SetRange("No.", pDataNo);
+        if not recApprEntry.FindFirst() then
+            Error('No Approval Entry found!');
 
-        if recApprEntry.FindFirst() then begin
-            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Cancelled;
+        pagComment.SetData(pData, pDataNo);
+        if pagComment.RunModal() = Action::OK then begin
+            MsgComment := pagComment.GetComment();
+            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + CRLF + MsgComment + CRLF;
+
+            // update approval entry data.
+            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Approved;
+            recApprEntry.Open := false;
+            recApprEntry."Close Date" := WorkDate();
             recApprEntry.Modify();
 
-            recApprEntry.AddComment(pComment);
+            recApprEntry.AddComment(MsgComment);
+
+            // update transaction data.
+            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+            SalesHeader.Approver := pUsername;
+            SalesHeader.Modify();
+
+            // ask approvel for next approver.
+            recApprHrcy.SetRange("Approval Group Code", recApprEntry."Approval Group");
+            recApprHrcy.SetFilter("Sequence No.", '>%1', recApprEntry."Approval Sequence No.");
+            if recApprHrcy.FindFirst() then begin
+
+                nextApprover := recApprHrcy."Approver User Name";
+
+                InsertApprEntry(
+                    pData,
+                    pDataNo,
+                    recApprEntry.Requester,
+                    recApprEntry."Request Group",
+                    nextApprover,
+                    recApprEntry."Approval Group",
+                    recApprHrcy."Sequence No.",
+                    "Hagiwara Approval Status"::Submitted,
+                    recApprEntry.GetComment() + MsgComment
+                );
+            end;
+
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval);
+
+            Message('Approval Request approved.');
         end;
     end;
 
-    procedure InsertApprEntry(
+    procedure Reject(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
+    var
+        SalesHeader: Record "Sales Header";
+        recApprEntry: Record "Hagiwara Approval Entry";
+        pagComment: page "Hagiwara Approval Comment";
+        MsgComment: Text;
+    begin
+        CRLF[1] := 13;
+        CRLF[2] := 10;
+
+        recApprEntry.SetRange(Open, true);
+        recApprEntry.SetRange(Data, pData);
+        recApprEntry.SetRange("No.", pDataNo);
+        if not recApprEntry.FindFirst() then
+            Error('No Approval Entry found!');
+
+        pagComment.SetData(pData, pDataNo);
+        if pagComment.RunModal() = Action::OK then begin
+            MsgComment := pagComment.GetComment();
+            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + CRLF + MsgComment + CRLF;
+
+            // update approval entry data.
+            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Rejected;
+            recApprEntry.Open := false;
+            recApprEntry."Close Date" := WorkDate();
+            recApprEntry.Modify();
+
+            recApprEntry.AddComment(MsgComment);
+
+            // update transaction data.
+            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+            SalesHeader."Hagi Approver" := pUsername;
+            SalesHeader.Modify();
+
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject);
+
+            Message('Approval Request rejected.');
+        end;
+    end;
+
+    local procedure InsertApprEntry(
         pData: Enum "Hagiwara Approval Data";
         pDataNo: Code[20];
         pRequester: Code[50];
@@ -139,8 +237,6 @@ codeunit 50109 "Hagiwara Approval Management"
     )
     var
         recApprEntry: Record "Hagiwara Approval Entry";
-        ReqComment: BigText;
-        Ostream: OutStream;
     begin
         recApprEntry.Data := pData;
         recApprEntry."No." := pDataNo;
@@ -157,13 +253,13 @@ codeunit 50109 "Hagiwara Approval Management"
 
         recApprEntry.AddComment(pComment);
 
-
     end;
 
     var
         EmailType: Option Submit,Cancel,Approval,Reject;
+        CRLF: Text[2];
 
-    procedure CalcSOAmountLCY(pSalesHeader: Record "Sales Header"): Decimal
+    local procedure CalcSOAmountLCY(pSalesHeader: Record "Sales Header"): Decimal
     var
         CurrencyLocal: Record Currency;
         CurrExchRate: Record "Currency Exchange Rate";
@@ -207,13 +303,14 @@ codeunit 50109 "Hagiwara Approval Management"
     end;
 
     [TryFunction]
-    procedure SendNotificationEmail(pData: Enum "Hagiwara Approval Data"; pDataNo: code[20]; SendFrom: Code[50]; SendTo: Code[50]; EmailType: Option Submit,Cancel,Approval,Reject)
+    procedure SendNotificationEmail(pData: Enum "Hagiwara Approval Data"; pDataNo: code[20]; SendFrom: Code[50]; SendTo: Code[50]; SendCC: Code[50]; EmailType: Option Submit,Cancel,Approval,Reject)
     var
         subject, body : text;
         isSent: boolean;
         dateStr: text;
         UserInfo: Record User;
         EmailTo: Text;
+        EmailCC: Text;
     begin
         case EmailType of
             EmailType::Submit:
@@ -232,18 +329,38 @@ codeunit 50109 "Hagiwara Approval Management"
                     body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
                     //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
                 end;
+            EmailType::Approval:
+                begin
+
+                    subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been approved.';
+                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
+                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                end;
+            EmailType::Reject:
+                begin
+
+                    subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been rejected.';
+                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
+                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                end;
         end;
 
         userinfo.SetRange("User Name", SendTo);
         if userinfo.FindFirst() then
             EmailTo := userinfo."Contact Email";
 
-        isSent := SendEmail(EmailTo, '', subject, body);
+        userinfo.SetRange("User Name", SendCC);
+        if userinfo.FindFirst() then
+            EmailCC := userinfo."Contact Email";
+
+        isSent := SendEmail(EmailTo, EmailCC, subject, body);
 
     end;
 
     [TryFunction]
-    procedure SendEmail(EmailTo: Text; EmailCC: Text; EmailSubject: Text; EmailBody: Text)
+    local procedure SendEmail(EmailTo: Text; EmailCC: Text; EmailSubject: Text; EmailBody: Text)
     var
         EmailToList: List of [Text];
         EmailCCList: List of [Text];

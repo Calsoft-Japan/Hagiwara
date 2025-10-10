@@ -501,6 +501,54 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         }
     }
 
+    trigger OnBeforeModify()
+    var
+        SalesHeader: Record "Sales Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            SalesHeader := Rec.GetSalesHeader();
+            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
+    trigger OnBeforeInsert()
+    var
+        SalesHeader: Record "Sales Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            SalesHeader := Rec.GetSalesHeader();
+            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        SalesHeader: Record "Sales Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            SalesHeader := Rec.GetSalesHeader();
+            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
     trigger OnAfterInsert()
     begin
 
