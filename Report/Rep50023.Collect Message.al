@@ -3,6 +3,7 @@ report 50023 "Collect Message"
     // Modification:
     // 1. SH 04 Nov 2012 - Insert algorithm to validate PSI process job sequence
     // v20201112. Kenya. FDD001 - Add Value Price of PSI Interface.
+    // CS009 Kenya 2021/03/31 - Operations for Written Microcomputer ()
     // CS017 Kenya 2021/06/10 - Duplicate in Partial Delivery
     //CS101 Shawn 2025/04/05 - Modification of PSI JD Logic
     //CS106 Shawn 2025/05/09 - Adjust CurrencyCode by CompanyInfo. (PSI JD Logic only.)
@@ -446,6 +447,8 @@ report 50023 "Collect Message"
         intYear: Integer;
         g_SalesPriceError_Daily: Boolean;
         g_SalesPriceError_Monthly: Boolean;
+        rec_AssemblyBOM: Record "BOM Component";
+        rec_ParentItem: Record Item;
         g_datStartDate2: Date;
 
     procedure Navigate_Ctrls()
@@ -574,7 +577,7 @@ report 50023 "Collect Message"
                             "Parts Number" := Get_PartsNo(rec_SalesLine."No.");
                             //sh 26032011 End
                             //sh 21112011 Start
-                            "Item Description" := Get_ItemDes(rec_SalesLine."No.");
+                            "Item Description" := Get_ItemDes2(rec_SalesLine."No.");  //CS009
                             //sh 21112011 End
                             //
                             "Item No." := rec_SalesLine."No.";
@@ -744,7 +747,7 @@ report 50023 "Collect Message"
                             "Parts Number" := Get_PartsNo(rec_SalesShipmentLine."No.");
                             //sh 26032011 End
                             //sh 21112011 Start
-                            "Item Description" := Get_ItemDes(rec_SalesShipmentLine."No.");
+                            "Item Description" := Get_ItemDes2(rec_SalesShipmentLine."No.");  //CS009
                             //sh 21112011 End
                             //
                             "Item No." := rec_SalesShipmentLine."No.";
@@ -935,7 +938,7 @@ report 50023 "Collect Message"
                     "Purpose Code" := '';                     //Not in use
                     "Supplier Code" := '';                    //Not in use
                     "Parts Number" := Get_PartsNo(rec_SalesLine."No.");
-                    "Item Description" := Get_ItemDes(rec_SalesLine."No.");
+                    "Item Description" := Get_ItemDes2(rec_SalesLine."No.");  //CS009
                     "Item No." := rec_SalesLine."No.";
                     "Order Entry Date" := rec_SalesHdr."Order Date";
                     "Demand Date" := rec_SalesLine."Shipment Date";
@@ -1111,6 +1114,7 @@ report 50023 "Collect Message"
     procedure CollectData_JD() DataExist: Boolean
     var
         dec_InvPrice: Decimal;
+        tmp_Quantity: Decimal;
         RecPurchasePrice: Record "Price List Line";
     begin
         //
@@ -1121,6 +1125,7 @@ report 50023 "Collect Message"
         rec_Item.SETFILTER("Message Collected On", '<>%1', TODAY);
         rec_Item.SETFILTER("Date Filter", '..%1', TODAY);
         rec_Item.SETFILTER(Blocked, '=%1', FALSE);
+        rec_Item.SETFILTER("Assembly BOM", '=%1', FALSE); //CS009
         IF rec_Item.FINDSET THEN
             REPEAT
                 //Siak 20140807
@@ -1217,6 +1222,23 @@ report 50023 "Collect Message"
                     IF Quantity = 0 THEN
                         "Inventory Price" := 0;
                     "Inventory Amount" := (Quantity * "Inventory Price");
+
+                    //CS009 Start
+                    rec_AssemblyBOM.RESET;
+                    rec_AssemblyBOM.SETCURRENTKEY("Parent Item No.", "Line No.");
+                    rec_AssemblyBOM.SETRANGE("No.", rec_Item."No.");
+                    rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
+                    IF rec_AssemblyBOM.FINDSET THEN BEGIN
+                        REPEAT
+                            rec_ParentItem.GET(rec_AssemblyBOM."Parent Item No.");
+                            rec_ParentItem.CALCFIELDS("Net Change", Hold);
+                            tmp_Quantity := rec_ParentItem."Net Change" - rec_ParentItem.Hold;
+                            Quantity += tmp_Quantity;
+                        UNTIL rec_AssemblyBOM.NEXT = 0;
+                        "Inventory Amount" := (Quantity * "Inventory Price");
+                    END;
+                    //CS009 End
+
                     //Siak Hui - 09052011 (Invntory Confirmation Date = Collection Date)
                     //      "Inventory Confirmation Date" := 0D;   //Not in use
                     "Inventory Confirmation Date" := TODAY;
@@ -1724,6 +1746,20 @@ report 50023 "Collect Message"
             END;
         END;
     end;
+
+    procedure Get_ItemDes2(p_ItemNumber: Code[20]) ItemDes: Text[40];
+    BEGIN
+        //CS009 Start
+        IF rec_Item.GET(p_ItemNumber) THEN BEGIN
+            rec_AssemblyBOM.RESET;
+            rec_AssemblyBOM.SETRANGE("Parent Item No.", p_ItemNumber);
+            rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
+            IF rec_AssemblyBOM.FINDFIRST THEN rec_Item.GET(rec_AssemblyBOM."No.");
+            ItemDes := rec_Item.Description;
+        END;
+        EXIT(ItemDes);
+        //CS009 End
+    END;
 
 }
 
