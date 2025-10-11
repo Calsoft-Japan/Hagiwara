@@ -36,6 +36,18 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Status"; rec."Approval Status")
+            {
+                ApplicationArea = all;
+            }
+            field("Approver"; rec."Approver")
+            {
+                ApplicationArea = all;
+            }
+            field("Requester"; rec."Requester")
+            {
+                ApplicationArea = all;
+            }
         }
         addafter(Status)
         {
@@ -177,6 +189,216 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                         END;
                 END;
             end;
+        }
+    }
+
+    actions
+    {
+
+        //hide approve related actions of Base App
+        modify("Request Approval")
+        {
+            Visible = false;
+        }
+        modify(SendApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(CancelApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(Approve)
+        {
+            Visible = false;
+        }
+        modify(Reject)
+        {
+            Visible = false;
+        }
+        modify(Delegate)
+        {
+            Visible = false;
+        }
+        modify(Comment)
+        {
+            Visible = false;
+        }
+
+
+        modify("SendEmailConfirmation")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("Print Confirmation")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("AttachAsPDF")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        addbefore("P&osting")
+        {
+            group("Hagiwara Approval")
+            {
+                action("Submit")
+                {
+
+                    ApplicationArea = all;
+                    Image = SendApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        if not Confirm('Do you want to submit an approval request?') then
+                            exit;
+
+                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
+                            Error('This approval request has been sent.');
+
+                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Cancel")
+                {
+
+                    ApplicationArea = all;
+                    Image = CancelApprovalRequest;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        if not Confirm('Do you want to cancel the approval request?') then
+                            exit;
+
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
+                            Error('This approval request can not be cancelled.');
+
+                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Hagi Approve")
+                {
+                    Caption = 'Approve';
+                    ApplicationArea = all;
+                    Image = Approve;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        if not Confirm('Do you want to approve it?') then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
+                            Error('This approval request can not be approved.');
+
+                        cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Hagi Reject")
+                {
+                    Caption = 'Reject';
+                    ApplicationArea = all;
+                    Image = Reject;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        if not Confirm('Do you want to reject it?') then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
+                            Error('This approval request can not be rejected.');
+
+                        cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Approval Entries")
+                {
+
+                    ApplicationArea = all;
+                    Image = Entries;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        recApprEntry: Record "Hagiwara Approval Entry";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."Sales Order" then
+                            exit;
+
+                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Sales Order");
+                        recApprEntry.SetRange("No.", Rec."No.");
+                        Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
+                    end;
+                }
+            }
         }
     }
 

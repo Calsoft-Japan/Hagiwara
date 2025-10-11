@@ -66,6 +66,18 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
 
                 ApplicationArea = all;
             }
+            field("Approval Status"; rec."Approval Status")
+            {
+                ApplicationArea = all;
+            }
+            field("Approver"; rec."Approver")
+            {
+                ApplicationArea = all;
+            }
+            field("Requester"; rec."Requester")
+            {
+                ApplicationArea = all;
+            }
 
         }
 
@@ -102,6 +114,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
     actions
     {
 
+        //hide approve related actions of Base App
         modify("Request Approval")
         {
             Visible = false;
@@ -110,10 +123,57 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
         {
             Visible = false;
         }
-
         modify(CancelApprovalRequest)
         {
             Visible = false;
+        }
+
+        modify("Email Confirmation")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("Print Confirmation")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("AttachAsPDF")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Sales Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
         }
 
         addbefore("P&osting")
@@ -560,5 +620,6 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
         //SiakHui  20141001 Start
 
     end;
+
 
 }
