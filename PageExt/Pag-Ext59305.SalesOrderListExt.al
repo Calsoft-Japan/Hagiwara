@@ -195,11 +195,11 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         if not recApprSetup."Sales Order" then
                             exit;
 
+                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
+                            Error('This approval request can''t be sent because it''s sent already.');
+
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;
-
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request has been sent.');
 
                         cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
                     end;
@@ -219,12 +219,11 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         if not recApprSetup."Sales Order" then
                             exit;
 
-                        if not Confirm('Do you want to cancel the approval request?') then
-                            exit;
-
-
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
+
+                        if not Confirm('Do you want to cancel the approval request?') then
+                            exit;
 
                         cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
                     end;
@@ -245,11 +244,11 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         if not recApprSetup."Sales Order" then
                             exit;
 
-                        if not Confirm('Do you want to approve it?') then
-                            exit;
-
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be approved.');
+
+                        if not Confirm('Do you want to approve it?') then
+                            exit;
 
                         cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
                     end;
@@ -270,11 +269,11 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         if not recApprSetup."Sales Order" then
                             exit;
 
-                        if not Confirm('Do you want to reject it?') then
-                            exit;
-
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
+
+                        if not Confirm('Do you want to reject it?') then
+                            exit;
 
                         cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Sales Order", Rec."No.", UserId);
                     end;
