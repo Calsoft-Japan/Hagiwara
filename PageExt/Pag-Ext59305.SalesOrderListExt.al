@@ -480,7 +480,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                                         CSVBuffer.InsertEntry(LineNo, 20, '"' + Customer.Remarks3.replace('"', '""') + '"');
                                         CSVBuffer.InsertEntry(LineNo, 21, '"' + Customer.Remarks4.replace('"', '""') + '"');
                                         CSVBuffer.InsertEntry(LineNo, 22, '"' + Customer.Remarks5.replace('"', '""') + '"');
-                                        CSVBuffer.InsertEntry(LineNo, 23, Format(SalesLine."Shipment Date", 0, '<Day,2>/<Month,2>/<Year>'));
+                                        CSVBuffer.InsertEntry(LineNo, 23, Format(SalesLine."Shipment Date", 0, '<Day,2>/<Month,2>/<Year4>'));
                                         CSVBuffer.InsertEntry(LineNo, 24, ItemType);
                                         CSVBuffer.InsertEntry(LineNo, 25, SalesLine."Customer Order No.");
                                         CSVBuffer.InsertEntry(LineNo, 26, SalesLine."Parts No.");
@@ -501,7 +501,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                                         CSVBuffer.InsertEntry(LineNo, 41, CustomerRec.County);
                                         CSVBuffer.InsertEntry(LineNo, 42, CustomerRec."Country/Region Code");
                                         CSVBuffer.InsertEntry(LineNo, 43, CustomerRec."Shipment Method Code");
-                                        CSVBuffer.InsertEntry(LineNo, 44, CompanyInfo.Name);
+                                        CSVBuffer.InsertEntry(LineNo, 44, '"' + CompanyInfo.Name.replace('"', '""') + '"');
 
                                     until SalesLine.Next() = 0;
                                 end;
