@@ -375,14 +375,10 @@ codeunit 50109 "Hagiwara Approval Management"
         CuEmail:
                 codeunit Email;
     begin
-        if EmailCC <> '' then begin
-            CuEmailMessage.Create(EmailTo, EmailSubject, EmailBody, true);
-        end
-        else begin
-            EmailToList := EmailTo.Split(';');
-            EmailCCList := EmailCC.Split(';');
-            CuEmailMessage.Create(EmailToList, EmailSubject, EmailBody, true, EmailCCList, EmailBCCList);
-        end;
+        EmailToList := EmailTo.Split(';');
+        EmailCCList := EmailCC.Split(';');
+        CuEmailMessage.Create(EmailToList, EmailSubject, EmailBody, true, EmailCCList, EmailBCCList);
+
         CuEmailAccount.GetAllAccounts(TempCuEmailAccount);
         TempCuEmailAccount.Reset;
         TempCuEmailAccount.SetRange(Name, 'Current User');
