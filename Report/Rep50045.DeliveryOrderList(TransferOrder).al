@@ -21,6 +21,9 @@ report 50045 "DeliveryOrderListTransferOrder"
             column(Transfer_No_; "No.")
             {
             }
+            column(Transfer_from_Code_; "Transfer-from Code")
+            {
+            }
             column(Transfer_to_Code_; "Transfer-to Code")
             {
             }
@@ -207,7 +210,8 @@ report 50045 "DeliveryOrderListTransferOrder"
             */
             dataitem("Transfer Line"; "Transfer Line")
             {
-                DataItemLink = "Document No." = FIELD("No.");
+                DataItemLink = "Transfer-from Code" = FIELD("Transfer-from Code"),
+                                "Transfer-to Code" = FIELD("Transfer-to Code");
                 DataItemTableView = SORTING("Shipment Date")
                                     WHERE("Outstanding Quantity" = FILTER(> 0));
                 RequestFilterFields = "Shipment Date";
@@ -424,21 +428,30 @@ report 50045 "DeliveryOrderListTransferOrder"
                 TransfertoTel := '';
                 TransfertoFax := '';
                 TransfertoCounty := '';
-                IF "Transfer Header"."Transfer-to Code" <> '' THEN BEGIN
-                    Location.SETRANGE(Code, "Transfer Header"."Transfer-to Code", "Transfer Header"."Transfer-to Code");
-                    IF Location.FIND('-') THEN
+                IF "Transfer Header"."Transfer-from Code" <> '' THEN BEGIN
+                    Location.Reset();
+                    Location.SETRANGE(Code, "Transfer Header"."Transfer-from Code");
+                    IF Location.FIND('-') THEN begin
                         Attn1 := Location.Attention1;
-                    Attn2 := Location.Attention2;
-                    CC := Location.CC;
-                    TransfertoName := Location.Name;
-                    TransfertoAdd1 := Location.Address;
-                    TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
-                    TransfertoCity := Location.City;
-                    TransfertoPostCode := Location."Post Code";
-                    TransfertoAttn := Location.Contact;
-                    TransfertoTel := Location."Phone No.";
-                    TransfertoFax := Location."Fax No.";
-                    TransfertoCounty := Location.County;
+                        Attn2 := Location.Attention2;
+                        CC := Location.CC;
+                    end;
+                end;
+
+                IF "Transfer Header"."Transfer-to Code" <> '' THEN BEGIN
+                    Location.Reset();
+                    Location.SETRANGE(Code, "Transfer Header"."Transfer-from Code");
+                    IF Location.FIND('-') THEN begin
+                        TransfertoName := Location.Name;
+                        TransfertoAdd1 := Location.Address;
+                        TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
+                        TransfertoCity := Location.City;
+                        TransfertoPostCode := Location."Post Code";
+                        TransfertoAttn := Location.Contact;
+                        TransfertoTel := Location."Phone No.";
+                        TransfertoFax := Location."Fax No.";
+                        TransfertoCounty := Location.County;
+                    end;
                 END;
 
             end;

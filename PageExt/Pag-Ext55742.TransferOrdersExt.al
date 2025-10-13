@@ -43,6 +43,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     TempDO: Record TempDO;
                     ItemRec: Record Item;
                     TransferHeader: Record "Transfer Header";
+                    TempTransferHeader: Record "Transfer Header" temporary;
                     TransferLine: Record "Transfer Line";
                     ItemType: Text[30];
                     CountryOfOrigin: Code[10];
@@ -84,7 +85,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     CompanyInfo.Get();
                     LineNo := 1;
 
-                    CSVBuffer.InsertEntry(LineNo, 1, 'Transfer-to Code');
+                    CSVBuffer.InsertEntry(LineNo, 1, 'Transfer-from Code');
                     CSVBuffer.InsertEntry(LineNo, 2, 'Attention1');
                     CSVBuffer.InsertEntry(LineNo, 3, 'Attention2');
                     CSVBuffer.InsertEntry(LineNo, 4, 'CC');
@@ -115,10 +116,22 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     CSVBuffer.InsertEntry(LineNo, 29, 'Transfer-to Shipment Method Code');
                     CSVBuffer.InsertEntry(LineNo, 30, 'Company Name');
 
-
                     TransferHeader.Reset();
+                    if TransferHeader.FindSet() then begin
+                        repeat
+                            TempTransferHeader.Reset();
+                            TempTransferHeader.SetRange("Transfer-from Code", TransferHeader."Transfer-from Code");
+                            TempTransferHeader.SetRange("Transfer-to Code", TransferHeader."Transfer-to Code");
+                            if not TempTransferHeader.FindFirst() then begin
+                                TempTransferHeader.Init();
+                                TempTransferHeader := TransferHeader;
+                                TempTransferHeader.Insert();
+                            end;
+                        until TransferHeader.Next() = 0;
+                    end;
 
-                    if TransferHeader.FindFirst() then begin
+                    TempTransferHeader.Reset();
+                    if TempTransferHeader.FindFirst() then begin
                         repeat
                             Attn1 := '';
                             Attn2 := '';
@@ -131,26 +144,36 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                             TransfertoTel := '';
                             TransfertoFax := '';
                             TransfertoCounty := '';
-                            IF TransferHeader."Transfer-to Code" <> '' THEN BEGIN
-                                Location.SETRANGE(Code, TransferHeader."Transfer-to Code", TransferHeader."Transfer-to Code");
-                                IF Location.FIND('-') THEN
+                            IF TempTransferHeader."Transfer-from Code" <> '' THEN BEGIN
+                                Location.Reset();
+                                Location.SETRANGE(Code, TempTransferHeader."Transfer-from Code");
+                                IF Location.FIND('-') THEN begin
                                     Attn1 := Location.Attention1;
-                                Attn2 := Location.Attention2;
-                                CC := Location.CC;
-                                TransfertoName := Location.Name;
-                                TransfertoAdd1 := Location.Address;
-                                TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
-                                TransfertoCity := Location.City;
-                                TransfertoPostCode := Location."Post Code";
-                                TransfertoAttn := Location.Contact;
-                                TransfertoTel := Location."Phone No.";
-                                TransfertoFax := Location."Fax No.";
-                                TransfertoCounty := Location.County;
+                                    Attn2 := Location.Attention2;
+                                    CC := Location.CC;
+                                end;
+                            end;
+
+                            IF TempTransferHeader."Transfer-to Code" <> '' THEN BEGIN
+                                Location.Reset();
+                                Location.SETRANGE(Code, TempTransferHeader."Transfer-from Code");
+                                IF Location.FIND('-') THEN begin
+                                    TransfertoName := Location.Name;
+                                    TransfertoAdd1 := Location.Address;
+                                    TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
+                                    TransfertoCity := Location.City;
+                                    TransfertoPostCode := Location."Post Code";
+                                    TransfertoAttn := Location.Contact;
+                                    TransfertoTel := Location."Phone No.";
+                                    TransfertoFax := Location."Fax No.";
+                                    TransfertoCounty := Location.County;
+                                end;
                             END;
                             // YUKA for Hagiwara 20050404
 
                             TransferLine.Reset();
-                            TransferLine.SetRange("Document No.", TransferHeader."No.");
+                            TransferLine.SetRange("Transfer-from Code", TempTransferHeader."Transfer-from Code");
+                            TransferLine.SetRange("Transfer-to Code", TempTransferHeader."Transfer-to Code");
                             TransferLine.SetFilter("Outstanding Quantity", '>0');
 
                             //SalesLine.SetRange("Shortcut Dimension 1 Code", Customer."Global Dimension 1 Filter");
@@ -200,7 +223,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
 
 
                                     LineNo += 1;
-                                    CSVBuffer.InsertEntry(LineNo, 1, TransferHeader."Transfer-to Code");
+                                    CSVBuffer.InsertEntry(LineNo, 1, TempTransferHeader."Transfer-from Code");
                                     CSVBuffer.InsertEntry(LineNo, 2, '"' + Attn1.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 3, '"' + Attn2.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 4, '"' + CC.replace('"', '""') + '"');
@@ -228,14 +251,14 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                                     CSVBuffer.InsertEntry(LineNo, 26, '"' + TransfertoName.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 27, '"' + TransfertoCounty.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 28, CountryOfOrigin);
-                                    CSVBuffer.InsertEntry(LineNo, 29, TransferHeader."Shipment Method Code");
+                                    CSVBuffer.InsertEntry(LineNo, 29, TempTransferHeader."Shipment Method Code");
                                     CSVBuffer.InsertEntry(LineNo, 30, '"' + CompanyInfo.Name.replace('"', '""') + '"');
 
 
                                 until TransferLine.Next() = 0;
                             end;
 
-                        until TransferHeader.Next() = 0;
+                        until TempTransferHeader.Next() = 0;
                     end;
                     CSVBuffer.SaveDataToBlob(TempBlob, ',');
                     TempBlob.CreateInStream(InStream, TEXTENCODING::UTF8);

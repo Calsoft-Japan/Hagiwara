@@ -1026,7 +1026,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value />
+                                                    <Value>=First(Fields!Transfer_to_Code_.Value)</Value>
                                                     <Style>
                                                       <FontSize>9pt</FontSize>
                                                       <FontWeight>Bold</FontWeight>
@@ -2963,7 +2963,7 @@
                               <Top>6.35cm</Top>
                               <Left>0.01716in</Left>
                               <Height>4.37668cm</Height>
-                              <Width>27.75979cm</Width>
+                              <Width>27.75978cm</Width>
                               <Style />
                             </Tablix>
                             <Textbox Name="Delivery_Order_ListCaption4">
@@ -3110,7 +3110,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Transfer_to_Code_.Value</Value>
+                                      <Value>=Fields!Transfer_from_Code_.Value</Value>
                                       <Style>
                                         <FontSize>9pt</FontSize>
                                       </Style>
@@ -4153,17 +4153,13 @@
                 <TablixMember>
                   <Group Name="Details">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!Transfer_No_.Value</GroupExpression>
+                      <GroupExpression>=Fields!Transfer_from_Code_.Value</GroupExpression>
+                      <GroupExpression>=Fields!Transfer_to_Code_.Value</GroupExpression>
                     </GroupExpressions>
                     <PageBreak>
                       <BreakLocation>Between</BreakLocation>
                     </PageBreak>
                   </Group>
-                  <SortExpressions>
-                    <SortExpression>
-                      <Value>=Fields!Transfer_No_.Value</Value>
-                    </SortExpression>
-                  </SortExpressions>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
@@ -4272,6 +4268,9 @@ End Function
       <Fields>
         <Field Name="Transfer_No_">
           <DataField>Transfer_No_</DataField>
+        </Field>
+        <Field Name="Transfer_from_Code_">
+          <DataField>Transfer_from_Code_</DataField>
         </Field>
         <Field Name="Transfer_to_Code_">
           <DataField>Transfer_to_Code_</DataField>
