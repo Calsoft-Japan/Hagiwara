@@ -8,21 +8,29 @@ page 50131 "Hagiwara Approval Comment"
     {
         area(Content)
         {
-            group(General)
+            group("Approval Data")
             {
+                Caption = 'Approval Data';
                 field(Data; Format(Data))
                 {
+                    Caption = 'Data';
                     ApplicationArea = all;
                     Editable = false;
                 }
 
                 field("Data No"; DataNo)
                 {
+                    Caption = 'Data No.';
                     ApplicationArea = all;
                     Editable = false;
                 }
+            }
+            group("Comment")
+            {
+                Caption = 'Comment';
                 field(Msg; MsgText)
                 {
+                    Caption = 'Comment';
                     ApplicationArea = all;
                     MultiLine = true;
                 }

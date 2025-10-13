@@ -264,15 +264,16 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         }
         field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
         {
-
+            Editable = false;
         }
         field(50092; Requester; Code[50])
         {
-
+            Editable = false;
         }
         field(50093; "Hagi Approver"; Code[50])
         {
             Caption = 'Approver';
+            Editable = false;
         }
         field(50545; "Requested Delivery Date_1"; Date)
         {
@@ -427,8 +428,16 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
     end;
 
     trigger OnAfterInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         "Shipment Tracking Date" := WORKDATE;
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+        end;
+
         Modify();
     end;
 

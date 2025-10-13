@@ -70,7 +70,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
             {
                 ApplicationArea = all;
             }
-            field("Approver"; rec."Approver")
+            field("Approver"; rec."Hagi Approver")
             {
                 ApplicationArea = all;
             }
@@ -247,6 +247,9 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be approved.');
 
+                        if rec."Hagi Approver" <> UserId then
+                            Error('You are not the Approver of this data.');
+
                         if not Confirm('Do you want to approve it?') then
                             exit;
 
@@ -271,6 +274,9 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
+
+                        if rec."Hagi Approver" <> UserId then
+                            Error('You are not the Approver of this data.');
 
                         if not Confirm('Do you want to reject it?') then
                             exit;

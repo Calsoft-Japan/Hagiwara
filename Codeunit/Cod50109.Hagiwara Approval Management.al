@@ -18,8 +18,6 @@ codeunit 50109 "Hagiwara Approval Management"
         Approver: Code[50];
         MsgComment: Text;
     begin
-        CRLF[1] := 13;
-        CRLF[2] := 10;
 
         recReqGroupMem.SetRange(Data, pData);
         recReqGroupMem.SetRange("Request User Name", pUsername);
@@ -34,7 +32,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetRange("Request Group Code", reqGroup);
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
-        recApprCondition.SetFilter("Amount (LCY)", '%1|%2..', 0, AmountLCY);
+        recApprCondition.SetFilter("Amount (LCY)", '%1|<%2', 0, AmountLCY);
         if not recApprCondition.FindFirst() then
             error('Hagiwara Approval Condition seems not setup right.');
 
@@ -53,8 +51,8 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Requster (' + pUsername + '):' + CRLF + MsgComment + CRLF;
-            InsertApprEntry(
+            MsgComment := 'Requster (' + pUsername + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
+            recApprEntry := InsertApprEntry(
                 pData,
                 pDataNo,
                 pUsername,
@@ -71,7 +69,7 @@ codeunit 50109 "Hagiwara Approval Management"
             SalesHeader."Hagi Approver" := Approver;
             SalesHeader.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit);
+            SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
 
             Message('Approval Request submitted.');
         end;
@@ -85,8 +83,6 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment: page "Hagiwara Approval Comment";
         MsgComment: Text;
     begin
-        CRLF[1] := 13;
-        CRLF[2] := 10;
 
         recApprEntry.SetRange(Open, true);
         recApprEntry.SetRange(Data, pData);
@@ -97,7 +93,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Approver (' + recApprEntry.Requester + '):' + CRLF + MsgComment + CRLF;
+            MsgComment := 'Approver (' + recApprEntry.Requester + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
 
             // update approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Cancelled;
@@ -114,7 +110,7 @@ codeunit 50109 "Hagiwara Approval Management"
             SalesHeader."Hagi Approver" := '';
             SalesHeader.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
 
             Message('Approval Request cancelled.');
         end;
@@ -129,9 +125,6 @@ codeunit 50109 "Hagiwara Approval Management"
         nextApprover: Code[50];
         MsgComment: Text;
     begin
-        CRLF[1] := 13;
-        CRLF[2] := 10;
-
         recApprEntry.SetRange(Open, true);
         recApprEntry.SetRange(Data, pData);
         recApprEntry.SetRange("No.", pDataNo);
@@ -141,7 +134,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + CRLF + MsgComment + CRLF;
+            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
 
             // update approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Approved;
@@ -173,11 +166,11 @@ codeunit 50109 "Hagiwara Approval Management"
                     recApprEntry."Approval Group",
                     recApprHrcy."Sequence No.",
                     "Hagiwara Approval Status"::Submitted,
-                    recApprEntry.GetComment() + MsgComment
+                    recApprEntry.GetComment()
                 );
             end;
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
 
             Message('Approval Request approved.');
         end;
@@ -190,8 +183,6 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment: page "Hagiwara Approval Comment";
         MsgComment: Text;
     begin
-        CRLF[1] := 13;
-        CRLF[2] := 10;
 
         recApprEntry.SetRange(Open, true);
         recApprEntry.SetRange(Data, pData);
@@ -202,7 +193,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + CRLF + MsgComment + CRLF;
+            MsgComment := 'Approver (' + recApprEntry.Approver + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
 
             // update approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Rejected;
@@ -218,7 +209,7 @@ codeunit 50109 "Hagiwara Approval Management"
             SalesHeader."Hagi Approver" := pUsername;
             SalesHeader.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject, recApprEntry);
 
             Message('Approval Request rejected.');
         end;
@@ -234,7 +225,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pApprSeq: Integer;
         pStatus: Enum "Hagiwara Approval Status";
         pComment: Text
-    )
+    ): Record "Hagiwara Approval Entry"
     var
         recApprEntry: Record "Hagiwara Approval Entry";
     begin
@@ -253,11 +244,13 @@ codeunit 50109 "Hagiwara Approval Management"
 
         recApprEntry.AddComment(pComment);
 
+        exit(recApprEntry);
+
     end;
 
     var
         EmailType: Option Submit,Cancel,Approval,Reject;
-        CRLF: Text[2];
+        TypeHelper: Codeunit "Type Helper";
 
     local procedure CalcSOAmountLCY(pSalesHeader: Record "Sales Header"): Decimal
     var
@@ -292,18 +285,46 @@ codeunit 50109 "Hagiwara Approval Management"
         EnvInfo: Codeunit "Environment Information";
         dataLink: Text;
     begin
-        dataLink := 'https://businesscentral.dynamics.com/';
+        dataLink := '<a href="https://businesscentral.dynamics.com/';
         dataLink := dataLink + AADTenant.GetAadTenantId() + '/';
         dataLink := dataLink + EnvInfo.GetEnvironmentName();
         dataLink := dataLink + '?company=' + CompanyName;
         dataLink := dataLink + '&page=42';
         dataLink := dataLink + '&filter=''No.'' is ''' + pDataNo + '''';
+        dataLink := dataLink + '">'; //href end
+        dataLink := dataLink + 'View this data on Business Central'; // anchor text
+        dataLink := dataLink + '</a>';
+
+        exit(dataLink);
+    end;
+
+    local procedure GetApprHrcy(pApprGroup: Code[30]): Text
+    var
+        recApprHrcy: Record "Hagiwara Approval Hierarchy";
+        dataLink: Text;
+    begin
+
+        recApprHrcy.SetRange("Approval Group Code", pApprGroup);
+        if not recApprHrcy.FindFirst() then
+            exit('Hagiwara Approval Hierarchy not found.');
+
+        if recApprHrcy.FindSet() then
+            repeat
+                dataLink := dataLink + Format(recApprHrcy."Sequence No.") + ': ' + recApprHrcy."Approver User Name" + '<br/>';
+            until recApprHrcy.Next() = 0;
 
         exit(dataLink);
     end;
 
     [TryFunction]
-    procedure SendNotificationEmail(pData: Enum "Hagiwara Approval Data"; pDataNo: code[20]; SendFrom: Code[50]; SendTo: Code[50]; SendCC: Code[50]; EmailType: Option Submit,Cancel,Approval,Reject)
+    procedure SendNotificationEmail(
+        pData: Enum "Hagiwara Approval Data";
+        pDataNo: code[20];
+        SendFrom: Code[50];
+        SendTo: Code[50];
+        SendCC: Code[50];
+        EmailType: Option Submit,Cancel,Approval,Reject;
+        pApprEntry: Record "Hagiwara Approval Entry")
     var
         subject, body : text;
         isSent: boolean;
@@ -317,33 +338,45 @@ codeunit 50109 "Hagiwara Approval Management"
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been made.';
-                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
-                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
-                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                    body := body + '<p><b>Comment:</b></p>';
+                    body := body + '<p>' + pApprEntry.GetComment().Replace(TypeHelper.LFSeparator(), '<br/>') + '</p>';
+                    body := body + '<p><b>Data Link:</b></p>';
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p>';
+                    body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
+                    body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
             EmailType::Cancel:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been cancelled.';
-                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
-                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
-                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                    body := body + '<p><b>Comment:</b></p>';
+                    body := body + '<p>' + pApprEntry.GetComment().Replace(TypeHelper.LFSeparator(), '<br/>') + '</p>';
+                    body := body + '<p><b>Data Link:</b></p>';
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p>';
+                    body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
+                    body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
             EmailType::Approval:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been approved.';
-                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
-                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
-                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                    body := body + '<p><b>Comment:</b></p>';
+                    body := body + '<p>' + pApprEntry.GetComment().Replace(TypeHelper.LFSeparator(), '<br/>') + '</p>';
+                    body := body + '<p><b>Data Link:</b></p>';
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p>';
+                    body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
+                    body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
             EmailType::Reject:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been rejected.';
-                    //body := body + ApprovalEntry.Comment + '</p><br/>'; //TODO
-                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p><br/>';
-                    //body := body + '<p>' + approver's info+'</p><br/>'; //TODO
+                    body := body + '<p><b>Comment:</b></p>';
+                    body := body + '<p>' + pApprEntry.GetComment().Replace(TypeHelper.LFSeparator(), '<br/>') + '</p>';
+                    body := body + '<p><b>Data Link:</b></p>';
+                    body := body + '<p>' + CreateDataLink(pData, pDataNo) + '</p>';
+                    body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
+                    body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
         end;
 

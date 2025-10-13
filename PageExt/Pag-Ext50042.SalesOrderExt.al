@@ -40,7 +40,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             {
                 ApplicationArea = all;
             }
-            field("Approver"; rec."Approver")
+            field("Approver"; rec."Hagi Approver")
             {
                 ApplicationArea = all;
             }
