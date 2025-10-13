@@ -345,6 +345,9 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be approved.');
 
+                        if rec."Hagi Approver" <> UserId then
+                            Error('You are not the Approver of this data.');
+
                         if not Confirm('Do you want to approve it?') then
                             exit;
 
@@ -369,6 +372,9 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
+
+                        if rec."Hagi Approver" <> UserId then
+                            Error('You are not the Approver of this data.');
 
                         if not Confirm('Do you want to reject it?') then
                             exit;
