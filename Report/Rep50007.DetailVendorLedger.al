@@ -526,6 +526,7 @@ report 50007 "Detail Vendor Ledger"
                     Caption = 'Options';
                     field(GLAccountNo; GLAccountNo)
                     {
+                        ApplicationArea = All;
                         Caption = '会计科目';
                         TableRelation = "G/L Account";
                     }

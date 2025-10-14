@@ -153,6 +153,7 @@ report 50052 ChineseIncomeStatement
                 {
                     field("Use Description 2"; "Use Description 2")
                     {
+                        ApplicationArea = All;
                         Caption = 'Use Description 2';
                     }
                 }

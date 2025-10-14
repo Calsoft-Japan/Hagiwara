@@ -284,6 +284,7 @@ report 50074 "Item Aging (Doc. Date)"
                     Caption = 'Options';
                     field(EndingDate; PeriodStartDate[5])
                     {
+                        ApplicationArea = All;
                         Caption = 'Ending Date';
 
                         trigger OnValidate()
@@ -294,6 +295,7 @@ report 50074 "Item Aging (Doc. Date)"
                     }
                     field(PeriodLength; PeriodLength)
                     {
+                        ApplicationArea = All;
                         Caption = 'Period Length';
 
                         trigger OnValidate()

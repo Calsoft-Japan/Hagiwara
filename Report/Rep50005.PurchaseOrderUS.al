@@ -510,14 +510,17 @@ report 50005 "Purchase Order US"
                     Caption = 'Options';
                     field(NumberOfCopies; NoCopies)
                     {
+                        ApplicationArea = All;
                         Caption = 'Number of Copies';
                     }
                     field(PrintCompanyAddress; PrintCompany)
                     {
+                        ApplicationArea = All;
                         Caption = 'Print Company Address';
                     }
                     field(ArchiveDocument; ArchiveDocument)
                     {
+                        ApplicationArea = All;
                         Caption = 'Archive Document';
                         Enabled = ArchiveDocumentEnable;
 
@@ -529,6 +532,7 @@ report 50005 "Purchase Order US"
                     }
                     field(LogInteraction; LogInteraction)
                     {
+                        ApplicationArea = All;
                         Caption = 'Log Interaction';
                         Enabled = LogInteractionEnable;
 

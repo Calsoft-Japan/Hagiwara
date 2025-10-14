@@ -383,11 +383,13 @@ report 50003 "ActualOrderAmountOrderBalance"
                     Caption = 'Options';
                     field(From; StartDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'From';
                         NotBlank = true;
                     }
                     field(To; EndDate)
                     {
+                        ApplicationArea = All;
                         Caption = 'To';
                         NotBlank = true;
                     }

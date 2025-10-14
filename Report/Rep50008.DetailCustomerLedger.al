@@ -580,6 +580,7 @@ report 50008 "Detail Customer Ledger"
                     Caption = 'Options';
                     field(GLAccountNo; GLAccountNo)
                     {
+                        ApplicationArea = All;
                         Caption = '会计科目';
                         TableRelation = "G/L Account";
                     }

@@ -50,6 +50,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 Caption = 'DWH Interface Setting';
                 field("<Messaging File Path for DWH>"; Rec."Messaging File Path")
                 {
+                    ApplicationArea = all;
                     Caption = 'Messaging File Path';
                     Editable = false;
                 }
@@ -78,6 +79,7 @@ pageextension 50118 GeneralLedgerSetupExt extends "General Ledger Setup"
                 Caption = 'ORE Setting';
                 field("ORE Messaging File Path"; Rec."ORE Messaging File Path")
                 {
+                    ApplicationArea = all;
                     Caption = 'ORE Messaging File Path';
                 }
                 field("ORE Country Qualifier"; Rec."ORE Country Qualifier")

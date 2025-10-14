@@ -656,14 +656,17 @@ report 50061 "Purchase Order Cust Item KR"
                     Caption = 'Options';
                     field(NoofCopies; NoOfCopies)
                     {
+                        ApplicationArea = All;
                         Caption = 'No. of Copies';
                     }
                     field(ShowInternalInformation; ShowInternalInfo)
                     {
+                        ApplicationArea = All;
                         Caption = 'Show Internal Information';
                     }
                     field(ArchiveDocument; ArchiveDocument)
                     {
+                        ApplicationArea = All;
                         Caption = 'Archive Document';
                         Enabled = ArchiveDocumentEnable;
 
@@ -675,6 +678,7 @@ report 50061 "Purchase Order Cust Item KR"
                     }
                     field(LogInteraction; LogInteraction)
                     {
+                        ApplicationArea = All;
                         Caption = 'Log Interaction';
                         Enabled = LogInteractionEnable;
 

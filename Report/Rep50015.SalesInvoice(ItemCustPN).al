@@ -876,19 +876,23 @@ report 50015 "Sales - Invoice (Item/CustPN)"
                     Caption = 'Options';
                     field(NoOfCopies; NoOfCopies)
                     {
+                        ApplicationArea = All;
                         Caption = 'No. of Copies';
                     }
                     field(ShowInternalInfo; ShowInternalInfo)
                     {
+                        ApplicationArea = All;
                         Caption = 'Show Internal Information';
                     }
                     field(LogInteraction; LogInteraction)
                     {
+                        ApplicationArea = All;
                         Caption = 'Log Interaction';
                         Enabled = LogInteractionEnable;
                     }
                     field(ShowGST; "Show GST")
                     {
+                        ApplicationArea = All;
                         Caption = 'Show GST';
                     }
                 }

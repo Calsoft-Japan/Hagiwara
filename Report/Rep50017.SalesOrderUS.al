@@ -523,6 +523,7 @@ report 50017 "Sales Order US"
                     }
                     field(PrintShipQty; PrintShipQty)
                     {
+                        ApplicationArea = All;
                         Caption = 'Print Ship Quantity?';
                         Style = AttentionAccent;
                         StyleExpr = TRUE;

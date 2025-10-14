@@ -2533,15 +2533,18 @@ report 50056 "Inventory Availability List"
                     Caption = 'Options';
                     field(StartingDate; PeriodStartDate[2])
                     {
+                        ApplicationArea = All;
                         Caption = 'Starting Date';
                         NotBlank = true;
                     }
                     field(PeriodLength; PeriodLength)
                     {
+                        ApplicationArea = All;
                         Caption = 'Period Length';
                     }
                     field(UseStockkeepUnit; UseStockkeepingUnit)
                     {
+                        ApplicationArea = All;
                         Caption = 'Use Stockkeeping Unit';
                     }
                 }

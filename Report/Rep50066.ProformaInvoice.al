@@ -532,6 +532,7 @@ report 50066 "Proforma Invoice"
                     Visible = false;
                     field(PrintToExcel; PrintToExcel)
                     {
+                        ApplicationArea = All;
                         Caption = 'Print to Excel';
                     }
                 }
