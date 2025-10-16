@@ -33,7 +33,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
         recApprCondition.SetFilter("Amount (LCY)", '%1|<%2', 0, AmountLCY);
-        if not recApprCondition.FindFirst() then
+        if not recApprCondition.FindLast() then
             error('Hagiwara Approval Condition seems not setup right.');
 
         ApprGroup := recApprCondition."Approval Group Code";
@@ -147,7 +147,7 @@ codeunit 50109 "Hagiwara Approval Management"
             // update transaction data.
             SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
-            SalesHeader.Approver := pUsername;
+            SalesHeader."Hagi Approver" := pUsername;
             SalesHeader.Modify();
 
             // ask approvel for next approver.
