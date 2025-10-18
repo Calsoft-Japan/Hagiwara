@@ -21,7 +21,7 @@ codeunit 50115 "SQ&SO Import"
         ExcelColNoError: Label 'The column number is not matching.';
         EntryNoNotValid: Label 'The Entry No. is not valid.';
         EntryNoDuplicated: Label 'The Entry No. is duplicated.';
-        GroupKeyNotValid: Label 'Group Key is not valid.';
+        GroupingKeyNotValid: Label 'Grouping Key is not valid.';
         DocumentTypeNotValid: Label 'Document Type is not valid.';
         CustomerNoRequested: Label 'Customer No. is requested, can''t be empty.';
         CustomerOrderNoRequested: Label 'Customer Order No. is requested, can''t be empty.';
@@ -144,7 +144,7 @@ codeunit 50115 "SQ&SO Import"
             end
             else begin
                 if ((GroupingKeyStr = '') or (not Evaluate(GroupingKey, GroupingKeyStr))) then begin
-                    Error(GroupKeyNotValid);
+                    Error(GroupingKeyNotValid);
                 end;
                 if (CustomerNoStr = '') then begin
                     Error(CustomerNoRequested);
