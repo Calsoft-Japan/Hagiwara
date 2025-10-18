@@ -7,9 +7,12 @@ table 50122 "Hagiwara Approver E-Signature"
         {
             TableRelation = "User Setup"."User ID";
         }
-        field(2; "E-Signature"; Blob)
+        field(2; "Sign Picture"; Media)
         {
-
+        }
+        field(3; "E-Signature"; Blob)
+        {
+            Subtype = Bitmap;
         }
     }
 
