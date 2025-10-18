@@ -36,7 +36,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value &amp; " " &amp; Fields!TelNo.Value</Value>
+                                      <Value>=Fields!Tel_No___Caption.Value &amp; " " &amp; Fields!TelNo.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -63,7 +63,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Due_DateCaption.Value</Value>
+                                      <Value>=Fields!Due_DateCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -90,7 +90,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!DateCaption.Value</Value>
+                                      <Value>=Fields!DateCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -117,7 +117,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!VATRegistrationNoCaption.Value &amp; " " &amp; Fields!Sales_Header_VatRegistrationNo.Value</Value>
+                                      <Value>=Fields!VATRegistrationNoCaption.Value &amp; " " &amp; Fields!Sales_Header_VatRegistrationNo.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -144,7 +144,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!CountrySold.Value</Value>
+                                      <Value>=Fields!CountrySold.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -169,7 +169,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Sell_to_City_.Value &amp; " " &amp; Fields!Sales_Header___Sell_to_Post_Code_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Sell_to_City_.Value &amp; " " &amp; Fields!Sales_Header___Sell_to_Post_Code_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -194,7 +194,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Sell_to_Address_2_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Sell_to_Address_2_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -219,7 +219,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Sell_to_Address_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Sell_to_Address_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -244,7 +244,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Sell_to_Customer_Name_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Sell_to_Customer_Name_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -270,7 +270,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Ship_to_City_.Value &amp; " " &amp; Fields!Sales_Header___Ship_to_Post_Code_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Ship_to_City_.Value &amp; " " &amp; Fields!Sales_Header___Ship_to_Post_Code_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -297,7 +297,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Ship_to_Name_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Ship_to_Name_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -324,7 +324,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Ship_to_Address_2_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Ship_to_Address_2_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -351,7 +351,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___Ship_to_Address_.Value</Value>
+                                      <Value>=Fields!Sales_Header___Ship_to_Address_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -378,7 +378,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value</Value>
+                                      <Value>=Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -405,7 +405,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Code.GetData("Fields!Tax_InvoiceCaption.Value")</Value>
+                                      <Value>=Code.GetData("Fields!Tax_InvoiceCaption.Value")</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>18pt</FontSize>
@@ -432,7 +432,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value</Value>
+                                      <Value>=Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -459,7 +459,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header___No__.Value</Value>
+                                      <Value>=Fields!Sales_Header___No__.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -486,7 +486,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Invoice_No_Caption.Value</Value>
+                                      <Value>=Fields!Invoice_No_Caption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -513,7 +513,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Text005.Value &amp; " 1"</Value>
+                                      <Value>=Fields!Text005.Value &amp; " 1"</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -538,7 +538,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header_External_Document_No.Value</Value>
+                                      <Value>=Fields!Sales_Header_External_Document_No.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -565,7 +565,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!YourReferenceCaption.Value</Value>
+                                      <Value>=Fields!YourReferenceCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -592,7 +592,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Shipped_To__Caption.Value</Value>
+                                      <Value>=Fields!Shipped_To__Caption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -619,7 +619,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!TradeTermsCaption.Value</Value>
+                                      <Value>=Fields!TradeTermsCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -646,7 +646,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Sales_Header_Shipment_Method.Value</Value>
+                                      <Value>=Fields!Sales_Header_Shipment_Method.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -673,7 +673,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!PaymentTermsCaption.Value</Value>
+                                      <Value>=Fields!PaymentTermsCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -700,7 +700,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!PaymentTerms_Description.Value</Value>
+                                      <Value>=Fields!PaymentTerms_Description.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -727,7 +727,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!toCaption.Value</Value>
+                                      <Value>=Fields!toCaption.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -754,7 +754,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Attn___Caption.Value &amp; " " &amp; Fields!Sales_Header_Sell_to_Contact.Value</Value>
+                                      <Value>=Fields!Attn___Caption.Value &amp; " " &amp; Fields!Sales_Header_Sell_to_Contact.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -781,7 +781,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!FaxNoCaption.Value &amp; " " &amp; Fields!FaxNo.Value</Value>
+                                      <Value>=Fields!FaxNoCaption.Value &amp; " " &amp; Fields!FaxNo.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -808,7 +808,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value &amp; " " &amp; Fields!TelNo.Value</Value>
+                                      <Value>=Fields!Tel_No___Caption.Value &amp; " " &amp; Fields!TelNo.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -870,7 +870,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">="Fields!Text005.Value" + chr(177) + First(Fields!Text005.Value) + chr(177) + "Fields!Invoice_No_Caption.Value" + chr(177) + First(Fields!Invoice_No_Caption.Value) + chr(177) + "Fields!Sales_Header___No__.Value" + chr(177) + First(Fields!Sales_Header___No__.Value) + chr(177) + "Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value" + chr(177) + First(Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value) + chr(177) + "Fields!Tax_InvoiceCaption.Value" + chr(177) + First(Fields!Tax_InvoiceCaption.Value) + chr(177) + "Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value" + chr(177) + First(Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value) + chr(177) + "Fields!PerCaption.Value" + chr(177) + First(Fields!PerCaption.Value) + chr(177) + "Fields!fromCaption.Value" + chr(177) + First(Fields!fromCaption.Value) + chr(177) + "Fields!toCaption.Value" + chr(177) + First(Fields!toCaption.Value) + chr(177) + "Fields!ShipmentMethod_Description.Value" + chr(177) + First(Fields!ShipmentMethod_Description.Value) + chr(177) + "Fields!CountryFrom.Value" + chr(177) + First(Fields!CountryFrom.Value) + chr(177) + "Fields!CountryTo.Value" + chr(177) + First(Fields!CountryTo.Value) + chr(177) + "Fields!Shipped_To__Caption.Value" + chr(177) + First(Fields!Shipped_To__Caption.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Address_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Address_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Address_2_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Address_2_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Name_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Name_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_City_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_City_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Post_Code_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Post_Code_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Contact_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Contact_.Value) + chr(177) + "Fields!Sold_To__Caption.Value" + chr(177) + First(Fields!Sold_To__Caption.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Customer_Name_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Customer_Name_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Address_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Address_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Address_2_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Address_2_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_City_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_City_.Value) + chr(177) + "Fields!CountrySold.Value" + chr(177) + First(Fields!CountrySold.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Post_Code_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Post_Code_.Value) + chr(177) + "Fields!Attn___Caption.Value" + chr(177) + First(Fields!Attn___Caption.Value) + chr(177) + "Fields!DateCaption.Value" + chr(177) + First(Fields!DateCaption.Value) + chr(177) + "Fields!Due_DateCaption.Value" + chr(177) + First(Fields!Due_DateCaption.Value) + chr(177) + "Fields!Tel_No___Caption.Value" + chr(177) + First(Fields!Tel_No___Caption.Value) + chr(177) + "Fields!TelNo.Value" + chr(177) + First(Fields!TelNo.Value)</Value>
+                                                    <Value>="Fields!Text005.Value" + chr(177) + First(Fields!Text005.Value) + chr(177) + "Fields!Invoice_No_Caption.Value" + chr(177) + First(Fields!Invoice_No_Caption.Value) + chr(177) + "Fields!Sales_Header___No__.Value" + chr(177) + First(Fields!Sales_Header___No__.Value) + chr(177) + "Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value" + chr(177) + First(Fields!FORMAT__Sales_Header___Document_Date__0_7_.Value) + chr(177) + "Fields!Tax_InvoiceCaption.Value" + chr(177) + First(Fields!Tax_InvoiceCaption.Value) + chr(177) + "Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value" + chr(177) + First(Fields!FORMAT__Sales_Header___Due_Date__0_7_.Value) + chr(177) + "Fields!PerCaption.Value" + chr(177) + First(Fields!PerCaption.Value) + chr(177) + "Fields!fromCaption.Value" + chr(177) + First(Fields!fromCaption.Value) + chr(177) + "Fields!toCaption.Value" + chr(177) + First(Fields!toCaption.Value) + chr(177) + "Fields!ShipmentMethod_Description.Value" + chr(177) + First(Fields!ShipmentMethod_Description.Value) + chr(177) + "Fields!CountryFrom.Value" + chr(177) + First(Fields!CountryFrom.Value) + chr(177) + "Fields!CountryTo.Value" + chr(177) + First(Fields!CountryTo.Value) + chr(177) + "Fields!Shipped_To__Caption.Value" + chr(177) + First(Fields!Shipped_To__Caption.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Address_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Address_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Address_2_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Address_2_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Name_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Name_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_City_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_City_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Post_Code_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Post_Code_.Value) + chr(177) + "Fields!Sales_Header___Ship_to_Contact_.Value" + chr(177) + First(Fields!Sales_Header___Ship_to_Contact_.Value) + chr(177) + "Fields!Sold_To__Caption.Value" + chr(177) + First(Fields!Sold_To__Caption.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Customer_Name_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Customer_Name_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Address_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Address_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Address_2_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Address_2_.Value) + chr(177) + "Fields!Sales_Header___Sell_to_City_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_City_.Value) + chr(177) + "Fields!CountrySold.Value" + chr(177) + First(Fields!CountrySold.Value) + chr(177) + "Fields!Sales_Header___Sell_to_Post_Code_.Value" + chr(177) + First(Fields!Sales_Header___Sell_to_Post_Code_.Value) + chr(177) + "Fields!Attn___Caption.Value" + chr(177) + First(Fields!Attn___Caption.Value) + chr(177) + "Fields!DateCaption.Value" + chr(177) + First(Fields!DateCaption.Value) + chr(177) + "Fields!Due_DateCaption.Value" + chr(177) + First(Fields!Due_DateCaption.Value) + chr(177) + "Fields!Tel_No___Caption.Value" + chr(177) + First(Fields!Tel_No___Caption.Value) + chr(177) + "Fields!TelNo.Value" + chr(177) + First(Fields!TelNo.Value)</Value>
                                                     <Style />
                                                   </TextRun>
                                                 </TextRuns>
@@ -889,7 +889,7 @@
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value EvaluationMode="Auto">="Fields!CompanyInfo_Name.Value" + chr(177) + First(Fields!CompanyInfo_Name.Value) + chr(177) + "Fields!CompanyInfo__Signature_Name_.Value" + chr(177) + First(Fields!CompanyInfo__Signature_Name_.Value) + chr(177) + "Fields!P_S___Caption.Value" + chr(177) + First(Fields!P_S___Caption.Value) + chr(177) + "Fields!PaymentTerms_Description.Value" + chr(177) + First(Fields!PaymentTerms_Description.Value) + chr(177) + "Fields!CompanyInfo__Bank_Name_.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Name_.Value) + chr(177) + "Fields!Account_No___Caption.Value" + chr(177) + First(Fields!Account_No___Caption.Value) + chr(177) + "Fields!CompanyInfo__Bank_Account_No__.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Account_No__.Value) + chr(177) + "Fields!CompanyInfo__Bank_Branch_No__.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Branch_No__.Value)</Value>
+                                                    <Value>="Fields!CompanyInfo_Name.Value" + chr(177) + First(Fields!CompanyInfo_Name.Value) + chr(177) + "Fields!CompanyInfo__Signature_Name_.Value" + chr(177) + First(Fields!CompanyInfo__Signature_Name_.Value) + chr(177) + "Fields!P_S___Caption.Value" + chr(177) + First(Fields!P_S___Caption.Value) + chr(177) + "Fields!PaymentTerms_Description.Value" + chr(177) + First(Fields!PaymentTerms_Description.Value) + chr(177) + "Fields!CompanyInfo__Bank_Name_.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Name_.Value) + chr(177) + "Fields!Account_No___Caption.Value" + chr(177) + First(Fields!Account_No___Caption.Value) + chr(177) + "Fields!CompanyInfo__Bank_Account_No__.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Account_No__.Value) + chr(177) + "Fields!CompanyInfo__Bank_Branch_No__.Value" + chr(177) + First(Fields!CompanyInfo__Bank_Branch_No__.Value)</Value>
                                                     <Style />
                                                   </TextRun>
                                                 </TextRuns>
@@ -933,7 +933,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Code.IsNewPage(Fields!Sales_Header___No__.Value, Fields!OutputNo.Value)</Value>
+                                      <Value>=Code.IsNewPage(Fields!Sales_Header___No__.Value, Fields!OutputNo.Value)</Value>
                                       <Style />
                                     </TextRun>
                                   </TextRuns>
@@ -971,7 +971,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Header_DimensionsCaption.Value</Value>
+                                                        <Value>=Fields!Header_DimensionsCaption.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>9pt</FontSize>
@@ -993,7 +993,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!DimText.Value</Value>
+                                                        <Value>=Fields!DimText.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>9pt</FontSize>
@@ -1032,7 +1032,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!DimText.Value</Value>
+                                                        <Value>=Fields!DimText.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>9pt</FontSize>
@@ -1125,7 +1125,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!PartsNoCaption.Value)</Value>
+                                                        <Value>=First(Fields!PartsNoCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1214,7 +1214,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!AmountCaption.Value)</Value>
+                                                        <Value>=First(Fields!AmountCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1241,7 +1241,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!Unit_PriceCaption.Value)</Value>
+                                                        <Value>=First(Fields!Unit_PriceCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1268,7 +1268,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!QuantityCaption.Value)</Value>
+                                                        <Value>=First(Fields!QuantityCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1295,7 +1295,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!DescriptionCaption.Value)</Value>
+                                                        <Value>=First(Fields!DescriptionCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1320,7 +1320,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=First(Fields!NoCaption.Value)</Value>
+                                                        <Value>=First(Fields!NoCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1360,7 +1360,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Sales_Line_Description.Value</Value>
+                                                        <Value>=Fields!Sales_Line_Description.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1398,7 +1398,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!ItemCounterText.Value</Value>
+                                                        <Value>=Fields!ItemCounterText.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1420,7 +1420,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Sales_Line__Customer_Item_No__.Value</Value>
+                                                        <Value>=Fields!Sales_Line__Customer_Item_No__.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1444,7 +1444,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Sales_Line_Description.Value</Value>
+                                                        <Value>=Fields!Sales_Line_Description.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1470,7 +1470,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Sales_Line__Amount_Including_VAT_.Value</Value>
+                                                        <Value>=Fields!Sales_Line__Amount_Including_VAT_.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1495,7 +1495,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Sales_Line__Unit_Price_.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!Sales_Line__Unit_Price_.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1522,7 +1522,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Code.BlankZero(Fields!Sales_Line_Quantity.Value)</Value>
+                                                        <Value>=Code.BlankZero(Fields!Sales_Line_Quantity.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1562,7 +1562,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!Line_DimensionsCaption.Value</Value>
+                                                        <Value>=Fields!Line_DimensionsCaption.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                         </Style>
@@ -1583,7 +1583,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Fields!DimText_Control82.Value</Value>
+                                                        <Value>=Fields!DimText_Control82.Value</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                         </Style>
@@ -1621,7 +1621,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=SUM(Fields!Sales_Line__Amount_Including_VAT_.Value)</Value>
+                                                        <Value>=SUM(Fields!Sales_Line__Amount_Including_VAT_.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1647,7 +1647,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Last(Fields!CurCode.Value)</Value>
+                                                        <Value>=Last(Fields!CurCode.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1684,7 +1684,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=SUM(Fields!Sales_Line_Quantity_Control1000000085.Value)</Value>
+                                                        <Value>=SUM(Fields!Sales_Line_Quantity_Control1000000085.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1711,7 +1711,7 @@
                                                   <Paragraph>
                                                     <TextRuns>
                                                       <TextRun>
-                                                        <Value EvaluationMode="Auto">=Last(Fields!TOTALCaption.Value)</Value>
+                                                        <Value>=Last(Fields!TOTALCaption.Value)</Value>
                                                         <Style>
                                                           <FontFamily>Helvetica</FontFamily>
                                                           <FontSize>8pt</FontSize>
@@ -1850,7 +1850,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value + " " + Fields!CountryFrom.Value</Value>
+                                      <Value>=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value + " " + Fields!CountryFrom.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -1884,7 +1884,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!Tel_No___Caption.Value + " " + Fields!CompanyInfo_PhoneNo.Value + "  " + Fields!FaxNoCaption.Value + " " + Fields!CompanyInfo_FaxNo.Value</Value>
+                                      <Value>=Fields!Tel_No___Caption.Value + " " + Fields!CompanyInfo_PhoneNo.Value + "  " + Fields!FaxNoCaption.Value + " " + Fields!CompanyInfo_FaxNo.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -1919,7 +1919,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!CommercialRegisterCaption.Value + " " + Fields!CompanyInfo_CommercialRegister.Value + "  " + Fields!CeoText.Value</Value>
+                                      <Value>=Fields!CommercialRegisterCaption.Value + " " + Fields!CompanyInfo_CommercialRegister.Value + "  " + Fields!CeoText.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -1954,7 +1954,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!VatRegistrationNoText.Value</Value>
+                                      <Value>=Fields!VatRegistrationNoText.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -1989,7 +1989,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!FiscalRepresentative.Value</Value>
+                                      <Value>=Fields!FiscalRepresentative.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -2024,7 +2024,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!BankText.Value</Value>
+                                      <Value>=Fields!BankText.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -2059,7 +2059,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!IBANText.Value</Value>
+                                      <Value>=Fields!IBANText.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>7pt</FontSize>
@@ -2117,7 +2117,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!AuthorisedSignatures.Value</Value>
+                                      <Value>=Fields!AuthorisedSignatures.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -2130,7 +2130,7 @@
                               <Top>1.87116cm</Top>
                               <Left>11.34107cm</Left>
                               <Height>0.423cm</Height>
-                              <Width>6.43326cm</Width>
+                              <Width>6.43315cm</Width>
                               <ZIndex>9</ZIndex>
                               <Style>
                                 <VerticalAlign>Middle</VerticalAlign>
@@ -2142,7 +2142,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value</Value>
+                                      <Value>=Fields!CompanyInfo_Name.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -2179,7 +2179,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!SignCompanyStamp.Value</Value>
+                                      <Value>=Fields!SignCompanyStamp.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -2204,7 +2204,7 @@
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value EvaluationMode="Auto">=Fields!RemarkText.Value</Value>
+                                      <Value>=Fields!RemarkText.Value</Value>
                                       <Style>
                                         <FontFamily>Helvetica</FontFamily>
                                         <FontSize>8pt</FontSize>
@@ -2223,6 +2223,23 @@
                                 <VerticalAlign>Middle</VerticalAlign>
                               </Style>
                             </Textbox>
+                            <Image Name="Approver_ESign">
+                              <Source>Database</Source>
+                              <Value>=Fields!ESign.Value</Value>
+                              <MIMEType>image/bmp</MIMEType>
+                              <Sizing>Fit</Sizing>
+                              <Top>0.22959in</Top>
+                              <Left>0.1823cm</Left>
+                              <Height>33.42835pt</Height>
+                              <Width>2.96771cm</Width>
+                              <ZIndex>14</ZIndex>
+                              <DataElementOutput>NoOutput</DataElementOutput>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                              </Style>
+                            </Image>
                           </ReportItems>
                           <KeepTogether>true</KeepTogether>
                           <Style>
@@ -2315,7 +2332,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value</Value>
+                      <Value>=Fields!CompanyInfo_Name.Value + " - " + Fields!CompanyInfo_Address.Value + ", " + Fields!CompanyInfo_PostCode.Value +  " " + Fields!CompanyInfo_City.Value</Value>
                       <Style>
                         <FontFamily>Helvetica</FontFamily>
                         <FontSize>7pt</FontSize>
@@ -2347,7 +2364,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Auto">=Fields!Text005.Value &amp; " " &amp; Code.GetGroupPageNumber(ReportItems!NewPage.Value,Globals!PageNumber)</Value>
+                      <Value>=Fields!Text005.Value &amp; " " &amp; Code.GetGroupPageNumber(ReportItems!NewPage.Value,Globals!PageNumber)</Value>
                       <Style>
                         <FontFamily>Helvetica</FontFamily>
                         <FontSize>8pt</FontSize>
@@ -2830,6 +2847,9 @@ End Function</Code>
         </Field>
         <Field Name="IBANText">
           <DataField>IBANText</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="DimText">
           <DataField>DimText</DataField>

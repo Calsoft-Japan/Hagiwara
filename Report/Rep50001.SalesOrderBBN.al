@@ -248,6 +248,10 @@ report 50001 "Sales Order BBN"
                     column(IBANText; IBANText)
                     {
                     }
+                    column(ESign; ESignTenantMedia.Content)
+                    {
+                        //N005
+                    }
                     dataitem(DimensionLoop1; Integer)
                     {
                         DataItemLinkReference = "Sales Header";
@@ -755,7 +759,23 @@ report 50001 "Sales Order BBN"
                 _SalesLine2: Record "Sales Line";
                 _Location: Record Location;
                 _Country: Record "Country/Region";
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if "Approval Status" = Enum::"Hagiwara Approval Status"::Approved then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
+
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
@@ -1054,6 +1074,7 @@ report 50001 "Sales Order BBN"
         ItemCounter: Integer;
         ItemCounterText: Text[256];
         QuantityCaption: Label 'Quantity';
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     procedure InitLogInteraction()
     begin
