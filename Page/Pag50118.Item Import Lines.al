@@ -283,15 +283,10 @@ page 50118 "Item Import Lines"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
-                    //RunObject = codeunit "Renesas PO Importer";//TODO Nie
-                    ToolTip = 'Import Data from Microsoft Excel Worksheet into Item Import Lines table.';
-
                     trigger OnAction()
                     var
                         cduImporter: Codeunit "Item Import";
-                    //TransType: Option Receipt,Invoice,ReceiptInvoice;
                     begin
-                        //cduImporter.SetTransType(TransType::Receipt);
                         cduImporter.Run();
                     end;
 
@@ -307,15 +302,43 @@ page 50118 "Item Import Lines"
                     var
                         ItemImportline: Record "Item Import Line";
                     begin
+                        // -------check records existe-------                        
+                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
                         ItemImportline.SETFILTER(ItemImportline.Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
-
                         if ItemImportline.IsEmpty() then begin
                             Error('There is no record to validate.');
                         end;
 
+                        // -------check record contents-------
                         if ItemImportline.FINDFIRST then
                             REPEAT
                                 CheckError(ItemImportline);
+                            UNTIL ItemImportline.NEXT = 0;
+                    end;
+                }
+                action("Carry Out")
+                {
+                    Image = CarryOutActionMessage;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        ItemImportBatch: Record "Item Import Batch";
+                        ItemImportline: Record "Item Import Line";
+                    begin
+                        // -------check Approval Status -------
+                        ItemImportBatch.GET(Rec."Batch Name");
+                        if ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::Approved then begin
+                            Error('You can''t carry out the action. You need to go through approval process first.');
+                        end;
+
+                        // -------Execute-------
+                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
+                        if ItemImportline.FINDFIRST then
+                            REPEAT
+                                ExecuteProcess(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
                     end;
                 }
@@ -323,9 +346,304 @@ page 50118 "Item Import Lines"
         }
 
     }
+    procedure ExecuteProcess(var p_ItemImportline: Record "Item Import Line")
+    begin
+
+        // -------Create-------
+        if p_ItemImportline.Action = p_ItemImportline.Action::Create then begin
+            //Create new records on the Item table.
+            CreateRecordForItem(p_ItemImportline);
+            //Create new records on the Item Unit of Measure table with the following mappings.
+            CreateRecordForItemUnitofMeasure(p_ItemImportline);
+            //Create new records on the Item Reference table with the following mappings.
+            //  For Customer
+            CreateRecordForItemRefCusomer(p_ItemImportline);
+            //  For Vendor
+            CreateRecordForItemRefVendor(p_ItemImportline);
+        end;
+
+        // -------Update-------
+        if p_ItemImportline.Action = p_ItemImportline.Action::Update then begin
+            //Update existing records on the Item table.
+            UpdateRecordForItem(p_ItemImportline);
+            //Update existing records on the Item Unit of Measure table.
+            UpdateRecordForItemUnitofMeasure(p_ItemImportline);
+            //Update existing records on the Item Reference table.
+            //  For Customer
+            UpdateRecordForItemRefCusomer(p_ItemImportline);
+            //  For Vendor
+            UpdateRecordForItemRefVendor(p_ItemImportline);
+
+        end;
+
+    end;
+
+    //Create new records on the Item Reference table with the following mappings.
+    //  For Customer
+    procedure CreateRecordForItemRefCusomer(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemReference: Record "Item Reference";
+    begin
+        ItemReference.INIT;
+        ItemReference.Validate(ItemReference."Reference Type", "Item Reference Type"::Customer);
+        ItemReference.Validate(ItemReference."Reference Type No.", p_ItemImportline."Customer No.");
+        ItemReference.Validate(ItemReference."Reference No.", p_ItemImportline."Original Item No.");
+        ItemReference.Validate(ItemReference."Item No.", p_ItemImportline."Item No.");
+        ItemReference.Validate(ItemReference."Unit of Measure", p_ItemImportline."Base Unit of Measure");
+        ItemReference.Validate(ItemReference.Description, p_ItemImportline.Description);
+
+        ItemReference.Insert();
+    end;
+
+    //Create new records on the Item Reference table with the following mappings.
+    //  For Vendor
+    procedure CreateRecordForItemRefVendor(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemReference: Record "Item Reference";
+    begin
+        ItemReference.INIT;
+        ItemReference.Validate(ItemReference."Reference Type", "Item Reference Type"::Vendor);
+        ItemReference.Validate(ItemReference."Reference Type No.", p_ItemImportline."Vendor No.");
+        ItemReference.Validate(ItemReference."Reference No.", p_ItemImportline."Original Item No.");
+        ItemReference.Validate(ItemReference."Item No.", p_ItemImportline."Item No.");
+        ItemReference.Validate(ItemReference."Unit of Measure", p_ItemImportline."Base Unit of Measure");
+        ItemReference.Validate(ItemReference.Description, p_ItemImportline.Description);
+
+        ItemReference.Insert();
+    end;
+
+    //Create new records on the Item Unit of Measure table with the following mappings.
+    procedure CreateRecordForItemUnitofMeasure(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemUnitofMeasure: Record "Item Unit of Measure";
+    begin
+        ItemUnitofMeasure.INIT;
+        ItemUnitofMeasure.Validate("Item No.", p_ItemImportline."Item No.");
+        ItemUnitofMeasure.Validate(Code, p_ItemImportline."Base Unit of Measure");
+        ItemUnitofMeasure.Validate("Qty. per Unit of Measure", 1);
+
+        ItemUnitofMeasure.Insert();
+    end;
+
+    //Create new records on the Item table.
+    procedure CreateRecordForItem(var p_ItemImportline: Record "Item Import Line")
+    var
+        Item: Record "Item";
+    begin
+        Item.INIT;
+        item.Validate(Type, "Item Type"::Inventory);
+        item.Validate("Costing Method", "Costing Method"::Average);
+        item.Validate("No.", p_ItemImportline."Item No.");
+        item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
+        item.Validate(Description, p_ItemImportline."Description");
+        item.Validate("Description 2", p_ItemImportline."Description 2");
+        item.Validate("Base Unit of Measure", p_ItemImportline."Base Unit of Measure");
+        item.Validate("Sales Unit of Measure", p_ItemImportline."Sales Unit of Measure");
+        item.Validate("Purch. Unit of Measure", p_ItemImportline."Purchase Unit of Measure");
+        item.Validate("Price/Profit Calculation", p_ItemImportline."Price/Profit Calculation");
+        item.Validate("Lead Time Calculation", p_ItemImportline."Lead Time Calculation");
+        item.Validate("Tariff No.", p_ItemImportline."Tariff No.");
+        item.Validate(Reserve, p_ItemImportline."Reserve");
+        item.Validate("Stockout Warning", p_ItemImportline."Stockout Warning");
+        item.Validate("Prevent Negative Inventory", p_ItemImportline."Prevent Negative Inventory");
+        item.Validate("Replenishment System", p_ItemImportline."Replenishment System");
+        item.Validate("Item Tracking Code", p_ItemImportline."Item Tracking Code");
+        item.Validate("Manufacturer Code", p_ItemImportline."Manufacture Code");
+        item.Validate("Item Category Code", p_ItemImportline."Item Category Code");
+        item.Validate("Original Item No.", p_ItemImportline."Original Item No.");
+        item.Validate("Country/Region of Origin Code", p_ItemImportline."Country/Region of Origin Code");
+        item.Validate("Country/Region of Org Cd (FE)", p_ItemImportline."Country/Region of Org Cd (FE)");
+        item.Validate("Item Group Code", p_ItemImportline."Product Group Code");
+        item.Validate(Products, p_ItemImportline."Products");
+        item.Validate("Parts No.", p_ItemImportline."Parts No.");
+        item.Validate(PKG, p_ItemImportline."PKG");
+        item.Validate(Rank, p_ItemImportline."Rank");
+        item.Validate(SBU, p_ItemImportline."SBU");
+        item.Validate("Car Model", p_ItemImportline."Car Model");
+        item.Validate(SOP, p_ItemImportline."SOP");
+        item.Validate("MP-Volume(pcs/M)", p_ItemImportline."MP-Volume(pcs/M)");
+        item.Validate(Apl, p_ItemImportline."Apl");
+        item.Validate("Service Parts", p_ItemImportline."Service Parts");
+        item.Validate("Order Deadline Date", p_ItemImportline."Order Deadline Date");
+        item.Validate(EOL, p_ItemImportline."EOL");
+        item.Validate(Memo, p_ItemImportline."Memo");
+        item.Validate(EDI, p_ItemImportline."EDI");
+        item.Validate("Customer No.", p_ItemImportline."Customer No.");
+        item.Validate("Customer Item No.", p_ItemImportline."Customer Item No.");
+        item.Validate("Customer Item No.(Plain)", p_ItemImportline."Customer Item No. (Plain)");
+        item.Validate("OEM No.", p_ItemImportline."OEM No.");
+        item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
+        item.Validate("Item Supplier Source", p_ItemImportline."Item Supplier Source");
+        item.Validate("Vendor Item No.", p_ItemImportline."Vendor Item No.");
+        item.Validate("Lot Size", p_ItemImportline."Lot Size");
+        item.Validate("Minimum Order Quantity", p_ItemImportline."Minimum Order Quantity");
+        item.Validate("Order Multiple", p_ItemImportline."Order Multiple");
+        item.Validate("Maximum Order Quantity", p_ItemImportline."Maximum Order Quantity");
+        item.Validate("Markup%", p_ItemImportline."Markup%");
+        item.Validate("Markup%(Sales Price)", p_ItemImportline."Markup%(Sales Price)");
+        item.Validate("Markup%(Purchase Price)", p_ItemImportline."Markup%(Purchase Price)");
+        item.Validate("One Renesas EDI", p_ItemImportline."One Renesas EDI");
+        item.Validate("Excluded in Inventory Report", p_ItemImportline."Excluded in Inventory Report");
+        item.Validate("Gen. Prod. Posting Group", p_ItemImportline."Gen. Prod. Posting Group");
+        item.Validate("Inventory Posting Group", p_ItemImportline."Inventory Posting Group");
+        item.Validate("VAT Prod. Posting Group", p_ItemImportline."VAT Prod. Posting Group");
+        item.Validate("Global Dimension 1 Code", p_ItemImportline."Customer Group Code");
+        item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
+        item.Validate(Blocked, p_ItemImportline."Blocked");
+
+        Item.Insert();
+    end;
+
+    //Update existing records on the Item Reference table.
+    //  For Customer
+    procedure UpdateRecordForItemRefCusomer(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemReference: Record "Item Reference";
+    begin
+        ItemReference.SetRange("Item No.", p_ItemImportline."Item No.");
+        ItemReference.SetRange("Unit of Measure", p_ItemImportline."Base Unit of Measure");
+        ItemReference.SetRange("Reference Type", ItemReference."Reference Type"::Customer);
+        ItemReference.SetRange("Reference Type No.", p_ItemImportline."Customer No.");
+        if ItemReference.FindFirst() then begin
+            // Update
+            ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+            ItemReference.Validate(Description, p_ItemImportline.Description);
+            ItemReference.Modify();
+        end else begin
+            // Create
+            ItemReference.INIT;
+            ItemReference.Validate(ItemReference."Reference Type", "Item Reference Type"::Customer);
+            ItemReference.Validate(ItemReference."Reference Type No.", p_ItemImportline."Customer No.");
+            ItemReference.Validate(ItemReference."Reference No.", p_ItemImportline."Original Item No.");
+            ItemReference.Validate(ItemReference."Item No.", p_ItemImportline."Item No.");
+            ItemReference.Validate(ItemReference."Unit of Measure", p_ItemImportline."Base Unit of Measure");
+            ItemReference.Validate(ItemReference.Description, p_ItemImportline.Description);
+
+            ItemReference.Insert();
+        end;
+
+    end;
+
+    //Update existing records on the Item Reference table.
+    //  For Vendor
+    procedure UpdateRecordForItemRefVendor(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemReference: Record "Item Reference";
+    begin
+        ItemReference.SetRange("Item No.", p_ItemImportline."Item No.");
+        ItemReference.SetRange("Unit of Measure", p_ItemImportline."Base Unit of Measure");
+        ItemReference.SetRange("Reference Type", ItemReference."Reference Type"::Vendor);
+        ItemReference.SetRange("Reference Type No.", p_ItemImportline."Vendor No.");
+        if ItemReference.FindFirst() then begin
+            // Update
+            ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+            ItemReference.Validate(Description, p_ItemImportline.Description);
+            ItemReference.Modify();
+        end else begin
+            // Create
+            ItemReference.INIT;
+            ItemReference.Validate(ItemReference."Reference Type", "Item Reference Type"::Vendor);
+            ItemReference.Validate(ItemReference."Reference Type No.", p_ItemImportline."Vendor No.");
+            ItemReference.Validate(ItemReference."Reference No.", p_ItemImportline."Original Item No.");
+            ItemReference.Validate(ItemReference."Item No.", p_ItemImportline."Item No.");
+            ItemReference.Validate(ItemReference."Unit of Measure", p_ItemImportline."Base Unit of Measure");
+            ItemReference.Validate(ItemReference.Description, p_ItemImportline.Description);
+
+            ItemReference.Insert();
+        end;
+
+    end;
+
+    //Update existing records on the Item Unit of Measure table.
+    procedure UpdateRecordForItemUnitofMeasure(var p_ItemImportline: Record "Item Import Line")
+    var
+        ItemUnitofMeasure: Record "Item Unit of Measure";
+    begin
+        if ItemUnitofMeasure.GET(p_ItemImportline."Item No.", p_ItemImportline."Base Unit of Measure") then begin
+
+        end else begin
+            ItemUnitofMeasure.INIT;
+            ItemUnitofMeasure.Validate("Item No.", p_ItemImportline."Item No.");
+            ItemUnitofMeasure.Validate(Code, p_ItemImportline."Base Unit of Measure");
+            ItemUnitofMeasure.Validate("Qty. per Unit of Measure", 1);
+
+            ItemUnitofMeasure.Insert();
+        end;
+        ;
+    end;
+
+    //Update existing records on the Item table.
+    procedure UpdateRecordForItem(var p_ItemImportline: Record "Item Import Line")
+    var
+        Item: Record "Item";
+    begin
+        if Item.GET(p_ItemImportline."Item No.") then begin
+            item.Validate(Type, p_ItemImportline.Type);
+            item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
+            item.Validate(Description, p_ItemImportline."Description");
+            item.Validate("Description 2", p_ItemImportline."Description 2");
+            item.Validate("Base Unit of Measure", p_ItemImportline."Base Unit of Measure");
+            item.Validate("Sales Unit of Measure", p_ItemImportline."Sales Unit of Measure");
+            item.Validate("Purch. Unit of Measure", p_ItemImportline."Purchase Unit of Measure");
+            item.Validate("Price/Profit Calculation", p_ItemImportline."Price/Profit Calculation");
+            item.Validate("Lead Time Calculation", p_ItemImportline."Lead Time Calculation");
+            item.Validate("Tariff No.", p_ItemImportline."Tariff No.");
+            item.Validate(Reserve, p_ItemImportline."Reserve");
+            item.Validate("Stockout Warning", p_ItemImportline."Stockout Warning");
+            item.Validate("Prevent Negative Inventory", p_ItemImportline."Prevent Negative Inventory");
+            item.Validate("Replenishment System", p_ItemImportline."Replenishment System");
+            item.Validate("Item Tracking Code", p_ItemImportline."Item Tracking Code");
+            item.Validate("Manufacturer Code", p_ItemImportline."Manufacture Code");
+            item.Validate("Item Category Code", p_ItemImportline."Item Category Code");
+            item.Validate("Original Item No.", p_ItemImportline."Original Item No.");
+            item.Validate("Country/Region of Origin Code", p_ItemImportline."Country/Region of Origin Code");
+            item.Validate("Country/Region of Org Cd (FE)", p_ItemImportline."Country/Region of Org Cd (FE)");
+            item.Validate("Item Group Code", p_ItemImportline."Product Group Code");
+            item.Validate(Products, p_ItemImportline."Products");
+            item.Validate("Parts No.", p_ItemImportline."Parts No.");
+            item.Validate(PKG, p_ItemImportline."PKG");
+            item.Validate(Rank, p_ItemImportline."Rank");
+            item.Validate(SBU, p_ItemImportline."SBU");
+            item.Validate("Car Model", p_ItemImportline."Car Model");
+            item.Validate(SOP, p_ItemImportline."SOP");
+            item.Validate("MP-Volume(pcs/M)", p_ItemImportline."MP-Volume(pcs/M)");
+            item.Validate(Apl, p_ItemImportline."Apl");
+            item.Validate("Service Parts", p_ItemImportline."Service Parts");
+            item.Validate("Order Deadline Date", p_ItemImportline."Order Deadline Date");
+            item.Validate(EOL, p_ItemImportline."EOL");
+            item.Validate(Memo, p_ItemImportline."Memo");
+            item.Validate(EDI, p_ItemImportline."EDI");
+            item.Validate("Customer No.", p_ItemImportline."Customer No.");
+            item.Validate("Customer Item No.", p_ItemImportline."Customer Item No.");
+            item.Validate("Customer Item No.(Plain)", p_ItemImportline."Customer Item No. (Plain)");
+            item.Validate("OEM No.", p_ItemImportline."OEM No.");
+            item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
+            item.Validate("Item Supplier Source", p_ItemImportline."Item Supplier Source");
+            item.Validate("Vendor Item No.", p_ItemImportline."Vendor Item No.");
+            item.Validate("Lot Size", p_ItemImportline."Lot Size");
+            item.Validate("Minimum Order Quantity", p_ItemImportline."Minimum Order Quantity");
+            item.Validate("Order Multiple", p_ItemImportline."Order Multiple");
+            item.Validate("Maximum Order Quantity", p_ItemImportline."Maximum Order Quantity");
+            item.Validate("Markup%", p_ItemImportline."Markup%");
+            item.Validate("Markup%(Sales Price)", p_ItemImportline."Markup%(Sales Price)");
+            item.Validate("Markup%(Purchase Price)", p_ItemImportline."Markup%(Purchase Price)");
+            item.Validate("One Renesas EDI", p_ItemImportline."One Renesas EDI");
+            item.Validate("Excluded in Inventory Report", p_ItemImportline."Excluded in Inventory Report");
+            item.Validate("Gen. Prod. Posting Group", p_ItemImportline."Gen. Prod. Posting Group");
+            item.Validate("Inventory Posting Group", p_ItemImportline."Inventory Posting Group");
+            item.Validate("VAT Prod. Posting Group", p_ItemImportline."VAT Prod. Posting Group");
+            item.Validate("Global Dimension 1 Code", p_ItemImportline."Customer Group Code");
+            item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
+            item.Validate(Blocked, p_ItemImportline."Blocked");
+
+            Item.Modify();
+        end;
+    end;
+
     procedure CheckError(var p_ItemImportline: Record "Item Import Line")
     var
-        ErrDesc: Text[250];
+        //bIsCreate: Boolean;
+        ErrDesc: Text[1024];//the total of error message is over of ( [Table – Item Import Line]'[Error Description] length : 250)
         Item: Record "Item";
         UnitOfMeasure: Record "Unit of Measure";
         Manufacturer: Record "Manufacturer";
@@ -397,7 +715,18 @@ page 50118 "Item Import Lines"
             ErrDesc += 'Inventory Posting Group is not found. ';
         end;
 
-        p_ItemImportline."Error Description" := ErrDesc;
+        // -------Option Value Check-------//TODO 確認必要
+
+        // -------the result of Validation-------
+        if (ErrDesc <> '') then begin
+            p_ItemImportline."Error Description" := ErrDesc;
+        end else begin
+            //Create or Update
+            p_ItemImportline.Action := p_ItemImportline.Action::Update;
+            if not Item.get(p_ItemImportline."Item No.") then begin
+                p_ItemImportline.Action := p_ItemImportline.Action::Create;
+            end;
+        end;
         p_ItemImportline.MODIFY;
     end;
 

@@ -43,10 +43,9 @@ table 50118 "Item Import Line"
         {
 
         }
-        field(11; "Price/Profit Calculation"; Option)
+        field(11; "Price/Profit Calculation"; Enum "Item Price Profit Calculation")
         {
-            OptionCaption = 'Profit=Price-Cost, Price=Cost+Profit, No Relationship';
-            OptionMembers = "Profit=Price-Cost","Price=Cost+Profit","No Relationship";
+
         }
         field(12; "Lead Time Calculation"; DateFormula)
         {
