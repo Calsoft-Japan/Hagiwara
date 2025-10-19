@@ -146,7 +146,6 @@ codeunit 50109 "Hagiwara Approval Management"
 
             // update transaction data.
             SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
             SalesHeader."Hagi Approver" := pUsername;
             SalesHeader.Modify();
 
@@ -168,6 +167,11 @@ codeunit 50109 "Hagiwara Approval Management"
                     "Hagiwara Approval Status"::Submitted,
                     recApprEntry.GetComment()
                 );
+            end else begin
+                //if no next approver, change the status of the data to Approved.
+                SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                SalesHeader.Modify();
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);

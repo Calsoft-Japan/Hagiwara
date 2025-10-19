@@ -1,18 +1,12 @@
-pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
+pageextension 59302 SalesCreditMemosExt extends "Sales Credit Memos"
 {
+    //N005
+
     layout
     {
-        addafter("Bill-to Contact")
-        {
-            field("From"; Rec."From")
-            {
-                ApplicationArea = all;
-                Visible = False;
-            }
-        }
-        addafter("External Document No.")
-        {
 
+        addafter("Sell-to Customer Name")
+        {
             field("Approval Status"; rec."Approval Status")
             {
                 ApplicationArea = all;
@@ -25,7 +19,9 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
             {
                 ApplicationArea = all;
             }
+
         }
+
     }
     actions
     {
@@ -40,22 +36,6 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
             Visible = false;
         }
         modify(CancelApprovalRequest)
-        {
-            Visible = false;
-        }
-        modify(Approve)
-        {
-            Visible = false;
-        }
-        modify(Reject)
-        {
-            Visible = false;
-        }
-        modify(Delegate)
-        {
-            Visible = false;
-        }
-        modify(Comment)
         {
             Visible = false;
         }
@@ -112,9 +92,9 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
                     end;
                 }
-                action("Hagi Approve")
+                action("Approve")
                 {
-                    Caption = 'Approve';
+
                     ApplicationArea = all;
                     Image = Approve;
 
@@ -140,9 +120,9 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
                     end;
                 }
-                action("Hagi Reject")
+                action("Reject")
                 {
-                    Caption = 'Reject';
+
                     ApplicationArea = all;
                     Image = Reject;
 
@@ -191,5 +171,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                 }
             }
         }
+
     }
+
 }
