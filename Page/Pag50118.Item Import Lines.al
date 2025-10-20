@@ -404,7 +404,7 @@ page 50118 "Item Import Lines"
 
         //After completed, update the status to Completed. 
         p_ItemImportline.Validate(p_ItemImportline.Status, p_ItemImportline.Status::Completed);
-        p_ItemImportline.Modify();
+        p_ItemImportline.Modify(true);
 
     end;
 
@@ -461,9 +461,11 @@ page 50118 "Item Import Lines"
         Item: Record "Item";
     begin
         Item.INIT;
+        item.Validate("No.", p_ItemImportline."Item No.");
+        Item.Insert();
+
         item.Validate(Type, "Item Type"::Inventory);
         item.Validate("Costing Method", "Costing Method"::Average);
-        item.Validate("No.", p_ItemImportline."Item No.");
         item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
         item.Validate(Description, p_ItemImportline."Description");
         item.Validate("Description 2", p_ItemImportline."Description 2");
@@ -521,7 +523,8 @@ page 50118 "Item Import Lines"
         item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
         item.Validate(Blocked, p_ItemImportline."Blocked");
 
-        Item.Insert();
+        Item.Modify(true);
+
     end;
 
     //Update existing records on the Item Reference table.
@@ -538,7 +541,7 @@ page 50118 "Item Import Lines"
             // Update
             ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
             ItemReference.Validate(Description, p_ItemImportline.Description);
-            ItemReference.Modify();
+            ItemReference.Modify(true);
         end else begin
             // Create
             ItemReference.INIT;
@@ -568,7 +571,7 @@ page 50118 "Item Import Lines"
             // Update
             ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
             ItemReference.Validate(Description, p_ItemImportline.Description);
-            ItemReference.Modify();
+            ItemReference.Modify(true);
         end else begin
             // Create
             ItemReference.INIT;
@@ -666,7 +669,7 @@ page 50118 "Item Import Lines"
             item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
             item.Validate(Blocked, p_ItemImportline."Blocked");
 
-            Item.Modify();
+            Item.Modify(true);
         end;
     end;
 
@@ -760,7 +763,7 @@ page 50118 "Item Import Lines"
 
             Message('Verification was successful')
         end;
-        p_ItemImportline.MODIFY;
+        p_ItemImportline.Modify(true);
     end;
 
 }
