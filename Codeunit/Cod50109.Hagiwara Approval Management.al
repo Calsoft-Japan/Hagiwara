@@ -24,9 +24,28 @@ codeunit 50109 "Hagiwara Approval Management"
         if recReqGroupMem.FindFirst() then
             ReqGroup := recReqGroupMem."Request Group Code";
 
-        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-        SalesHeader.CalcFields(Amount);
-        AmountLCY := CalcSOAmountLCY(SalesHeader);
+        //Calculate Amount(LCY) to find Approval Condition.
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Sales Order":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                    SalesHeader.CalcFields(Amount);
+                    AmountLCY := CalcSOAmountLCY(SalesHeader);
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                    SalesHeader.CalcFields(Amount);
+                    AmountLCY := CalcSOAmountLCY(SalesHeader);
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                    SalesHeader.CalcFields(Amount);
+                    AmountLCY := CalcSOAmountLCY(SalesHeader);
+                end;
+        end;
+
 
         recApprCondition.SetRange(Data, pData);
         recApprCondition.SetRange("Request Group Code", reqGroup);
@@ -64,10 +83,18 @@ codeunit 50109 "Hagiwara Approval Management"
                 MsgComment
             );
 
-            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
-            SalesHeader.Requester := UserId;
-            SalesHeader."Hagi Approver" := Approver;
-            SalesHeader.Modify();
+
+            case pData of
+                Enum::"Hagiwara Approval Data"::"Sales Order",
+                Enum::"Hagiwara Approval Data"::"Sales Credit Memo",
+                Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                    begin
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        SalesHeader.Requester := UserId;
+                        SalesHeader."Hagi Approver" := Approver;
+                        SalesHeader.Modify();
+                    end;
+            end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
 
@@ -104,11 +131,32 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprEntry.AddComment(MsgComment);
 
             // update transaction data.
-            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-            SalesHeader.Requester := '';
-            SalesHeader."Hagi Approver" := '';
-            SalesHeader.Modify();
+            case pData of
+                Enum::"Hagiwara Approval Data"::"Sales Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        SalesHeader.Requester := '';
+                        SalesHeader."Hagi Approver" := '';
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        SalesHeader.Requester := '';
+                        SalesHeader."Hagi Approver" := '';
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        SalesHeader.Requester := '';
+                        SalesHeader."Hagi Approver" := '';
+                        SalesHeader.Modify();
+                    end;
+            end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
 
@@ -145,9 +193,26 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprEntry.AddComment(MsgComment);
 
             // update transaction data.
-            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-            SalesHeader."Hagi Approver" := pUsername;
-            SalesHeader.Modify();
+            case pData of
+                Enum::"Hagiwara Approval Data"::"Sales Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+            end;
 
             // ask approvel for next approver.
             recApprHrcy.SetRange("Approval Group Code", recApprEntry."Approval Group");
@@ -169,9 +234,26 @@ codeunit 50109 "Hagiwara Approval Management"
                 );
             end else begin
                 //if no next approver, change the status of the data to Approved.
-                SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-                SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
-                SalesHeader.Modify();
+                case pData of
+                    Enum::"Hagiwara Approval Data"::"Sales Order":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            SalesHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            SalesHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            SalesHeader.Modify();
+                        end;
+                end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
@@ -208,10 +290,29 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprEntry.AddComment(MsgComment);
 
             // update transaction data.
-            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-            SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
-            SalesHeader."Hagi Approver" := pUsername;
-            SalesHeader.Modify();
+            case pData of
+                Enum::"Hagiwara Approval Data"::"Sales Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                    begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        SalesHeader."Hagi Approver" := pUsername;
+                        SalesHeader.Modify();
+                    end;
+            end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject, recApprEntry);
 
@@ -293,13 +394,53 @@ codeunit 50109 "Hagiwara Approval Management"
         dataLink := dataLink + AADTenant.GetAadTenantId() + '/';
         dataLink := dataLink + EnvInfo.GetEnvironmentName();
         dataLink := dataLink + '?company=' + CompanyName;
+        dataLink := dataLink + GetDataPageURI(pData, pDataNo);
+        /*
         dataLink := dataLink + '&page=42';
         dataLink := dataLink + '&filter=''No.'' is ''' + pDataNo + '''';
+        */
         dataLink := dataLink + '">'; //href end
         dataLink := dataLink + 'View this data on Business Central'; // anchor text
         dataLink := dataLink + '</a>';
 
         exit(dataLink);
+    end;
+
+    local procedure GetDataPageURI(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
+    begin
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Sales Order":
+                exit('&page=42&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                exit('&page=44&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                exit('&page=6630&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Purchase Order":
+                exit('&page=50&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                exit('&page=52&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                exit('&page=6640&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Item Journal":
+                exit('&page=40&filter=''Journal Template Name'' is ''ITEM'' and ''Journal Batch Name'' is ''' + pDataNo + ''''); //TODO Confirm Item Journal Template.
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                exit('&page=393&filter=''Journal Template Name'' is ''TRANSFER'' and ''Journal Batch Name'' is ''' + pDataNo + ''''); //TODO Confirm Item Journal Template.
+            Enum::"Hagiwara Approval Data"::"Transfer Order":
+                exit('&page=5740&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::"Assembly Order":
+                exit('&page=900&filter=''No.'' is ''' + pDataNo + '''');
+            Enum::"Hagiwara Approval Data"::Customer:
+                exit(''); //TODO
+            Enum::"Hagiwara Approval Data"::Vendor:
+                exit(''); //TODO
+            Enum::"Hagiwara Approval Data"::Item:
+                exit(''); //TODO
+            Enum::"Hagiwara Approval Data"::"G/L Account":
+                exit(''); //TODO
+            Enum::"Hagiwara Approval Data"::"Price List":
+                exit(''); //TODO
+        end;
+
     end;
 
     local procedure GetApprHrcy(pApprGroup: Code[30]): Text
@@ -323,12 +464,12 @@ codeunit 50109 "Hagiwara Approval Management"
     [TryFunction]
     procedure SendNotificationEmail(
         pData: Enum "Hagiwara Approval Data";
-        pDataNo: code[20];
-        SendFrom: Code[50];
-        SendTo: Code[50];
-        SendCC: Code[50];
-        EmailType: Option Submit,Cancel,Approval,Reject;
-        pApprEntry: Record "Hagiwara Approval Entry")
+                   pDataNo: code[20];
+                   SendFrom: Code[50];
+                   SendTo: Code[50];
+                   SendCC: Code[50];
+                   EmailType: Option Submit,Cancel,Approval,Reject;
+                   pApprEntry: Record "Hagiwara Approval Entry")
     var
         subject, body : text;
         isSent: boolean;

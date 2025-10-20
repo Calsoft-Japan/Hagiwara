@@ -321,6 +321,65 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         }
     }
 
+    trigger OnBeforeModify()
+    var
+        PurchHeader: Record "Purchase Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            PurchHeader := Rec.GetPurchHeader();
+            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeInsert()
+    var
+        PurchHeader: Record "Purchase Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            PurchHeader := Rec.GetPurchHeader();
+            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        PurchHeader: Record "Purchase Header";
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            PurchHeader := Rec.GetPurchHeader();
+            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+        //CS060
+        IF ("ORE Message Status" = "ORE Message Status"::Sent) OR ("ORE Message Status" = "ORE Message Status"::Collected) THEN
+            ERROR('You can not delete record with "Sent" ORE message status');
+        //CS060
+
+    end;
+
     trigger OnAfterInsert()
     var
         l_recVendor: Record Vendor;
@@ -426,14 +485,6 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         END;
         //CS060 End
 
-    end;
-
-    trigger OnBeforeDelete()
-    begin
-        //CS060
-        IF ("ORE Message Status" = "ORE Message Status"::Sent) OR ("ORE Message Status" = "ORE Message Status"::Collected) THEN
-            ERROR('You can not delete record with "Sent" ORE message status');
-        //CS060
     end;
 
     local procedure GenerateReleaseNo()

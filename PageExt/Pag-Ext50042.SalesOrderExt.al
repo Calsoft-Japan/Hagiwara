@@ -232,6 +232,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             var
                 recApprSetup: Record "Hagiwara Approval Setup";
             begin
+                //N005 Begin
                 recApprSetup.Get();
                 if not recApprSetup."Sales Order" then
                     exit;
@@ -239,6 +240,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                 if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                     Error('It is not approved yet.');
                 end;
+                //N005 End
             end;
         }
 
@@ -248,6 +250,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             var
                 recApprSetup: Record "Hagiwara Approval Setup";
             begin
+                //N005 Begin
                 recApprSetup.Get();
                 if not recApprSetup."Sales Order" then
                     exit;
@@ -255,6 +258,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                 if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                     Error('It is not approved yet.');
                 end;
+                //N005 End
             end;
         }
 
@@ -264,6 +268,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             var
                 recApprSetup: Record "Hagiwara Approval Setup";
             begin
+                //N005 Begin
                 recApprSetup.Get();
                 if not recApprSetup."Sales Order" then
                     exit;
@@ -271,6 +276,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                 if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                     Error('It is not approved yet.');
                 end;
+                //N005 End
             end;
         }
 
@@ -416,7 +422,7 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
     var
         recApprSetup: Record "Hagiwara Approval Setup";
     begin
-
+        //N005 Begin
         recApprSetup.Get();
         if recApprSetup."Sales Order" then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
@@ -425,6 +431,8 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
                 CurrPage.Editable(true);
             end;
         end;
+        //N005 End
+
     end;
 
     procedure ChangeQty()

@@ -189,6 +189,19 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
         field(50071; "GST Rate"; Decimal)
         {
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
 
         modify("Buy-from Vendor No.")
         {
@@ -235,9 +248,49 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
 
         }
     }
+    trigger OnBeforeModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
     trigger OnAfterInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         "Goods Arrival Date" := WORKDATE;
+
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+        end;
+        //N005 End
+
         Modify();
     end;
 

@@ -1,18 +1,11 @@
-pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
+pageextension 59311 PurchRtnOrdListExt extends "Purchase Return Order List"
 {
     layout
     {
-        addafter("Bill-to Contact")
-        {
-            field("From"; Rec."From")
-            {
-                ApplicationArea = all;
-                Visible = False;
-            }
-        }
-        addafter("External Document No.")
-        {
 
+
+        addafter("Buy-from Vendor Name")
+        {
             field("Approval Status"; rec."Approval Status")
             {
                 ApplicationArea = all;
@@ -25,8 +18,10 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
             {
                 ApplicationArea = all;
             }
+
         }
     }
+
     actions
     {
 
@@ -40,22 +35,6 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
             Visible = false;
         }
         modify(CancelApprovalRequest)
-        {
-            Visible = false;
-        }
-        modify(Approve)
-        {
-            Visible = false;
-        }
-        modify(Reject)
-        {
-            Visible = false;
-        }
-        modify(Delegate)
-        {
-            Visible = false;
-        }
-        modify(Comment)
         {
             Visible = false;
         }
@@ -76,7 +55,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
                     begin
                         recApprSetup.Get();
-                        if not recApprSetup."Sales Credit Memo" then
+                        if not recApprSetup."Purchase Return Order" then
                             exit;
 
                         if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
@@ -85,7 +64,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;
 
-                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
+                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Purchase Return Order", Rec."No.", UserId);
                     end;
                 }
                 action("Cancel")
@@ -100,7 +79,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
                     begin
                         recApprSetup.Get();
-                        if not recApprSetup."Sales Credit Memo" then
+                        if not recApprSetup."Purchase Return Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -109,7 +88,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
 
-                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
+                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Purchase Return Order", Rec."No.", UserId);
                     end;
                 }
                 action("Hagi Approve")
@@ -125,7 +104,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Sales Credit Memo" then
+                        if not recApprSetup."Purchase Return Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -137,7 +116,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         if not Confirm('Do you want to approve it?') then
                             exit;
 
-                        cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
+                        cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Purchase Return Order", Rec."No.", UserId);
                     end;
                 }
                 action("Hagi Reject")
@@ -153,7 +132,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Sales Credit Memo" then
+                        if not recApprSetup."Purchase Return Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -165,7 +144,7 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         if not Confirm('Do you want to reject it?') then
                             exit;
 
-                        cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Sales Credit Memo", Rec."No.", UserId);
+                        cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Purchase Return Order", Rec."No.", UserId);
                     end;
                 }
                 action("Approval Entries")
@@ -181,10 +160,10 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Sales Credit Memo" then
+                        if not recApprSetup."Purchase Return Order" then
                             exit;
 
-                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Sales Credit Memo");
+                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Purchase Return Order");
                         recApprEntry.SetRange("No.", Rec."No.");
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
@@ -192,20 +171,6 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
             }
         }
     }
-    trigger OnOpenPage()
-    var
-        recApprSetup: Record "Hagiwara Approval Setup";
-    begin
-        //N005 Begin
-        recApprSetup.Get();
-        if recApprSetup."Sales Credit Memo" then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                CurrPage.Editable(false);
-            end else begin
-                CurrPage.Editable(true);
-            end;
-        end;
-        //N005 End
 
-    end;
+
 }
