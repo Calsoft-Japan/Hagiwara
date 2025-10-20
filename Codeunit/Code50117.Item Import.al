@@ -53,6 +53,10 @@ codeunit 50117 "Item Import"
             MaxRowNo := TempExcelBuffer."Row No.";
         end;
 
+        if MaxRowNo <= 1 then begin
+            Error('There is no record to import.');
+        end;
+
         for RowNo := 2 to MaxRowNo do begin
             LastEntryNo := LastEntryNo + 1;
             rec_POInt.Init();

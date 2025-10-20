@@ -342,6 +342,32 @@ page 50118 "Item Import Lines"
                             UNTIL ItemImportline.NEXT = 0;
                     end;
                 }
+                action("Delete All")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Delete All';
+                    Image = Delete;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+
+                    trigger OnAction()
+                    var
+                        ItemImportline: Record "Item Import Line";
+                        ItemImportBatch: Record "Item Import Batch";
+                    begin
+                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
+                        /*ItemImportBatch.GET(Rec."Batch Name");
+                        if (ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::Required) or (ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::"Re-Approval Required") then begin
+                            Error('You can''t delete any records because approval process already initiated.');
+                        end;*/
+
+                        IF NOT CONFIRM('Do you want to delete all the records?') THEN
+                            EXIT;
+
+                        ItemImportline.DELETEALL;
+                    end;
+                }
             }
         }
 
@@ -375,6 +401,10 @@ page 50118 "Item Import Lines"
             UpdateRecordForItemRefVendor(p_ItemImportline);
 
         end;
+
+        //After completed, update the status to Completed. 
+        p_ItemImportline.Validate(p_ItemImportline.Status, p_ItemImportline.Status::Completed);
+        p_ItemImportline.Modify();
 
     end;
 
@@ -560,8 +590,9 @@ page 50118 "Item Import Lines"
         ItemUnitofMeasure: Record "Item Unit of Measure";
     begin
         if ItemUnitofMeasure.GET(p_ItemImportline."Item No.", p_ItemImportline."Base Unit of Measure") then begin
-
+            //TODO 仕様確認必要
         end else begin
+            //If Base Unit of Measure Code is different from the existing one, it will be “Create” action. 
             ItemUnitofMeasure.INIT;
             ItemUnitofMeasure.Validate("Item No.", p_ItemImportline."Item No.");
             ItemUnitofMeasure.Validate(Code, p_ItemImportline."Base Unit of Measure");
@@ -569,7 +600,6 @@ page 50118 "Item Import Lines"
 
             ItemUnitofMeasure.Insert();
         end;
-        ;
     end;
 
     //Update existing records on the Item table.
@@ -720,12 +750,15 @@ page 50118 "Item Import Lines"
         // -------the result of Validation-------
         if (ErrDesc <> '') then begin
             p_ItemImportline."Error Description" := ErrDesc;
+            Message('Verification failed. Please confirm the [Error Description].')
         end else begin
             //Create or Update
             p_ItemImportline.Action := p_ItemImportline.Action::Update;
             if not Item.get(p_ItemImportline."Item No.") then begin
                 p_ItemImportline.Action := p_ItemImportline.Action::Create;
             end;
+
+            Message('Verification was successful')
         end;
         p_ItemImportline.MODIFY;
     end;
