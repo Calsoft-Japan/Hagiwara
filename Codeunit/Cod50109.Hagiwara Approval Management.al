@@ -6,12 +6,13 @@ codeunit 50109 "Hagiwara Approval Management"
 
     procedure Submit(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
-        SalesHeader: Record "Sales Header";
         recReqGroupMem: Record "Hagiwara Request Group Member";
         recApprCondition: Record "Hagiwara Approval Condition";
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
         pagComment: page "Hagiwara Approval Comment";
         recApprEntry: Record "Hagiwara Approval Entry";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
         AmountLCY: Decimal;
@@ -43,6 +44,24 @@ codeunit 50109 "Hagiwara Approval Management"
                     SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
                     SalesHeader.CalcFields(Amount);
                     AmountLCY := CalcSOAmountLCY(SalesHeader);
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Order":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                    PurchHeader.CalcFields(Amount);
+                    AmountLCY := CalcPOAmountLCY(PurchHeader);
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                    PurchHeader.CalcFields(Amount);
+                    AmountLCY := CalcPOAmountLCY(PurchHeader);
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                    PurchHeader.CalcFields(Amount);
+                    AmountLCY := CalcPOAmountLCY(PurchHeader);
                 end;
         end;
 
@@ -94,6 +113,15 @@ codeunit 50109 "Hagiwara Approval Management"
                         SalesHeader."Hagi Approver" := Approver;
                         SalesHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Purchase Order",
+                Enum::"Hagiwara Approval Data"::"Purchase Credit Memo",
+                Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                    begin
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        PurchHeader.Requester := UserId;
+                        PurchHeader."Hagi Approver" := Approver;
+                        PurchHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
@@ -105,9 +133,10 @@ codeunit 50109 "Hagiwara Approval Management"
 
     procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
-        SalesHeader: Record "Sales Header";
         recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
         MsgComment: Text;
     begin
 
@@ -156,6 +185,30 @@ codeunit 50109 "Hagiwara Approval Management"
                         SalesHeader."Hagi Approver" := '';
                         SalesHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Purchase Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        PurchHeader.Requester := '';
+                        PurchHeader."Hagi Approver" := '';
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        PurchHeader.Requester := '';
+                        PurchHeader."Hagi Approver" := '';
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        PurchHeader.Requester := '';
+                        PurchHeader."Hagi Approver" := '';
+                        PurchHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
@@ -166,10 +219,11 @@ codeunit 50109 "Hagiwara Approval Management"
 
     procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
-        SalesHeader: Record "Sales Header";
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
         recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -212,6 +266,24 @@ codeunit 50109 "Hagiwara Approval Management"
                         SalesHeader."Hagi Approver" := pUsername;
                         SalesHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Purchase Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
+                    end;
             end;
 
             // ask approvel for next approver.
@@ -253,6 +325,24 @@ codeunit 50109 "Hagiwara Approval Management"
                             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             SalesHeader.Modify();
                         end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Order":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                            PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PurchHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                            PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PurchHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                            PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PurchHeader.Modify();
+                        end;
                 end;
             end;
 
@@ -264,9 +354,10 @@ codeunit 50109 "Hagiwara Approval Management"
 
     procedure Reject(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
-        SalesHeader: Record "Sales Header";
         recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
         MsgComment: Text;
     begin
 
@@ -311,6 +402,27 @@ codeunit 50109 "Hagiwara Approval Management"
                         SalesHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         SalesHeader."Hagi Approver" := pUsername;
                         SalesHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                    begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        PurchHeader."Hagi Approver" := pUsername;
+                        PurchHeader.Modify();
                     end;
             end;
 
@@ -383,6 +495,32 @@ codeunit 50109 "Hagiwara Approval Management"
         exit(rtnAmountLCY);
     end;
 
+    local procedure CalcPOAmountLCY(pPurchHeader: Record "Purchase Header"): Decimal
+    var
+        CurrencyLocal: Record Currency;
+        CurrExchRate: Record "Currency Exchange Rate";
+        RateDate: Date;
+        rtnAmountLCY: Decimal;
+    begin
+        RateDate := pPurchHeader."Posting Date";
+        if RateDate = 0D then
+            RateDate := WorkDate();
+
+        CurrencyLocal.InitRoundingPrecision();
+        if pPurchHeader."Currency Code" <> '' then
+            rtnAmountLCY :=
+              Round(
+                CurrExchRate.ExchangeAmtFCYToLCY(
+                  RateDate, pPurchHeader."Currency Code",
+                  pPurchHeader.Amount, pPurchHeader."Currency Factor"),
+                CurrencyLocal."Amount Rounding Precision")
+        else
+            rtnAmountLCY :=
+              Round(pPurchHeader.Amount, CurrencyLocal."Amount Rounding Precision");
+
+        exit(rtnAmountLCY);
+    end;
+
 
     local procedure CreateDataLink(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
     var
@@ -399,7 +537,7 @@ codeunit 50109 "Hagiwara Approval Management"
         dataLink := dataLink + '&page=42';
         dataLink := dataLink + '&filter=''No.'' is ''' + pDataNo + '''';
         */
-        dataLink := dataLink + '">'; //href end
+        dataLink := dataLink + '">'; //<a href> end
         dataLink := dataLink + 'View this data on Business Central'; // anchor text
         dataLink := dataLink + '</a>';
 

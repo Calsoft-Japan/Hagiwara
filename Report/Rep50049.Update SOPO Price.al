@@ -101,9 +101,10 @@ report 50049 "Update SO/PO Price"
                                 SalesHeader.Modify();
                             end;
 
+                            CntUpdated := CntUpdated + 1;
+
                         end;
 
-                        CntUpdated := CntUpdated + 1;
 
                     end;
                 end;
@@ -201,9 +202,11 @@ report 50049 "Update SO/PO Price"
                                 PurchHeader.Status := HeaderStatus;
                                 PurchHeader.Modify();
                             end;
+
+                            CntUpdated := CntUpdated + 1;
+
                         end;
 
-                        CntUpdated := CntUpdated + 1;
                     end;
                 end;
 
