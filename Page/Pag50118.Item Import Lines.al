@@ -379,8 +379,10 @@ page 50118 "Item Import Lines"
         if p_ItemImportline.Action = p_ItemImportline.Action::Create then begin
             //Create new records on the Item table.
             CreateRecordForItem(p_ItemImportline);
+
             //Create new records on the Item Unit of Measure table with the following mappings.
-            CreateRecordForItemUnitofMeasure(p_ItemImportline);
+            //CreateRecordForItemUnitofMeasure(p_ItemImportline); // Item作成時Validateでついでに作成するため
+
             //Create new records on the Item Reference table with the following mappings.
             //  For Customer
             CreateRecordForItemRefCusomer(p_ItemImportline);
@@ -392,8 +394,10 @@ page 50118 "Item Import Lines"
         if p_ItemImportline.Action = p_ItemImportline.Action::Update then begin
             //Update existing records on the Item table.
             UpdateRecordForItem(p_ItemImportline);
+
             //Update existing records on the Item Unit of Measure table.
-            UpdateRecordForItemUnitofMeasure(p_ItemImportline);
+            //UpdateRecordForItemUnitofMeasure(p_ItemImportline);// Item作成時Validateでついでに作成するため
+
             //Update existing records on the Item Reference table.
             //  For Customer
             UpdateRecordForItemRefCusomer(p_ItemImportline);
