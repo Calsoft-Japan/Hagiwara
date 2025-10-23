@@ -407,7 +407,10 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
@@ -422,7 +425,10 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
@@ -439,7 +445,10 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
         end;
         //N005 End

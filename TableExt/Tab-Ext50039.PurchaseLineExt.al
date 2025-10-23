@@ -329,7 +329,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+        if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             PurchHeader := Rec.GetPurchHeader();
             if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
@@ -347,7 +350,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+        if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             PurchHeader := Rec.GetPurchHeader();
             if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
@@ -365,7 +371,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Purchase Order" or recApprSetup."Purchase Credit Memo" or recApprSetup."Purchase Return Order" then begin
+        if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             PurchHeader := Rec.GetPurchHeader();
             if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');

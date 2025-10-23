@@ -509,7 +509,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             SalesHeader := Rec.GetSalesHeader();
             if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
@@ -527,7 +530,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             SalesHeader := Rec.GetSalesHeader();
             if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
@@ -545,7 +551,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Sales Order" or recApprSetup."Sales Credit Memo" or recApprSetup."Sales Return Order" then begin
+        if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+            or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+            or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                ) then begin
             SalesHeader := Rec.GetSalesHeader();
             if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');

@@ -1,8 +1,8 @@
-pageextension 55740 TransferOrderExt extends "Transfer Order"
+pageextension 50900 AssemblyOrderExt extends "Assembly Order"
 {
     layout
     {
-        addafter("In-Transit Code")
+        addafter("Ending Date")
         {
 
             field("Approval Status"; rec."Approval Status")
@@ -23,7 +23,8 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
     }
     actions
     {
-        modify("Post")
+
+        modify("P&ost")
         {
             trigger OnBeforeAction()
 
@@ -35,7 +36,8 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
                 //so add this check on page.
                 recApprSetup.Get();
-                if (recApprSetup."Transfer Order") then begin
+                if ((recApprSetup."Assembly Order") and (Rec."Document Type" = Rec."Document Type"::Order)) then begin
+
                     if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                         Error('It is not approved yet.');
                     end;
@@ -43,7 +45,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //N005 End
             end;
         }
-        modify(PostAndPrint)
+        modify("Post &Batch")
         {
             trigger OnBeforeAction()
 
@@ -55,27 +57,8 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
                 //so add this check on page.
                 recApprSetup.Get();
-                if (recApprSetup."Transfer Order") then begin
-                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
-                        Error('It is not approved yet.');
-                    end;
-                end;
-                //N005 End
-            end;
-        }
-        modify("BatchPost")
-        {
-            trigger OnBeforeAction()
+                if ((recApprSetup."Assembly Order") and (Rec."Document Type" = Rec."Document Type"::Order)) then begin
 
-            var
-                recApprSetup: Record "Hagiwara Approval Setup";
-            begin
-
-                //N005 Begin
-                //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
-                //so add this check on page.
-                recApprSetup.Get();
-                if (recApprSetup."Transfer Order") then begin
                     if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                         Error('It is not approved yet.');
                     end;
@@ -100,7 +83,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
                     begin
                         recApprSetup.Get();
-                        if not recApprSetup."Transfer Order" then
+                        if not recApprSetup."Assembly Order" then
                             exit;
 
                         if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
@@ -109,7 +92,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;
 
-                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                        cuApprMgt.Submit(enum::"Hagiwara Approval Data"::"Assembly Order", Rec."No.", UserId);
                     end;
                 }
                 action("Cancel")
@@ -124,7 +107,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
                     begin
                         recApprSetup.Get();
-                        if not recApprSetup."Transfer Order" then
+                        if not recApprSetup."Assembly Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -133,7 +116,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
 
-                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                        cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Assembly Order", Rec."No.", UserId);
                     end;
                 }
                 action("Approve")
@@ -149,7 +132,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Transfer Order" then
+                        if not recApprSetup."Assembly Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -161,7 +144,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         if not Confirm('Do you want to approve it?') then
                             exit;
 
-                        cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                        cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Assembly Order", Rec."No.", UserId);
                     end;
                 }
                 action("Reject")
@@ -177,7 +160,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Transfer Order" then
+                        if not recApprSetup."Assembly Order" then
                             exit;
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
@@ -189,7 +172,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                         if not Confirm('Do you want to reject it?') then
                             exit;
 
-                        cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                        cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Assembly Order", Rec."No.", UserId);
                     end;
                 }
                 action("Approval Entries")
@@ -205,10 +188,10 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                     begin
 
                         recApprSetup.Get();
-                        if not recApprSetup."Transfer Order" then
+                        if not recApprSetup."Assembly Order" then
                             exit;
 
-                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Transfer Order");
+                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Assembly Order");
                         recApprEntry.SetRange("No.", Rec."No.");
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
@@ -222,7 +205,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if recApprSetup."Transfer Order" then begin
+        if recApprSetup."Assembly Order" then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 CurrPage.Editable(false);
             end else begin
@@ -232,4 +215,5 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
         //N005 End
 
     end;
+
 }

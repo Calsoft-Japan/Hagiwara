@@ -24,6 +24,66 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
     actions
     {
 
+        modify("Post")
+        {
+            trigger OnBeforeAction()
+
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
+                //so add this check on page.
+                recApprSetup.Get();
+                if (recApprSetup."Transfer Order") then begin
+                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                        Error('It is not approved yet.');
+                    end;
+                end;
+                //N005 End
+            end;
+        }
+        modify(PostAndPrint)
+        {
+            trigger OnBeforeAction()
+
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
+                //so add this check on page.
+                recApprSetup.Get();
+                if (recApprSetup."Transfer Order") then begin
+                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                        Error('It is not approved yet.');
+                    end;
+                end;
+                //N005 End
+            end;
+        }
+        modify("BatchPost")
+        {
+            trigger OnBeforeAction()
+
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                //When considering Preview Mode, there is no appropriate event to subscribe in Base Post Codeunit, 
+                //so add this check on page.
+                recApprSetup.Get();
+                if (recApprSetup."Transfer Order") then begin
+                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                        Error('It is not approved yet.');
+                    end;
+                end;
+                //N005 End
+            end;
+        }
 
         addafter("&Print")
         {

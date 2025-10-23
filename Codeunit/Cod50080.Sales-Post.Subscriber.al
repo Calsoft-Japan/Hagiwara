@@ -9,6 +9,9 @@ codeunit 50080 "Sales-Post Subscriber"
     begin
 
         //N005 Begin
+        if PreviewMode then
+            exit;
+
         recApprSetup.Get();
         if ((recApprSetup."Sales Order") and (SalesHeader."Document Type" = SalesHeader."Document Type"::Order)
             or (recApprSetup."Sales Credit Memo") and (SalesHeader."Document Type" = SalesHeader."Document Type"::"Credit Memo")

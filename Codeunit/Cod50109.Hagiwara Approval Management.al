@@ -13,6 +13,8 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprEntry: Record "Hagiwara Approval Entry";
         SalesHeader: Record "Sales Header";
         PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
         AmountLCY: Decimal;
@@ -70,7 +72,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetRange("Request Group Code", reqGroup);
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
-        recApprCondition.SetFilter("Amount (LCY)", '%1|<%2', 0, AmountLCY);
+        recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
         if not recApprCondition.FindLast() then
             error('Hagiwara Approval Condition seems not setup right.');
 
@@ -122,6 +124,22 @@ codeunit 50109 "Hagiwara Approval Management"
                         PurchHeader."Hagi Approver" := Approver;
                         PurchHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Transfer Order":
+                    begin
+                        TransHeader.get(pDataNo);
+                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        TransHeader.Requester := UserId;
+                        TransHeader."Hagi Approver" := Approver;
+                        TransHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                    begin
+                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                        AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        AssemblyHeader.Requester := UserId;
+                        AssemblyHeader."Hagi Approver" := Approver;
+                        AssemblyHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
@@ -137,6 +155,8 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment: page "Hagiwara Approval Comment";
         SalesHeader: Record "Sales Header";
         PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
         MsgComment: Text;
     begin
 
@@ -209,6 +229,22 @@ codeunit 50109 "Hagiwara Approval Management"
                         PurchHeader."Hagi Approver" := '';
                         PurchHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Transfer Order":
+                    begin
+                        TransHeader.get(pDataNo);
+                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        TransHeader.Requester := '';
+                        TransHeader."Hagi Approver" := '';
+                        TransHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                    begin
+                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                        AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        AssemblyHeader.Requester := '';
+                        AssemblyHeader."Hagi Approver" := '';
+                        AssemblyHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
@@ -224,6 +260,8 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment: page "Hagiwara Approval Comment";
         SalesHeader: Record "Sales Header";
         PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -284,6 +322,18 @@ codeunit 50109 "Hagiwara Approval Management"
                         PurchHeader."Hagi Approver" := pUsername;
                         PurchHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Transfer Order":
+                    begin
+                        TransHeader.get(pDataNo);
+                        TransHeader."Hagi Approver" := pUsername;
+                        TransHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                    begin
+                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                        AssemblyHeader."Hagi Approver" := pUsername;
+                        AssemblyHeader.Modify();
+                    end;
             end;
 
             // ask approvel for next approver.
@@ -343,6 +393,18 @@ codeunit 50109 "Hagiwara Approval Management"
                             PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             PurchHeader.Modify();
                         end;
+                    Enum::"Hagiwara Approval Data"::"Transfer Order":
+                        begin
+                            TransHeader.get(pDataNo);
+                            TransHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            TransHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Assembly Order":
+                        begin
+                            AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                            AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            AssemblyHeader.Modify();
+                        end;
                 end;
             end;
 
@@ -358,6 +420,8 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment: page "Hagiwara Approval Comment";
         SalesHeader: Record "Sales Header";
         PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
         MsgComment: Text;
     begin
 
@@ -423,6 +487,20 @@ codeunit 50109 "Hagiwara Approval Management"
                         PurchHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         PurchHeader."Hagi Approver" := pUsername;
                         PurchHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Transfer Order":
+                    begin
+                        TransHeader.get(pDataNo);
+                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        TransHeader."Hagi Approver" := pUsername;
+                        TransHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                    begin
+                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                        AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        AssemblyHeader."Hagi Approver" := pUsername;
+                        AssemblyHeader.Modify();
                     end;
             end;
 
@@ -548,25 +626,25 @@ codeunit 50109 "Hagiwara Approval Management"
     begin
         case pData of
             Enum::"Hagiwara Approval Data"::"Sales Order":
-                exit('&page=42&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=42&filter=''Sales Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
-                exit('&page=44&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=44&filter=''Sales Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Sales Return Order":
-                exit('&page=6630&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=6630&filter=''Sales Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Purchase Order":
-                exit('&page=50&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=50&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
-                exit('&page=52&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=52&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Purchase Return Order":
-                exit('&page=6640&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=6640&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Journal":
-                exit('&page=40&filter=''Journal Template Name'' is ''ITEM'' and ''Journal Batch Name'' is ''' + pDataNo + ''''); //TODO Confirm Item Journal Template.
+                exit('&page=40&filter=''Item Journal Line''.''Document No.''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
-                exit('&page=393&filter=''Journal Template Name'' is ''TRANSFER'' and ''Journal Batch Name'' is ''' + pDataNo + ''''); //TODO Confirm Item Journal Template.
+                exit('&page=393&filter=''Item Journal Line''.''Document No.''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Transfer Order":
-                exit('&page=5740&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=5740&filter=''Transfer Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Assembly Order":
-                exit('&page=900&filter=''No.'' is ''' + pDataNo + '''');
+                exit('&page=900&filter=''Assembly Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::Customer:
                 exit(''); //TODO
             Enum::"Hagiwara Approval Data"::Vendor:

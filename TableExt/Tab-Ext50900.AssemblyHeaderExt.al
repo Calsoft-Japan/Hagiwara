@@ -1,4 +1,4 @@
-tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
+tableextension 50900 "Assembly Header Ext" extends "Assembly Header"
 {
     fields
     {
@@ -23,7 +23,7 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if (recApprSetup."Transfer Order") then begin
+        if (recApprSetup."Assembly Order") and (Rec."Document Type" = Rec."Document Type"::Order) then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
@@ -38,7 +38,7 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if (recApprSetup."Transfer Order") then begin
+        if (recApprSetup."Assembly Order") and (Rec."Document Type" = Rec."Document Type"::Order) then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
@@ -53,7 +53,7 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     begin
         //N005 Begin
         recApprSetup.Get();
-        if (recApprSetup."Transfer Order") then begin
+        if (recApprSetup."Assembly Order") and (Rec."Document Type" = Rec."Document Type"::Order) then begin
             Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
         end;
         //N005 End
