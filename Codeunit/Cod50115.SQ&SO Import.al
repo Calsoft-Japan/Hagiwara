@@ -14,9 +14,9 @@ codeunit 50115 "SQ&SO Import"
         SheetName: Text[100];
 
         ImportExcelBuffer: Record "Excel Buffer" temporary;
-        UploadDialogCaption: Label 'Please Choose the SQ&SO Import Excel file.';
-        NoFileFoundMsg: Label 'No SQ&SO Import Excel file found!';
-        ExcelImportSucess: Label 'SQ&SO Excel file import finished.';
+        UploadDialogCaption: Label 'Please Choose the SQ&&SO Import Excel file.';
+        NoFileFoundMsg: Label 'No SQ&&SO Import Excel file found!';
+        ExcelImportSucess: Label 'SQ&&SO Excel file import finished.';
         ExcelFileEmptyError: Label 'The Excel file do not contains any record Lines.';
         ExcelColNoError: Label 'The column number is not matching.';
         EntryNoNotValid: Label 'The Entry No. is not valid.';
@@ -39,17 +39,18 @@ codeunit 50115 "SQ&SO Import"
         IStream: InStream;
         FromFile: Text[250];
     begin
-        UploadIntoStream(UploadDialogCaption, '', 'Excel files (*.xlsx)|*.xlsx', FromFile, IStream);
-        if FromFile <> '' then begin
-            FileName := FileMgt.GetFileName(FromFile);
-            SheetName := ImportExcelBuffer.SelectSheetsNameStream(IStream);
-        end else
-            Error(NoFileFoundMsg);
-        ImportExcelBuffer.Reset();
-        ImportExcelBuffer.SetReadDateTimeInUtcDate(true);
-        ImportExcelBuffer.DeleteAll();
-        ImportExcelBuffer.OpenBookStream(IStream, SheetName);
-        ImportExcelBuffer.ReadSheet();
+        if UploadIntoStream(UploadDialogCaption, '', 'Excel files (*.xlsx)|*.xlsx', FromFile, IStream) then begin
+            if FromFile <> '' then begin
+                FileName := FileMgt.GetFileName(FromFile);
+                SheetName := ImportExcelBuffer.SelectSheetsNameStream(IStream);
+                ImportExcelBuffer.Reset();
+                ImportExcelBuffer.SetReadDateTimeInUtcDate(true);
+                ImportExcelBuffer.DeleteAll();
+                ImportExcelBuffer.OpenBookStream(IStream, SheetName);
+                ImportExcelBuffer.ReadSheet();
+            end else
+                Error(NoFileFoundMsg);
+        end;
     end;
 
     [TryFunction]
@@ -325,6 +326,7 @@ codeunit 50115 "SQ&SO Import"
                 else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
                     RecSalesLine.Validate("Document Type", RecSalesLine."Document Type"::Order);
                     RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
+                    RecSalesLine.Validate("External Document No.", RecSQSOImport."Customer Order No.");
                 end;
                 RecSalesLine.Validate("Document No.", RecTmpSQSOImportInsert."Document No.");
                 RecSalesLine.Validate("Line No.", LineNo);
