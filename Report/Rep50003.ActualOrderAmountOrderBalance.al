@@ -386,12 +386,21 @@ report 50003 "ActualOrderAmountOrderBalance"
                         ApplicationArea = All;
                         Caption = 'From';
                         NotBlank = true;
+                        ToolTip = 'Start date for the export.';
                     }
                     field(To; EndDate)
                     {
                         ApplicationArea = All;
                         Caption = 'To';
+                        ToolTip = 'End date for the export.';
                         NotBlank = true;
+
+                        trigger OnValidate()
+                        begin
+                            if EndDate < StartDate then begin
+                                Error('The Start date must be less than or equal to the End date.');
+                            end;
+                        end;
                     }
                 }
             }
@@ -406,7 +415,8 @@ report 50003 "ActualOrderAmountOrderBalance"
         trigger OnOpenPage()
         begin
             StartDate := CALCDATE('<-CM-3M>', WORKDATE);
-            EndDate := CALCDATE('<CM-1M>', WORKDATE)
+            EndDate := CALCDATE('<CM-1M>', WORKDATE);
+
         end;
     }
     rendering
