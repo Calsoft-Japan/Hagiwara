@@ -264,6 +264,7 @@ codeunit 50115 "SQ&SO Import"
                 RecTmpSQSOImportInsert.SetRange("Grouping Key", RecSQSOImport."Grouping Key");
                 if not RecTmpSQSOImportInsert.FindFirst() then begin
                     RecSalesHeader.Reset();
+                    Clear(RecSalesHeader);
                     RecSalesHeader.Init();
                     RecSalesHeader.SetHideValidationDialog(true);
                     if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
@@ -318,6 +319,7 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 LineNo += 10000;
                 RecSalesLine.Reset();
+                Clear(RecSalesLine);
                 RecSalesLine.Init();
                 RecSalesLine.SetHideValidationDialog(true);
                 if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
@@ -325,8 +327,6 @@ codeunit 50115 "SQ&SO Import"
                 end
                 else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
                     RecSalesLine.Validate("Document Type", RecSalesLine."Document Type"::Order);
-                    RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
-                    RecSalesLine.Validate("External Document No.", RecSQSOImport."Customer Order No.");
                 end;
                 RecSalesLine.Validate("Document No.", RecTmpSQSOImportInsert."Document No.");
                 RecSalesLine.Validate("Line No.", LineNo);
@@ -338,6 +338,9 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 if (RecSQSOImport."Shipment Date" <> 0D) then begin
                     RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
+                end;
+                if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
+                    RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                 end;
                 RecSalesLine.Insert(true);
                 RecExtTextHeader.Reset();
@@ -384,5 +387,6 @@ codeunit 50115 "SQ&SO Import"
                 RecSQSOImport.Modify();
             end;
         until RecSQSOImport.Next() = 0;
+        RecSQSOImport.DeleteAll();
     end;
 }
