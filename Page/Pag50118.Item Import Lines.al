@@ -1,7 +1,6 @@
 page 50118 "Item Import Lines"
 {
     ApplicationArea = All;
-    UsageCategory = Lists;
     Editable = false;
     PageType = List;
     Caption = 'Item Import Lines';
