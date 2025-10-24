@@ -4,11 +4,11 @@ table 50118 "Item Import Line"
     {
         field(1; "Batch Name"; Code[20])
         {
-
+            Editable = false;
         }
         field(2; "Entry No."; Integer)
         {
-
+            Editable = false;
         }
         field(3; "Type"; Option)
         {
