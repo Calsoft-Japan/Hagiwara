@@ -756,7 +756,7 @@ page 50118 "Item Import Lines"
 
         // -------the result of Validation-------
         if (ErrDesc <> '') then begin
-            p_ItemImportline."Error Description" := ErrDesc;
+            p_ItemImportline."Error Description" := CopyStr(ErrDesc, 1, 250);
             Message('Verification failed. Please confirm the [Error Description].')
         end else begin
             //Create or Update
