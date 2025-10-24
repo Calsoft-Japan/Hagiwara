@@ -262,10 +262,7 @@ table 50118 "Item Import Line"
 
     keys
     {
-        key(Key1; "Batch Name")
-        {
-        }
-        key(Key2; "Entry No.")
+        key(Key1; "Batch Name", "Entry No.")
         {
         }
     }

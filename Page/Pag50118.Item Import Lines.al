@@ -287,6 +287,7 @@ page 50118 "Item Import Lines"
                     var
                         cduImporter: Codeunit "Item Import";
                     begin
+                        cduImporter.SetBatchName(G_BatchName);
                         cduImporter.Run();
                     end;
 
@@ -372,6 +373,15 @@ page 50118 "Item Import Lines"
         }
 
     }
+
+    var
+        G_BatchName: Code[20];
+
+    procedure SetBatchName(pBatchName: Code[20])
+    begin
+        G_BatchName := pBatchName;
+    end;
+
     procedure ExecuteProcess(var p_ItemImportline: Record "Item Import Line")
     begin
 

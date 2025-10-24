@@ -58,13 +58,16 @@ page 50117 "Item Import Batch"
                     trigger OnAction()
                     var
                         ItemImportline: Record "Item Import Line";
+                        Pag_ItemImportline: Page "Item Import Lines";
                     begin
                         if Rec.Name = '' then begin
                             Error('Please select one record.');
                         end;
 
                         ItemImportline.SetRange(ItemImportline."Batch Name", Rec.Name);
-                        Page.RunModal(Page::"Item Import Lines", ItemImportline);
+                        Pag_ItemImportline.SetTableView(ItemImportline);
+                        Pag_ItemImportline.SetBatchName(Rec.Name);
+                        Pag_ItemImportline.RunModal();
                     end;
                 }
             }
