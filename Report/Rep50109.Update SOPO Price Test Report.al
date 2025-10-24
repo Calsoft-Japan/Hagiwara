@@ -72,24 +72,21 @@ report 50109 "Update SO/PO Price Test Report"
                         IF (Cnt_perCust + Cnt_allCust) > 1 THEN begin
 
                             WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", 0, TextMsgDuplicate);
-
                             CntError := CntError + 1;
-                            CurrReport.Break();
-                        end;
+                        end else if (Cnt_perCust + Cnt_allCust) = 1 THEN begin
 
-                        IF PriceList_perCust.FINDFIRST THEN BEGIN
-                            UnitPrice := PriceList_perCust."Unit Price";
-                        END else if PriceList_allCust.FINDFIRST THEN BEGIN
-                            UnitPrice := PriceList_allCust."Unit Price";
-                        END;
+                            IF PriceList_perCust.FINDFIRST THEN BEGIN
+                                UnitPrice := PriceList_perCust."Unit Price";
+                            END else if PriceList_allCust.FINDFIRST THEN BEGIN
+                                UnitPrice := PriceList_allCust."Unit Price";
+                            END;
 
-                        IF (UnitPrice <> 0) and ("Unit Price" <> UnitPrice) THEN BEGIN
+                            IF (UnitPrice <> 0) and ("Unit Price" <> UnitPrice) THEN BEGIN
 
-                            WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
-                            CntUpdated := CntUpdated + 1;
-                        end;
-
-
+                                WriteSOPOLog("Sales Line", SalesTargetDate, "Unit Price", UnitPrice, '');
+                                CntUpdated := CntUpdated + 1;
+                            end;
+                        end; // if (Cnt_perCust + Cnt_allCust) = 1 
                     end;
                 end;
 
@@ -158,22 +155,20 @@ report 50109 "Update SO/PO Price Test Report"
 
                         IF (Cnt_perVend + Cnt_allVend) > 1 THEN begin
                             WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", 0, TextMsgDuplicate);
-
                             CntError := CntError + 1;
-                            CurrReport.Break();
-                        end;
+                        end else if (Cnt_perVend + Cnt_allVend) = 1 THEN begin
 
-                        IF PriceList_perVend.FINDFIRST THEN BEGIN
-                            DirectUnitCost := PriceList_perVend."Direct Unit Cost";
-                        END else IF PriceList_allVend.FINDFIRST THEN BEGIN
-                            DirectUnitCost := PriceList_allVend."Direct Unit Cost";
-                        END;
+                            IF PriceList_perVend.FINDFIRST THEN BEGIN
+                                DirectUnitCost := PriceList_perVend."Direct Unit Cost";
+                            END else IF PriceList_allVend.FINDFIRST THEN BEGIN
+                                DirectUnitCost := PriceList_allVend."Direct Unit Cost";
+                            END;
 
-                        IF (DirectUnitCost <> 0) and ("Direct Unit Cost" <> DirectUnitCost) THEN BEGIN
-                            WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
-                            CntUpdated := CntUpdated + 1;
-                        end;
-
+                            IF (DirectUnitCost <> 0) and ("Direct Unit Cost" <> DirectUnitCost) THEN BEGIN
+                                WriteSOPOLog("Purchase Line", PurchTargetDate, "Direct Unit Cost", DirectUnitCost, '');
+                                CntUpdated := CntUpdated + 1;
+                            end;
+                        end; // if (Cnt_perVend + Cnt_allVend) = 1
                     end;
                 end;
 
