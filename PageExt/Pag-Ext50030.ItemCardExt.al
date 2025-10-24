@@ -396,6 +396,26 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
 
     }
 
+    actions
+    {
+        modify(CopyItem)
+        {
+            Visible = false;
+        }
+        modify(RequestApproval)
+        {
+            Visible = false;
+        }
+        modify(SendApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(CancelApprovalRequest)
+        {
+            Visible = false;
+        }
+    }
+
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
