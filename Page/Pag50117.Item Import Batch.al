@@ -32,7 +32,7 @@ page 50117 "Item Import Batch"
                 {
                     ApplicationArea = all;
                 }
-                field(Approver; Rec.Approver)
+                field(Approver; Rec."Hagi Approver")
                 {
                     ApplicationArea = all;
                 }
