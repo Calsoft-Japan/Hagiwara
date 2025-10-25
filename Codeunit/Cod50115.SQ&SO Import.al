@@ -223,6 +223,7 @@ codeunit 50115 "SQ&SO Import"
         RecExtTextHeader: Record "Extended Text Header";
         RecExtTextLine: Record "Extended Text Line";
         LineNo: Integer;
+        pagesoc: page "Sales Order";
     begin
         RecSQSOImport.Reset();
         if RecSQSOImport.IsEmpty() then begin
@@ -343,7 +344,8 @@ codeunit 50115 "SQ&SO Import"
                     RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                 end;
                 RecSalesLine.Insert(true);
-                RecExtTextHeader.Reset();
+                InsertExtendedText(RecSalesLine, true);
+                /*RecExtTextHeader.Reset();
                 RecExtTextHeader.SetRange("Table Name", RecExtTextHeader."Table Name"::Item);
                 RecExtTextHeader.SetRange("No.", RecSQSOImport."Item No.");
                 if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
@@ -367,6 +369,7 @@ codeunit 50115 "SQ&SO Import"
                             repeat
                                 LineNo += 10000;
                                 RecSalesLine.Reset();
+                                Clear(RecSalesLine);
                                 RecSalesLine.SetHideValidationDialog(true);
                                 RecSalesLine.Init();
                                 if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
@@ -382,11 +385,25 @@ codeunit 50115 "SQ&SO Import"
                             until RecExtTextLine.Next() = 0;
                         end;
                     until RecExtTextHeader.Next() = 0;
-                end;
+                end;*/
                 RecSQSOImport.Status := RecSQSOImport.Status::Completed;
                 RecSQSOImport.Modify();
             end;
         until RecSQSOImport.Next() = 0;
         RecSQSOImport.DeleteAll();
+    end;
+
+    procedure InsertExtendedText(var RecSalesLine: record "Sales Line"; Unconditionally: Boolean): Boolean
+    var
+        TransferExtendedText: Codeunit "Transfer Extended Text";
+    begin
+        if TransferExtendedText.SalesCheckIfAnyExtText(RecSalesLine, Unconditionally) then begin
+            Commit();
+            TransferExtendedText.InsertSalesExtText(RecSalesLine);
+            if TransferExtendedText.MakeUpdate() then begin
+                exit(true);
+            end;
+        end;
+        exit(false);
     end;
 }

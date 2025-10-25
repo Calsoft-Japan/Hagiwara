@@ -403,6 +403,26 @@ pageextension 50031 ItemListExt extends "Item List"
         }
     }
 
+    actions
+    {
+        modify(CopyItem)
+        {
+            Visible = false;
+        }
+        modify(RequestApproval)
+        {
+            Visible = false;
+        }
+        modify(SendApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(CancelApprovalRequest)
+        {
+            Visible = false;
+        }
+    }
+
     trigger OnAfterGetRecord()
     begin
         // Load latest sales price

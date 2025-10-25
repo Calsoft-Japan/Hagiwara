@@ -15,6 +15,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemImportBatch: Record "Item Import Batch";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
         AmountLCY: Decimal;
@@ -91,7 +92,7 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Requster (' + pUsername + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
+            MsgComment := 'Requester (' + pUsername + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
             recApprEntry := InsertApprEntry(
                 pData,
                 pDataNo,
@@ -140,6 +141,14 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Hagi Approver" := Approver;
                         AssemblyHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Item":
+                    begin
+                        ItemImportBatch.get(pDataNo);
+                        ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        ItemImportBatch.Requester := UserId;
+                        ItemImportBatch."Hagi Approver" := Approver;
+                        ItemImportBatch.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
@@ -157,6 +166,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemImportBatch: Record "Item Import Batch";
         MsgComment: Text;
     begin
 
@@ -245,6 +255,14 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Hagi Approver" := '';
                         AssemblyHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Item":
+                    begin
+                        ItemImportBatch.get(pDataNo);
+                        ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        ItemImportBatch.Requester := '';
+                        ItemImportBatch."Hagi Approver" := '';
+                        ItemImportBatch.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
@@ -262,6 +280,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemImportBatch: Record "Item Import Batch";
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -334,6 +353,12 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Hagi Approver" := pUsername;
                         AssemblyHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Item":
+                    begin
+                        ItemImportBatch.get(pDataNo);
+                        ItemImportBatch."Hagi Approver" := pUsername;
+                        ItemImportBatch.Modify();
+                    end;
             end;
 
             // ask approvel for next approver.
@@ -405,6 +430,12 @@ codeunit 50109 "Hagiwara Approval Management"
                             AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             AssemblyHeader.Modify();
                         end;
+                    Enum::"Hagiwara Approval Data"::"Item":
+                        begin
+                            ItemImportBatch.get(pDataNo);
+                            ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            ItemImportBatch.Modify();
+                        end;
                 end;
             end;
 
@@ -422,6 +453,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemImportBatch: Record "Item Import Batch";
         MsgComment: Text;
     begin
 
@@ -501,6 +533,13 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         AssemblyHeader."Hagi Approver" := pUsername;
                         AssemblyHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Item":
+                    begin
+                        ItemImportBatch.get(pDataNo);
+                        ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        ItemImportBatch."Hagi Approver" := pUsername;
+                        ItemImportBatch.Modify();
                     end;
             end;
 
@@ -650,7 +689,7 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::Vendor:
                 exit(''); //TODO
             Enum::"Hagiwara Approval Data"::Item:
-                exit(''); //TODO
+                exit('&page=50117&filter=''Item Import Batch''.''Name'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"G/L Account":
                 exit(''); //TODO
             Enum::"Hagiwara Approval Data"::"Price List":
