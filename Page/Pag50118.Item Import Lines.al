@@ -703,62 +703,90 @@ page 50118 "Item Import Lines"
     begin
         // -------Existence Check (See table relation info.)-------
         //Base Unit of Measure Code
-        if not UnitOfMeasure.get(p_ItemImportline."Base Unit of Measure") then begin
-            ErrDesc := 'Base Unit of Measure is not found. ';
+        if p_ItemImportline."Base Unit of Measure" <> '' then begin
+            if not UnitOfMeasure.get(p_ItemImportline."Base Unit of Measure") then begin
+                ErrDesc := 'Base Unit of Measure is not found. ';
+            end;
         end;
         //Sales Unit of Measure Code
-        if not UnitOfMeasure.get(p_ItemImportline."Sales Unit of Measure") then begin
-            ErrDesc += 'Sales Unit of Measure is not found. ';
+        if p_ItemImportline."Sales Unit of Measure" <> '' then begin
+            if not UnitOfMeasure.get(p_ItemImportline."Sales Unit of Measure") then begin
+                ErrDesc += 'Sales Unit of Measure is not found. ';
+            end;
         end;
         //Purchase Unit of Measure Code
-        if not UnitOfMeasure.get(p_ItemImportline."Purchase Unit of Measure") then begin
-            ErrDesc += 'Purchase Unit of Measure is not found. ';
+        if p_ItemImportline."Purchase Unit of Measure" <> '' then begin
+            if not UnitOfMeasure.get(p_ItemImportline."Purchase Unit of Measure") then begin
+                ErrDesc += 'Purchase Unit of Measure is not found. ';
+            end;
         end;
         //Manufacturer Code
-        if not Manufacturer.get(p_ItemImportline."Manufacture Code") then begin
-            ErrDesc += 'Manufacture Code is not found. ';
+        if p_ItemImportline."Manufacture Code" <> '' then begin
+            if not Manufacturer.get(p_ItemImportline."Manufacture Code") then begin
+                ErrDesc += 'Manufacture Code is not found. ';
+            end;
         end;
         //Item Category Code
-        if not ItemCategory.get(p_ItemImportline."Item Category Code") then begin
-            ErrDesc += 'Item Category Code is not found. ';
+        if p_ItemImportline."Item Category Code" <> '' then begin
+            if not ItemCategory.get(p_ItemImportline."Item Category Code") then begin
+                ErrDesc += 'Item Category Code is not found. ';
+            end;
         end;
         //Country/Region of Origin Code
-        if not CountryRegion.get(p_ItemImportline."Country/Region of Origin Code") then begin
-            ErrDesc += 'Country/Region of Origin Code is not found. ';
+        if p_ItemImportline."Country/Region of Origin Code" <> '' then begin
+            if not CountryRegion.get(p_ItemImportline."Country/Region of Origin Code") then begin
+                ErrDesc += 'Country/Region of Origin Code is not found. ';
+            end;
         end;
         //Country/Region of Org Cd (FE)
-        if not CountryRegion.get(p_ItemImportline."Country/Region of Org Cd (FE)") then begin
-            ErrDesc += 'Country/Region of Org Cd (FE) is not found. ';
+        if p_ItemImportline."Country/Region of Org Cd (FE)" <> '' then begin
+            if not CountryRegion.get(p_ItemImportline."Country/Region of Org Cd (FE)") then begin
+                ErrDesc += 'Country/Region of Org Cd (FE) is not found. ';
+            end;
         end;
         //Product Group Code
-        if not ItemGroup.get(p_ItemImportline."Product Group Code") then begin
-            ErrDesc += 'Product Group Code is not found. ';
+        if p_ItemImportline."Product Group Code" <> '' then begin
+            if not ItemGroup.get(p_ItemImportline."Product Group Code") then begin
+                ErrDesc += 'Product Group Code is not found. ';
+            end;
         end;
         //SBU
-        if not Manufacturer.get(p_ItemImportline.SBU) then begin
-            ErrDesc += 'SBU is not found. ';
+        if p_ItemImportline.SBU <> '' then begin
+            if not Manufacturer.get(p_ItemImportline.SBU) then begin
+                ErrDesc += 'SBU is not found. ';
+            end;
         end;
         //Customer No.
-        if not Customer.get(p_ItemImportline."Customer No.") then begin
-            ErrDesc += 'Customer No. is not found. ';
+        if p_ItemImportline."Customer No." <> '' then begin
+            if not Customer.get(p_ItemImportline."Customer No.") then begin
+                ErrDesc += 'Customer No. is not found. ';
+            end;
         end;
         //OEM No.
-        Customer.SetRange(Customer."No.", p_ItemImportline."OEM No.");
-        Customer.SetRange(Customer."Customer Type", Customer."Customer Type"::OEM);
-        if Customer.IsEmpty() then begin
-            ErrDesc += 'OEM No. is not found. ';
+        if p_ItemImportline."OEM No." <> '' then begin
+            Customer.SetRange(Customer."No.", p_ItemImportline."OEM No.");
+            Customer.SetRange(Customer."Customer Type", Customer."Customer Type"::OEM);
+            if Customer.IsEmpty() then begin
+                ErrDesc += 'OEM No. is not found. ';
+            end;
         end;
         //Vendor No.
-        if not Vendor.get(p_ItemImportline."Vendor No.") then begin
-            ErrDesc += 'Vendor No. is not found. ';
+        if p_ItemImportline."Vendor No." <> '' then begin
+            if not Vendor.get(p_ItemImportline."Vendor No.") then begin
+                ErrDesc += 'Vendor No. is not found. ';
+            end;
         end;
         //Gen. Prod. Posting Group
-        if not GenProductPostingGroup.get(p_ItemImportline."Gen. Prod. Posting Group") then begin
-            ErrDesc += 'Gen. Prod. Posting Group is not found. ';
+        if p_ItemImportline."Gen. Prod. Posting Group" <> '' then begin
+            if not GenProductPostingGroup.get(p_ItemImportline."Gen. Prod. Posting Group") then begin
+                ErrDesc += 'Gen. Prod. Posting Group is not found. ';
+            end;
         end;
         //Inventory Posting Group
-        if not InventoryPostingGroup.get(p_ItemImportline."Inventory Posting Group") then begin
-            ErrDesc += 'Inventory Posting Group is not found. ';
+        if p_ItemImportline."Inventory Posting Group" <> '' then begin
+            if not InventoryPostingGroup.get(p_ItemImportline."Inventory Posting Group") then begin
+                ErrDesc += 'Inventory Posting Group is not found. ';
+            end;
         end;
 
         // -------Option Value Check-------//TODO 確認必要
