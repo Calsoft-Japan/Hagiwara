@@ -63,7 +63,7 @@ codeunit 50117 "Item Import"
             rec_POInt.Init();
             rec_POInt."Batch Name" := G_BatchName;
             Evaluate(rec_POInt."Entry No.", GetValueAtCell(RowNo, 1));
-            if Evaluate(rec_POInt."Type", GetValueAtCell(RowNo, 2)) then;
+            Evaluate(rec_POInt."Type", GetValueAtCell(RowNo, 2));
             Evaluate(rec_POInt."Item No.", GetValueAtCell(RowNo, 3));
             if Evaluate(rec_POInt."Familiar Name", GetValueAtCell(RowNo, 4)) then;
             if Evaluate(rec_POInt."Description", GetValueAtCell(RowNo, 5)) then;
@@ -71,13 +71,13 @@ codeunit 50117 "Item Import"
             Evaluate(rec_POInt."Base Unit of Measure", GetValueAtCell(RowNo, 7));
             if Evaluate(rec_POInt."Sales Unit of Measure", GetValueAtCell(RowNo, 8)) then;
             if Evaluate(rec_POInt."Purchase Unit of Measure", GetValueAtCell(RowNo, 9)) then;
-            if Evaluate(rec_POInt."Price/Profit Calculation", GetValueAtCell(RowNo, 10)) then;
+            Evaluate(rec_POInt."Price/Profit Calculation", GetValueAtCell(RowNo, 10));
             if Evaluate(rec_POInt."Lead Time Calculation", GetValueAtCell(RowNo, 11)) then;
             if Evaluate(rec_POInt."Tariff No.", GetValueAtCell(RowNo, 12)) then;
-            if Evaluate(rec_POInt."Reserve", GetValueAtCell(RowNo, 13)) then;
-            if Evaluate(rec_POInt."Stockout Warning", GetValueAtCell(RowNo, 14)) then;
-            if Evaluate(rec_POInt."Prevent Negative Inventory", GetValueAtCell(RowNo, 15)) then;
-            if Evaluate(rec_POInt."Replenishment System", GetValueAtCell(RowNo, 16)) then;
+            Evaluate(rec_POInt."Reserve", GetValueAtCell(RowNo, 13));
+            Evaluate(rec_POInt."Stockout Warning", GetValueAtCell(RowNo, 14));
+            Evaluate(rec_POInt."Prevent Negative Inventory", GetValueAtCell(RowNo, 15));
+            Evaluate(rec_POInt."Replenishment System", GetValueAtCell(RowNo, 16));
             if Evaluate(rec_POInt."Item Tracking Code", GetValueAtCell(RowNo, 17)) then;
             if Evaluate(rec_POInt."Manufacture Code", GetValueAtCell(RowNo, 18)) then;
             if Evaluate(rec_POInt."Item Category Code", GetValueAtCell(RowNo, 19)) then;
@@ -104,7 +104,7 @@ codeunit 50117 "Item Import"
             if Evaluate(rec_POInt."Customer Item No. (Plain)", GetValueAtCell(RowNo, 40)) then;
             if Evaluate(rec_POInt."OEM No.", GetValueAtCell(RowNo, 41)) then;
             if Evaluate(rec_POInt."Vendor No.", GetValueAtCell(RowNo, 42)) then;
-            if Evaluate(rec_POInt."Item Supplier Source", GetValueAtCell(RowNo, 43)) then;
+            Evaluate(rec_POInt."Item Supplier Source", GetValueAtCell(RowNo, 43));
             if Evaluate(rec_POInt."Vendor Item No.", GetValueAtCell(RowNo, 44)) then;
             if Evaluate(rec_POInt."Lot Size", GetValueAtCell(RowNo, 45)) then;
             if Evaluate(rec_POInt."Minimum Order Quantity", GetValueAtCell(RowNo, 46)) then;
