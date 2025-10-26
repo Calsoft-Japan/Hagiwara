@@ -15,6 +15,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
@@ -133,13 +134,18 @@ codeunit 50109 "Hagiwara Approval Management"
                         TransHeader."Hagi Approver" := Approver;
                         TransHeader.Modify();
                     end;
-                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                Enum::"Hagiwara Approval Data"::"Item Journal",
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
                     begin
-                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
-                        AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
-                        AssemblyHeader.Requester := UserId;
-                        AssemblyHeader."Hagi Approver" := Approver;
-                        AssemblyHeader.Modify();
+                        ItemJourLine.Reset();
+                        ItemJourLine.setRange("Document No.", pDataNo);
+                        if ItemJourLine.FindSet() then
+                            repeat
+                                ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                                ItemJourLine.Requester := UserId;
+                                ItemJourLine."Hagi Approver" := Approver;
+                                ItemJourLine.Modify();
+                            until ItemJourLine.Next() = 0;
                     end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
@@ -166,6 +172,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
         MsgComment: Text;
     begin
@@ -255,6 +262,19 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Hagi Approver" := '';
                         AssemblyHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Item Journal",
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                    begin
+                        ItemJourLine.Reset();
+                        ItemJourLine.setRange("Document No.", pDataNo);
+                        if ItemJourLine.FindSet() then
+                            repeat
+                                ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                                ItemJourLine.Requester := '';
+                                ItemJourLine."Hagi Approver" := '';
+                                ItemJourLine.Modify();
+                            until ItemJourLine.Next() = 0;
+                    end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
                         ItemImportBatch.get(pDataNo);
@@ -280,6 +300,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
         nextApprover: Code[50];
         MsgComment: Text;
@@ -352,6 +373,17 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
                         AssemblyHeader."Hagi Approver" := pUsername;
                         AssemblyHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Item Journal",
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                    begin
+                        ItemJourLine.Reset();
+                        ItemJourLine.setRange("Document No.", pDataNo);
+                        if ItemJourLine.FindSet() then
+                            repeat
+                                ItemJourLine."Hagi Approver" := pUsername;
+                                ItemJourLine.Modify();
+                            until ItemJourLine.Next() = 0;
                     end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
@@ -430,6 +462,17 @@ codeunit 50109 "Hagiwara Approval Management"
                             AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             AssemblyHeader.Modify();
                         end;
+                    Enum::"Hagiwara Approval Data"::"Item Journal",
+                    Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                        begin
+                            ItemJourLine.Reset();
+                            ItemJourLine.setRange("Document No.", pDataNo);
+                            if ItemJourLine.FindSet() then
+                                repeat
+                                    ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Approved;
+                                    ItemJourLine.Modify();
+                                until ItemJourLine.Next() = 0;
+                        end;
                     Enum::"Hagiwara Approval Data"::"Item":
                         begin
                             ItemImportBatch.get(pDataNo);
@@ -441,7 +484,7 @@ codeunit 50109 "Hagiwara Approval Management"
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
 
-            Message('Approval Request approved.');
+            Message('Approval Request approved.\\The following approval request was sent if the furthermore approval is necessary.');
         end;
     end;
 
@@ -453,6 +496,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PurchHeader: Record "Purchase Header";
         TransHeader: Record "Transfer Header";
         AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
         MsgComment: Text;
     begin
@@ -533,6 +577,18 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         AssemblyHeader."Hagi Approver" := pUsername;
                         AssemblyHeader.Modify();
+                    end;
+                Enum::"Hagiwara Approval Data"::"Item Journal",
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                    begin
+                        ItemJourLine.Reset();
+                        ItemJourLine.setRange("Document No.", pDataNo);
+                        if ItemJourLine.FindSet() then
+                            repeat
+                                ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                                ItemJourLine."Hagi Approver" := pUsername;
+                                ItemJourLine.Modify();
+                            until ItemJourLine.Next() = 0;
                     end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
@@ -677,9 +733,9 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"Purchase Return Order":
                 exit('&page=6640&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Journal":
-                exit('&page=40&filter=''Item Journal Line''.''Document No.''' + pDataNo + '''');
+                exit('&page=40&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
-                exit('&page=393&filter=''Item Journal Line''.''Document No.''' + pDataNo + '''');
+                exit('&page=393&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Transfer Order":
                 exit('&page=5740&filter=''Transfer Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Assembly Order":
