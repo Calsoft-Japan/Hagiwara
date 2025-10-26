@@ -34,4 +34,50 @@ table 50117 "Item Import Batch"
         {
         }
     }
+    trigger OnInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Item" then begin
+            rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+        end;
+
+    end;
+
+    trigger OnDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+        ItemImportline: Record "Item Import Line";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Item" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+        if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
+            ItemImportline.SetRange("Batch Name", Rec.Name);
+            ItemImportline.DeleteAll();
+        end;
+    end;
+
+    trigger OnRename()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup."Item" then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+
+    end;
+
+
 }

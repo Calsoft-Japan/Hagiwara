@@ -285,7 +285,21 @@ page 50118 "Item Import Lines"
                     trigger OnAction()
                     var
                         cduImporter: Codeunit "Item Import";
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        ItemImportBatch: Record "Item Import Batch";
                     begin
+
+                        if G_BatchName = '' then
+                            Error('Batch Name is blank.');
+
+                        recApprSetup.Get();
+                        if recApprSetup."Item" then begin
+                            ItemImportBatch.get(G_BatchName);
+                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                                Error('Can''t edit this data because of it''s submitted for approval.');
+                            end;
+                        end;
+
                         cduImporter.SetBatchName(G_BatchName);
                         cduImporter.Run();
                     end;
@@ -301,9 +315,20 @@ page 50118 "Item Import Lines"
                     trigger OnAction()
                     var
                         ItemImportline: Record "Item Import Line";
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        ItemImportBatch: Record "Item Import Batch";
                     begin
+
+                        recApprSetup.Get();
+                        if recApprSetup."Item" then begin
+                            ItemImportBatch.get(G_BatchName);
+                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                                Error('Can''t edit this data because of it''s submitted for approval.');
+                            end;
+                        end;
+
                         // -------check records existe-------                        
-                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
                         ItemImportline.SETFILTER(ItemImportline.Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
                         if ItemImportline.IsEmpty() then begin
                             Error('There is no record to validate.');
@@ -314,6 +339,8 @@ page 50118 "Item Import Lines"
                             REPEAT
                                 CheckError(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
+
+                        Message('Verification finished.');
                     end;
                 }
                 action("Carry Out")
@@ -327,19 +354,35 @@ page 50118 "Item Import Lines"
                     var
                         ItemImportBatch: Record "Item Import Batch";
                         ItemImportline: Record "Item Import Line";
+                        recApprSetup: Record "Hagiwara Approval Setup";
                     begin
                         // -------check Approval Status -------
-                        ItemImportBatch.GET(Rec."Batch Name");
-                        if ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::Approved then begin
-                            Error('You can''t carry out the action. You need to go through approval process first.');
+                        ItemImportBatch.GET(G_BatchName);
+                        recApprSetup.Get();
+                        if recApprSetup."Item" then begin
+                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                                Error('Can''t edit this data because of it''s submitted for approval.');
+                            end;
+
+                            if not (ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                Error('You can''t carry out the action. You need to go through approval process first.');
+                            end;
                         end;
 
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
+                        if not ItemImportline.IsEmpty then
+                            Error('Some of the lines are not validated.');
+
                         // -------Execute-------
-                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
                         if ItemImportline.FINDFIRST then
                             REPEAT
                                 ExecuteProcess(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
+
+                        Message('Items are created or updated.');
                     end;
                 }
                 action("Delete All")
@@ -353,14 +396,19 @@ page 50118 "Item Import Lines"
 
                     trigger OnAction()
                     var
-                        ItemImportline: Record "Item Import Line";
                         ItemImportBatch: Record "Item Import Batch";
+                        ItemImportline: Record "Item Import Line";
+                        recApprSetup: Record "Hagiwara Approval Setup";
                     begin
-                        ItemImportline.SetRange("Batch Name", Rec."Batch Name");
-                        /*ItemImportBatch.GET(Rec."Batch Name");
-                        if (ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::Required) or (ItemImportBatch."Approval Status" <> "Hagiwara Approval Status"::"Re-Approval Required") then begin
-                            Error('You can''t delete any records because approval process already initiated.');
-                        end;*/
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+
+                        recApprSetup.Get();
+                        if recApprSetup."Item" then begin
+                            ItemImportBatch.get(G_BatchName);
+                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                                Error('You can''t delete any records because approval process already initiated.');
+                            end;
+                        end;
 
                         IF NOT CONFIRM('Do you want to delete all the records?') THEN
                             EXIT;
@@ -370,7 +418,6 @@ page 50118 "Item Import Lines"
                 }
             }
         }
-
     }
 
     var
@@ -700,6 +747,7 @@ page 50118 "Item Import Lines"
         Vendor: Record "Vendor";
         GenProductPostingGroup: Record "Gen. Product Posting Group";
         InventoryPostingGroup: Record "Inventory Posting Group";
+        VATProdPostingGroup: Record "VAT Product Posting Group";
     begin
         // -------Existence Check (See table relation info.)-------
         //Base Unit of Measure Code
@@ -788,13 +836,19 @@ page 50118 "Item Import Lines"
                 ErrDesc += 'Inventory Posting Group is not found. ';
             end;
         end;
+        //VAT Prod. Posting Group
+        if p_ItemImportline."VAT Prod. Posting Group" <> '' then begin
+            if not VATProdPostingGroup.get(p_ItemImportline."VAT Prod. Posting Group") then begin
+                ErrDesc += 'VAT Prod. Posting Group is not found. ';
+            end;
+        end;
 
         // -------Option Value Check-------//TODO 確認必要
 
         // -------the result of Validation-------
         if (ErrDesc <> '') then begin
             p_ItemImportline."Error Description" := CopyStr(ErrDesc, 1, 250);
-            Message('Verification failed. Please confirm the [Error Description].')
+            p_ItemImportline.Validate(p_ItemImportline.Status, p_ItemImportline.Status::Error);
         end else begin
             //Create or Update
             p_ItemImportline.Action := p_ItemImportline.Action::Update;
@@ -802,9 +856,10 @@ page 50118 "Item Import Lines"
                 p_ItemImportline.Action := p_ItemImportline.Action::Create;
             end;
 
-            Message('Verification was successful')
+            p_ItemImportline.Validate(p_ItemImportline.Status, p_ItemImportline.Status::Validated);
         end;
         p_ItemImportline.Modify(true);
+
     end;
 
 }

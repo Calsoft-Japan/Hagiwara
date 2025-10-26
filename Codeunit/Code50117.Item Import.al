@@ -121,9 +121,6 @@ codeunit 50117 "Item Import"
             if Evaluate(rec_POInt."Customer Group Code", GetValueAtCell(RowNo, 57)) then;
             if Evaluate(rec_POInt."Base Currency Code", GetValueAtCell(RowNo, 58)) then;
             if Evaluate(rec_POInt."Blocked", GetValueAtCell(RowNo, 59)) then;
-            if Evaluate(rec_POInt."Status", GetValueAtCell(RowNo, 60)) then;
-            if Evaluate(rec_POInt."Error Description", GetValueAtCell(RowNo, 61)) then;
-            if Evaluate(rec_POInt."Action", GetValueAtCell(RowNo, 62)) then;
             rec_POInt.Insert();
         end;
         Message(ExcelImportSucess);
