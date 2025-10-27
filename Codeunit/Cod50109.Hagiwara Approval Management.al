@@ -22,6 +22,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AmountLCY: Decimal;
         Approver: Code[50];
         MsgComment: Text;
+        SubmitStatus: Enum "Hagiwara Approval Status";
     begin
 
         recReqGroupMem.SetRange(Data, pData);
@@ -92,6 +93,9 @@ codeunit 50109 "Hagiwara Approval Management"
 
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
+
+            SubmitStatus := GetSubmitStatus(pData, pDataNo);
+
             MsgComment := pagComment.GetComment();
             MsgComment := 'Requester (' + pUsername + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
             recApprEntry := InsertApprEntry(
@@ -102,7 +106,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 Approver,
                 ApprGroup,
                 recApprHrcy."Sequence No.",
-                "Hagiwara Approval Status"::Submitted,
+                SubmitStatus,
                 MsgComment
             );
 
@@ -112,7 +116,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 Enum::"Hagiwara Approval Data"::"Sales Credit Memo",
                 Enum::"Hagiwara Approval Data"::"Sales Return Order":
                     begin
-                        SalesHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        SalesHeader."Approval Status" := SubmitStatus;
                         SalesHeader.Requester := UserId;
                         SalesHeader."Hagi Approver" := Approver;
                         SalesHeader.Modify();
@@ -121,7 +125,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 Enum::"Hagiwara Approval Data"::"Purchase Credit Memo",
                 Enum::"Hagiwara Approval Data"::"Purchase Return Order":
                     begin
-                        PurchHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        PurchHeader."Approval Status" := SubmitStatus;
                         PurchHeader.Requester := UserId;
                         PurchHeader."Hagi Approver" := Approver;
                         PurchHeader.Modify();
@@ -129,7 +133,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 Enum::"Hagiwara Approval Data"::"Transfer Order":
                     begin
                         TransHeader.get(pDataNo);
-                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        TransHeader."Approval Status" := SubmitStatus;
                         TransHeader.Requester := UserId;
                         TransHeader."Hagi Approver" := Approver;
                         TransHeader.Modify();
@@ -141,7 +145,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         ItemJourLine.setRange("Document No.", pDataNo);
                         if ItemJourLine.FindSet() then
                             repeat
-                                ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                                ItemJourLine."Approval Status" := SubmitStatus;
                                 ItemJourLine.Requester := UserId;
                                 ItemJourLine."Hagi Approver" := Approver;
                                 ItemJourLine.Modify();
@@ -150,7 +154,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
                         ItemImportBatch.get(pDataNo);
-                        ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Submitted;
+                        ItemImportBatch."Approval Status" := SubmitStatus;
                         ItemImportBatch.Requester := UserId;
                         ItemImportBatch."Hagi Approver" := Approver;
                         ItemImportBatch.Modify();
@@ -164,7 +168,8 @@ codeunit 50109 "Hagiwara Approval Management"
 
     end;
 
-    procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
+    procedure Cancel(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20];
+                                pUsername: Code[50])
     var
         recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
@@ -291,7 +296,8 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
-    procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
+    procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20];
+                                 pUsername: Code[50])
     var
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
         recApprEntry: Record "Hagiwara Approval Entry";
@@ -408,7 +414,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     nextApprover,
                     recApprEntry."Approval Group",
                     recApprHrcy."Sequence No.",
-                    "Hagiwara Approval Status"::Submitted,
+                    recApprEntry.Status,
                     recApprEntry.GetComment()
                 );
             end else begin
@@ -488,7 +494,8 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
-    procedure Reject(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
+    procedure Reject(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20];
+                                pUsername: Code[50])
     var
         recApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
@@ -605,16 +612,32 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
+    procedure GetSubmitStatus(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Enum "Hagiwara Approval Status"
+    var
+        recApprEntry: Record "Hagiwara Approval Entry";
+    begin
+
+        recApprEntry.SetRange(Open, false);
+        recApprEntry.SetRange(Data, pData);
+        recApprEntry.SetRange("No.", pDataNo);
+        recApprEntry.SetRange(Status, Enum::"Hagiwara Approval Status"::Approved);
+        if not recApprEntry.IsEmpty() then
+            exit(Enum::"Hagiwara Approval Status"::"Re-Submitted");
+
+        exit(Enum::"Hagiwara Approval Status"::"Submitted");
+
+    end;
+
     local procedure InsertApprEntry(
         pData: Enum "Hagiwara Approval Data";
-        pDataNo: Code[20];
-        pRequester: Code[50];
-        pReqGroup: Code[30];
-        pApprover: Code[50];
-        pApprGroup: Code[30];
-        pApprSeq: Integer;
-        pStatus: Enum "Hagiwara Approval Status";
-        pComment: Text
+                   pDataNo: Code[20];
+                   pRequester: Code[50];
+                   pReqGroup: Code[30];
+                   pApprover: Code[50];
+                   pApprGroup: Code[30];
+                   pApprSeq: Integer;
+                   pStatus: Enum "Hagiwara Approval Status";
+                   pComment: Text
     ): Record "Hagiwara Approval Entry"
     var
         recApprEntry: Record "Hagiwara Approval Entry";

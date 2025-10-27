@@ -242,6 +242,14 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 
                 ApplicationArea = all;
             }
+            field("Quantity to Update"; Rec."Quantity to Update")
+            {
+                ApplicationArea = all;
+            }
+            field("Unit Price to Update"; Rec."Unit Price to Update")
+            {
+                ApplicationArea = all;
+            }
         }
 
     }

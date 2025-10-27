@@ -47,6 +47,76 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             // cleaned
         }
+        field(50101; "Quantity to Update"; Decimal)
+        {
+            //N005
+            DecimalPlaces = 0 : 5;
+            trigger OnValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+
+                if xRec."Quantity to Update" <> Rec."Quantity to Update" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+
+                        SalesHeader := Rec.GetSalesHeader();
+                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                            SalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Re-Approval Required";
+                            SalesHeader.Modify();
+                            updated := true;
+                        end else if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::"Re-Approval Required"] then begin
+                            updated := true;
+                        end;
+                    end;
+                end;
+
+                if not updated then begin
+                    Error('This data has not been approved.');
+                end;
+            end;
+
+        }
+        field(50102; "Unit Price to Update"; Decimal)
+        {
+            //N005
+            AutoFormatExpression = Rec."Currency Code";
+            AutoFormatType = 2;
+            trigger OnValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+                if xRec."Unit Price to Update" <> Rec."Unit Price to Update" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+
+                        SalesHeader := Rec.GetSalesHeader();
+                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                            SalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Re-Approval Required";
+                            SalesHeader.Modify();
+                            updated := true;
+                        end else if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::"Re-Approval Required"] then begin
+                            updated := true;
+                        end;
+                    end;
+                end;
+
+                if not updated then begin
+                    Error('This data has not been approved.');
+                end;
+            end;
+
+        }
         field(50201; "Price Target Update"; Boolean)
         {
             InitValue = true;
@@ -451,6 +521,35 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         modify(Quantity)
         {
+            //N005
+            trigger OnBeforeValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+
+                if xRec."Quantity" <> Rec."Quantity" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+                        SalesHeader := Rec.GetSalesHeader();
+                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Submitted",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                then begin
+                            Error('Can''t update Quantity because of the current approval status.');
+                        end;
+                    end;
+                end;
+
+            end;
+
             trigger OnAfterValidate()
             var
                 SalesHeader: Record "Sales Header";
@@ -489,6 +588,38 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                         END;
                     END;
                 end;
+            end;
+        }
+
+        modify("Unit Price")
+        {
+            //N005
+            trigger OnBeforeValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+
+                if xRec."Unit Price" <> Rec."Unit Price" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+                        SalesHeader := Rec.GetSalesHeader();
+                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Submitted",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                then begin
+                            Error('Can''t update Unit Price because of the current approval status.');
+                        end;
+                    end;
+                end;
+
             end;
         }
 
