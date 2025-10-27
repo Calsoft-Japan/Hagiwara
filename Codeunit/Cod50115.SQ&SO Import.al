@@ -242,6 +242,10 @@ codeunit 50115 "SQ&SO Import"
                 RecSalesLine.SetRange("Document No.", RecSQSOImport."Document No.");
                 RecSalesLine.SetRange("Line No.", RecSQSOImport."Line No.");
                 if RecSalesLine.FindFirst() then begin
+                    RecSalesLine.Validate("No.");
+                    if RecSQSOImport.Quantity > 0 then begin
+                        RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
+                    end;
                     if RecSQSOImport."Customer Order No." <> '' then begin
                         RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                     end;
@@ -251,10 +255,6 @@ codeunit 50115 "SQ&SO Import"
                     if RecSQSOImport."Shipment Date" <> 0D then begin
                         RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                     end;
-                    if RecSQSOImport.Quantity > 0 then begin
-                        RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
-                    end;
-                    RecSalesLine.Validate("No.");
                     RecSalesLine.Modify(true);
                     RecSQSOImport.Status := RecSQSOImport.Status::Completed;
                     RecSQSOImport.Modify();
@@ -274,30 +274,30 @@ codeunit 50115 "SQ&SO Import"
                     else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
                         RecSalesHeader.Validate("Document Type", RecSalesHeader."Document Type"::Order);
                     end;
-                    //RecSalesHeader.Insert(true);
+                    RecSalesHeader."No." := '';
+                    RecSalesHeader.Insert(true);
                     RecSalesHeader.VALIDATE("Posting Date", TODAY);
+                    RecSalesHeader.Validate("Sell-to Customer No.", RecSQSOImport."Customer No.");
+                    RecSalesHeader.Validate("Bill-to Customer No.", RecSQSOImport."Customer No.");
+                    RecSalesHeader.Validate("External Document No.", RecSQSOImport."Customer Order No.");
+                    RecSalesHeader.Validate("Your Reference", RecSQSOImport."Customer Order No.");
+                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::"Auto Approved";
                     if (RecSQSOImport."Order Date" <> 0D) then begin
                         RecSalesHeader.Validate("Order Date", RecSQSOImport."Order Date");
                     end
                     else begin
                         RecSalesHeader."Order Date" := TODAY;
                     end;
-                    RecSalesHeader.Validate("Sell-to Customer No.", RecSQSOImport."Customer No.");
-                    RecSalesHeader.Validate("Bill-to Customer No.", RecSQSOImport."Customer No.");
-                    RecSalesHeader.Validate("External Document No.", RecSQSOImport."Customer Order No.");
+                    if (RecSQSOImport."Requested Delivery Date" <> 0D) then begin
+                        RecSalesHeader.Validate("Requested Delivery Date", RecSQSOImport."Requested Delivery Date");
+                    end;
                     IF RecSalesHeader."Document Type" = RecSalesHeader."Document Type"::Order THEN BEGIN
-                        RecSalesHeader.Validate("Your Reference", RecSQSOImport."Customer Order No.");
-                        if (RecSQSOImport."Requested Delivery Date" <> 0D) then begin
-                            RecSalesHeader.Validate("Requested Delivery Date", RecSQSOImport."Requested Delivery Date");
-                        end;
                         if (RecSQSOImport."Shipment Date" <> 0D) then begin
                             RecSalesHeader.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                         end;
                     END;
-                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::"Auto Approved";
-                    //RecSalesHeader.Modify(true);
-                    RecSalesHeader."No." := '';
-                    RecSalesHeader.Insert(true);
+                    RecSalesHeader.Modify(true);
+                    //Must to insert the SO before set the order date and some other fields.
                     RecTmpSQSOImportInsert.Reset();
                     RecTmpSQSOImportInsert.Init();
                     RecTmpSQSOImportInsert.TransferFields(RecSQSOImport);
