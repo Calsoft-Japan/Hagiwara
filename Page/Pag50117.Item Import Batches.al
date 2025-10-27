@@ -3,7 +3,7 @@ page 50117 "Item Import Batch"
     ApplicationArea = All;
     UsageCategory = Lists;
     PageType = List;
-    Caption = 'Item Import Batch';
+    Caption = 'Item Import Batches';
     SourceTable = "Item Import Batch";
 
     layout
