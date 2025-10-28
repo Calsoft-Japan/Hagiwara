@@ -130,7 +130,7 @@ page 50115 "SQ&SO Import"
                                         RecSalesLine.SetRange("Document No.", Rec."Document No.");
                                         RecSalesLine.SetRange("Line No.", Rec."Line No.");
                                         if not RecSalesLine.FindFirst() then begin
-                                            ErrorDescription += '';
+                                            ErrorDescription += 'Record to update was not found.';
                                             HasError := true;
                                         end;
                                     end;
@@ -153,7 +153,7 @@ page 50115 "SQ&SO Import"
                                     RecCustomer.Reset();
                                     RecCustomer.SetRange("No.", Rec."Customer No.");
                                     if not RecCustomer.FindFirst() then begin
-                                        ErrorDescription += 'Customer No. is not exists.';
+                                        ErrorDescription += 'Customer was not found.';
                                         HasError := true;
                                     end;
                                     if RecCustomer.Blocked <> RecCustomer.Blocked::" " then begin
@@ -163,7 +163,7 @@ page 50115 "SQ&SO Import"
                                     RecItem.Reset();
                                     RecItem.SetRange("No.", Rec."Item No.");
                                     if not RecItem.FindFirst() then begin
-                                        ErrorDescription += 'Item No. is not exists.';
+                                        ErrorDescription += 'Item was not found.';
                                         HasError := true;
                                     end;
                                     if RecItem.Blocked then begin
