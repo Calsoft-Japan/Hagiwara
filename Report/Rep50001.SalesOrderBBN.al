@@ -765,7 +765,7 @@ report 50001 "Sales Order BBN"
                 //N005 Begin
                 recApprSetup.Get();
                 if recApprSetup."Sales Order" then begin
-                    if "Approval Status" = Enum::"Hagiwara Approval Status"::Approved then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
                         if recApprESign.get("Hagi Approver") then begin
                             if recApprESign."Sign Picture".HasValue then begin
                                 ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
