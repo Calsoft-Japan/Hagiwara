@@ -332,75 +332,6 @@ codeunit 50109 "Hagiwara Approval Management"
 
             recApprEntry.AddComment(MsgComment);
 
-            // update transaction data.
-            case pData of
-                Enum::"Hagiwara Approval Data"::"Sales Order":
-                    begin
-                        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-                        SalesHeader."Hagi Approver" := pUsername;
-                        SalesHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
-                    begin
-                        SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
-                        SalesHeader."Hagi Approver" := pUsername;
-                        SalesHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Sales Return Order":
-                    begin
-                        SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
-                        SalesHeader."Hagi Approver" := pUsername;
-                        SalesHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Purchase Order":
-                    begin
-                        PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
-                        PurchHeader."Hagi Approver" := pUsername;
-                        PurchHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
-                    begin
-                        PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
-                        PurchHeader."Hagi Approver" := pUsername;
-                        PurchHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Purchase Return Order":
-                    begin
-                        PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
-                        PurchHeader."Hagi Approver" := pUsername;
-                        PurchHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Transfer Order":
-                    begin
-                        TransHeader.get(pDataNo);
-                        TransHeader."Hagi Approver" := pUsername;
-                        TransHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Assembly Order":
-                    begin
-                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
-                        AssemblyHeader."Hagi Approver" := pUsername;
-                        AssemblyHeader.Modify();
-                    end;
-                Enum::"Hagiwara Approval Data"::"Item Journal",
-                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
-                    begin
-                        ItemJourLine.Reset();
-                        ItemJourLine.setRange("Document No.", pDataNo);
-                        if ItemJourLine.FindSet() then
-                            repeat
-                                ItemJourLine."Hagi Approver" := pUsername;
-                                ItemJourLine.Modify();
-                            until ItemJourLine.Next() = 0;
-                    end;
-                Enum::"Hagiwara Approval Data"::"Item":
-                    begin
-                        ItemImportBatch.get(pDataNo);
-                        ItemImportBatch."Hagi Approver" := pUsername;
-                        ItemImportBatch.Modify();
-                    end;
-            end;
-
             // ask approvel for next approver.
             recApprHrcy.SetRange("Approval Group Code", recApprEntry."Approval Group");
             recApprHrcy.SetFilter("Sequence No.", '>%1', recApprEntry."Approval Sequence No.");
@@ -420,6 +351,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     recApprEntry.GetComment()
                 );
 
+                // update transaction data.
                 case pData of
                     Enum::"Hagiwara Approval Data"::"Sales Order":
                         begin
@@ -445,10 +377,72 @@ codeunit 50109 "Hagiwara Approval Management"
                                     end;
                                 until SalesLine.next() = 0;
 
+                            SalesHeader."Hagi Approver" := nextApprover;
                             SalesHeader.InApproving := false;
                             SalesHeader.Modify();
                         end;
+
+                    Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                            SalesHeader."Hagi Approver" := nextApprover;
+                            SalesHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                            SalesHeader."Hagi Approver" := nextApprover;
+                            SalesHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Order":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                            PurchHeader."Hagi Approver" := nextApprover;
+                            PurchHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                            PurchHeader."Hagi Approver" := nextApprover;
+                            PurchHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                        begin
+                            PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                            PurchHeader."Hagi Approver" := nextApprover;
+                            PurchHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Transfer Order":
+                        begin
+                            TransHeader.get(pDataNo);
+                            TransHeader."Hagi Approver" := nextApprover;
+                            TransHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Assembly Order":
+                        begin
+                            AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                            AssemblyHeader."Hagi Approver" := nextApprover;
+                            AssemblyHeader.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Item Journal",
+                    Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                        begin
+                            ItemJourLine.Reset();
+                            ItemJourLine.setRange("Document No.", pDataNo);
+                            if ItemJourLine.FindSet() then
+                                repeat
+                                    ItemJourLine."Hagi Approver" := nextApprover;
+                                    ItemJourLine.Modify();
+                                until ItemJourLine.Next() = 0;
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Item":
+                        begin
+                            ItemImportBatch.get(pDataNo);
+                            ItemImportBatch."Hagi Approver" := nextApprover;
+                            ItemImportBatch.Modify();
+                        end;
                 end;
+
             end else begin
                 //if no next approver, change the status of the data to Approved.
                 case pData of
