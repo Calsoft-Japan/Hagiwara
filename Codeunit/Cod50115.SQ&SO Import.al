@@ -223,7 +223,8 @@ codeunit 50115 "SQ&SO Import"
         RecExtTextHeader: Record "Extended Text Header";
         RecExtTextLine: Record "Extended Text Line";
         LineNo: Integer;
-        pagesoc: page "Sales Order";
+        tmpHeaderAppSta: Enum "Hagiwara Approval Status";
+        NoSeriesMgt: Codeunit "No. Series";
     begin
         RecSQSOImport.Reset();
         if RecSQSOImport.IsEmpty() then begin
@@ -242,20 +243,39 @@ codeunit 50115 "SQ&SO Import"
                 RecSalesLine.SetRange("Document No.", RecSQSOImport."Document No.");
                 RecSalesLine.SetRange("Line No.", RecSQSOImport."Line No.");
                 if RecSalesLine.FindFirst() then begin
-                    RecSalesLine.Validate("No.");
-                    if RecSQSOImport.Quantity > 0 then begin
-                        RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
+                    RecSalesHeader.Reset();
+                    RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
+                    tmpHeaderAppSta := RecSalesHeader."Approval Status";
+                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::Required;
+                    RecSalesHeader.Modify();
+                    Commit();
+                    RecSalesLine.Reset();
+                    if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
+                        RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Quote);
+                    end
+                    else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
+                        RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Order);
                     end;
-                    if RecSQSOImport."Customer Order No." <> '' then begin
-                        RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
+                    RecSalesLine.SetRange("Document No.", RecSQSOImport."Document No.");
+                    RecSalesLine.SetRange("Line No.", RecSQSOImport."Line No.");
+                    if RecSalesLine.FindFirst() then begin
+                        RecSalesLine.Validate("No.");
+                        if RecSQSOImport.Quantity > 0 then begin
+                            RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
+                        end;
+                        if RecSQSOImport."Customer Order No." <> '' then begin
+                            RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
+                        end;
+                        if RecSQSOImport."Requested Delivery Date" <> 0D then begin
+                            RecSalesLine.Validate("Requested Delivery Date_1", RecSQSOImport."Requested Delivery Date");
+                        end;
+                        if RecSQSOImport."Shipment Date" <> 0D then begin
+                            RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
+                        end;
+                        RecSalesLine.Modify();
                     end;
-                    if RecSQSOImport."Requested Delivery Date" <> 0D then begin
-                        RecSalesLine.Validate("Requested Delivery Date_1", RecSQSOImport."Requested Delivery Date");
-                    end;
-                    if RecSQSOImport."Shipment Date" <> 0D then begin
-                        RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
-                    end;
-                    RecSalesLine.Modify(true);
+                    RecSalesHeader."Approval Status" := tmpHeaderAppSta;
+                    RecSalesHeader.Modify();
                     RecSQSOImport.Status := RecSQSOImport.Status::Completed;
                     RecSQSOImport.Modify();
                 end;
@@ -274,9 +294,11 @@ codeunit 50115 "SQ&SO Import"
                     else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
                         RecSalesHeader.Validate("Document Type", RecSalesHeader."Document Type"::Order);
                     end;
-                    RecSalesHeader."No." := '';
-                    RecSalesHeader.Insert(true);
-                    RecSalesHeader.VALIDATE("Posting Date", TODAY);
+                    RecSalesHeader.VALIDATE("Posting Date", WorkDate());
+                    RecSalesHeader.TestNoSeries();
+                    RecSalesHeader."No. Series" := RecSalesHeader.GetNoSeriesCode();
+                    RecSalesHeader."No." := NoSeriesMgt.GetNextNo(RecSalesHeader."No. Series", RecSalesHeader."Posting Date");
+                    //RecSalesHeader.Insert(true);
                     RecSalesHeader.Validate("Sell-to Customer No.", RecSQSOImport."Customer No.");
                     RecSalesHeader.Validate("Bill-to Customer No.", RecSQSOImport."Customer No.");
                     RecSalesHeader.Validate("External Document No.", RecSQSOImport."Customer Order No.");
@@ -286,7 +308,7 @@ codeunit 50115 "SQ&SO Import"
                         RecSalesHeader.Validate("Order Date", RecSQSOImport."Order Date");
                     end
                     else begin
-                        RecSalesHeader."Order Date" := TODAY;
+                        RecSalesHeader."Order Date" := WorkDate();
                     end;
                     if (RecSQSOImport."Requested Delivery Date" <> 0D) then begin
                         RecSalesHeader.Validate("Requested Delivery Date", RecSQSOImport."Requested Delivery Date");
@@ -296,21 +318,26 @@ codeunit 50115 "SQ&SO Import"
                             RecSalesHeader.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                         end;
                     END;
-                    RecSalesHeader.Modify(true);
-                    //Must to insert the SO before set the order date and some other fields.
+                    //RecSalesHeader.Modify(true);
+                    RecSalesHeader.Insert();
                     RecTmpSQSOImportInsert.Reset();
                     RecTmpSQSOImportInsert.Init();
                     RecTmpSQSOImportInsert.TransferFields(RecSQSOImport);
                     RecTmpSQSOImportInsert."Document No." := RecSalesHeader."No.";
                     RecTmpSQSOImportInsert.Insert();
                 end;
+                RecSalesHeader.Reset();
+                Clear(RecSalesHeader);
                 RecSalesLine.Reset();
                 if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
+                    RecSalesHeader.SetRange("Document Type", RecSalesHeader."Document Type"::Quote);
                     RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Quote);
                 end
                 else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
+                    RecSalesHeader.SetRange("Document Type", RecSalesHeader."Document Type"::Order);
                     RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Order);
                 end;
+                RecSalesHeader.SetRange("No.", RecTmpSQSOImportInsert."Document No.");
                 RecSalesLine.SetRange("Document No.", RecTmpSQSOImportInsert."Document No.");
                 if RecSalesLine.FindLast() then begin
                     LineNo := RecSalesLine."Line No.";
@@ -319,6 +346,10 @@ codeunit 50115 "SQ&SO Import"
                     LineNo := 0;
                 end;
                 LineNo += 10000;
+                RecSalesHeader.FindFirst();
+                tmpHeaderAppSta := RecSalesHeader."Approval Status";
+                RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::Required;
+                RecSalesHeader.Modify();
                 RecSalesLine.Reset();
                 Clear(RecSalesLine);
                 RecSalesLine.Init();
@@ -345,6 +376,8 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 RecSalesLine.Insert(true);
                 InsertExtendedText(RecSalesLine, true);
+                RecSalesHeader."Approval Status" := tmpHeaderAppSta;
+                RecSalesHeader.Modify();
                 /*RecExtTextHeader.Reset();
                 RecExtTextHeader.SetRange("Table Name", RecExtTextHeader."Table Name"::Item);
                 RecExtTextHeader.SetRange("No.", RecSQSOImport."Item No.");
@@ -393,7 +426,9 @@ codeunit 50115 "SQ&SO Import"
         RecSQSOImport.DeleteAll();
     end;
 
-    procedure InsertExtendedText(var RecSalesLine: record "Sales Line"; Unconditionally: Boolean): Boolean
+    procedure InsertExtendedText(var
+                                     RecSalesLine: record "Sales Line";
+                                     Unconditionally: Boolean): Boolean
     var
         TransferExtendedText: Codeunit "Transfer Extended Text";
     begin
