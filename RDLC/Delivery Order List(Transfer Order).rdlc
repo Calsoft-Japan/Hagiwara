@@ -2931,11 +2931,7 @@
                                       <DataElementName>Detail</DataElementName>
                                     </Group>
                                     <TablixMembers>
-                                      <TablixMember>
-                                        <Visibility>
-                                          <Hidden>=IIF(Fields!Out_qty.Value &gt; 0,False,True)</Hidden>
-                                        </Visibility>
-                                      </TablixMember>
+                                      <TablixMember />
                                       <TablixMember />
                                     </TablixMembers>
                                     <DataElementName>Detail_Collection</DataElementName>

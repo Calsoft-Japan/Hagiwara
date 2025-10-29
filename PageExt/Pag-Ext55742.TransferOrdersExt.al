@@ -249,7 +249,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                             TransferLine.Reset();
                             TransferLine.SetRange("Transfer-from Code", TempTransferHeader."Transfer-from Code");
                             TransferLine.SetRange("Transfer-to Code", TempTransferHeader."Transfer-to Code");
-                            TransferLine.SetFilter("Outstanding Quantity", '>0');
+                            //TransferLine.SetFilter("Outstanding Quantity", '>0');
 
                             //SalesLine.SetRange("Shortcut Dimension 1 Code", Customer."Global Dimension 1 Filter");
                             //SalesLine.SetRange("Shortcut Dimension 2 Code", Customer."Global Dimension 2 Filter");

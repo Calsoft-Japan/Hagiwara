@@ -212,8 +212,8 @@ report 50045 "DeliveryOrderListTransferOrder"
             {
                 DataItemLink = "Transfer-from Code" = FIELD("Transfer-from Code"),
                                 "Transfer-to Code" = FIELD("Transfer-to Code");
-                DataItemTableView = SORTING("Shipment Date")
-                                    WHERE("Outstanding Quantity" = FILTER(> 0));
+                DataItemTableView = SORTING("Shipment Date");
+                //WHERE("Outstanding Quantity" = FILTER(> 0));
                 RequestFilterFields = "Shipment Date";
                 RequestFilterHeading = 'Transfer Line';
 
