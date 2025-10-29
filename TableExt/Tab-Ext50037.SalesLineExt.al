@@ -536,18 +536,19 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                         or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                             ) then begin
                         SalesHeader := Rec.GetSalesHeader();
-                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
-                                Enum::"Hagiwara Approval Status"::"Auto Approved",
-                                Enum::"Hagiwara Approval Status"::"Re-Approval Required",
-                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
-                                Enum::"Hagiwara Approval Status"::"Submitted",
-                                Enum::"Hagiwara Approval Status"::"Auto Approved"]
-                                then begin
-                            Error('Can''t update Quantity because of the current approval status.');
+                        if not SalesHeader.InApproving then begin
+                            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                    Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                    Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                    then begin
+                                Error('Can''t update Quantity because of the current approval status.');
+                            end;
                         end;
                     end;
                 end;
-
             end;
 
             trigger OnAfterValidate()
@@ -600,7 +601,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                 recApprSetup: Record "Hagiwara Approval Setup";
                 updated: Boolean;
             begin
-
                 if xRec."Unit Price" <> Rec."Unit Price" then begin
                     recApprSetup.Get();
                     if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
@@ -608,18 +608,19 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                         or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                             ) then begin
                         SalesHeader := Rec.GetSalesHeader();
-                        if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
-                                Enum::"Hagiwara Approval Status"::"Auto Approved",
-                                Enum::"Hagiwara Approval Status"::"Re-Approval Required",
-                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
-                                Enum::"Hagiwara Approval Status"::"Submitted",
-                                Enum::"Hagiwara Approval Status"::"Auto Approved"]
-                                then begin
-                            Error('Can''t update Unit Price because of the current approval status.');
+                        if not SalesHeader.InApproving then begin
+                            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                    Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                    Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                    then begin
+                                Error('Can''t update Unit Price because of the current approval status.');
+                            end;
                         end;
                     end;
                 end;
-
             end;
         }
 
@@ -645,8 +646,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
             SalesHeader := Rec.GetSalesHeader();
-            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
+            if not SalesHeader.InApproving then begin
+                if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                    Error('Can''t edit this data because of it''s submitted for approval.');
+                end;
             end;
         end;
         //N005 End

@@ -308,6 +308,8 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        SalesLine: Record "Sales Line";
+        SalesLineUpdated: Boolean;
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -417,6 +419,36 @@ codeunit 50109 "Hagiwara Approval Management"
                     recApprEntry.Status,
                     recApprEntry.GetComment()
                 );
+
+                case pData of
+                    Enum::"Hagiwara Approval Data"::"Sales Order":
+                        begin
+                            SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                            SalesHeader.InApproving := true;
+                            SalesHeader.Modify();
+
+                            SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                            SalesLine.SetRange("Document No.", pDataNo);
+                            if SalesLine.FindSet() then
+                                repeat
+                                    SalesLineUpdated := false;
+                                    if SalesLine.Quantity <> SalesLine."Quantity to Update" then begin
+                                        SalesLine.Validate(Quantity, SalesLine."Quantity to Update");
+                                        SalesLineUpdated := true;
+                                    end;
+                                    if SalesLine."Unit Price" <> SalesLine."Unit Price to Update" then begin
+                                        SalesLine.Validate("Unit Price", SalesLine."Unit Price to Update");
+                                        SalesLineUpdated := true;
+                                    end;
+                                    if SalesLineUpdated then begin
+                                        SalesLine.Modify(true);
+                                    end;
+                                until SalesLine.next() = 0;
+
+                            SalesHeader.InApproving := false;
+                            SalesHeader.Modify();
+                        end;
+                end;
             end else begin
                 //if no next approver, change the status of the data to Approved.
                 case pData of
