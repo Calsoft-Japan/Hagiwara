@@ -210,6 +210,7 @@ codeunit 50116 "PO Import"
         RecPurchaseLine: Record "Purchase Line";
         RecItem: Record Item;
         RecPurchaseLineNo: Integer;
+        tmpHeaderAppSta: Enum "Hagiwara Approval Status";
         TmpReqRecDate1: Date;
     begin
         RecPOImportInsert.Reset();
@@ -225,6 +226,9 @@ codeunit 50116 "PO Import"
                     if RecPurchaseHeader.FindFirst() then begin
                         if RecPurchaseHeader.Status = RecPurchaseHeader.Status::Released then
                             ReleasePurchDoc.PerformManualReopen(RecPurchaseHeader);
+                        tmpHeaderAppSta := RecPurchaseHeader."Approval Status";
+                        RecPurchaseHeader."Approval Status" := RecPurchaseHeader."Approval Status"::Required;
+                        RecPurchaseHeader.Modify();
 
                         RecPurchaseLine.Reset();
                         RecPurchaseLine.SetRange("Document Type", RecPurchaseLine."Document Type"::Order);
@@ -244,10 +248,12 @@ codeunit 50116 "PO Import"
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", TmpReqRecDate1);//The data
                             end;
                             RecPurchaseLine.Modify();
-
-                            RecPOImportInsert.Status := RecPOImportInsert.Status::Completed;
-                            RecPOImportInsert.Modify();
                         end;
+                        RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;
+                        RecPurchaseHeader.Modify();
+
+                        RecPOImportInsert.Status := RecPOImportInsert.Status::Completed;
+                        RecPOImportInsert.Modify();
                     end;
                 end else begin //Insert Case
                     RecTmpPOImportInsert.Reset();
