@@ -1,6 +1,7 @@
 table 55723 "Item Group"
 {
     Caption = 'Product Group';
+    LookupPageId = "Product Group";
 
     fields
     {

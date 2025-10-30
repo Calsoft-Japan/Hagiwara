@@ -356,29 +356,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     Enum::"Hagiwara Approval Data"::"Sales Order":
                         begin
                             SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
-                            SalesHeader.InApproving := true;
-                            SalesHeader.Modify();
-
-                            SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
-                            SalesLine.SetRange("Document No.", pDataNo);
-                            if SalesLine.FindSet() then
-                                repeat
-                                    SalesLineUpdated := false;
-                                    if SalesLine.Quantity <> SalesLine."Quantity to Update" then begin
-                                        SalesLine.Validate(Quantity, SalesLine."Quantity to Update");
-                                        SalesLineUpdated := true;
-                                    end;
-                                    if SalesLine."Unit Price" <> SalesLine."Unit Price to Update" then begin
-                                        SalesLine.Validate("Unit Price", SalesLine."Unit Price to Update");
-                                        SalesLineUpdated := true;
-                                    end;
-                                    if SalesLineUpdated then begin
-                                        SalesLine.Modify(true);
-                                    end;
-                                until SalesLine.next() = 0;
-
                             SalesHeader."Hagi Approver" := nextApprover;
-                            SalesHeader.InApproving := false;
                             SalesHeader.Modify();
                         end;
 
@@ -449,6 +427,30 @@ codeunit 50109 "Hagiwara Approval Management"
                     Enum::"Hagiwara Approval Data"::"Sales Order":
                         begin
                             SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                            if SalesHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
+                                SalesHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
+                                SalesHeader.Modify();
+
+                                SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                                SalesLine.SetRange("Document No.", pDataNo);
+                                if SalesLine.FindSet() then
+                                    repeat
+                                        SalesLineUpdated := false;
+                                        if SalesLine.Quantity <> SalesLine."Quantity to Update" then begin
+                                            SalesLine.Validate(Quantity, SalesLine."Quantity to Update");
+                                            SalesLineUpdated := true;
+                                        end;
+                                        if SalesLine."Unit Price" <> SalesLine."Unit Price to Update" then begin
+                                            SalesLine.Validate("Unit Price", SalesLine."Unit Price to Update");
+                                            SalesLineUpdated := true;
+                                        end;
+                                        if SalesLineUpdated then begin
+                                            SalesLine.Modify(true);
+                                        end;
+                                    until SalesLine.next() = 0;
+                                SalesHeader.InApproving := false;
+                            end;
+
                             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             SalesHeader.Modify();
                         end;
