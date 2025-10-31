@@ -255,8 +255,8 @@ table 50118 "Item Import Line"
         }
         field(63; "Action"; Option)
         {
-            OptionCaption = ', Create, Update';
-            OptionMembers = "",Create,Update;
+            OptionCaption = ' , Create, Update';
+            OptionMembers = " ",Create,Update;
         }
     }
 

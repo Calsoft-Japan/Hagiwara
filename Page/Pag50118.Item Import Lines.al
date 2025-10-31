@@ -340,7 +340,7 @@ page 50118 "Item Import Lines"
                                 CheckError(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
 
-                        Message('Verification finished.');
+                        Message('Validation finished.');
                     end;
                 }
                 action("Carry Out")
@@ -382,7 +382,12 @@ page 50118 "Item Import Lines"
                                 ExecuteProcess(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
 
-                        Message('Items are created or updated.');
+                        // delete all
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
+                        ItemImportline.DELETEALL;
+
+                        Message('Carry out finished.');
                     end;
                 }
                 action("Delete All")
