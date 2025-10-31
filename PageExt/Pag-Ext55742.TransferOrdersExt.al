@@ -151,7 +151,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     CustList: List of [text];
                     SetCustList: Text;
                     ListText: Text;
-                    PartsNo: Text[20];
+                    PartsNo: Text[40];
                     CustomerItemNo: Code[20];
                     Rank: Code[15];
                     OEMName: Text[100];
@@ -230,18 +230,15 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                             end;
 
                             IF TempTransferHeader."Transfer-to Code" <> '' THEN BEGIN
+                                TransfertoName := TempTransferHeader."Transfer-to Name";
+                                TransfertoAdd1 := TempTransferHeader."Transfer-to Address";
+                                TransfertoAdd2 := TempTransferHeader."Transfer-to Address 2" + ' ' + TempTransferHeader."Transfer-to City" + ' ' + TempTransferHeader."Transfer-to Post Code";
+                                TransfertoAttn := TempTransferHeader."Transfer-to Contact";
                                 Location.Reset();
-                                Location.SETRANGE(Code, TempTransferHeader."Transfer-from Code");
+                                Location.SETRANGE(Code, TempTransferHeader."Transfer-to Code");
                                 IF Location.FIND('-') THEN begin
-                                    TransfertoName := Location.Name;
-                                    TransfertoAdd1 := Location.Address;
-                                    TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
-                                    TransfertoCity := Location.City;
-                                    TransfertoPostCode := Location."Post Code";
-                                    TransfertoAttn := Location.Contact;
                                     TransfertoTel := Location."Phone No.";
                                     TransfertoFax := Location."Fax No.";
-                                    TransfertoCounty := Location.County;
                                 end;
                             END;
                             // YUKA for Hagiwara 20050404
@@ -249,7 +246,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                             TransferLine.Reset();
                             TransferLine.SetRange("Transfer-from Code", TempTransferHeader."Transfer-from Code");
                             TransferLine.SetRange("Transfer-to Code", TempTransferHeader."Transfer-to Code");
-                            //TransferLine.SetFilter("Outstanding Quantity", '>0');
+                            TransferLine.SetFilter("Outstanding Quantity", '>0');
 
                             //SalesLine.SetRange("Shortcut Dimension 1 Code", Customer."Global Dimension 1 Filter");
                             //SalesLine.SetRange("Shortcut Dimension 2 Code", Customer."Global Dimension 2 Filter");
