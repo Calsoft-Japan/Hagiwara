@@ -538,6 +538,7 @@ page 50118 "Item Import Lines"
         item.Validate("Sales Unit of Measure", p_ItemImportline."Sales Unit of Measure");
         item.Validate("Purch. Unit of Measure", p_ItemImportline."Purchase Unit of Measure");
         item.Validate("Price/Profit Calculation", p_ItemImportline."Price/Profit Calculation");
+        item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
         item.Validate("Lead Time Calculation", p_ItemImportline."Lead Time Calculation");
         item.Validate("Tariff No.", p_ItemImportline."Tariff No.");
         item.Validate(Reserve, p_ItemImportline."Reserve");
@@ -569,7 +570,6 @@ page 50118 "Item Import Lines"
         item.Validate("Customer Item No.", p_ItemImportline."Customer Item No.");
         item.Validate("Customer Item No.(Plain)", p_ItemImportline."Customer Item No. (Plain)");
         item.Validate("OEM No.", p_ItemImportline."OEM No.");
-        item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
         item.Validate("Item Supplier Source", p_ItemImportline."Item Supplier Source");
         item.Validate("Vendor Item No.", p_ItemImportline."Vendor Item No.");
         item.Validate("Lot Size", p_ItemImportline."Lot Size");
