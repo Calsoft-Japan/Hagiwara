@@ -314,6 +314,10 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
             {
                 ApplicationArea = all;
             }
+            field("Lot Size2"; Rec."Lot Size")
+            {
+                ApplicationArea = all;
+            }
         }
 
         addafter("Net Invoiced Qty.")
@@ -391,6 +395,29 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
             {
                 ApplicationArea = all;
                 Caption = 'Last Update Doc. No.';
+            }
+        }
+
+        addafter("Tariff No.")
+        {
+            field("Country/Region of Org Cd (FE)"; Rec."Country/Region of Org Cd (FE)")
+            {
+                ApplicationArea = all;
+            }
+        }
+        addafter("Country/Region of Origin Code")
+        {
+            field("Markup%"; Rec."Markup%")
+            {
+                ApplicationArea = all;
+            }
+            field("Markup%(Sales Price)"; Rec."Markup%(Sales Price)")
+            {
+                ApplicationArea = all;
+            }
+            field("Markup%(Purchase Price)"; Rec."Markup%(Purchase Price)")
+            {
+                ApplicationArea = all;
             }
         }
 
