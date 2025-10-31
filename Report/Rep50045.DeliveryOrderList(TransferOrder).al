@@ -212,8 +212,8 @@ report 50045 "DeliveryOrderListTransferOrder"
             {
                 DataItemLink = "Transfer-from Code" = FIELD("Transfer-from Code"),
                                 "Transfer-to Code" = FIELD("Transfer-to Code");
-                DataItemTableView = SORTING("Shipment Date");
-                //WHERE("Outstanding Quantity" = FILTER(> 0));
+                DataItemTableView = SORTING("Shipment Date")
+                                    WHERE("Outstanding Quantity" = FILTER(> 0));
                 RequestFilterFields = "Shipment Date";
                 RequestFilterHeading = 'Transfer Line';
 
@@ -439,18 +439,18 @@ report 50045 "DeliveryOrderListTransferOrder"
                 end;
 
                 IF "Transfer Header"."Transfer-to Code" <> '' THEN BEGIN
+                    TransfertoName := "Transfer Header"."Transfer-to Name";
+                    TransfertoAdd1 := "Transfer Header"."Transfer-to Address";
+                    TransfertoAdd2 := "Transfer Header"."Transfer-to Address 2" + ' ' + "Transfer Header"."Transfer-to City" + ' ' + "Transfer Header"."Transfer-to Post Code";
+                    //TransfertoCity := "Transfer Header"."Transfer-to City";
+                    //TransfertoPostCode := "Transfer Header"."Transfer-to Post Code";
+                    TransfertoAttn := "Transfer Header"."Transfer-to Contact";
                     Location.Reset();
-                    Location.SETRANGE(Code, "Transfer Header"."Transfer-from Code");
+                    Location.SETRANGE(Code, "Transfer Header"."Transfer-to Code");
                     IF Location.FIND('-') THEN begin
-                        TransfertoName := Location.Name;
-                        TransfertoAdd1 := Location.Address;
-                        TransfertoAdd2 := Location."Address 2" + ' ' + Location.City + ' ' + Location."Post Code";
-                        TransfertoCity := Location.City;
-                        TransfertoPostCode := Location."Post Code";
-                        TransfertoAttn := Location.Contact;
                         TransfertoTel := Location."Phone No.";
                         TransfertoFax := Location."Fax No.";
-                        TransfertoCounty := Location.County;
+                        //TransfertoCounty := Location.County;
                     end;
                 END;
 
@@ -704,6 +704,7 @@ report 50045 "DeliveryOrderListTransferOrder"
         RsvRec: Record "Reservation Entry";
         RsvQty: Decimal;
         QtyUnassigned: Decimal;
+        RecItemLedgerEntry: Record "Item Ledger Entry";
     begin
         WorkRec.DELETEALL;
         IF "Transfer Line".FIND('-') THEN BEGIN
@@ -714,9 +715,11 @@ report 50045 "DeliveryOrderListTransferOrder"
                 WorkRec."Document No." := "Transfer Line"."Document No.";
                 WorkRec."Line No." := "Transfer Line"."Line No.";
                 WorkRec.Quantity := "Transfer Line".Quantity - "Transfer Line"."Quantity Shipped";
+                "Transfer Header".Get("Transfer Line"."Document No.");
+                //bobby 10/31/2025 begin
                 //WorkRec.Location := "Transfer Line"."Location Code";
                 //v20210126 Start
-                RsvQty := 0;
+                /*RsvQty := 0;
                 RsvRec.SETCURRENTKEY("Source ID", "Source Ref. No.", "Source Type", "Source Subtype");
                 RsvRec.SETRANGE("Source ID", "Transfer Line"."Document No.");
                 RsvRec.SETRANGE("Source Ref. No.", "Transfer Line"."Line No.");
@@ -728,6 +731,17 @@ report 50045 "DeliveryOrderListTransferOrder"
                         RsvQty += RsvRec.Quantity * (-1);
                     UNTIL RsvRec.NEXT = 0;
                 END;
+                */
+                RsvQty := 0;
+                RecItemLedgerEntry.Reset();
+                RecItemLedgerEntry.SetRange("Item No.", "Transfer Line"."Item No.");
+                RecItemLedgerEntry.SetRange("Location Code", "Transfer Header"."Transfer-from Code");
+                if RecItemLedgerEntry.FindSet() then begin
+                    REPEAT
+                        RsvQty += RecItemLedgerEntry."Remaining Quantity";
+                    UNTIL RecItemLedgerEntry.NEXT = 0;
+                end;
+                //bobby 10/31/2025 end
                 //WorkRec."Reserved Qty" := "Sales Line"."Reserved Quantity";
                 WorkRec."Reserved Qty" := RsvQty;
                 //IF "Sales Line"."Reserved Quantity" <> 0 THEN BEGIN
