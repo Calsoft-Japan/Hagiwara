@@ -119,6 +119,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     ItemRec: Record Item;
                     TransferHeader: Record "Transfer Header";
                     TempTransferHeader: Record "Transfer Header" temporary;
+                    RecTransferHeader: Record "Transfer Header";
                     TransferLine: Record "Transfer Line";
                     ItemType: Text[30];
                     CountryOfOrigin: Code[10];
@@ -137,12 +138,12 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     Attn2: Text[40];
                     CC: Text[40];
                     TempBlob: Codeunit "Temp Blob";
-                    TransfertoAdd1: Text[50];
+                    TransfertoAdd1: Text[100];
                     TransfertoAdd2: Text[100];
-                    TransfertoAttn: Text[50];
+                    TransfertoAttn: Text[100];
                     TransfertoTel: Text[30];
                     TransfertoFax: Text[30];
-                    TransfertoName: Text[50];
+                    TransfertoName: Text[100];
                     TransfertoCity: Text[30];
                     TransfertoPostCode: Code[20];
                     TransfertoCounty: Text[30];
@@ -208,39 +209,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     TempTransferHeader.Reset();
                     if TempTransferHeader.FindFirst() then begin
                         repeat
-                            Attn1 := '';
-                            Attn2 := '';
-                            CC := '';
-                            TransfertoName := '';
-                            TransfertoAdd1 := '';
-                            TransfertoAdd2 := '';
-                            TransfertoCity := '';
-                            TransfertoPostCode := '';
-                            TransfertoTel := '';
-                            TransfertoFax := '';
-                            TransfertoCounty := '';
-                            IF TempTransferHeader."Transfer-from Code" <> '' THEN BEGIN
-                                Location.Reset();
-                                Location.SETRANGE(Code, TempTransferHeader."Transfer-from Code");
-                                IF Location.FIND('-') THEN begin
-                                    Attn1 := Location.Attention1;
-                                    Attn2 := Location.Attention2;
-                                    CC := Location.CC;
-                                end;
-                            end;
 
-                            IF TempTransferHeader."Transfer-to Code" <> '' THEN BEGIN
-                                TransfertoName := TempTransferHeader."Transfer-to Name";
-                                TransfertoAdd1 := TempTransferHeader."Transfer-to Address";
-                                TransfertoAdd2 := TempTransferHeader."Transfer-to Address 2" + ' ' + TempTransferHeader."Transfer-to City" + ' ' + TempTransferHeader."Transfer-to Post Code";
-                                TransfertoAttn := TempTransferHeader."Transfer-to Contact";
-                                Location.Reset();
-                                Location.SETRANGE(Code, TempTransferHeader."Transfer-to Code");
-                                IF Location.FIND('-') THEN begin
-                                    TransfertoTel := Location."Phone No.";
-                                    TransfertoFax := Location."Fax No.";
-                                end;
-                            END;
                             // YUKA for Hagiwara 20050404
 
                             TransferLine.Reset();
@@ -253,6 +222,44 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
 
                             if TransferLine.FindFirst() then begin
                                 repeat
+                                    Attn1 := '';
+                                    Attn2 := '';
+                                    CC := '';
+                                    TransfertoName := '';
+                                    TransfertoAdd1 := '';
+                                    TransfertoAdd2 := '';
+                                    TransfertoCity := '';
+                                    TransfertoPostCode := '';
+                                    TransfertoTel := '';
+                                    TransfertoFax := '';
+                                    TransfertoCounty := '';
+                                    RecTransferHeader.Get(TransferLine."Document No.");
+                                    IF RecTransferHeader."Transfer-from Code" <> '' THEN BEGIN
+                                        Location.Reset();
+                                        Location.SETRANGE(Code, RecTransferHeader."Transfer-from Code");
+                                        IF Location.FIND('-') THEN begin
+                                            Attn1 := Location.Attention1;
+                                            Attn2 := Location.Attention2;
+                                            CC := Location.CC;
+                                        end;
+                                    end;
+
+                                    IF RecTransferHeader."Transfer-to Code" <> '' THEN BEGIN
+                                        TransfertoName := RecTransferHeader."Transfer-to Name";
+                                        TransfertoAdd1 := RecTransferHeader."Transfer-to Address";
+                                        TransfertoAdd2 := RecTransferHeader."Transfer-to Address 2";
+                                        TransfertoCity := RecTransferHeader."Transfer-to City";
+                                        TransfertoPostCode := RecTransferHeader."Transfer-to Post Code";
+                                        TransfertoAttn := RecTransferHeader."Transfer-to Contact";
+
+                                        Location.Reset();
+                                        Location.SETRANGE(Code, RecTransferHeader."Transfer-to Code");
+                                        IF Location.FIND('-') THEN begin
+                                            TransfertoCounty := Location.County;
+                                            TransfertoTel := Location."Phone No.";
+                                            TransfertoFax := Location."Fax No.";
+                                        end;
+                                    END;
                                     // YUKA for Hagiwara 20030219 - END
                                     ItemRec.RESET;
                                     IF TransferLine."Document No." <> '' THEN BEGIN
@@ -292,10 +299,8 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
 
                                     TotalQtyToShip += QtyToShip;
 
-
-
                                     LineNo += 1;
-                                    CSVBuffer.InsertEntry(LineNo, 1, TempTransferHeader."Transfer-from Code");
+                                    CSVBuffer.InsertEntry(LineNo, 1, RecTransferHeader."Transfer-from Code");
                                     CSVBuffer.InsertEntry(LineNo, 2, '"' + Attn1.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 3, '"' + Attn2.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 4, '"' + CC.replace('"', '""') + '"');
@@ -323,7 +328,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                                     CSVBuffer.InsertEntry(LineNo, 26, '"' + TransfertoName.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 27, '"' + TransfertoCounty.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 28, CountryOfOrigin);
-                                    CSVBuffer.InsertEntry(LineNo, 29, TempTransferHeader."Shipment Method Code");
+                                    CSVBuffer.InsertEntry(LineNo, 29, RecTransferHeader."Shipment Method Code");
                                     CSVBuffer.InsertEntry(LineNo, 30, '"' + CompanyInfo.Name.replace('"', '""') + '"');
 
 
