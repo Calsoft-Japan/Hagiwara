@@ -37,6 +37,76 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         {
             Description = '//20180109 by SS';
         }
+        field(50091; "Quantity to Update"; Decimal)
+        {
+            //N005
+            DecimalPlaces = 0 : 5;
+            trigger OnValidate()
+            var
+                PurchHeader: Record "Purchase Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+
+                if xRec."Quantity to Update" <> Rec."Quantity to Update" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+
+                        PurchHeader := Rec.GetPurchHeader();
+                        if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                            PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Re-Approval Required";
+                            PurchHeader.Modify();
+                            updated := true;
+                        end else if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::"Re-Approval Required"] then begin
+                            updated := true;
+                        end;
+                    end;
+                end;
+
+                if not updated then begin
+                    Error('This data has not been approved.');
+                end;
+            end;
+
+        }
+        field(50092; "Unit Cost to Update"; Decimal)
+        {
+            //N005
+            AutoFormatExpression = Rec."Currency Code";
+            AutoFormatType = 2;
+            trigger OnValidate()
+            var
+                PurchHeader: Record "Purchase Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+                if xRec."Unit Cost to Update" <> Rec."Unit Cost to Update" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+
+                        PurchHeader := Rec.GetPurchHeader();
+                        if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                            PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Re-Approval Required";
+                            PurchHeader.Modify();
+                            updated := true;
+                        end else if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::"Re-Approval Required"] then begin
+                            updated := true;
+                        end;
+                    end;
+                end;
+
+                if not updated then begin
+                    Error('This data has not been approved.');
+                end;
+            end;
+
+        }
         field(50100; "ORE Message Status"; Option)
         {
             Description = 'CS060';
@@ -286,6 +356,36 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         }
         modify(Quantity)
         {
+            //N005
+            trigger OnBeforeValidate()
+            var
+                PurchHeader: Record "Purchase Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+
+                if xRec."Quantity" <> Rec."Quantity" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+                        PurchHeader := Rec.GetPurchHeader();
+                        if not PurchHeader.InApproving then begin
+                            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                    Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                    Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                    then begin
+                                Error('Can''t update Quantity because of the current approval status.');
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+
             trigger OnAfterValidate()
             var
                 InvtSetup: Record "Inventory Setup";
@@ -319,6 +419,39 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
 
             end;
         }
+
+        modify("Unit Cost")
+        {
+            //N005
+            trigger OnBeforeValidate()
+            var
+                PurchHeader: Record "Purchase Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+                updated: Boolean;
+            begin
+                if xRec."Unit Cost" <> Rec."Unit Cost" then begin
+                    recApprSetup.Get();
+                    if ((recApprSetup."Purchase Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                        or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                        or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                            ) then begin
+                        PurchHeader := Rec.GetPurchHeader();
+                        if not PurchHeader.InApproving then begin
+                            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved,
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved",
+                                    Enum::"Hagiwara Approval Status"::"Re-Approval Required",
+                                    Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Submitted",
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]
+                                    then begin
+                                Error('Can''t update Unit Price because of the current approval status.');
+                            end;
+                        end;
+                    end;
+                end;
+            end;
+        }
+
     }
 
     trigger OnBeforeModify()
@@ -334,8 +467,10 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
             PurchHeader := Rec.GetPurchHeader();
-            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
+            if not PurchHeader.InApproving then begin
+                if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                    Error('Can''t edit this data because of it''s submitted for approval.');
+                end;
             end;
         end;
         //N005 End

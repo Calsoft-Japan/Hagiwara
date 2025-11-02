@@ -296,8 +296,7 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
-    procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20];
-                                 pUsername: Code[50])
+    procedure Approve(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
     var
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
         recApprEntry: Record "Hagiwara Approval Entry";
@@ -310,6 +309,8 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         SalesLine: Record "Sales Line";
         SalesLineUpdated: Boolean;
+        PurchLine: Record "Purchase Line";
+        PurchLineUpdated: Boolean;
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -469,6 +470,30 @@ codeunit 50109 "Hagiwara Approval Management"
                     Enum::"Hagiwara Approval Data"::"Purchase Order":
                         begin
                             PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                            if PurchHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
+                                PurchHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
+                                PurchHeader.Modify();
+
+                                PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
+                                PurchLine.SetRange("Document No.", pDataNo);
+                                if PurchLine.FindSet() then
+                                    repeat
+                                        PurchLineUpdated := false;
+                                        if PurchLine.Quantity <> PurchLine."Quantity to Update" then begin
+                                            PurchLine.Validate(Quantity, PurchLine."Quantity to Update");
+                                            PurchLineUpdated := true;
+                                        end;
+                                        if PurchLine."Direct Unit Cost" <> PurchLine."Unit Cost to Update" then begin
+                                            PurchLine.Validate("Direct Unit Cost", PurchLine."Unit Cost to Update");
+                                            PurchLineUpdated := true;
+                                        end;
+                                        if PurchLineUpdated then begin
+                                            PurchLine.Modify(true);
+                                        end;
+                                    until PurchLine.next() = 0;
+                                PurchHeader.InApproving := false;
+                            end;
+
                             PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             PurchHeader.Modify();
                         end;

@@ -202,6 +202,11 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
             Caption = 'Approver';
             Editable = false;
         }
+        field(50094; "InApproving"; Boolean)
+        {
+            //add this field to indicate some modification is under approving process.
+            Editable = false;
+        }
 
         modify("Buy-from Vendor No.")
         {
@@ -258,8 +263,10 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
             or (recApprSetup."Purchase Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
             or (recApprSetup."Purchase Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
+            if not InApproving then begin
+                if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                    Error('Can''t edit this data because of it''s submitted for approval.');
+                end;
             end;
         end;
         //N005 End
