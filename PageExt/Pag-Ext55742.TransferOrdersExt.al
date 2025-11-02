@@ -147,6 +147,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                     TransfertoCity: Text[30];
                     TransfertoPostCode: Code[20];
                     TransfertoCounty: Text[30];
+                    TransfertoCountryRegion: Code[10];
                     Customer: Record Customer;
                     CompanyInfo: Record "Company Information";
                     CustList: List of [text];
@@ -251,7 +252,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                                         TransfertoCity := RecTransferHeader."Transfer-to City";
                                         TransfertoPostCode := RecTransferHeader."Transfer-to Post Code";
                                         TransfertoAttn := RecTransferHeader."Transfer-to Contact";
-
+                                        TransfertoCountryRegion := RecTransferHeader."Trsf.-to Country/Region Code";
                                         Location.Reset();
                                         Location.SETRANGE(Code, RecTransferHeader."Transfer-to Code");
                                         IF Location.FIND('-') THEN begin
@@ -327,7 +328,7 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                                     CSVBuffer.InsertEntry(LineNo, 25, Format(TransferLine."Line No."));
                                     CSVBuffer.InsertEntry(LineNo, 26, '"' + TransfertoName.replace('"', '""') + '"');
                                     CSVBuffer.InsertEntry(LineNo, 27, '"' + TransfertoCounty.replace('"', '""') + '"');
-                                    CSVBuffer.InsertEntry(LineNo, 28, CountryOfOrigin);
+                                    CSVBuffer.InsertEntry(LineNo, 28, TransfertoCountryRegion);
                                     CSVBuffer.InsertEntry(LineNo, 29, RecTransferHeader."Shipment Method Code");
                                     CSVBuffer.InsertEntry(LineNo, 30, '"' + CompanyInfo.Name.replace('"', '""') + '"');
 
