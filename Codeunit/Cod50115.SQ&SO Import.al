@@ -14,7 +14,7 @@ codeunit 50115 "SQ&SO Import"
         SheetName: Text[100];
 
         ImportExcelBuffer: Record "Excel Buffer" temporary;
-        UploadDialogCaption: Label 'Please Choose the SQ&&SO Import Excel file.';
+        UploadDialogCaption: Label 'Please choose the Excel file.';
         NoFileFoundMsg: Label 'No SQ&&SO Import Excel file found!';
         ExcelImportSucess: Label 'SQ&&SO Excel file import finished.';
         ExcelFileEmptyError: Label 'The Excel file do not contains any record Lines.';
@@ -248,7 +248,7 @@ codeunit 50115 "SQ&SO Import"
                     tmpHeaderAppSta := RecSalesHeader."Approval Status";
                     RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::Required;
                     RecSalesHeader.Modify();
-                    Commit();
+                    //Commit();
                     RecSalesLine.Reset();
                     if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
                         RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Quote);
@@ -274,8 +274,11 @@ codeunit 50115 "SQ&SO Import"
                         end;
                         RecSalesLine.Modify();
                     end;
+                    RecSalesHeader.Reset();
+                    RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
                     RecSalesHeader."Approval Status" := tmpHeaderAppSta;
                     RecSalesHeader.Modify();
+                    //Commit();
                     RecSQSOImport.Status := RecSQSOImport.Status::Completed;
                     RecSQSOImport.Modify();
                 end;
@@ -350,6 +353,7 @@ codeunit 50115 "SQ&SO Import"
                 tmpHeaderAppSta := RecSalesHeader."Approval Status";
                 RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::Required;
                 RecSalesHeader.Modify();
+                //Commit();
                 RecSalesLine.Reset();
                 Clear(RecSalesLine);
                 RecSalesLine.Init();
@@ -376,49 +380,19 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 RecSalesLine.Insert(true);
                 InsertExtendedText(RecSalesLine, true);
-                RecSalesHeader."Approval Status" := tmpHeaderAppSta;
-                RecSalesHeader.Modify();
-                /*RecExtTextHeader.Reset();
-                RecExtTextHeader.SetRange("Table Name", RecExtTextHeader."Table Name"::Item);
-                RecExtTextHeader.SetRange("No.", RecSQSOImport."Item No.");
+                RecSalesHeader.Reset();
+                Clear(RecSalesHeader);
                 if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
-                    RecExtTextHeader.SetRange("Sales Quote", true);
+                    RecSalesHeader.SetRange("Document Type", RecSalesHeader."Document Type"::Quote);
                 end
                 else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
-                    RecExtTextHeader.SetRange("Sales Order", true);
+                    RecSalesHeader.SetRange("Document Type", RecSalesHeader."Document Type"::Order);
                 end;
-                RecExtTextHeader.SetFilter("Starting Date", '<=%1', Today());
-                RecExtTextHeader.SetFilter("Ending Date", '>=%1', Today());
-                if not RecExtTextHeader.IsEmpty then begin
-                    RecExtTextHeader.FindSet();
-                    repeat
-                        RecExtTextLine.Reset();
-                        RecExtTextLine.SetRange("Table Name", RecExtTextLine."Table Name"::Item);
-                        RecExtTextLine.SetRange("No.", RecSQSOImport."Item No.");
-                        RecExtTextLine.SetRange("Language Code", RecExtTextHeader."Language Code");
-                        RecExtTextLine.SetRange("Text No.", RecExtTextHeader."Text No.");
-                        if not RecExtTextLine.IsEmpty then begin
-                            RecExtTextLine.FindSet();
-                            repeat
-                                LineNo += 10000;
-                                RecSalesLine.Reset();
-                                Clear(RecSalesLine);
-                                RecSalesLine.SetHideValidationDialog(true);
-                                RecSalesLine.Init();
-                                if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
-                                    RecSalesLine."Document Type" := RecSalesLine."Document Type"::Quote;
-                                end
-                                else if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SO then begin
-                                    RecSalesLine."Document Type" := RecSalesLine."Document Type"::Order;
-                                end;
-                                RecSalesLine."Document No." := RecSQSOImport."Document No.";
-                                RecSalesLine."Line No." := LineNo;
-                                RecSalesLine.Description := RecExtTextLine.Text;
-                                RecSalesLine.Insert();
-                            until RecExtTextLine.Next() = 0;
-                        end;
-                    until RecExtTextHeader.Next() = 0;
-                end;*/
+                RecSalesHeader.SetRange("No.", RecTmpSQSOImportInsert."Document No.");
+                RecSalesHeader.FindFirst();
+                RecSalesHeader."Approval Status" := tmpHeaderAppSta;
+                RecSalesHeader.Modify();
+                //Commit();
                 RecSQSOImport.Status := RecSQSOImport.Status::Completed;
                 RecSQSOImport.Modify();
             end;

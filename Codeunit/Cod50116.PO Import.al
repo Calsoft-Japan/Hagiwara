@@ -14,7 +14,7 @@ codeunit 50116 "PO Import"
         SheetName: Text[100];
 
         ImportExcelBuffer: Record "Excel Buffer" temporary;
-        UploadDialogCaption: Label 'Please Choose the PO Import Excel file.';
+        UploadDialogCaption: Label 'Please choose the Excel file.';
         NoFileFoundMsg: Label 'No PO Import Excel file found!';
         ExcelImportSucess: Label 'PO Excel file import finished.';
         ExcelFileEmptyError: Label 'The Excel file do not contains any record Lines.';
@@ -178,6 +178,7 @@ codeunit 50116 "PO Import"
             RecPOImportInsert."Vendor No." := VendorNoStr;
             RecPOImportInsert."Order Date" := OrderDate;
             RecPOImportInsert."Requested Receipt Date" := RequestedReceiptDate;
+            RecPOImportInsert."CO No." := CONoStr;
             RecPOImportInsert."Item No." := ItemNoStr;
             RecPOImportInsert."Quantity" := Quantity;
             RecPOImportInsert."Insert Comment Line" := InsertCommentLine;
@@ -298,11 +299,11 @@ codeunit 50116 "PO Import"
                     RecPurchaseLine."Document Type" := RecPurchaseHeader."Document Type";
                     RecPurchaseLine."Document No." := RecPurchaseHeader."No.";
                     RecPurchaseLine.Validate("Buy-from Vendor No.", RecPOImportInsert."Vendor No.");
-                    RecPurchaseLine.Validate("CO No.", RecPOImportInsert."CO No.");
                     RecPurchaseLine.Type := RecPurchaseLine.Type::Item;
                     RecPurchaseLine.Validate("No.", RecPOImportInsert."Item No.");
                     RecPurchaseLine.Validate(Quantity, RecPOImportInsert.Quantity);
                     RecPurchaseLine."Line No." := RecPurchaseLineNo;
+                    RecPurchaseLine.Validate("CO No.", RecPOImportInsert."CO No.");
                     if (RecPOImportInsert."Requested Receipt Date" <> 0D) then begin
                         RecPurchaseLine.Validate("Requested Receipt Date_1", RecPOImportInsert."Requested Receipt Date");
                     end;
