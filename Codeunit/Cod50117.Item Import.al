@@ -14,6 +14,8 @@ codeunit 50117 "Item Import"
         UploadExcelMsg: Label 'Please Choose the Excel file.';
         NoFileFoundMsg: Label 'No Excel file found!';
         ExcelImportSucess: Label 'Import finished.';
+        EntryNoNotValid: Label 'The Entry No. is not valid.';
+        EntryNoDuplicated: Label 'The Entry No. is duplicated.';
         G_BatchName: Code[20];
 
     procedure SetBatchName(pBatchName: Code[20])
@@ -45,6 +47,8 @@ codeunit 50117 "Item Import"
         RowNo: Integer;
         ColNo: Integer;
         MaxRowNo: Integer;
+        EntryNoStr: Text;
+        EntryNo: Integer;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -61,8 +65,19 @@ codeunit 50117 "Item Import"
 
         for RowNo := 2 to MaxRowNo do begin
             rec_POInt.Init();
+
+            EntryNoStr := GetValueAtCell(RowNo, 1).Trim();
+
+            if ((EntryNoStr = '') or (not Evaluate(EntryNo, EntryNoStr))) then begin
+                Error(EntryNoNotValid);
+            end;
+
+            if rec_POInt.get(G_BatchName, EntryNo) then begin
+                Error(EntryNoDuplicated);
+            end;
+
             rec_POInt."Batch Name" := G_BatchName;
-            Evaluate(rec_POInt."Entry No.", GetValueAtCell(RowNo, 1));
+            rec_POInt."Entry No." := EntryNo;
             Evaluate(rec_POInt."Type", GetValueAtCell(RowNo, 2));
             Evaluate(rec_POInt."Item No.", GetValueAtCell(RowNo, 3));
             if Evaluate(rec_POInt."Familiar Name", GetValueAtCell(RowNo, 4)) then;
