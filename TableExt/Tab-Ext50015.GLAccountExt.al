@@ -33,5 +33,63 @@ tableextension 50015 "G/L Account Ext" extends "G/L Account"
         {
             Description = 'ACWSH';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
     }
+
+    trigger OnBeforeModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."G/L Account") then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."G/L Account") then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnAfterInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."G/L Account") then begin
+            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+            Rec.Blocked := true;
+        end;
+        //N005 End
+
+        Modify();
+    end;
 }

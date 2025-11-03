@@ -12,6 +12,18 @@ pageextension 50018 GLAccountListExt extends "G/L Account List"
             {
                 ApplicationArea = all;
             }
+            field("Approval Status"; rec."Approval Status")
+            {
+                ApplicationArea = all;
+            }
+            field("Approver"; rec."Hagi Approver")
+            {
+                ApplicationArea = all;
+            }
+            field("Requester"; rec."Requester")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 }

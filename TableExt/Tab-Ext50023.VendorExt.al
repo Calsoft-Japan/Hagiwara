@@ -140,6 +140,19 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         {
             Description = 'CS082';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
         field(60001; "Familiar Name"; Code[20])
         {
             Caption = 'Familiar Name';
@@ -193,4 +206,49 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
 
     }
+
+    trigger OnBeforeModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Vendor) then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Vendor) then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnAfterInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Vendor) then begin
+            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+            Rec.Blocked := Rec.Blocked::All;
+        end;
+        //N005 End
+
+        Modify();
+    end;
 }
