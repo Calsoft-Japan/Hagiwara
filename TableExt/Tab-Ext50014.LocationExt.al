@@ -11,6 +11,10 @@ tableextension 50014 "Location Ext" extends "Location"
         {
             Description = 'CS038';
         }
+        field(50091; "Approval Target"; Boolean)
+        {
+            InitValue = true;
+        }
         field(59001; Attention1; Text[20])
         {
             // cleaned

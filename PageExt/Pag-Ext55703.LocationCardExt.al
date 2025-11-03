@@ -33,6 +33,10 @@ pageextension 55703 LocationCardExt extends "Location Card"
             {
                 ApplicationArea = all;
             }
+            field("Approval Target"; Rec."Approval Target")
+            {
+                ApplicationArea = all;
+            }
 
         }
     }

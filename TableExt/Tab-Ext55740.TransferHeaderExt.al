@@ -20,6 +20,7 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        recLocation: Record Location;
     begin
         //N005 Begin
         recApprSetup.Get();
@@ -27,7 +28,15 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
+
+            //check if location is approval target.
+            if recLocation.Get(Rec."Transfer-to Code") then begin
+                if not recLocation."Approval Target" then begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end;
+            end;
         end;
+
         //N005 End
 
     end;
@@ -50,11 +59,19 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     trigger OnAfterInsert()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        recLocation: Record Location;
     begin
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Transfer Order") then begin
             Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+
+            //check if location is approval target.
+            if recLocation.Get(Rec."Transfer-to Code") then begin
+                if not recLocation."Approval Target" then begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end;
+            end;
         end;
         //N005 End
 
