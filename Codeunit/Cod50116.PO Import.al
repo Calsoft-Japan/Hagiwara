@@ -213,6 +213,7 @@ codeunit 50116 "PO Import"
         RecPurchaseLineNo: Integer;
         tmpHeaderAppSta: Enum "Hagiwara Approval Status";
         TmpReqRecDate1: Date;
+        TemCoNo: Code[6];
     begin
         RecPOImportInsert.Reset();
         if RecPOImportInsert.IsEmpty() then begin
@@ -237,10 +238,11 @@ codeunit 50116 "PO Import"
                         RecPurchaseLine.SetRange("Line No.", RecPOImportInsert."Line No.");
                         if RecPurchaseLine.FindFirst() then begin
                             TmpReqRecDate1 := 0D;
+                            TemCoNo := RecPurchaseLine."CO No.";
                             if RecPurchaseLine."Requested Receipt Date_1" <> 0D then begin
                                 TmpReqRecDate1 := RecPurchaseLine."Requested Receipt Date_1";
                             end;
-                            RecPurchaseLine.Validate("No.", RecPurchaseLine."No.");
+                            RecPurchaseLine.Validate("No.");
                             RecPurchaseLine.Validate(Quantity, RecPOImportInsert.Quantity);
                             if (RecPOImportInsert."Requested Receipt Date" <> 0D) then begin
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", RecPOImportInsert."Requested Receipt Date");
@@ -248,6 +250,7 @@ codeunit 50116 "PO Import"
                             else if (TmpReqRecDate1 <> 0D) then begin
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", TmpReqRecDate1);//The data
                             end;
+                            RecPurchaseLine."CO No." := TemCoNo;
                             RecPurchaseLine.Modify();
                         end;
                         RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;

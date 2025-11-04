@@ -119,6 +119,7 @@ page 50116 "PO Import"
                                         RecPurchaseLine.Reset();
                                         RecPurchaseLine.SetRange(Type, RecPurchaseLine.Type::Item);
                                         RecPurchaseLine.SetRange("Document No.", Rec."Document No.");
+                                        RecPurchaseLine.SetRange("Line No.", Rec."Line No.");
                                         if not RecPurchaseLine.FindFirst() then begin
                                             ErrorDescription := 'Record to update was not found.';
                                             HasError := true;
