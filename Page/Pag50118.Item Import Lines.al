@@ -855,6 +855,7 @@ page 50118 "Item Import Lines"
             p_ItemImportline."Error Description" := CopyStr(ErrDesc, 1, 250);
             p_ItemImportline.Validate(p_ItemImportline.Status, p_ItemImportline.Status::Error);
         end else begin
+            p_ItemImportline."Error Description" := '';
             //Create or Update
             p_ItemImportline.Action := p_ItemImportline.Action::Update;
             if not Item.get(p_ItemImportline."Item No.") then begin

@@ -23,7 +23,7 @@ table 50118 "Item Import Line"
         {
 
         }
-        field(6; "Description"; Code[20])
+        field(6; "Description"; Text[100])
         {
 
         }
