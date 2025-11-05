@@ -18,7 +18,6 @@ table 50128 "Hagiwara Approval Substitution"
         }
         field(4; "End Date"; Date)
         {
-            NotBlank = true;
         }
 
     }

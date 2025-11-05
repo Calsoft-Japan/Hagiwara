@@ -89,10 +89,7 @@ codeunit 50109 "Hagiwara Approval Management"
             error('Hagiwara Approval Hierarchy seems not setup right.');
 
         Approver := recApprHrcy."Approver User Name";
-
-
-        //ToDo, consider Approval Substitution.
-
+        Approver := GetSubstitution(Approver);
 
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
@@ -395,6 +392,7 @@ codeunit 50109 "Hagiwara Approval Management"
             if recApprHrcy.FindFirst() then begin
 
                 nextApprover := recApprHrcy."Approver User Name";
+                nextApprover := GetSubstitution(nextApprover);
 
                 InsertApprEntry(
                     pData,
@@ -952,6 +950,23 @@ codeunit 50109 "Hagiwara Approval Management"
             until recApprHrcy.Next() = 0;
 
         exit(dataLink);
+    end;
+
+    local procedure GetSubstitution(pApprover: Code[50]): Code[50]
+    var
+        recApprSubst: Record "Hagiwara Approval Substitution";
+    begin
+
+        recApprSubst.SetCurrentKey("Approver User Name", "Start Date");
+        recApprSubst.Ascending(false);
+        recApprSubst.SetRange("Approver User Name", pApprover);
+        recApprSubst.SetFilter("Start Date", '..%1', WorkDate());
+        recApprSubst.SetFilter("End Date", '%1..|%2', WorkDate(), 0D);
+        if recApprSubst.FindFirst() then begin
+            exit(recApprSubst."Substitution User Name");
+        end;
+
+        exit(pApprover);
     end;
 
     [TryFunction]
