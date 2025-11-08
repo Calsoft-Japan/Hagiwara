@@ -19,11 +19,15 @@ table 50127 "Hagiwara Approval Condition"
         {
 
         }
-        field(5; "Start Date"; Date)
+        field(5; "Margin %"; Decimal)
         {
 
         }
-        field(6; "End Date"; Date)
+        field(6; "Start Date"; Date)
+        {
+
+        }
+        field(7; "End Date"; Date)
         {
 
         }
@@ -31,7 +35,7 @@ table 50127 "Hagiwara Approval Condition"
 
     keys
     {
-        key(Key1; Data, "Request Group Code", "Approval Group Code", "Amount (LCY)", "Start Date")
+        key(Key1; Data, "Request Group Code", "Approval Group Code", "Amount (LCY)", "Margin %", "Start Date")
         {
         }
     }

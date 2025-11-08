@@ -27,6 +27,10 @@ page 50127 "Hagiwara Approval Conditions"
                 {
                     ApplicationArea = all;
                 }
+                field("Margin %"; Rec."Margin %")
+                {
+                    ApplicationArea = all;
+                }
                 field("Start Date"; Rec."Start Date")
                 {
                     ApplicationArea = all;

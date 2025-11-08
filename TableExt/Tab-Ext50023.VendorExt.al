@@ -205,6 +205,25 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
             Description = 'HG10.00.10 NJ 10/04/2018';
         }
 
+        modify(Blocked)
+        {
+            trigger OnBeforeValidate()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                //N005 Begin
+                if xRec.Blocked <> Rec.Blocked then begin
+                    recApprSetup.Get();
+                    if (recApprSetup.Vendor) then begin
+                        if not (Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                            Error('It is not approved yet.');
+                        end;
+                    end;
+                end;
+                //N005 End
+            end;
+        }
+
     }
 
     trigger OnBeforeModify()

@@ -20,9 +20,11 @@ codeunit 50109 "Hagiwara Approval Management"
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
         ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
         AmountLCY: Decimal;
+        PriceMargin: Decimal;
         Approver: Code[50];
         MsgComment: Text;
         SubmitStatus: Enum "Hagiwara Approval Status";
@@ -71,14 +73,22 @@ codeunit 50109 "Hagiwara Approval Management"
                     PurchHeader.CalcFields(Amount);
                     AmountLCY := CalcPOAmountLCY(PurchHeader);
                 end;
-        end;
+            Enum::"Hagiwara Approval Data"::"Price List":
+                begin
+                    PriceMargin := GetPriceMargin(pData, pDataNo);
+                end;
 
+        end;
 
         recApprCondition.SetRange(Data, pData);
         recApprCondition.SetRange("Request Group Code", reqGroup);
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
-        recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
+        if pData = Enum::"Hagiwara Approval Data"::"Price List" then begin
+            recApprCondition.SetFilter("Margin %", '%1|<=%2', 0, PriceMargin);
+        end else begin
+            recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
+        end;
         if not recApprCondition.FindLast() then
             error('Hagiwara Approval Condition seems not setup right.');
 
@@ -182,6 +192,14 @@ codeunit 50109 "Hagiwara Approval Management"
                         GLAccount."Hagi Approver" := Approver;
                         GLAccount.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Price List":
+                    begin
+                        PriceListHeader.get(pDataNo);
+                        PriceListHeader."Approval Status" := SubmitStatus;
+                        PriceListHeader.Requester := UserId;
+                        PriceListHeader."Hagi Approver" := Approver;
+                        PriceListHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
@@ -202,6 +220,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
@@ -338,6 +357,14 @@ codeunit 50109 "Hagiwara Approval Management"
                         GLAccount."Hagi Approver" := '';
                         GLAccount.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Price List":
+                    begin
+                        PriceListHeader.get(pDataNo);
+                        PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        PriceListHeader.Requester := '';
+                        PriceListHeader."Hagi Approver" := '';
+                        PriceListHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
@@ -357,6 +384,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
@@ -377,12 +405,6 @@ codeunit 50109 "Hagiwara Approval Management"
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
             MsgComment := 'Approver (' + recApprEntry.Approver + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
-
-            // update approval entry data.
-            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Approved;
-            recApprEntry.Open := false;
-            recApprEntry."Close Date" := WorkDate();
-            recApprEntry.Modify();
 
             recApprEntry.AddComment(MsgComment);
 
@@ -491,6 +513,12 @@ codeunit 50109 "Hagiwara Approval Management"
                             GLAccount.get(pDataNo);
                             GLAccount."Hagi Approver" := nextApprover;
                             GLAccount.Modify();
+                        end;
+                    Enum::"Hagiwara Approval Data"::"Price List":
+                        begin
+                            PriceListHeader.get(pDataNo);
+                            PriceListHeader."Hagi Approver" := nextApprover;
+                            PriceListHeader.Modify();
                         end;
                 end;
 
@@ -622,8 +650,21 @@ codeunit 50109 "Hagiwara Approval Management"
                             GLAccount."Approval Status" := "Hagiwara Approval Status"::Approved;
                             GLAccount.Modify();
                         end;
+                    Enum::"Hagiwara Approval Data"::"Price List":
+                        begin
+                            PriceListHeader.get(pDataNo);
+                            PriceListHeader.Status := PriceListHeader.Status::Active;
+                            PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PriceListHeader.Modify();
+                        end;
                 end;
             end;
+
+            // update the current approval entry data.
+            recApprEntry.Status := Enum::"Hagiwara Approval Status"::Approved;
+            recApprEntry.Open := false;
+            recApprEntry."Close Date" := WorkDate();
+            recApprEntry.Modify();
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
 
@@ -642,6 +683,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
@@ -765,6 +807,13 @@ codeunit 50109 "Hagiwara Approval Management"
                         GLAccount."Hagi Approver" := pUsername;
                         GLAccount.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Price List":
+                    begin
+                        PriceListHeader.get(pDataNo);
+                        PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        PriceListHeader."Hagi Approver" := pUsername;
+                        PriceListHeader.Modify();
+                    end;
             end;
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject, recApprEntry);
@@ -878,6 +927,54 @@ codeunit 50109 "Hagiwara Approval Management"
         exit(rtnAmountLCY);
     end;
 
+    local procedure GetPriceMargin(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Decimal
+    var
+        recPriceHeader: Record "Price List Header";
+        recSalesPrice: Record "Price List Line";
+        recPurchPrice: Record "Price List Line";
+        rtnMargin: Decimal;
+    begin
+        recPriceHeader.get(pDataNo);
+        if recPriceHeader."Price Type" = recPriceHeader."Price Type"::Sale then begin
+            recSalesPrice.SetRange("Price List Code", pDataNo);
+            if recSalesPrice.FindSet() then
+                repeat
+                    recPurchPrice.Reset();
+                    recPurchPrice.SetRange("Price Type", recPurchPrice."Price Type"::Purchase);
+                    recPurchPrice.SetRange("Product No.", recSalesPrice."Product No.");
+                    recPurchPrice.SetFilter("Ending Date", '%1..|%2', recSalesPrice."Starting Date", 0D);
+                    recPurchPrice.SetFilter("Starting Date", '..%1|%2', recSalesPrice."Ending Date", 0D);
+                    if recPurchPrice.Count > 1 then begin
+                        Error('Multiple valid purchase prices were found for Item No. %1', recSalesPrice."Product No.");
+                    end else if recPurchPrice.Count = 1 then begin
+                        if rtnMargin < (recPurchPrice."Direct Unit Cost" / recSalesPrice."Unit Price") then begin
+                            rtnMargin := (recPurchPrice."Direct Unit Cost" / recSalesPrice."Unit Price");
+                        end;
+                    end;
+                until recSalesPrice.Next() = 0;
+        end else if recPriceHeader."Price Type" = recPriceHeader."Price Type"::Purchase then begin
+            recPurchPrice.SetRange("Price List Code", pDataNo);
+            if recPurchPrice.FindSet() then
+                repeat
+                    recSalesPrice.Reset();
+                    recPurchPrice.SetRange("Price Type", recPurchPrice."Price Type"::Sale);
+                    recSalesPrice.SetRange("Product No.", recPurchPrice."Product No.");
+                    recSalesPrice.SetFilter("Ending Date", '%1..|%2', recPurchPrice."Starting Date", 0D);
+                    recSalesPrice.SetFilter("Starting Date", '..%1|%2', recPurchPrice."Ending Date", 0D);
+                    if recSalesPrice.Count > 1 then begin
+                        Error('Multiple valid sales prices were found for Item No. %1', recPurchPrice."Product No.");
+                    end else if recSalesPrice.Count = 1 then begin
+                        if rtnMargin < (recPurchPrice."Direct Unit Cost" / recSalesPrice."Unit Price") then begin
+                            rtnMargin := (recPurchPrice."Direct Unit Cost" / recSalesPrice."Unit Price");
+                        end;
+                    end;
+                until recPurchPrice.Next() = 0;
+        end else begin
+            //no this case.
+        end;
+
+        exit(rtnMargin);
+    end;
 
     local procedure CreateDataLink(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
     var
@@ -898,6 +995,8 @@ codeunit 50109 "Hagiwara Approval Management"
     end;
 
     local procedure GetDataPageURI(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
+    var
+        PriceListHeader: Record "Price List Header";
     begin
         case pData of
             Enum::"Hagiwara Approval Data"::"Sales Order":
@@ -929,7 +1028,17 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"G/L Account":
                 exit('&page=17&filter=''G/L Account''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Price List":
-                exit(''); //TODO
+                begin
+                    PriceListHeader.Get(pDataNo);
+                    if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Sale then begin
+                        exit('&page=7016&filter=''Price List Header''.''Code'' is ''' + pDataNo + '''');
+                    end else if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Purchase then begin
+                        exit('&page=7018&filter=''Price List Header''.''Code'' is ''' + pDataNo + '''');
+                    end else begin
+                        //no this case.
+                        exit('');
+                    end;
+                end;
         end;
 
     end;

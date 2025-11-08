@@ -161,6 +161,25 @@ tableextension 50018 "Customer Ext" extends "Customer"
             MaxValue = 999;
             MinValue = 0;
         }
+
+        modify(Blocked)
+        {
+            trigger OnBeforeValidate()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                //N005 Begin
+                if xRec.Blocked <> Rec.Blocked then begin
+                    recApprSetup.Get();
+                    if (recApprSetup.Customer) then begin
+                        if not (Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                            Error('It is not approved yet.');
+                        end;
+                    end;
+                end;
+                //N005 End
+            end;
+        }
     }
 
     trigger OnBeforeModify()
