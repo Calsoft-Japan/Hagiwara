@@ -4,6 +4,7 @@ page 50129 "Hagiwara Approval Entries"
     UsageCategory = Administration;
     PageType = List;
     SourceTable = "Hagiwara Approval Entry";
+    Editable = false;
 
     layout
     {
@@ -22,6 +23,13 @@ page 50129 "Hagiwara Approval Entries"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = all;
+
+                    trigger OnDrillDown()
+                    var
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+                        cuApprMgt.ShowDoc(Rec);
+                    end;
                 }
                 field(Requester; Rec.Requester)
                 {
@@ -65,7 +73,17 @@ page 50129 "Hagiwara Approval Entries"
                 }
             }
         }
+        area(factboxes)
+        {
+            part(ApprovalComment; "Hagiwara Approval Comment FB")
+            {
+                ApplicationArea = all;
+                SubPageLink = "Entry No." = field("Entry No.");
+            }
+        }
+
     }
+
     trigger OnAfterGetRecord()
     begin
         CommentText := Rec.GetComment();

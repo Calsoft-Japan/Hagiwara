@@ -34,7 +34,7 @@ table 50129 "Hagiwara Approval Entry"
         field(8; "Approval Sequence No."; Integer)
         {
         }
-        field(9; "Request Date"; Date)
+        field(9; "Request Date"; DateTime)
         {
 
         }
@@ -48,7 +48,7 @@ table 50129 "Hagiwara Approval Entry"
         {
             InitValue = true;
         }
-        field(13; "Close Date"; Date)
+        field(13; "Close Date"; DateTime)
         {
 
         }

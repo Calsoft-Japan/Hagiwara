@@ -236,12 +236,12 @@ codeunit 50109 "Hagiwara Approval Management"
         pagComment.SetData(pData, pDataNo);
         if pagComment.RunModal() = Action::OK then begin
             MsgComment := pagComment.GetComment();
-            MsgComment := 'Approver (' + recApprEntry.Requester + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
+            MsgComment := 'Requester (' + recApprEntry.Requester + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
 
             // update approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Cancelled;
             recApprEntry.Open := false;
-            recApprEntry."Close Date" := WorkDate();
+            recApprEntry."Close Date" := CurrentDateTime;
             recApprEntry.Modify();
 
             recApprEntry.AddComment(MsgComment);
@@ -663,7 +663,7 @@ codeunit 50109 "Hagiwara Approval Management"
             // update the current approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Approved;
             recApprEntry.Open := false;
-            recApprEntry."Close Date" := WorkDate();
+            recApprEntry."Close Date" := CurrentDateTime;
             recApprEntry.Modify();
 
             SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
@@ -704,7 +704,7 @@ codeunit 50109 "Hagiwara Approval Management"
             // update approval entry data.
             recApprEntry.Status := Enum::"Hagiwara Approval Status"::Rejected;
             recApprEntry.Open := false;
-            recApprEntry."Close Date" := WorkDate();
+            recApprEntry."Close Date" := CurrentDateTime;
             recApprEntry.Modify();
 
             recApprEntry.AddComment(MsgComment);
@@ -822,6 +822,147 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
+    procedure ShowDoc(pApprEntry: Record "Hagiwara Approval Entry")
+    var
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
+        ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
+        Cust: Record Customer;
+        Vend: Record Vendor;
+        GLAccount: Record "G/L Account";
+        MsgDocNotFound: Text;
+        DocFound: Boolean;
+    begin
+        DocFound := false;
+        MsgDocNotFound := 'The document is not found.';
+        case pApprEntry.Data of
+            Enum::"Hagiwara Approval Data"::"Sales Order":
+                begin
+                    if SalesHeader.Get(SalesHeader."Document Type"::Order, pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Sales Order", SalesHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                begin
+                    if SalesHeader.Get(SalesHeader."Document Type"::"Credit Memo", pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Sales Credit Memo", SalesHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                begin
+                    if SalesHeader.Get(SalesHeader."Document Type"::"Return Order", pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Sales Return Order", SalesHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Order":
+                begin
+                    if PurchHeader.Get(PurchHeader."Document Type"::Order, pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Purchase Order", PurchHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                begin
+                    if PurchHeader.Get(PurchHeader."Document Type"::"Credit Memo", pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Purchase Credit Memo", PurchHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                begin
+                    if PurchHeader.Get(PurchHeader."Document Type"::"Return Order", pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Purchase Return Order", PurchHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Transfer Order":
+                begin
+                    if TransHeader.Get(pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Transfer Order", TransHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Assembly Order":
+                begin
+                    if AssemblyHeader.Get(AssemblyHeader."Document Type"::Order, pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Assembly Order", AssemblyHeader);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Journal":
+                begin
+                    ItemJourLine.SetRange("Document No.", pApprEntry."No.");
+                    if not ItemJourLine.IsEmpty() then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Item Journal", ItemJourLine);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ItemJourLine.SetRange("Document No.", pApprEntry."No.");
+                    if not ItemJourLine.IsEmpty() then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Item Reclass. Journal", ItemJourLine);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item":
+                begin
+                    if ItemImportBatch.Get(pApprEntry."No.") then begin
+                        ItemImportBatch.SetRecFilter();
+                        DocFound := true;
+                        Page.RunModal(Page::"Item Import Batch", ItemImportBatch);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::Customer:
+                begin
+                    if Cust.Get(pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Customer Card", Cust);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::Vendor:
+                begin
+                    if Vend.Get(pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"Vendor Card", Vend);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"G/L Account":
+                begin
+                    if GLAccount.Get(pApprEntry."No.") then begin
+                        DocFound := true;
+                        Page.RunModal(Page::"G/L Account Card", GLAccount);
+                    end;
+                end;
+            Enum::"Hagiwara Approval Data"::"Price List":
+                begin
+                    if PriceListHeader.Get(pApprEntry."No.") then begin
+                        if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Sale then begin
+                            DocFound := true;
+                            Page.RunModal(Page::"Sales Price List", PriceListHeader);
+                        end else if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Purchase then begin
+                            DocFound := true;
+                            Page.RunModal(Page::"Purchase Price List", PriceListHeader);
+                        end else begin
+                            //no this case.
+                        end;
+                    end;
+                end;
+        end;
+
+        if not DocFound then begin
+            Message(MsgDocNotFound);
+        end;
+
+    end;
+
     procedure GetSubmitStatus(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Enum "Hagiwara Approval Status"
     var
         recApprEntry: Record "Hagiwara Approval Entry";
@@ -859,7 +1000,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprEntry.Approver := pApprover;
         recApprEntry."Approval Group" := pApprGroup;
         recApprEntry."Approval Sequence No." := pApprSeq;
-        recApprEntry."Request Date" := WorkDate();
+        recApprEntry."Request Date" := CurrentDateTime;
         recApprEntry.Status := pStatus;
         recApprEntry.Open := true;
 
@@ -1161,25 +1302,28 @@ codeunit 50109 "Hagiwara Approval Management"
         EmailCCList: List of [Text];
         EmailBCCList: List of [Text];
         CuEmailAccount: Codeunit "Email Account";
-        TempCuEmailAccount:
-                record "Email Account" temporary;
-        isSent:
-                boolean;
-        CuEmailMessage:
-                codeunit "Email Message";
-        CuEmail:
-                codeunit Email;
+        TempCuEmailAccount: record "Email Account" temporary;
+        isSent: boolean;
+        CuEmailMessage: codeunit "Email Message";
+        CuEmail: codeunit Email;
+        FromEmailAccount: Text;
     begin
+        FromEmailAccount := 'Hagiwara Approval';
         EmailToList := EmailTo.Split(';');
         EmailCCList := EmailCC.Split(';');
         CuEmailMessage.Create(EmailToList, EmailSubject, EmailBody, true, EmailCCList, EmailBCCList);
 
         CuEmailAccount.GetAllAccounts(TempCuEmailAccount);
         TempCuEmailAccount.Reset;
-        TempCuEmailAccount.SetRange(Name, 'Current User');
-        if TempCuEmailAccount.FindFirst() then
-            isSent := CuEmail.Send(CuEmailMessage, TempCuEmailAccount."Account Id", TempCuEmailAccount.Connector)
-        else
-            isSent := CuEmail.Send(CuEmailMessage);
+        //TempCuEmailAccount.SetRange(Name, 'Current User');
+        TempCuEmailAccount.SetRange(Name, FromEmailAccount);
+        if TempCuEmailAccount.FindFirst() then begin
+            isSent := CuEmail.Send(CuEmailMessage, TempCuEmailAccount."Account Id", TempCuEmailAccount.Connector);
+            if not isSent then begin
+                Error('Email Account seems not setup right.');
+            end;
+        end else begin
+            Error('There is no email account ''%1''', FromEmailAccount);
+        end;
     end;
 }
