@@ -539,6 +539,9 @@ codeunit 50109 "Hagiwara Approval Management"
 
                             if SalesHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
                                 SalesHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
+                                if SalesHeader.Status = SalesHeader.Status::Released then begin
+                                    SalesHeader.Status := SalesHeader.Status::Open;
+                                end;
                                 SalesHeader.Modify();
 
                                 SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
@@ -578,6 +581,9 @@ codeunit 50109 "Hagiwara Approval Management"
 
                             if PurchHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
                                 PurchHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
+                                if PurchHeader.Status = PurchHeader.Status::Released then begin
+                                    PurchHeader.Status := PurchHeader.Status::Open;
+                                end;
                                 PurchHeader.Modify();
 
                                 PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
