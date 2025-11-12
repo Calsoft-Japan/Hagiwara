@@ -186,6 +186,7 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
     var
         ItemJourLine: Record "Item Journal Line";
         recApprSetup: Record "Hagiwara Approval Setup";
+        recLocation: Record Location;
     begin
 
         //N005 Begin
@@ -193,6 +194,17 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
         if (recApprSetup."Item Journal") then begin
             if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then begin
                 Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+            end;
+
+            //check if location is approval target.
+            if (xRec."Location Code" <> Rec."Location Code") then begin
+                if (Rec."Location Code" <> '')
+                and (recLocation.Get(Rec."Location Code"))
+                and (not recLocation."Approval Target") then begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end else begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+                end;
             end;
         end;
         //N005 End
