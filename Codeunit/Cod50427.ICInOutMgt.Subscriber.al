@@ -17,7 +17,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         ICSetup: Record "IC Setup";
         cuICOutboxExp: Codeunit "IC Outbox Export";
     begin
-        IC_Hagi := false; //Just in case if this function needs to be on/off.
+        IC_Hagi := true; //Just in case if this function needs to be on/off.
 
         if IC_Hagi then begin
             ICSetup.Get();
@@ -30,6 +30,9 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
 
             ICSetup."Auto. Send Transactions" := false;
             ICSetup.Modify();
+
+            //todo
+            //SendMail();
         end;
 
     end;
@@ -46,7 +49,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         ICSetup: Record "IC Setup";
         cuICOutboxExp: Codeunit "IC Outbox Export";
     begin
-        IC_Hagi := false; //Just in case if this function needs to be on/off.
+        IC_Hagi := true; //Just in case if this function needs to be on/off.
 
         if IC_Hagi then begin
             ICSetup.Get();
@@ -59,6 +62,9 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
 
             ICSetup."Auto. Send Transactions" := false;
             ICSetup.Modify();
+
+            //todo
+            //SendMail();
         end;
 
     end;
@@ -76,7 +82,18 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"ICInboxOutboxMgt", OnAfterICInboxSalesLineInsert, '', false, false)]
     local procedure DoOnAfterICInboxSalesLineInsert(var ICInboxSalesLine: Record "IC Inbox Sales Line"; ICOutboxPurchaseLine: Record "IC Outbox Purchase Line")
     begin
-        //TODO
+        ICInboxSalesLine."Customer Order No." := ICOutboxPurchaseLine."Customer Order No.";
+        ICInboxSalesLine."Requested Delivery Date_1" := ICOutboxPurchaseLine."Requested Delivery Date_1";
+        ICInboxSalesLine.Modify();
+    end;
+
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"ICInboxOutboxMgt", OnAfterCreateSalesLines, '', false, false)]
+    local procedure DoOnAfterCreateSalesLines(ICInboxSalesLine: Record "IC Inbox Sales Line"; var SalesLine: Record "Sales Line"; var SalesHeader: Record "Sales Header")
+    begin
+        SalesLine."Customer Order No." := ICInboxSalesLine."Customer Order No.";
+        SalesLine."Requested Delivery Date_1" := ICInboxSalesLine."Requested Delivery Date_1";
+        SalesLine.Modify();
     end;
 
 }
