@@ -1,6 +1,5 @@
 codeunit 50427 "ICInboxOutboxMgt Subscriber"
 {
-
     /// <summary>
     /// Purchase order will be sent to PC automatically. (for example, HET Purchase Order => SH Inbox.)
     /// </summary>
@@ -23,7 +22,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         ICSetup: Record "IC Setup";
         cuICOutboxExp: Codeunit "IC Outbox Export";
     begin
-        IC_Hagi := false; //Just in case if this function needs to be on/off.
+        IC_Hagi := true; //Just in case if this function needs to be on/off.
 
         if IC_Hagi then begin
             ICSetup.Get();
@@ -56,7 +55,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         ICSetup: Record "IC Setup";
         cuICOutboxExp: Codeunit "IC Outbox Export";
     begin
-        IC_Hagi := false; //Just in case if this function needs to be on/off.
+        IC_Hagi := true; //Just in case if this function needs to be on/off.
 
         if IC_Hagi then begin
             ICSetup.Get();
@@ -158,6 +157,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         txtB64: Text;
         format: ReportFormat;
         recRef: RecordRef;
+        fldRef: FieldRef;
     begin
         CompInfoSC.Get(); //Sales Company. such as Hagiwara Thailand.
         ICSetup.Get();
@@ -167,7 +167,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         CompInfoPC.Get(); //Purchase Company. such as Hagiwara Singaore. So needs ChangeCompany call.
 
         subject := '[' + GetCompBadgeText(CompInfoSC) + '] Sales Order Creation Request_';
-        subject := subject + FORMAT(CurrentDateTime, 0, '<Year4><Month,2><Day,2>-<Hours24>.<Minutes,2>');
+        subject := subject + FORMAT(CurrentDateTime, 0, '<Year4><Month,2><Day,2>-<Hours24><Minutes,2>');
 
         body := body + '<p>Dear ' + ICPartner.Name + ',</p>';
         body := body + '<p>';
@@ -188,7 +188,9 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         EmailToList := EmailTo.Split(';');
         EmailCCList := EmailCC.Split(';');
 
-        recRef.Get(pPurchHeader.RecordId);
+        recRef.GetTable(pPurchHeader);
+        fldRef := recRef.Field(pPurchHeader.FieldNo("No."));
+        fldRef.SetRange(pPurchHeader."No.");
         tmpBlob.CreateOutStream(OutStr);
         if Report.SaveAs(Report::"Purchase Order US", '', format::Pdf, OutStr, recRef) then begin
             tmpBlob.CreateInStream(InStr);
@@ -245,7 +247,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         CompInfoSC.Get(); //Sales Company. such as Hagiwara Thailand. So needs ChangeCompany call.
 
         subject := '[' + GetCompBadgeText(CompInfoPC) + '] Sales Order Creation Rejected_';
-        subject := subject + FORMAT(CurrentDateTime, 0, '<Year4><Month,2><Day,2>-<Hours24>.<Minutes,2>');
+        subject := subject + FORMAT(CurrentDateTime, 0, '<Year4><Month,2><Day,2>-<Hours24><Minutes,2>');
 
         body := body + '<p>Dear ' + ICPartner.Name + ',</p>';
         body := body + '<p>';
