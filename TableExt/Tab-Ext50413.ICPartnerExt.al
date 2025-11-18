@@ -3,9 +3,9 @@ tableextension 50413 "IC Partner Ext" extends "IC Partner"
 
     fields
     {
-        field(50000; "IC Transaction Partner Contact"; Code[50])
+        field(50000; "IC Transaction Partner Contact"; Code[20])
         {
-            TableRelation = "User Setup"."User ID";
+            TableRelation = Contact."No.";
         }
     }
 

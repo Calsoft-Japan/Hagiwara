@@ -132,7 +132,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
     var
         CompInfoSC: Record "Company Information";
         CompInfoPC: Record "Company Information";
-        UserInfo: Record User;
+        ContactInfo: Record Contact;
         ICSetup: Record "IC Setup";
         ICPartner: Record "IC Partner";
         subject, body : text;
@@ -180,9 +180,8 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         body := body + ICSetup."IC Transaction Approver";
         body := body + '</p>';
 
-        userinfo.SetRange("User Name", ICPartner."IC Transaction Partner Contact");
-        if userinfo.FindFirst() then
-            EmailTo := userinfo."Contact Email";
+        if ContactInfo.Get(ICPartner."IC Transaction Partner Contact") then
+            EmailTo := ContactInfo."E-Mail";
 
         FromEmailAccount := 'IC Approval';
         EmailToList := EmailTo.Split(';');
