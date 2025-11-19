@@ -180,8 +180,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         body := body + ICSetup."IC Transaction Approver";
         body := body + '</p>';
 
-        if ContactInfo.Get(ICPartner."IC Transaction Partner Contact") then
-            EmailTo := ContactInfo."E-Mail";
+        EmailTo := ICPartner."IC Transaction Partner Email";
 
         FromEmailAccount := 'IC Approval';
         EmailToList := EmailTo.Split(';');

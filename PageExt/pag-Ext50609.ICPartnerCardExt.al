@@ -5,7 +5,7 @@ pageextension 50609 "ICPartnerCardExt" extends "IC Partner Card"
     {
         addafter("Data Exchange Type")
         {
-            field("IC Transaction Partner Contact"; Rec."IC Transaction Partner Contact")
+            field("IC Transaction Partner Email"; Rec."IC Transaction Partner Email")
             {
                 ApplicationArea = all;
             }
