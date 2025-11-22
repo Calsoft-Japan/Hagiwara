@@ -4,11 +4,15 @@ pageextension 56631 SalesRtnOrdSubformExt extends "Sales Return Order Subform"
     {
         addafter("Unit Price")
         {
-            field("Quantity to Update"; Rec."Quantity to Update")
+            field("Approved Quantity"; Rec."Approved Quantity")
             {
                 ApplicationArea = all;
             }
-            field("Unit Price to Update"; Rec."Unit Price to Update")
+            field("Approved Unit Price"; Rec."Approved Unit Price")
+            {
+                ApplicationArea = all;
+            }
+            field("Approval History Exists"; Rec."Approval History Exists")
             {
                 ApplicationArea = all;
             }

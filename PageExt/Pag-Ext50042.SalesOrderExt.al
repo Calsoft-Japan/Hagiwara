@@ -48,6 +48,10 @@ pageextension 50042 SalesOrderExt extends "Sales Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
         }
         addafter(Status)
         {

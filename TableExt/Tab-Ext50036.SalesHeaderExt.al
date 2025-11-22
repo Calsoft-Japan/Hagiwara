@@ -278,6 +278,13 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
         field(50094; "InApproving"; Boolean)
         {
             //add this field to indicate some modification is under approving process.
+            //not use for now.
+            Editable = false;
+        }
+        field(50095; "Approval Cycle No."; Integer)
+        {
+            //stores the number of completed approval cycles in Hagiwara Approval Entry.
+            //(only counts approvals by the final approver; intermediate Reject or Cancel actions are excluded).
             Editable = false;
         }
         field(50545; "Requested Delivery Date_1"; Date)
@@ -416,9 +423,15 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
             or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
             or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
-            if not InApproving then begin
-                if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                    Error('Can''t edit this data because of it''s submitted for approval.');
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+
+            if "Approval Cycle No." > 0 then begin
+                if ("Sell-to Customer No." <> xRec."Sell-to Customer No.")
+                    or ("Sell-to Customer Name" <> xRec."Sell-to Customer Name")
+                    or ("Bill-to Customer No." <> xRec."Bill-to Customer No.") then begin
+                    Error('Can''t edit this field because of it''s been fully approved once.');
                 end;
             end;
         end;
@@ -438,6 +451,10 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
                 ) then begin
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+
+            if "Approval Cycle No." > 0 then begin
+                Error('Can''t edit this field because of it''s been fully approved once.');
             end;
         end;
         //N005 End

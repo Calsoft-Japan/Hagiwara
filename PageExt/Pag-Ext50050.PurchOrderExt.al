@@ -28,6 +28,10 @@ pageextension 50050 PurchOrderExt extends "Purchase Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
 
         }
 

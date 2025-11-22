@@ -188,11 +188,15 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
 
                 ApplicationArea = all;
             }
-            field("Quantity to Update"; Rec."Quantity to Update")
+            field("Approved Quantity"; Rec."Approved Quantity")
             {
                 ApplicationArea = all;
             }
-            field("Unit Cost to Update"; Rec."Unit Cost to Update")
+            field("Approved Unit Cost"; Rec."Approved Unit Cost")
+            {
+                ApplicationArea = all;
+            }
+            field("Approval History Exists"; Rec."Approval History Exists")
             {
                 ApplicationArea = all;
             }

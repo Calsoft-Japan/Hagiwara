@@ -412,6 +412,7 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprHrcy.SetRange("Approval Group Code", recApprEntry."Approval Group");
             recApprHrcy.SetFilter("Sequence No.", '>%1', recApprEntry."Approval Sequence No.");
             if recApprHrcy.FindFirst() then begin
+                // if next approver exists.
 
                 nextApprover := recApprHrcy."Approver User Name";
                 nextApprover := GetSubstitution(nextApprover);
@@ -523,7 +524,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
 
             end else begin
-                //if no next approver, change the status of the data to Approved.
+                //if final approver, change the status of the data to Approved, and count "Approval Cycle No.".
                 case pData of
                     Enum::"Hagiwara Approval Data"::"Sales Order",
                     Enum::"Hagiwara Approval Data"::"Sales Credit Memo",
@@ -538,7 +539,6 @@ codeunit 50109 "Hagiwara Approval Management"
                             end;
 
                             if SalesHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
-                                SalesHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
                                 if SalesHeader.Status = SalesHeader.Status::Released then begin
                                     SalesHeader.Status := SalesHeader.Status::Open;
                                 end;
@@ -549,22 +549,20 @@ codeunit 50109 "Hagiwara Approval Management"
                                 if SalesLine.FindSet() then
                                     repeat
                                         SalesLineUpdated := false;
-                                        if SalesLine.Quantity <> SalesLine."Quantity to Update" then begin
-                                            SalesLine.Validate(Quantity, SalesLine."Quantity to Update");
-                                            SalesLineUpdated := true;
+                                        if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
+                                            SalesLine."Approved Quantity" := SalesLine.Quantity;
                                         end;
-                                        if SalesLine."Unit Price" <> SalesLine."Unit Price to Update" then begin
-                                            SalesLine.Validate("Unit Price", SalesLine."Unit Price to Update");
-                                            SalesLineUpdated := true;
+                                        if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
+                                            SalesLine."Approved Unit Price" := SalesLine."Unit Price";
                                         end;
-                                        if SalesLineUpdated then begin
-                                            SalesLine.Modify(true);
-                                        end;
+
+                                        SalesLine."Approval History Exists" := true;
+                                        SalesLine.Modify();
                                     until SalesLine.next() = 0;
-                                SalesHeader.InApproving := false;
                             end;
 
                             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            SalesHeader."Approval Cycle No." += 1;
                             SalesHeader.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::"Purchase Order",
@@ -580,7 +578,6 @@ codeunit 50109 "Hagiwara Approval Management"
                             end;
 
                             if PurchHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
-                                PurchHeader.InApproving := true; //make quantity and unit price possible to modify during aprrove process.
                                 if PurchHeader.Status = PurchHeader.Status::Released then begin
                                     PurchHeader.Status := PurchHeader.Status::Open;
                                 end;
@@ -591,22 +588,20 @@ codeunit 50109 "Hagiwara Approval Management"
                                 if PurchLine.FindSet() then
                                     repeat
                                         PurchLineUpdated := false;
-                                        if PurchLine.Quantity <> PurchLine."Quantity to Update" then begin
-                                            PurchLine.Validate(Quantity, PurchLine."Quantity to Update");
-                                            PurchLineUpdated := true;
+                                        if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
+                                            PurchLine."Approved Quantity" := PurchLine.Quantity;
                                         end;
-                                        if PurchLine."Direct Unit Cost" <> PurchLine."Unit Cost to Update" then begin
-                                            PurchLine.Validate("Direct Unit Cost", PurchLine."Unit Cost to Update");
-                                            PurchLineUpdated := true;
+                                        if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
+                                            PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
                                         end;
-                                        if PurchLineUpdated then begin
-                                            PurchLine.Modify(true);
-                                        end;
+
+                                        PurchLine."Approval History Exists" := true;
+                                        PurchLine.Modify();
                                     until PurchLine.next() = 0;
-                                PurchHeader.InApproving := false;
                             end;
 
                             PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PurchHeader."Approval Cycle No." += 1;
                             PurchHeader.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::"Transfer Order":

@@ -78,6 +78,10 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
 
         }
 

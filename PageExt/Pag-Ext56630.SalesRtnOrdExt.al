@@ -17,6 +17,10 @@ pageextension 56630 SalesRtnOrdExt extends "Sales Return Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
         }
     }
     actions

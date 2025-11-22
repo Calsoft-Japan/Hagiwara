@@ -44,6 +44,9 @@ table 50129 "Hagiwara Approval Entry"
         field(11; Comment; Blob)
         {
         }
+        field(15; Comment1; Blob)
+        {
+        }
         field(12; Open; Boolean)
         {
             InitValue = true;

@@ -17,6 +17,10 @@ pageextension 56640 PurchRtnOrdExt extends "Purchase Return Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
         }
     }
     actions

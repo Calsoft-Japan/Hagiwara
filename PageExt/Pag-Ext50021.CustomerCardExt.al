@@ -118,6 +118,10 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             {
                 ApplicationArea = all;
             }
+            field("Receiving Location"; Rec."Receiving Location")
+            {
+                ApplicationArea = all;
+            }
         }
 
         addafter("Registration Number")
