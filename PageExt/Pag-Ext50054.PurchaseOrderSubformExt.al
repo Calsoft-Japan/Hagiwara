@@ -208,11 +208,48 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
             Editable = ItemNoEditable;
         }
 
+        modify(Quantity)
+        {
+            StyleExpr = StyleAppr_Qty;
+
+            trigger OnAfterValidate()
+            var
+                myInt: Integer;
+            begin
+
+                if Rec.Quantity <> Rec."Approved Quantity" then begin
+                    StyleAppr_Qty := 'Unfavorable';
+                end else begin
+                    StyleAppr_Qty := '';
+                end;
+
+            end;
+        }
+
+        modify("Direct Unit Cost")
+        {
+            StyleExpr = StyleAppr_UnitCost;
+            trigger OnAfterValidate()
+            var
+                myInt: Integer;
+            begin
+
+                if Rec."Unit Cost" <> Rec."Approved Unit Cost" then begin
+                    StyleAppr_UnitCost := 'Unfavorable';
+                end else begin
+                    StyleAppr_UnitCost := '';
+                end;
+
+            end;
+        }
+
     }
 
 
     var
         ItemNoEditable: Boolean;
+        StyleAppr_Qty: Text;
+        StyleAppr_UnitCost: Text;
 
 
     trigger OnAfterGetRecord()
@@ -223,6 +260,15 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
         IF rec."ORE Message Status" IN [rec."ORE Message Status"::Collected, rec."ORE Message Status"::Sent] THEN
             ItemNoEditable := FALSE;
         //CS060 Shawn end
+
+        StyleAppr_Qty := '';
+        StyleAppr_UnitCost := '';
+        if Rec.Quantity <> Rec."Approved Quantity" then begin
+            StyleAppr_Qty := 'Unfavorable';
+        end;
+        if Rec."Direct Unit Cost" <> Rec."Approved Unit Cost" then begin
+            StyleAppr_UnitCost := 'Unfavorable';
+        end;
 
     end;
 

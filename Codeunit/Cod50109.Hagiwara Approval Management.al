@@ -823,6 +823,146 @@ codeunit 50109 "Hagiwara Approval Management"
         end;
     end;
 
+    procedure Update(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20];
+                                pUsername: Code[50])
+    var
+        recApprEntry: Record "Hagiwara Approval Entry";
+        pagComment: page "Hagiwara Approval Comment";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
+        ItemImportBatch: Record "Item Import Batch";
+        PriceListHeader: Record "Price List Header";
+        Cust: Record Customer;
+        Vend: Record Vendor;
+        GLAccount: Record "G/L Account";
+        MsgComment: Text;
+    begin
+
+        // update transaction data.
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Sales Order":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                    SalesHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    SalesHeader.Requester := '';
+                    SalesHeader."Hagi Approver" := '';
+                    SalesHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                    SalesHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    SalesHeader."Hagi Approver" := '';
+                    SalesHeader.Requester := '';
+                    SalesHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                begin
+                    SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                    SalesHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    SalesHeader."Hagi Approver" := '';
+                    SalesHeader.Requester := '';
+                    SalesHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Order":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                    PurchHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    PurchHeader."Hagi Approver" := '';
+                    PurchHeader.Requester := '';
+                    PurchHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                    PurchHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    PurchHeader."Hagi Approver" := '';
+                    PurchHeader.Requester := '';
+                    PurchHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                begin
+                    PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                    PurchHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    PurchHeader."Hagi Approver" := '';
+                    PurchHeader.Requester := '';
+                    PurchHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Transfer Order":
+                begin
+                    TransHeader.get(pDataNo);
+                    TransHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    TransHeader."Hagi Approver" := '';
+                    TransHeader.Requester := '';
+                    TransHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Assembly Order":
+                begin
+                    AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                    AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    AssemblyHeader."Hagi Approver" := '';
+                    AssemblyHeader.Requester := '';
+                    AssemblyHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Journal",
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ItemJourLine.Reset();
+                    ItemJourLine.setRange("Document No.", pDataNo);
+                    if ItemJourLine.FindSet() then
+                        repeat
+                            ItemJourLine."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                            ItemJourLine."Hagi Approver" := '';
+                            ItemJourLine.Requester := '';
+                            ItemJourLine.Modify();
+                        until ItemJourLine.Next() = 0;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item":
+                begin
+                    ItemImportBatch.get(pDataNo);
+                    ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    ItemImportBatch."Hagi Approver" := '';
+                    ItemImportBatch.Requester := '';
+                    ItemImportBatch.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::Customer:
+                begin
+                    Cust.get(pDataNo);
+                    Cust."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    Cust."Hagi Approver" := '';
+                    Cust.Requester := '';
+                    Cust.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::Vendor:
+                begin
+                    Vend.get(pDataNo);
+                    Vend."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    Vend."Hagi Approver" := '';
+                    Vend.Requester := '';
+                    Vend.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"G/L Account":
+                begin
+                    GLAccount.get(pDataNo);
+                    GLAccount."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    GLAccount."Hagi Approver" := '';
+                    GLAccount.Requester := '';
+                    GLAccount.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Price List":
+                begin
+                    PriceListHeader.get(pDataNo);
+                    PriceListHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    PriceListHeader."Hagi Approver" := '';
+                    PriceListHeader.Requester := '';
+                    PriceListHeader.Modify();
+                end;
+        end;
+    end;
+
     procedure ShowDoc(pApprEntry: Record "Hagiwara Approval Entry")
     var
         SalesHeader: Record "Sales Header";

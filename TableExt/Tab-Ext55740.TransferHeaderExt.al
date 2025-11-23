@@ -30,6 +30,16 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             end;
 
             //check if location is approval target.
+            if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") then begin
+                if (Rec."Transfer-from Code" <> '')
+                and (recLocation.Get(Rec."Transfer-from Code"))
+                and (not recLocation."Approval Target") then begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end else begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+                end;
+            end;
+
             if (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
                 if (Rec."Transfer-to Code" <> '')
                 and (recLocation.Get(Rec."Transfer-to Code"))
@@ -72,6 +82,12 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
 
             //check if location is approval target.
+            if recLocation.Get(Rec."Transfer-from Code") then begin
+                if not recLocation."Approval Target" then begin
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end;
+            end;
+
             if recLocation.Get(Rec."Transfer-to Code") then begin
                 if not recLocation."Approval Target" then begin
                     Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";

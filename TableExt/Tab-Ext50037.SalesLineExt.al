@@ -382,6 +382,30 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         modify(Type)
         {
+
+            trigger OnBeforeValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                recApprSetup.Get();
+                if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                    or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                    or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                        ) then begin
+
+                    if Rec."Approval History Exists" then begin
+                        if (Type <> xRec.Type) then begin
+                            Error('Can''t edit this field because of it''s been fully approved once.');
+                        end;
+                    end;
+                end;
+                //N005 End
+
+            end;
+
             trigger OnAfterValidate()
             var
                 SalesHeader: Record "Sales Header";
@@ -395,6 +419,29 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
         modify("No.")
         {
+
+            trigger OnBeforeValidate()
+            var
+                SalesHeader: Record "Sales Header";
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                recApprSetup.Get();
+                if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                    or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                    or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                        ) then begin
+
+                    if Rec."Approval History Exists" then begin
+                        if ("No." <> xRec."No.") then begin
+                            Error('Can''t edit this field because of it''s been fully approved once.');
+                        end;
+                    end;
+                end;
+                //N005 End
+
+            end;
 
             trigger OnAfterValidate()
             var
@@ -593,15 +640,23 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
             or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
+
+            //Hagiwara Approval check.
             SalesHeader := Rec.GetSalesHeader();
             if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
 
-            if SalesHeader."Approval Cycle No." > 0 then begin
-                if (Type <> xRec.Type)
-                    or ("No." <> xRec."No.") then begin
-                    Error('Can''t edit this field because of it''s been fully approved once.');
+            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                if Rec."Approval History Exists" then begin
+                    if (Quantity <> xRec.Quantity)
+                            or ("Unit Price" <> xRec."Unit Price")
+                            or ("Location Code" <> xRec."Location Code")
+                            or ("Unit of Measure Code" <> xRec."Unit of Measure Code")
+                            or ("Line Discount %" <> xRec."Line Discount %") then begin
+
+                        Error('Can''t edit this data because of it''s approved.');
+                    end;
                 end;
             end;
         end;
@@ -645,6 +700,10 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             SalesHeader := Rec.GetSalesHeader();
             if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+
+            if "Approval History Exists" then begin
+                Error('Can''t edit this data because of it''s approved.');
             end;
         end;
         //N005 End

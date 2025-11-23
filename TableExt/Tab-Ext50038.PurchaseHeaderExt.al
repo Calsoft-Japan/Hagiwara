@@ -282,6 +282,15 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
                     Error('Can''t edit this field because of it''s been fully approved once.');
                 end;
             end;
+
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                if ("Order Date" <> xRec."Order Date")
+                    or ("Payment Discount %" <> xRec."Payment Discount %")
+                    or ("Prices Including VAT" <> xRec."Prices Including VAT") then begin
+
+                    Error('Can''t edit this data because of it''s approved.');
+                end;
+            end;
         end;
         //N005 End
 

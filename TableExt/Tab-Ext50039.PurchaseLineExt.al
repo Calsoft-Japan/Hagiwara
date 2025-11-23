@@ -305,6 +305,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         }
         modify(Quantity)
         {
+            /*
             //N005
             trigger OnBeforeValidate()
             var
@@ -332,6 +333,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                     end;
                 end;
             end;
+            */
 
             trigger OnAfterValidate()
             var
@@ -367,6 +369,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             end;
         }
 
+        /*
         modify("Unit Cost")
         {
             //N005
@@ -396,6 +399,7 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                 end;
             end;
         }
+        */
 
     }
 
@@ -416,11 +420,16 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
 
-            if PurchHeader."Approval Cycle No." > 0 then begin
-                if (Type <> xRec.Type)
-                    or ("No." <> xRec."No.")
-                    or ("Currency Code" <> xRec."Currency Code") then begin
-                    Error('Can''t edit this field because of it''s been fully approved once.');
+            if PurchHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                if Rec."Approval History Exists" then begin
+                    if (Quantity <> xRec.Quantity)
+                            or ("Direct Unit Cost" <> xRec."Direct Unit Cost")
+                            or ("Location Code" <> xRec."Location Code")
+                            or ("Unit of Measure Code" <> xRec."Unit of Measure Code")
+                            or ("Line Discount %" <> xRec."Line Discount %") then begin
+
+                        Error('Can''t edit this data because of it''s approved.');
+                    end;
                 end;
             end;
         end;

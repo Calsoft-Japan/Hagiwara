@@ -423,6 +423,8 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
             or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
             or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
                 ) then begin
+
+            //Hagiwara Approval check.
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
@@ -431,7 +433,20 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
                 if ("Sell-to Customer No." <> xRec."Sell-to Customer No.")
                     or ("Sell-to Customer Name" <> xRec."Sell-to Customer Name")
                     or ("Bill-to Customer No." <> xRec."Bill-to Customer No.") then begin
+
                     Error('Can''t edit this field because of it''s been fully approved once.');
+                end;
+            end;
+
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                if ("Order Date" <> xRec."Order Date")
+                    or ("Payment Discount %" <> xRec."Payment Discount %")
+                    or ("Location Code" <> xRec."Location Code")
+                    or ("Campaign No." <> xRec."Campaign No.")
+                    or ("Prices Including VAT" <> xRec."Prices Including VAT")
+                    or ("Currency Code" <> xRec."Currency Code") then begin
+
+                    Error('Can''t edit this data because of it''s approved.');
                 end;
             end;
         end;
