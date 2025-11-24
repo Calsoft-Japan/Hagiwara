@@ -25,6 +25,7 @@ report 50049 "Update SO/PO Price"
                     SalesHeader: Record "Sales Header";
                     PriceList_perCust: Record "Price List Line";
                     PriceList_allCust: Record "Price List Line";
+                    recApprSetup: Record "Hagiwara Approval Setup";
                     Cnt_perCust: Integer;
                     Cnt_allCust: Integer;
                     HeaderStatus: Enum "Sales Document Status";
@@ -92,6 +93,14 @@ report 50049 "Update SO/PO Price"
                                 end;
 
                                 VALIDATE("Unit Price", UnitPrice);
+
+                                recApprSetup.Get();
+                                if recApprSetup."Sales Order" then begin
+                                    if "Approval History Exists" then begin
+                                        "Approved Unit Price" := "Unit Price";
+                                    end;
+                                end;
+
                                 MODIFY;
 
                                 if HeaderStatus <> SalesHeader.Status::Open then begin
@@ -126,6 +135,7 @@ report 50049 "Update SO/PO Price"
                     PurchHeader: Record "Purchase Header";
                     PriceList_perVend: Record "Price List Line";
                     PriceList_allVend: Record "Price List Line";
+                    recApprSetup: Record "Hagiwara Approval Setup";
                     Cnt_perVend: Integer;
                     Cnt_allVend: Integer;
                     HeaderStatus: enum "Purchase Document Status";
@@ -191,6 +201,14 @@ report 50049 "Update SO/PO Price"
                                 end;
 
                                 VALIDATE("Direct Unit Cost", DirectUnitCost);
+
+                                recApprSetup.Get();
+                                if recApprSetup."Purchase Order" then begin
+                                    if "Approval History Exists" then begin
+                                        "Approved Unit Cost" := "Direct Unit Cost";
+                                    end;
+                                end;
+
                                 MODIFY;
 
                                 if HeaderStatus <> PurchHeader.Status::Open then begin

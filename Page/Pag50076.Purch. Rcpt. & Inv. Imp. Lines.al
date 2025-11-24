@@ -334,6 +334,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
         ErrorQty: Boolean;
         ErrorDesc9: Text;
         ErrorRcptNo: Text;
+        ErrorDuplCONo: Text;
     begin
         Item.RESET;
         //Item.SETRANGE(Description,p_Staging."Imported Item No.");
@@ -398,6 +399,12 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                 IF NOT PurchaseLine1.GET(PurchaseLine1."Document Type"::Order, p_Staging."PO No.", p_Staging."Line No.") THEN
                     ErrorDesc9 := ',Purchase Line Not Found.';
 
+            PurchaseLine1.Reset();
+            PurchaseLine1.SetRange("CO No.", p_Staging."CO No.");
+            if PurchaseLine1.Count > 1 then begin
+                ErrorDuplCONo := ',CO No. is not unique. Please enter PO No. and Line No., and keep CO No. empty.';
+            end;
+
             PurchaseLine1.RESET;
             PurchaseLine1.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
             PurchaseLine1.SETRANGE(Type, PurchaseLine.Type::Item);
@@ -458,7 +465,8 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
         //CS079 Begin
         //IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') OR (ErrorDesc5 <> '') OR (ErrorDesc6 <>'') OR (ErrorDesc7 <>'') OR (ErrorDesc8 <>'') THEN BEGIN
         IF (ErrorDesc1 <> '') OR (ErrorDesc2 <> '') OR (ErrorDesc3 <> '') OR (ErrorDesc4 <> '') OR (ErrorDesc5 <> '')
-        OR (ErrorDesc6 <> '') OR (ErrorDesc7 <> '') OR (ErrorDesc8 <> '') OR (ErrorDesc9 <> '') OR (ErrorRcptNo <> '') THEN BEGIN
+        OR (ErrorDesc6 <> '') OR (ErrorDesc7 <> '') OR (ErrorDesc8 <> '') OR (ErrorDesc9 <> '') OR (ErrorRcptNo <> '')
+        OR (ErrorDuplCONo <> '') THEN BEGIN
             //CS079 End
             Staging.GET(p_Staging."Batch No.", p_Staging."Entry No.");
             IF ItemNo <> '' THEN
@@ -466,7 +474,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
             //Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4,2);
             //CS079 Begin
             //Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5+ErrorDesc6+ErrorDesc7+ErrorDesc8,2);
-            Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5 + ErrorDesc6 + ErrorDesc7 + ErrorDesc8 + ErrorDesc9 + ErrorRcptNo, 2);
+            Staging."Error Description" := COPYSTR(ErrorDesc1 + ErrorDesc2 + ErrorDesc3 + ErrorDesc4 + ErrorDesc5 + ErrorDesc6 + ErrorDesc7 + ErrorDesc8 + ErrorDesc9 + ErrorRcptNo + ErrorDuplCONo, 2);
             //CS079 End
             Staging.Status := Staging.Status::Error;
             Staging.MODIFY;

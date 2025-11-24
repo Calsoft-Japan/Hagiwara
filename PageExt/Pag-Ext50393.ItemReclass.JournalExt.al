@@ -221,6 +221,17 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
             end;
 
             //check if location is approval target.
+            if (xRec."New Location Code" <> Rec."New Location Code") or (xRec."Location Code" <> Rec."Location Code") then begin
+                Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+
+                if (recLocation.Get(Rec."New Location Code")) and (not recLocation."Approval Target")
+                and (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
+
+                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end;
+            end;
+
+            /*
             if (xRec."New Location Code" <> Rec."New Location Code") then begin
                 if (Rec."New Location Code" <> '')
                 and (recLocation.Get(Rec."New Location Code"))
@@ -240,6 +251,7 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
                     Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
                 end;
             end;
+            */
         end;
 
         //N005 End
@@ -265,15 +277,10 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
             Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
 
             //check if location is approval target.
-            if recLocation.Get(Rec."Location Code") then begin
-                if not recLocation."Approval Target" then begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-                end;
-            end;
-            if recLocation.Get(Rec."New Location Code") then begin
-                if not recLocation."Approval Target" then begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-                end;
+            if (recLocation.Get(Rec."New Location Code")) and (not recLocation."Approval Target")
+            and (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
+
+                Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
             end;
 
         end;

@@ -43,7 +43,12 @@ codeunit 50108 "Create Purchase Invoice"
                     if Staging2.FindSet() then
                         repeat
                             PurchRcptLine.SetRange("Buy-from Vendor No.", Staging2."Vendor No.");
-                            PurchRcptLine.SetRange("CO No.", Staging2."CO No.");
+                            if Staging2."CO No." = '' then begin
+                                PurchRcptLine.SetRange("Document No.", Staging2."Purch. Rept. No.");
+                                PurchRcptLine.SetRange("Line No.", Staging2."Line No.");
+                            end else begin
+                                PurchRcptLine.SetRange("CO No.", Staging2."CO No.");
+                            end;
                             PurchRcptLine.SetRange("Customer Item No.", Staging2."Customer Item No.");
                             PurchRcptLine.SetRange(Description, Staging2."Item Description");
                             PurchRcptLine.SetRange("Currency Code", Staging2."Currency Code");
