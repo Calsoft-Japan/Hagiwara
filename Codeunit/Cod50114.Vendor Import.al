@@ -184,9 +184,6 @@ codeunit 50114 "Vendor Import"
             Evaluate(rec_POInt."Update PO Price Target Date", GetValueAtCell(RowNo, 69));
             Evaluate(rec_POInt."IRS 1099 Code", GetValueAtCell(RowNo, 70));
             Evaluate(rec_POInt."Blocked", GetValueAtCell(RowNo, 71));
-            Evaluate(rec_POInt."Status", GetValueAtCell(RowNo, 72));
-            Evaluate(rec_POInt."Error Description", GetValueAtCell(RowNo, 73));
-            Evaluate(rec_POInt."Action", GetValueAtCell(RowNo, 74));
             rec_POInt.Insert();
         end;
         Message(ExcelImportSucess);

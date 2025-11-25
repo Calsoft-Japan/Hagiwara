@@ -527,6 +527,8 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("No.", p_VendorImportline."No.");
         end;
 
+        VendorRecord.Insert();
+
         VendorRecord.Validate("Name", p_VendorImportline."Name");
         VendorRecord.Validate("Search Name", p_VendorImportline."Search Name");
         VendorRecord.Validate("Name 2", p_VendorImportline."Name 2");
@@ -570,7 +572,6 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
         VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
         VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
-        VendorRecord.Validate("Preferred Bank Account Code", p_VendorImportline."Preferred Bank Account Code");
         VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
         VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
         VendorRecord.Validate("Responsibility Center", p_VendorImportline."Responsibility Center");
@@ -597,8 +598,25 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
         VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
 
-        VendorRecord.Insert();
+        //Create new records on the Vendor Bank Account table.
+        CreateRecordForVendorBankAccount(p_VendorImportline);
+
+        VendorRecord.Validate("Preferred Bank Account Code", p_VendorImportline."Preferred Bank Account Code");
+
+        VendorRecord.Modify();
     end;
+
+    //Create new records on the Vendor Bank Account table.
+    procedure CreateRecordForVendorBankAccount(var p_VendorImportline: Record "Vendor Import Line")
+    var
+        VendorBankAccountRecord: Record "Vendor Bank Account";
+    begin
+        VendorBankAccountRecord.INIT;
+        VendorBankAccountRecord.Validate("Vendor No.", p_VendorImportline."No.");
+        VendorBankAccountRecord.Validate("Code", p_VendorImportline."Preferred Bank Account Code");
+
+        VendorBankAccountRecord.Insert();
+    End;
 
     //Update existing records on the Vendor table.
     procedure UpdateRecordForVendor(var p_VendorImportline: Record "Vendor Import Line")
@@ -711,151 +729,153 @@ page 50114 "Vendor Import Lines"
         LocationCode: Record "Location";
         ManufacturerCode: Record "Manufacturer";
         IRS1099Code: Record "IRS 1099 Code";
+        GLSetup: Record "General Ledger Setup";
     begin
         // -------Existence Check (See table relation info.)-------
+        GLSetup.Get();
         //Global Dimension 1 Code
         if p_VendorImportline."Global Dimension 1 Code" <> '' then begin
-            if not GlobalDimension1Code.get(p_VendorImportline."Global Dimension 1 Code") then begin
-                ErrDesc := 'Global Dimension 1 Code is not found. ';
+            if not GlobalDimension1Code.get(GLSetup."Global Dimension 1 Code", p_VendorImportline."Global Dimension 1 Code") then begin
+                ErrDesc += 'Global Dimension 1 Code is not found. ';
             end;
         end;
         //Global Dimension 2 Code
         if p_VendorImportline."Global Dimension 2 Code" <> '' then begin
-            if not GlobalDimension2Code.get(p_VendorImportline."Global Dimension 2 Code") then begin
-                ErrDesc := 'Global Dimension 2 Code is not found. ';
+            if not GlobalDimension2Code.get(GLSetup."Global Dimension 2 Code", p_VendorImportline."Global Dimension 2 Code") then begin
+                ErrDesc += 'Global Dimension 2 Code is not found. ';
             end;
         end;
         //Vendor Posting Group
         if p_VendorImportline."Vendor Posting Group" <> '' then begin
             if not VendorPostingGroup.get(p_VendorImportline."Vendor Posting Group") then begin
-                ErrDesc := 'Vendor Posting Group is not found. ';
+                ErrDesc += 'Vendor Posting Group is not found. ';
             end;
         end;
         //Currency Code
         if p_VendorImportline."Currency Code" <> '' then begin
             if not CurrencyCode.get(p_VendorImportline."Currency Code") then begin
-                ErrDesc := 'Currency Code is not found. ';
+                ErrDesc += 'Currency Code is not found. ';
             end;
         end;
         //Language Code
         if p_VendorImportline."Language Code" <> '' then begin
             if not LanguageCode.get(p_VendorImportline."Language Code") then begin
-                ErrDesc := 'Language Code is not found. ';
+                ErrDesc += 'Language Code is not found. ';
             end;
         end;
         //Payment Terms Code
         if p_VendorImportline."Payment Terms Code" <> '' then begin
             if not PaymentTermsCode.get(p_VendorImportline."Payment Terms Code") then begin
-                ErrDesc := 'Payment Terms Code is not found. ';
+                ErrDesc += 'Payment Terms Code is not found. ';
             end;
         end;
         //Fin. Charge Terms Code
         if p_VendorImportline."Fin. Charge Terms Code" <> '' then begin
             if not FinChargeTermsCode.get(p_VendorImportline."Fin. Charge Terms Code") then begin
-                ErrDesc := 'Fin. Charge Terms Code is not found. ';
+                ErrDesc += 'Fin. Charge Terms Code is not found. ';
             end;
         end;
         //Purchaser Code
         if p_VendorImportline."Purchaser Code" <> '' then begin
             if not PurchaserCode.get(p_VendorImportline."Purchaser Code") then begin
-                ErrDesc := 'Purchaser Code is not found. ';
+                ErrDesc += 'Purchaser Code is not found. ';
             end;
         end;
         //Shipment Method Code
         if p_VendorImportline."Shipment Method Code" <> '' then begin
             if not ShipmentMethodCode.get(p_VendorImportline."Shipment Method Code") then begin
-                ErrDesc := 'Shipment Method Code is not found. ';
+                ErrDesc += 'Shipment Method Code is not found. ';
             end;
         end;
         //Shipping Agent Code
         if p_VendorImportline."Shipping Agent Code" <> '' then begin
             if not ShippingAgentCode.get(p_VendorImportline."Shipping Agent Code") then begin
-                ErrDesc := 'Shipping Agent Code is not found. ';
+                ErrDesc += 'Shipping Agent Code is not found. ';
             end;
         end;
         //Country/Region Code
         if p_VendorImportline."Country/Region Code" <> '' then begin
             if not CountryRegionCode.get(p_VendorImportline."Country/Region Code") then begin
-                ErrDesc := 'Country/Region Code is not found. ';
+                ErrDesc += 'Country/Region Code is not found. ';
             end;
         end;
         //Pay-to Vendor No.
         if p_VendorImportline."Pay-to Vendor No." <> '' then begin
             if ((p_VendorImportline."Pay-to Vendor No." <> p_VendorImportline."No.")
             and (not PaytoVendorNo.get(p_VendorImportline."Pay-to Vendor No."))) then begin
-                ErrDesc := 'Pay-to Vendor No. is not found. ';
+                ErrDesc += 'Pay-to Vendor No. is not found. ';
             end;
         end;
         //Payment Method Code
         if p_VendorImportline."Payment Method Code" <> '' then begin
             if not PaymentMethodCode.get(p_VendorImportline."Payment Method Code") then begin
-                ErrDesc := 'Payment Method Code is not found. ';
+                ErrDesc += 'Payment Method Code is not found. ';
             end;
         end;
         //Gen. Bus. Posting Group
         if p_VendorImportline."Gen. Bus. Posting Group" <> '' then begin
             if not GenBusPostingGroup.get(p_VendorImportline."Gen. Bus. Posting Group") then begin
-                ErrDesc := 'Gen. Bus. Posting Group is not found. ';
+                ErrDesc += 'Gen. Bus. Posting Group is not found. ';
             end;
         end;
         //No. Series
         if p_VendorImportline."No. Series" <> '' then begin
             if not NoSeries.get(p_VendorImportline."No. Series") then begin
-                ErrDesc := 'No. Series is not found. ';
+                ErrDesc += 'No. Series is not found. ';
             end;
         end;
         //Tax Area Code
         if p_VendorImportline."Tax Area Code" <> '' then begin
             if not TaxAreaCode.get(p_VendorImportline."Tax Area Code") then begin
-                ErrDesc := 'Tax Area Code is not found. ';
+                ErrDesc += 'Tax Area Code is not found. ';
             end;
         end;
         //VAT Bus. Posting Group
         if p_VendorImportline."VAT Bus. Posting Group" <> '' then begin
             if not VATBusPostingGroup.get(p_VendorImportline."VAT Bus. Posting Group") then begin
-                ErrDesc := 'VAT Bus. Posting Group is not found. ';
+                ErrDesc += 'VAT Bus. Posting Group is not found. ';
             end;
         end;
         //IC Partner Code
         if p_VendorImportline."IC Partner Code" <> '' then begin
             if not ICPartnerCode.get(p_VendorImportline."IC Partner Code") then begin
-                ErrDesc := 'IC Partner Code is not found. ';
+                ErrDesc += 'IC Partner Code is not found. ';
             end;
         end;
-        //Preferred Bank Account Code
+        /*//Preferred Bank Account Code TODO:NRM
         if p_VendorImportline."Preferred Bank Account Code" <> '' then begin
-            if not PreferredBankAccountCode.get(p_VendorImportline."Preferred Bank Account Code") then begin
-                ErrDesc := 'Preferred Bank Account Code is not found. ';
+            if not PreferredBankAccountCode.get(p_VendorImportline."No.", p_VendorImportline."Preferred Bank Account Code") then begin
+                ErrDesc += 'Preferred Bank Account Code is not found. ';
             end;
-        end;
+        end;*/
         //Cash Flow Payment Terms Code
         if p_VendorImportline."Cash Flow Payment Terms Code" <> '' then begin
             if not CashFlowPaymentTermsCode.get(p_VendorImportline."Cash Flow Payment Terms Code") then begin
-                ErrDesc := 'Cash Flow Payment Terms Code is not found. ';
+                ErrDesc += 'Cash Flow Payment Terms Code is not found. ';
             end;
         end;
         //Responsibility Center
         if p_VendorImportline."Responsibility Center" <> '' then begin
             if not ResponsibilityCenter.get(p_VendorImportline."Responsibility Center") then begin
-                ErrDesc := 'Responsibility Center is not found. ';
+                ErrDesc += 'Responsibility Center is not found. ';
             end;
         end;
         //Location Code
         if p_VendorImportline."Location Code" <> '' then begin
             if not LocationCode.get(p_VendorImportline."Location Code") then begin
-                ErrDesc := 'Location Code is not found. ';
+                ErrDesc += 'Location Code is not found. ';
             end;
         end;
         //Manufacturer Code
         if p_VendorImportline."Manufacturer Code" <> '' then begin
             if not ManufacturerCode.get(p_VendorImportline."Manufacturer Code") then begin
-                ErrDesc := 'Manufacturer Code is not found. ';
+                ErrDesc += 'Manufacturer Code is not found. ';
             end;
         end;
         //IRS 1099 Code
         if p_VendorImportline."IRS 1099 Code" <> '' then begin
             if not IRS1099Code.get(p_VendorImportline."IRS 1099 Code") then begin
-                ErrDesc := 'IRS 1099 Code is not found. ';
+                ErrDesc += 'IRS 1099 Code is not found. ';
             end;
         end;
 
