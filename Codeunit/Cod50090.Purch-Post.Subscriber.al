@@ -80,7 +80,7 @@ codeunit 50090 "Purch-Post Subscriber"
                     PC_HandledInTran.SetRange("Document No.", pPurchHeader."No.");
                     PC_HandledInTran.SetRange("Source Type", PC_HandledInTran."Source Type"::"Sales Document");
                     PC_HandledInTran.SetRange("Document Type", PC_HandledInTran."Document Type"::Order);
-                    PC_HandledInTran.SetRange(Status, PC_HandledInTran.Status::Accepted);
+                    PC_HandledInTran.SetFilter(Status, '%1|%2', PC_HandledInTran.Status::Accepted, PC_HandledInTran.Status::Posted);
                     if PC_HandledInTran.FindFirst() then begin
                         PC_SalesHeader.SetRange("External Document No.", pPurchHeader."No.");
                         if PC_SalesHeader.FindFirst() then begin
