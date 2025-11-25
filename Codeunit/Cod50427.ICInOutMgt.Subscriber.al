@@ -104,9 +104,13 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
     begin
         SalesLine."Customer Order No." := ICInboxSalesLine."Customer Order No.";
         SalesLine."Requested Delivery Date_1" := ICInboxSalesLine."Requested Delivery Date_1";
+        SalesLine."Approval History Exists" := true;
+        SalesLine."Approved Quantity" := SalesLine.Quantity;
+        SalesLine."Approved Unit Price" := SalesLine."Unit Price";
         SalesLine.Modify();
 
         SalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+        SalesHeader."Approval Cycle No." := 1;
         SalesHeader.Modify();
     end;
 
