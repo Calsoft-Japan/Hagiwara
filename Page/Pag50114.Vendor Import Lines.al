@@ -880,7 +880,7 @@ page 50114 "Vendor Import Lines"
         end;
 
         // -------Option Value Check-------
-        //Application Method
+        //Checked in Import action
 
         // -------the result of Validation-------
         if (ErrDesc <> '') then begin

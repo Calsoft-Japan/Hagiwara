@@ -95,19 +95,22 @@ codeunit 50114 "Vendor Import"
 
             //Option Value Check
             //Application Method
-            if ((ApplicationMethodStr = '') or (not (ApplicationMethodStr in ['Manual', 'Apply to Oldest']))) then begin
+            if (not Evaluate(rec_POInt."Application Method", ApplicationMethodStr)) then begin
                 Error(ApplicationMethodMsg);
             end;
+
             //Partner Type
-            if ((PartnerTypeStr = '') or (not (PartnerTypeStr in ['Company', 'Person', 'Government']))) then begin
+            if (not Evaluate(rec_POInt."Partner Type", PartnerTypeStr)) then begin
                 Error(PartnerTypeMsg);
             end;
+
             //Update PO Price Target Date
-            if ((UpdatePOriceTargetDateStr = '') or (not (UpdatePOriceTargetDateStr in ['Order Date', 'Expected Receipt Date']))) then begin
+            if (not Evaluate(rec_POInt."Update PO Price Target Date", UpdatePOriceTargetDateStr)) then begin
                 Error(UpdatePOPriceTargetDateMsg);
             end;
+
             //Blocked
-            if ((BlockedStr = '') or (not (BlockedStr in ['Ship', 'Invoice', 'All']))) then begin
+            if (not Evaluate(rec_POInt."Blocked", BlockedStr)) then begin
                 Error(BlockedMsg);
             end;
 

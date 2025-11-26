@@ -85,10 +85,8 @@ table 50114 "Vendor Import Line"
         field(27; "Payment Method Code"; Code[10])
         {
         }
-        field(28; "Application Method"; Option)
+        field(28; "Application Method"; Enum "Application Method")
         {
-            OptionCaption = 'Manual, Apply to Oldest';
-            OptionMembers = Manual,"Apply to Oldest";
         }
         field(29; "Prices Including VAT"; Boolean)
         {
@@ -139,10 +137,8 @@ table 50114 "Vendor Import Line"
         field(44; "Prepayment %"; Decimal)
         {
         }
-        field(45; "Partner Type"; Option)
+        field(45; "Partner Type"; Enum "Partner Type")
         {
-            OptionCaption = 'Company, Person, Government';
-            OptionMembers = Company,Person,Government;
         }
         field(46; "Creditor No."; Code[20])
         {
@@ -218,20 +214,18 @@ table 50114 "Vendor Import Line"
         }
         field(70; "Update PO Price Target Date"; Option)
         {
-            OptionCaption = 'Order Date, Expected Receipt Date';
-            OptionMembers = "Order Date","Expected Receipt Date";
+            OptionCaption = ' ,Order Date,Expected Receipt Date';
+            OptionMembers = " ","Order Date","Expected Receipt Date";
         }
         field(71; "IRS 1099 Code"; Code[10])
         {
         }
-        field(72; "Blocked"; Option)
+        field(72; "Blocked"; Enum "Vendor Blocked")
         {
-            OptionCaption = 'Ship, Invoice, All';
-            OptionMembers = Ship,Invoice,All;
         }
         field(73; "Status"; Option)
         {
-            OptionCaption = 'Pending, Error, Validated, Completed';
+            OptionCaption = 'Pending,Error,Validated,Completed';
             OptionMembers = Pending,Error,Validated,Completed;
         }
         field(74; "Error Description"; Text[250])
@@ -239,7 +233,7 @@ table 50114 "Vendor Import Line"
         }
         field(75; "Action"; Option)
         {
-            OptionCaption = ' , Create, Update';
+            OptionCaption = ' , Create,Update';
             OptionMembers = " ",Create,Update;
         }
     }
