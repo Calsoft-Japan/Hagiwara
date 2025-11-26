@@ -52,7 +52,7 @@
                                     <Width>1.7319cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.04405cm</Width>
+                                    <Width>1.19939cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
                                     <Width>1.70673cm</Width>
@@ -61,7 +61,7 @@
                                     <Width>2.37719cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>2.02305cm</Width>
+                                    <Width>1.86771cm</Width>
                                   </TablixColumn>
                                 </TablixColumns>
                                 <TablixRows>
@@ -2523,7 +2523,6 @@
                                               <PaddingRight>5pt</PaddingRight>
                                             </Style>
                                           </Textbox>
-                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell>
@@ -4799,6 +4798,23 @@ Cstr(Fields!ColonCaption.Value), 1)</Hidden>
                     <VerticalAlign>Middle</VerticalAlign>
                   </Style>
                 </Textbox>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>Fit</Sizing>
+                  <Top>0.80582in</Top>
+                  <Left>12.55932cm</Left>
+                  <Height>33.42835pt</Height>
+                  <Width>5.23951cm</Width>
+                  <ZIndex>4</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>0cm</Top>
@@ -5003,6 +5019,9 @@ End Function
         </Field>
         <Field Name="ColonCaption">
           <DataField>ColonCaption</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>

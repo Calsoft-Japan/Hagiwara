@@ -30,6 +30,10 @@ report 50031 "PO Hagiwara-Cust Item3"
             column(ColonCaption; ColonCaptionLbl)
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem(CopyLoop; Integer)
             {
                 DataItemTableView = SORTING(Number);
@@ -591,7 +595,23 @@ report 50031 "PO Hagiwara-Cust Item3"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Purchase Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
@@ -899,6 +919,7 @@ report 50031 "PO Hagiwara-Cust Item3"
         TotalQuantity: Integer;
         Country: Record "Country/Region";
         SecondLineDesc: Text;
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     procedure InitializeRequest(NewNoOfCopies: Integer; NewShowInternalInfo: Boolean; NewArchiveDocument: Boolean; NewLogInteraction: Boolean)
     begin

@@ -19,6 +19,10 @@ report 50017 "Sales Order US"
             column(No_SalesHeader; "No.")
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem("Sales Line"; "Sales Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");
@@ -427,6 +431,9 @@ report 50017 "Sales Order US"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
                 IF PrintCompany THEN
                     IF RespCenter.GET("Responsibility Center") THEN BEGIN
@@ -434,6 +441,20 @@ report 50017 "Sales Order US"
                         CompanyInformation."Phone No." := RespCenter."Phone No.";
                         CompanyInformation."Fax No." := RespCenter."Fax No.";
                     END;
+
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
 
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
@@ -665,6 +686,7 @@ report 50017 "Sales Order US"
         PrintShipQty: Boolean;
         Agent: Record "Sales Shipment Header";
         Item: Record Item;
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     procedure GetUnitOfMeasureDescr(UOMCode: Code[10]): Text[10]
     var

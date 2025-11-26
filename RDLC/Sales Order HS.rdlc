@@ -1228,7 +1228,6 @@
                                               <PaddingRight>5pt</PaddingRight>
                                             </Style>
                                           </Textbox>
-                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell>
@@ -3440,6 +3439,23 @@ Cstr(Fields!DocumentDateCaption.Value), 1)</Hidden>
                     </Border>
                   </Style>
                 </Line>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>Fit</Sizing>
+                  <Top>0.83333in</Top>
+                  <Left>9.31244cm</Left>
+                  <Height>13pt</Height>
+                  <Width>4.73341cm</Width>
+                  <ZIndex>18</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Height>4.17066cm</Height>
@@ -3628,6 +3644,9 @@ End Function
         </Field>
         <Field Name="TodaysTime">
           <DataField>TodaysTime</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="OrderConfirmation">
           <DataField>OrderConfirmation</DataField>

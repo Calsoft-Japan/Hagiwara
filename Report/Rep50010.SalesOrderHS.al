@@ -33,6 +33,10 @@ report 50010 "Sales Order-HS"
             column(TodaysTime; FORMAT(TIME, 0, '<Hours12,2>:<Minutes,2>:<Seconds,2>'))
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem(CopyLoop; Integer)
             {
                 DataItemTableView = SORTING(Number);
@@ -441,7 +445,24 @@ report 50010 "Sales Order-HS"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
+
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
@@ -742,7 +763,7 @@ report 50010 "Sales Order-HS"
         CustNameCaptionLbl: Label 'Customer Name';
         OEMNameCaptionLbl: Label 'OEM Name';
         CustOrderNoCaptionLbl: Label 'Customer Order No.';
-
+        ESignTenantMedia: Record "Tenant Media"; //N005
     //[Scope('Internal')]
     procedure InitializeRequest(NoOfCopiesFrom: Integer; ShowInternalInfoFrom: Boolean; ArchiveDocumentFrom: Boolean; LogInteractionFrom: Boolean; PrintFrom: Boolean; DisplayAsmInfo: Boolean)
     begin

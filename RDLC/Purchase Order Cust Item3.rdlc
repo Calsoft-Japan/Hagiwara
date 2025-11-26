@@ -19,7 +19,7 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>18.2313cm</Width>
+                  <Width>17.83766cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -46,16 +46,16 @@
                                     <Width>0.79864cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.91997cm</Width>
+                                    <Width>1.83786cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.83598cm</Width>
+                                    <Width>1.79715cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>0.98054cm</Width>
+                                    <Width>1.15535cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
-                                    <Width>1.77729cm</Width>
+                                    <Width>1.70931cm</Width>
                                   </TablixColumn>
                                   <TablixColumn>
                                     <Width>2.44063cm</Width>
@@ -3431,7 +3431,7 @@
                               </SortExpressions>
                               <Top>17.00787pt</Top>
                               <Height>4.7333cm</Height>
-                              <Width>17.85178cm</Width>
+                              <Width>17.83767cm</Width>
                               <Style />
                             </Tablix>
                             <Tablix Name="tableHdrDim">
@@ -3532,7 +3532,7 @@
                                 </Filter>
                               </Filters>
                               <Top>0pt</Top>
-                              <Left>0pt</Left>
+                              <Left>0.00031pt</Left>
                               <Height>0.35278cm</Height>
                               <Width>17.83766cm</Width>
                               <ZIndex>1</ZIndex>
@@ -3659,7 +3659,7 @@ Cstr(Fields!HdrAddrLine5.Value), 1)</Hidden>
             <Top>0.00521in</Top>
             <Left>0.01148in</Left>
             <Height>5.4333cm</Height>
-            <Width>18.2313cm</Width>
+            <Width>17.83766cm</Width>
             <Style />
           </Tablix>
         </ReportItems>
@@ -4857,6 +4857,23 @@ Cstr(Fields!HdrAddrLine5.Value), 1)</Hidden>
                     <VerticalAlign>Middle</VerticalAlign>
                   </Style>
                 </Textbox>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>Fit</Sizing>
+                  <Top>0.79193in</Top>
+                  <Left>12.55931cm</Left>
+                  <Height>33.42835pt</Height>
+                  <Width>5.23952cm</Width>
+                  <ZIndex>4</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>0cm</Top>
@@ -5061,6 +5078,9 @@ End Function
         </Field>
         <Field Name="ColonCaption">
           <DataField>ColonCaption</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>

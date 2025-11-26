@@ -214,6 +214,13 @@ report 50005 "Purchase Order US"
                     column(Loc_phoneno; Loc_phoneno)
                     {
                     }
+                    column(Vendor_Country; "Purchase Header"."Buy-from County")
+                    {
+                    }
+                    column(ESign; ESignTenantMedia.Content)
+                    {
+                        //N005
+                    }
                     dataitem("Purchase Line"; "Purchase Line")
                     {
                         DataItemLink = "Document No." = FIELD("No.");
@@ -426,6 +433,9 @@ report 50005 "Purchase Order US"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
                 IF PrintCompany THEN
                     IF RespCenter.GET("Responsibility Center") THEN BEGIN
@@ -433,6 +443,21 @@ report 50005 "Purchase Order US"
                         CompanyInformation."Phone No." := RespCenter."Phone No.";
                         CompanyInformation."Fax No." := RespCenter."Fax No.";
                     END;
+
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Purchase Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
+
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
@@ -671,5 +696,6 @@ report 50005 "Purchase Order US"
         ItemDescrtoPrint: Text[50];
         Loc1: Record Location;
         Loc_phoneno: Text[50];
+        ESignTenantMedia: Record "Tenant Media"; //N005
 }
 

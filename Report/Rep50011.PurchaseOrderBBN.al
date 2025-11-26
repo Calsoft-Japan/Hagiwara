@@ -41,6 +41,10 @@ report 50011 "Purchase Order BBN"
             column(Purchase_Header_No_; "No.")
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem(CopyLoop; Integer)
             {
                 DataItemTableView = SORTING(Number);
@@ -973,7 +977,22 @@ report 50011 "Purchase Order BBN"
                 _PurchLine: Record "Purchase Line";
                 _Location: Record Location;
                 _Country: Record "Country/Region";
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Purchase Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
                 CompanyInfo.GET;
@@ -1394,6 +1413,7 @@ report 50011 "Purchase Order BBN"
         Location: Record Location;
         FiscalRepresentative: Text[250];
         VATBusinessPostingGroup: Record "VAT Business Posting Group";
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     procedure InitializeRequest(NewNoOfCopies: Integer; NewShowInternalInfo: Boolean; NewArchiveDocument: Boolean; NewLogInteraction: Boolean)
     begin
