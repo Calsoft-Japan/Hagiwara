@@ -197,10 +197,6 @@ page 50114 "Vendor Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Preferred Bank Account Code"; Rec."Preferred Bank Account Code")
-                {
-                    ApplicationArea = all;
-                }
                 field("Cash Flow Payment Terms Code"; Rec."Cash Flow Payment Terms Code")
                 {
                     ApplicationArea = all;
@@ -384,6 +380,13 @@ page 50114 "Vendor Import Lines"
                         // -------check record contents-------
                         if VendorImportline.FINDFIRST then
                             REPEAT
+                                if not VendorNoList.Contains(VendorImportline."No.") then begin
+                                    VendorNoList.Add(VendorImportline."No.");
+                                end;
+                            UNTIL VendorImportline.NEXT = 0;
+
+                        if VendorImportline.FINDFIRST then
+                            REPEAT
                                 CheckError(VendorImportline);
                             UNTIL VendorImportline.NEXT = 0;
 
@@ -427,6 +430,10 @@ page 50114 "Vendor Import Lines"
                         if VendorImportline.FINDFIRST then
                             REPEAT
                                 ExecuteProcess(VendorImportline);
+                            UNTIL VendorImportline.NEXT = 0;
+                        if VendorImportline.FINDFIRST then
+                            REPEAT
+                                UpdatePaytoVendorNo(VendorImportline);
                             UNTIL VendorImportline.NEXT = 0;
 
                         // delete all
@@ -474,6 +481,7 @@ page 50114 "Vendor Import Lines"
 
     var
         G_BatchName: Code[20];
+        VendorNoList: List of [Text];
 
     procedure SetBatchName(pBatchName: Code[20])
     begin
@@ -551,7 +559,7 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Shipping Agent Code", p_VendorImportline."Shipping Agent Code");
         VendorRecord.Validate("Invoice Disc. Code", p_VendorImportline."Invoice Disc. Code");
         VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
-        VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
+        //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
         VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
         VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
         VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
@@ -596,27 +604,21 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
         VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
         VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
-        VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
-
-        //Create new records on the Vendor Bank Account table.
-        CreateRecordForVendorBankAccount(p_VendorImportline);
-
-        VendorRecord.Validate("Preferred Bank Account Code", p_VendorImportline."Preferred Bank Account Code");
-
+        //VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
+        VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
         VendorRecord.Modify();
     end;
 
-    //Create new records on the Vendor Bank Account table.
-    procedure CreateRecordForVendorBankAccount(var p_VendorImportline: Record "Vendor Import Line")
-    var
-        VendorBankAccountRecord: Record "Vendor Bank Account";
-    begin
-        VendorBankAccountRecord.INIT;
-        VendorBankAccountRecord.Validate("Vendor No.", p_VendorImportline."No.");
-        VendorBankAccountRecord.Validate("Code", p_VendorImportline."Preferred Bank Account Code");
 
-        VendorBankAccountRecord.Insert();
-    End;
+    procedure UpdatePaytoVendorNo(var p_VendorImportline: Record "Vendor Import Line")
+    var
+        VendorRecord: Record "Vendor";
+    begin
+        if VendorRecord.get(p_VendorImportline."No.") then begin
+            VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
+            VendorRecord.Modify(true);
+        end;
+    end;
 
     //Update existing records on the Vendor table.
     procedure UpdateRecordForVendor(var p_VendorImportline: Record "Vendor Import Line")
@@ -647,7 +649,7 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Shipping Agent Code", p_VendorImportline."Shipping Agent Code");
             VendorRecord.Validate("Invoice Disc. Code", p_VendorImportline."Invoice Disc. Code");
             VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
-            VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
+            //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
             VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
             VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
             VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
@@ -668,7 +670,6 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
             VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
             VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
-            VendorRecord.Validate("Preferred Bank Account Code", p_VendorImportline."Preferred Bank Account Code");
             VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
             VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
             VendorRecord.Validate("Responsibility Center", p_VendorImportline."Responsibility Center");
@@ -693,7 +694,8 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
             VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
             VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
-            VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
+            //VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
+            VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
 
             VendorRecord.Modify(true);
         end;
@@ -723,7 +725,6 @@ page 50114 "Vendor Import Lines"
         TaxAreaCode: Record "Tax Area";
         VATBusPostingGroup: Record "VAT Business Posting Group";
         ICPartnerCode: Record "IC Partner";
-        PreferredBankAccountCode: Record "Vendor Bank Account";
         CashFlowPaymentTermsCode: Record "Payment Terms";
         ResponsibilityCenter: Record "Responsibility Center";
         LocationCode: Record "Location";
@@ -802,7 +803,8 @@ page 50114 "Vendor Import Lines"
         //Pay-to Vendor No.
         if p_VendorImportline."Pay-to Vendor No." <> '' then begin
             if ((p_VendorImportline."Pay-to Vendor No." <> p_VendorImportline."No.")
-            and (not PaytoVendorNo.get(p_VendorImportline."Pay-to Vendor No."))) then begin
+            and (not PaytoVendorNo.get(p_VendorImportline."Pay-to Vendor No."))
+            and (not VendorNoList.Contains(p_VendorImportline."Pay-to Vendor No."))) then begin
                 ErrDesc += 'Pay-to Vendor No. is not found. ';
             end;
         end;
@@ -842,12 +844,6 @@ page 50114 "Vendor Import Lines"
                 ErrDesc += 'IC Partner Code is not found. ';
             end;
         end;
-        /*//Preferred Bank Account Code TODO:NRM
-        if p_VendorImportline."Preferred Bank Account Code" <> '' then begin
-            if not PreferredBankAccountCode.get(p_VendorImportline."No.", p_VendorImportline."Preferred Bank Account Code") then begin
-                ErrDesc += 'Preferred Bank Account Code is not found. ';
-            end;
-        end;*/
         //Cash Flow Payment Terms Code
         if p_VendorImportline."Cash Flow Payment Terms Code" <> '' then begin
             if not CashFlowPaymentTermsCode.get(p_VendorImportline."Cash Flow Payment Terms Code") then begin
