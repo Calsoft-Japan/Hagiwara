@@ -272,6 +272,10 @@ codeunit 50115 "SQ&SO Import"
                         if RecSQSOImport."Shipment Date" <> 0D then begin
                             RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                         end;
+                        if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
+                            RecSalesLine."Approved Quantity" := RecSalesLine.Quantity;
+                            RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
+                        end;
                         RecSalesLine.Modify();
                     end;
                     RecSalesHeader.Reset();
@@ -377,6 +381,8 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
                     RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
+                    RecSalesLine."Approved Quantity" := RecSalesLine.Quantity;
+                    RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
                 end;
                 RecSalesLine.Insert(true);
                 InsertExtendedText(RecSalesLine, true);

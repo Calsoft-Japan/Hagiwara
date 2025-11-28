@@ -251,6 +251,8 @@ codeunit 50116 "PO Import"
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", TmpReqRecDate1);//The data
                             end;
                             RecPurchaseLine."CO No." := TemCoNo;
+                            RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
+                            RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
                             RecPurchaseLine.Modify();
                         end;
                         RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;
@@ -287,11 +289,13 @@ codeunit 50116 "PO Import"
                         RecTmpPOImportInsert.Reset();
                         RecTmpPOImportInsert.Init();
                         RecTmpPOImportInsert.TransferFields(RecPOImportInsert);
+                        RecTmpPOImportInsert."Document No." := RecPurchaseHeader."No.";
                         RecTmpPOImportInsert.Insert();
                     end;
+
                     RecPurchaseLine.Reset();
                     RecPurchaseLine.SetRange("Document Type", RecPurchaseLine."Document Type"::Order);
-                    RecPurchaseLine.SetRange("Document No.", RecPurchaseHeader."No.");
+                    RecPurchaseLine.SetRange("Document No.", RecTmpPOImportInsert."Document No.");
                     if RecPurchaseLine.FindLast() then begin
                         RecPurchaseLineNo := RecPurchaseLine."Line No.";
                     end else begin
@@ -299,8 +303,8 @@ codeunit 50116 "PO Import"
                     end;
                     RecPurchaseLineNo += 10000;
                     RecPurchaseLine.Init();
-                    RecPurchaseLine."Document Type" := RecPurchaseHeader."Document Type";
-                    RecPurchaseLine."Document No." := RecPurchaseHeader."No.";
+                    RecPurchaseLine."Document Type" := RecPurchaseLine."Document Type"::Order;
+                    RecPurchaseLine."Document No." := RecTmpPOImportInsert."Document No.";
                     RecPurchaseLine.Validate("Buy-from Vendor No.", RecPOImportInsert."Vendor No.");
                     RecPurchaseLine.Type := RecPurchaseLine.Type::Item;
                     RecPurchaseLine.Validate("No.", RecPOImportInsert."Item No.");
@@ -310,13 +314,15 @@ codeunit 50116 "PO Import"
                     if (RecPOImportInsert."Requested Receipt Date" <> 0D) then begin
                         RecPurchaseLine.Validate("Requested Receipt Date_1", RecPOImportInsert."Requested Receipt Date");
                     end;
+                    RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
+                    RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
                     RecPurchaseLine.Insert();
 
                     if RecPOImportInsert."Insert Comment Line" then begin
                         RecItem.Get(RecPOImportInsert."Item No.");
                         RecPurchaseLine.Init();
-                        RecPurchaseLine."Document Type" := RecPurchaseHeader."Document Type";
-                        RecPurchaseLine."Document No." := RecPurchaseHeader."No.";
+                        RecPurchaseLine."Document Type" := RecPurchaseLine."Document Type"::Order;
+                        RecPurchaseLine."Document No." := RecTmpPOImportInsert."Document No.";
                         RecPurchaseLine.Validate("Buy-from Vendor No.", RecPOImportInsert."Vendor No.");
                         RecPurchaseLine.Type := RecPurchaseLine.Type::" ";
                         RecPurchaseLine.Description := 'CO:' + RecItem."Country/Region of Origin Code";
