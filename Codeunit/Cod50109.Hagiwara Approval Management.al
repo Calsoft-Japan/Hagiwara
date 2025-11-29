@@ -20,6 +20,7 @@ codeunit 50109 "Hagiwara Approval Management"
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         ReqGroup: Code[30];
@@ -171,11 +172,19 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::Customer:
                     begin
+                        /*
                         Cust.get(pDataNo);
                         Cust."Approval Status" := SubmitStatus;
                         Cust.Requester := UserId;
                         Cust."Hagi Approver" := Approver;
                         Cust.Modify();
+                        */
+
+                        CustImportBatch.get(pDataNo);
+                        CustImportBatch."Approval Status" := SubmitStatus;
+                        CustImportBatch.Requester := UserId;
+                        CustImportBatch."Hagi Approver" := Approver;
+                        CustImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::Vendor:
                     begin
@@ -229,6 +238,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
@@ -345,11 +355,18 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::Customer:
                     begin
+                        /*
                         Cust.get(pDataNo);
                         Cust."Approval Status" := "Hagiwara Approval Status"::Cancelled;
                         Cust.Requester := '';
                         Cust."Hagi Approver" := '';
                         Cust.Modify();
+                        */
+                        CustImportBatch.get(pDataNo);
+                        CustImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        CustImportBatch.Requester := '';
+                        CustImportBatch."Hagi Approver" := '';
+                        CustImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::Vendor:
                     begin
@@ -402,6 +419,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
@@ -518,9 +536,15 @@ codeunit 50109 "Hagiwara Approval Management"
                         end;
                     Enum::"Hagiwara Approval Data"::Customer:
                         begin
+                            /*
                             Cust.get(pDataNo);
                             Cust."Hagi Approver" := nextApprover;
                             Cust.Modify();
+                            */
+
+                            CustImportBatch.get(pDataNo);
+                            CustImportBatch."Hagi Approver" := nextApprover;
+                            CustImportBatch.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::Vendor:
                         begin
@@ -660,9 +684,15 @@ codeunit 50109 "Hagiwara Approval Management"
                         end;
                     Enum::"Hagiwara Approval Data"::Customer:
                         begin
+                            /*
                             Cust.get(pDataNo);
                             Cust."Approval Status" := "Hagiwara Approval Status"::Approved;
                             Cust.Modify();
+                            */
+
+                            CustImportBatch.get(pDataNo);
+                            CustImportBatch."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            CustImportBatch.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::Vendor:
                         begin
@@ -716,6 +746,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
@@ -822,10 +853,17 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::Customer:
                     begin
+                        /*
                         Cust.get(pDataNo);
                         Cust."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         Cust."Hagi Approver" := pUsername;
                         Cust.Modify();
+                        */
+
+                        CustImportBatch.get(pDataNo);
+                        CustImportBatch."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        CustImportBatch."Hagi Approver" := pUsername;
+                        CustImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::Vendor:
                     begin
@@ -874,6 +912,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
@@ -971,11 +1010,19 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::Customer:
                 begin
+                    /*
                     Cust.get(pDataNo);
                     Cust."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
                     Cust."Hagi Approver" := '';
                     Cust.Requester := '';
                     Cust.Modify();
+                    */
+
+                    CustImportBatch.get(pDataNo);
+                    CustImportBatch."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    CustImportBatch."Hagi Approver" := '';
+                    CustImportBatch.Requester := '';
+                    CustImportBatch.Modify();
                 end;
             Enum::"Hagiwara Approval Data"::Vendor:
                 begin
@@ -1020,6 +1067,7 @@ codeunit 50109 "Hagiwara Approval Management"
         AssemblyHeader: Record "Assembly Header";
         ItemJourLine: Record "Item journal Line";
         ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
@@ -1113,9 +1161,17 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::Customer:
                 begin
+                    /*
                     if Cust.Get(pApprEntry."No.") then begin
                         DocFound := true;
                         Page.RunModal(Page::"Customer Card", Cust);
+                    end;
+                    */
+
+                    if CustImportBatch.Get(pApprEntry."No.") then begin
+                        CustImportBatch.SetRecFilter();
+                        DocFound := true;
+                        Page.RunModal(Page::"Customer Import Batches", CustImportBatch);
                     end;
                 end;
             Enum::"Hagiwara Approval Data"::Vendor:
@@ -1360,7 +1416,8 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"Assembly Order":
                 exit('&page=900&filter=''Assembly Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::Customer:
-                exit('&page=21&filter=''Customer''.''No.'' is ''' + pDataNo + '''');
+                //exit('&page=21&filter=''Customer''.''No.'' is ''' + pDataNo + '''');
+                exit('&page=50119&filter=''Customer Import Batch''.''Name'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::Vendor:
                 //exit('&page=26&filter=''Vendor''.''No.'' is ''' + pDataNo + '''');
                 exit('&page=50113&filter=''Vendor Import Batch''.''Name'' is ''' + pDataNo + '''');

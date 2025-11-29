@@ -115,6 +115,7 @@ page 50017 "Renesas PO Interface List"
                 }
                 action("Delete Not Process Record")
                 {
+                    Visible = false;
                     Caption = 'Delete Not Process Record';
                     Image = DeleteRow;
                     Promoted = true;

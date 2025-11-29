@@ -58,7 +58,7 @@ codeunit 50179 "Renesas PO Interface (Update)"
 
             until rec_POInt.Next() = 0;
 
-
+        MESSAGE('Renesas PO Data Update Completed!');
 
         rec_PurchPayableSetup.GET;
         rec_PurchPayableSetup."Update Renesas PO Status" := '3';

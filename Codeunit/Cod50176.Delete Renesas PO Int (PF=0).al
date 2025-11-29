@@ -1,6 +1,6 @@
 codeunit 50176 "Delete Renesas PO Int (PF=0)"
 {
-
+    /*
     trigger OnRun()
     begin
         rec_PurchPayableSetup.GET;
@@ -83,4 +83,5 @@ codeunit 50176 "Delete Renesas PO Int (PF=0)"
         Text005: Label 'Renesas PO Interface Record had been deleted: %1 records.';
         Text006: Label 'There is no record to delete.';
 
+    */
 }

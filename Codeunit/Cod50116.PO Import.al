@@ -253,6 +253,7 @@ codeunit 50116 "PO Import"
                             RecPurchaseLine."CO No." := TemCoNo;
                             RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
                             RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
+                            RecPurchaseLine."Approval History Exists" := true;
                             RecPurchaseLine.Modify();
                         end;
                         RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;
@@ -316,6 +317,7 @@ codeunit 50116 "PO Import"
                     end;
                     RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
                     RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
+                    RecPurchaseLine."Approval History Exists" := true;
                     RecPurchaseLine.Insert();
 
                     if RecPOImportInsert."Insert Comment Line" then begin
