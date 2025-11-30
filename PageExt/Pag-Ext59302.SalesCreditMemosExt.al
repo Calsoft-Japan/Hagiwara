@@ -19,6 +19,10 @@ pageextension 59302 SalesCreditMemosExt extends "Sales Credit Memos"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
 
         }
 

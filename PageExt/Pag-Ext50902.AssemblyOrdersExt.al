@@ -17,6 +17,19 @@ pageextension 50902 AssemblyOrdersExt extends "Assembly Orders"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
+        }
+
+        addafter(Quantity)
+        {
+            field("Approved Quantity"; Rec."Approved Quantity")
+            {
+                ApplicationArea = all;
+            }
+
         }
 
 

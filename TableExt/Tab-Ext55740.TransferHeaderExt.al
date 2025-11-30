@@ -15,11 +15,18 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             Caption = 'Approver';
             Editable = false;
         }
+        field(50004; "Approval Cycle No."; Integer)
+        {
+            //stores the number of completed approval cycles in Hagiwara Approval Entry.
+            //(only counts approvals by the final approver; intermediate Reject or Cancel actions are excluded).
+            Editable = false;
+        }
     }
 
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        cuApprMgt: Codeunit "Hagiwara Approval Management";
         recLocation: Record Location;
     begin
         //N005 Begin
@@ -29,42 +36,39 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
 
-            //check if location is approval target.
+            if "Approval Cycle No." > 0 then begin
+                if ("Transfer-from Code" <> xRec."Transfer-from Code")
+                    or ("Transfer-from Name" <> xRec."Transfer-from Name")
+                    or ("Transfer-to Code" <> xRec."Transfer-to Code")
+                    or ("Transfer-to Name" <> xRec."Transfer-to Name") then begin
+                    Error('Can''t edit this field because of it''s been fully approved once.');
+                end;
+            end;
+
+            //check if location changed.
             if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") or (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
                 Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-
-                if (recLocation.Get(Rec."Transfer-from Code")) and (not recLocation."Approval Target")
-                and (recLocation.Get(Rec."Transfer-to Code")) and (not recLocation."Approval Target") then begin
-
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-                end;
             end;
 
-            /*
-            if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") then begin
-                if (Rec."Transfer-from Code" <> '')
-                and (recLocation.Get(Rec."Transfer-from Code"))
-                and (not recLocation."Approval Target") then begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-                end else begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-                end;
-            end;
-
-            if (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
-                if (Rec."Transfer-to Code" <> '')
-                and (recLocation.Get(Rec."Transfer-to Code"))
-                and (not recLocation."Approval Target") then begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-                end else begin
-                    Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-                end;
-            end;
-            */
         end;
-
         //N005 End
+    end;
 
+    trigger OnAfterModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+        cuApprMgt: Codeunit "Hagiwara Approval Management";
+        recLocation: Record Location;
+    begin
+
+        //check if location is approval target.
+        if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") or (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
+            if (recLocation.Get(Rec."Transfer-from Code")) and (not recLocation."Approval Target")
+            and (recLocation.Get(Rec."Transfer-to Code")) and (not recLocation."Approval Target") then begin
+
+                cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+            end;
+        end;
     end;
 
     trigger OnBeforeDelete()
@@ -77,6 +81,10 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
             end;
+
+            if "Approval Cycle No." > 0 then begin
+                Error('Can''t edit this field because of it''s been fully approved once.');
+            end;
         end;
         //N005 End
 
@@ -85,6 +93,7 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
     trigger OnAfterInsert()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        cuApprMgt: Codeunit "Hagiwara Approval Management";
         recLocation: Record Location;
     begin
         //N005 Begin
@@ -97,11 +106,10 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
             if (recLocation.Get(Rec."Transfer-from Code")) and (not recLocation."Approval Target")
             and (recLocation.Get(Rec."Transfer-to Code")) and (not recLocation."Approval Target") then begin
 
-                Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
             end;
         end;
         //N005 End
 
-        Modify();
     end;
 }

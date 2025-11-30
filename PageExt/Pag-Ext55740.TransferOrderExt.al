@@ -17,8 +17,11 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
         }
-
 
     }
     actions
@@ -190,6 +193,31 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                             exit;
 
                         cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                    end;
+                }
+                action("Update")
+                {
+                    Caption = 'Update';
+                    ApplicationArea = all;
+                    Image = ResetStatus;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."Transfer Order" then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then
+                            exit;
+
+                        if not Confirm('Do you want to update it?\\You need to start approval process from the beginning after updated.') then
+                            exit;
+
+                        cuApprMgt.Update(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
                     end;
                 }
                 action("Approval Entries")

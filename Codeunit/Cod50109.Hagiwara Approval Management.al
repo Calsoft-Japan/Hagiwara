@@ -149,6 +149,14 @@ codeunit 50109 "Hagiwara Approval Management"
                         TransHeader."Hagi Approver" := Approver;
                         TransHeader.Modify();
                     end;
+                Enum::"Hagiwara Approval Data"::"Assembly Order":
+                    begin
+                        AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+                        AssemblyHeader."Approval Status" := SubmitStatus;
+                        AssemblyHeader.Requester := UserId;
+                        AssemblyHeader."Hagi Approver" := Approver;
+                        AssemblyHeader.Modify();
+                    end;
                 Enum::"Hagiwara Approval Data"::"Item Journal",
                 Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
                     begin
@@ -426,9 +434,9 @@ codeunit 50109 "Hagiwara Approval Management"
         Vend: Record Vendor;
         GLAccount: Record "G/L Account";
         SalesLine: Record "Sales Line";
-        SalesLineUpdated: Boolean;
         PurchLine: Record "Purchase Line";
-        PurchLineUpdated: Boolean;
+        TransLine: Record "Transfer Line";
+        AssemLine: Record "Assembly Line";
         nextApprover: Code[50];
         MsgComment: Text;
     begin
@@ -587,28 +595,20 @@ codeunit 50109 "Hagiwara Approval Management"
                                 SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
                             end;
 
-                            if SalesHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
-                                if SalesHeader.Status = SalesHeader.Status::Released then begin
-                                    SalesHeader.Status := SalesHeader.Status::Open;
-                                end;
-                                SalesHeader.Modify();
+                            SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                            SalesLine.SetRange("Document No.", pDataNo);
+                            if SalesLine.FindSet() then
+                                repeat
+                                    if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
+                                        SalesLine."Approved Quantity" := SalesLine.Quantity;
+                                    end;
+                                    if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
+                                        SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                                    end;
 
-                                SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
-                                SalesLine.SetRange("Document No.", pDataNo);
-                                if SalesLine.FindSet() then
-                                    repeat
-                                        SalesLineUpdated := false;
-                                        if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
-                                            SalesLine."Approved Quantity" := SalesLine.Quantity;
-                                        end;
-                                        if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
-                                            SalesLine."Approved Unit Price" := SalesLine."Unit Price";
-                                        end;
-
-                                        SalesLine."Approval History Exists" := true;
-                                        SalesLine.Modify();
-                                    until SalesLine.next() = 0;
-                            end;
+                                    SalesLine."Approval History Exists" := true;
+                                    SalesLine.Modify();
+                                until SalesLine.next() = 0;
 
                             SalesHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             SalesHeader."Approval Cycle No." += 1;
@@ -626,28 +626,20 @@ codeunit 50109 "Hagiwara Approval Management"
                                 PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
                             end;
 
-                            if PurchHeader."Approval Status" = Enum::"Hagiwara Approval Status"::"Re-Submitted" then begin
-                                if PurchHeader.Status = PurchHeader.Status::Released then begin
-                                    PurchHeader.Status := PurchHeader.Status::Open;
-                                end;
-                                PurchHeader.Modify();
+                            PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
+                            PurchLine.SetRange("Document No.", pDataNo);
+                            if PurchLine.FindSet() then
+                                repeat
+                                    if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
+                                        PurchLine."Approved Quantity" := PurchLine.Quantity;
+                                    end;
+                                    if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
+                                        PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
+                                    end;
 
-                                PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
-                                PurchLine.SetRange("Document No.", pDataNo);
-                                if PurchLine.FindSet() then
-                                    repeat
-                                        PurchLineUpdated := false;
-                                        if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
-                                            PurchLine."Approved Quantity" := PurchLine.Quantity;
-                                        end;
-                                        if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
-                                            PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
-                                        end;
-
-                                        PurchLine."Approval History Exists" := true;
-                                        PurchLine.Modify();
-                                    until PurchLine.next() = 0;
-                            end;
+                                    PurchLine."Approval History Exists" := true;
+                                    PurchLine.Modify();
+                                until PurchLine.next() = 0;
 
                             PurchHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             PurchHeader."Approval Cycle No." += 1;
@@ -656,13 +648,40 @@ codeunit 50109 "Hagiwara Approval Management"
                     Enum::"Hagiwara Approval Data"::"Transfer Order":
                         begin
                             TransHeader.get(pDataNo);
+
+                            TransLine.SetRange("Document No.", pDataNo);
+                            if TransLine.FindSet() then
+                                repeat
+                                    if TransLine."Approved Quantity" <> TransLine.Quantity then begin
+                                        TransLine."Approved Quantity" := TransLine.Quantity;
+                                    end;
+
+                                    TransLine."Approval History Exists" := true;
+                                    TransLine.Modify();
+                                until TransLine.next() = 0;
+
                             TransHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            TransHeader."Approval Cycle No." += 1;
                             TransHeader.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::"Assembly Order":
                         begin
                             AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
-                            AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
+
+                            AssemLine.SetRange("Document Type", AssemLine."Document Type"::Order);
+                            AssemLine.SetRange("Document No.", pDataNo);
+                            if AssemLine.FindSet() then
+                                repeat
+                                    if AssemLine."Approved Quantity" <> AssemLine.Quantity then begin
+                                        AssemLine."Approved Quantity" := AssemLine.Quantity;
+                                    end;
+
+                                    AssemLine."Approval History Exists" := true;
+                                    AssemLine.Modify();
+                                until AssemLine.next() = 0;
+
+                            AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Approved";
+                            AssemblyHeader."Approval Cycle No." += 1;
                             AssemblyHeader.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::"Item Journal",
@@ -1216,6 +1235,199 @@ codeunit 50109 "Hagiwara Approval Management"
             Message(MsgDocNotFound);
         end;
 
+    end;
+
+    procedure AutoApprove(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]; pUsername: Code[50])
+    var
+        recApprHrcy: Record "Hagiwara Approval Hierarchy";
+        recApprEntry: Record "Hagiwara Approval Entry";
+        pagComment: page "Hagiwara Approval Comment";
+        SalesHeader: Record "Sales Header";
+        PurchHeader: Record "Purchase Header";
+        TransHeader: Record "Transfer Header";
+        AssemblyHeader: Record "Assembly Header";
+        ItemJourLine: Record "Item journal Line";
+        ItemImportBatch: Record "Item Import Batch";
+        CustImportBatch: Record "Customer Import Batch";
+        VendImportBatch: Record "Vendor Import Batch";
+        PriceListHeader: Record "Price List Header";
+        Cust: Record Customer;
+        Vend: Record Vendor;
+        GLAccount: Record "G/L Account";
+        SalesLine: Record "Sales Line";
+        PurchLine: Record "Purchase Line";
+        TransLine: Record "Transfer Line";
+        AssemLine: Record "Assembly Line";
+        nextApprover: Code[50];
+        MsgComment: Text;
+    begin
+
+        recApprEntry := InsertApprEntry(
+            pData,
+            pDataNo,
+            '', //Requester,
+            '', //"Request Group",
+            '', //Approver,
+            '', //"Approval Group",
+            0,  //recApprHrcy."Sequence No.",
+            recApprEntry.Status::"Auto Approved",
+            'System Auto Approved.' //recApprEntry.GetComment()
+        );
+
+        recApprEntry.Open := false;
+        recApprEntry."Close Date" := CurrentDateTime;
+        recApprEntry.Modify();
+
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Sales Order",
+            Enum::"Hagiwara Approval Data"::"Sales Credit Memo",
+            Enum::"Hagiwara Approval Data"::"Sales Return Order":
+                begin
+                    if pData = Enum::"Hagiwara Approval Data"::"Sales Order" then begin
+                        SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
+                    end else if pData = Enum::"Hagiwara Approval Data"::"Sales Credit Memo" then begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
+                    end else if pData = Enum::"Hagiwara Approval Data"::"Sales Return Order" then begin
+                        SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
+                    end;
+
+                    SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                    SalesLine.SetRange("Document No.", pDataNo);
+                    if SalesLine.FindSet() then
+                        repeat
+                            if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
+                                SalesLine."Approved Quantity" := SalesLine.Quantity;
+                            end;
+                            if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
+                                SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                            end;
+
+                            SalesLine."Approval History Exists" := true;
+                            SalesLine.Modify();
+                        until SalesLine.next() = 0;
+
+                    SalesHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    SalesHeader."Approval Cycle No." += 1;
+                    SalesHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Purchase Order",
+            Enum::"Hagiwara Approval Data"::"Purchase Credit Memo",
+            Enum::"Hagiwara Approval Data"::"Purchase Return Order":
+                begin
+                    if pData = Enum::"Hagiwara Approval Data"::"Purchase Order" then begin
+                        PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
+                    end else if pData = Enum::"Hagiwara Approval Data"::"Purchase Credit Memo" then begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
+                    end else if pData = Enum::"Hagiwara Approval Data"::"Purchase Return Order" then begin
+                        PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
+                    end;
+
+                    PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
+                    PurchLine.SetRange("Document No.", pDataNo);
+                    if PurchLine.FindSet() then
+                        repeat
+                            if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
+                                PurchLine."Approved Quantity" := PurchLine.Quantity;
+                            end;
+                            if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
+                                PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
+                            end;
+
+                            PurchLine."Approval History Exists" := true;
+                            PurchLine.Modify();
+                        until PurchLine.next() = 0;
+
+                    PurchHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    PurchHeader."Approval Cycle No." += 1;
+                    PurchHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Transfer Order":
+                begin
+                    TransHeader.get(pDataNo);
+
+                    TransLine.SetRange("Document No.", pDataNo);
+                    if TransLine.FindSet() then
+                        repeat
+                            if TransLine."Approved Quantity" <> TransLine.Quantity then begin
+                                TransLine."Approved Quantity" := TransLine.Quantity;
+                            end;
+
+                            TransLine."Approval History Exists" := true;
+                            TransLine.Modify();
+                        until TransLine.next() = 0;
+
+                    TransHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    TransHeader."Approval Cycle No." += 1;
+                    TransHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Assembly Order":
+                begin
+                    AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
+
+                    AssemLine.SetRange("Document Type", AssemLine."Document Type"::Order);
+                    AssemLine.SetRange("Document No.", pDataNo);
+                    if AssemLine.FindSet() then
+                        repeat
+                            if AssemLine."Approved Quantity" <> AssemLine.Quantity then begin
+                                AssemLine."Approved Quantity" := AssemLine.Quantity;
+                            end;
+
+                            AssemLine."Approval History Exists" := true;
+                            AssemLine.Modify();
+                        until AssemLine.next() = 0;
+
+                    AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    AssemblyHeader."Approval Cycle No." += 1;
+                    AssemblyHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Journal",
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ItemJourLine.Reset();
+                    ItemJourLine.setRange("Document No.", pDataNo);
+                    if ItemJourLine.FindSet() then
+                        repeat
+                            ItemJourLine."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                            ItemJourLine.Modify();
+                        until ItemJourLine.Next() = 0;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item":
+                begin
+                    ItemImportBatch.get(pDataNo);
+                    ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    ItemImportBatch.Modify();
+
+                end;
+            Enum::"Hagiwara Approval Data"::Customer:
+                begin
+                    CustImportBatch.get(pDataNo);
+                    CustImportBatch."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    CustImportBatch.Modify();
+
+                end;
+            Enum::"Hagiwara Approval Data"::Vendor:
+                begin
+                    VendImportBatch.get(pDataNo);
+                    VendImportBatch."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    VendImportBatch.Modify();
+
+                end;
+            Enum::"Hagiwara Approval Data"::"G/L Account":
+                begin
+                    GLAccount.get(pDataNo);
+                    GLAccount."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    GLAccount.Modify();
+
+                end;
+            Enum::"Hagiwara Approval Data"::"Price List":
+                begin
+                    PriceListHeader.get(pDataNo);
+                    PriceListHeader.Status := PriceListHeader.Status::Active;
+                    PriceListHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    PriceListHeader.Modify();
+
+                end;
+        end;
     end;
 
     procedure GetSubmitStatus(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Enum "Hagiwara Approval Status"

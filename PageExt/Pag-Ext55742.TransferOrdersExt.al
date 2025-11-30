@@ -17,6 +17,10 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
             {
                 ApplicationArea = all;
             }
+            field("Approval Cycle No."; rec."Approval Cycle No.")
+            {
+                ApplicationArea = all;
+            }
         }
 
 
