@@ -730,6 +730,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         begin
                             GLAccount.get(pDataNo);
                             GLAccount."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            GLAccount.Blocked := false;
                             GLAccount.Modify();
                         end;
                     Enum::"Hagiwara Approval Data"::"Price List":
@@ -1065,6 +1066,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     GLAccount."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
                     GLAccount."Hagi Approver" := '';
                     GLAccount.Requester := '';
+                    GLAccount.Blocked := true;
                     GLAccount.Modify();
                 end;
             Enum::"Hagiwara Approval Data"::"Price List":

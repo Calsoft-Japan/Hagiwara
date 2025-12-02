@@ -130,6 +130,31 @@ pageextension 50017 GLAccountCardExt extends "G/L Account Card"
                         cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"G/L Account", Rec."No.", UserId);
                     end;
                 }
+                action("Update")
+                {
+                    Caption = 'Update';
+                    ApplicationArea = all;
+                    Image = ResetStatus;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."G/L Account" then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then
+                            exit;
+
+                        if not Confirm('Do you want to update it?\\You need to start approval process from the beginning after updated.') then
+                            exit;
+
+                        cuApprMgt.Update(enum::"Hagiwara Approval Data"::"G/L Account", Rec."No.", UserId);
+                    end;
+                }
                 action("Approval Entries")
                 {
 
@@ -162,7 +187,12 @@ pageextension 50017 GLAccountCardExt extends "G/L Account Card"
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup."G/L Account" then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+            if Rec."Approval Status" in
+                [Enum::"Hagiwara Approval Status"::Submitted,
+                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                Enum::"Hagiwara Approval Status"::Approved,
+                Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+
                 CurrPage.Editable(false);
             end else begin
                 CurrPage.Editable(true);

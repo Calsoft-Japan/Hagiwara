@@ -1,5 +1,7 @@
 pageextension 50016 ChartofAccountsExt extends "Chart of Accounts"
 {
+    ModifyAllowed = false; //This made "Edit List" invisible.
+
     layout
     {
         addafter("Gen. Prod. Posting Group")
@@ -154,6 +156,5 @@ pageextension 50016 ChartofAccountsExt extends "Chart of Accounts"
             }
         }
     }
-
 
 }
