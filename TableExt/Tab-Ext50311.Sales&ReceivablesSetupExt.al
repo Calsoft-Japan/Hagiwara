@@ -7,5 +7,10 @@ tableextension 50311 "Sales & Receivables Setup Ext" extends "Sales & Receivable
             TableRelation = "No. Series";
             // cleaned
         }
+
+        field(50002; "Posted Sales E-Sig."; Code[50])
+        {
+            TableRelation = "User Setup"."User ID";
+        }
     }
 }
