@@ -73,5 +73,18 @@ tableextension 50114 "Sales Cr.Memo Header Ext" extends "Sales Cr.Memo Header"
         {
             Description = '//20180225 by SS';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
     }
 }

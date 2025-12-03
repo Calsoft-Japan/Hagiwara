@@ -73,5 +73,18 @@ tableextension 50112 "Sales Invoice Header Ext" extends "Sales Invoice Header"
             Description = '//20101009';
             Editable = false;
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
     }
 }

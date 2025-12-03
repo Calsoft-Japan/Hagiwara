@@ -53,6 +53,19 @@ tableextension 50120 "Purch. Rcpt. Header Ext" extends "Purch. Rcpt. Header"
         {
             Description = '//20180109 by SS';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
         field(50500; "Message Status(Incoming)"; Option)
         {
             Editable = false;

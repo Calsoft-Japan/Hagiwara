@@ -83,6 +83,19 @@ tableextension 50110 "Sales Shipment Header Ext" extends "Sales Shipment Header"
         {
             Description = '//20180225 by SS';
         }
+        field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            Editable = false;
+        }
+        field(50092; Requester; Code[50])
+        {
+            Editable = false;
+        }
+        field(50093; "Hagi Approver"; Code[50])
+        {
+            Caption = 'Approver';
+            Editable = false;
+        }
         field(50500; "Message Status(Shipment)"; Option)
         {
             Editable = false;
