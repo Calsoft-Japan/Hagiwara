@@ -5000,10 +5000,10 @@ Cstr(Fields!CompInfoBranchCode.Value), 1)</Hidden>
                   <Value>=Fields!ESign.Value</Value>
                   <MIMEType>image/bmp</MIMEType>
                   <Sizing>FitProportional</Sizing>
-                  <Top>0.96416in</Top>
-                  <Left>1.1778cm</Left>
+                  <Top>1.07906in</Top>
+                  <Left>2.04153cm</Left>
                   <Height>18.24208pt</Height>
-                  <Width>6.95166cm</Width>
+                  <Width>5.8955cm</Width>
                   <ZIndex>11</ZIndex>
                   <DataElementOutput>NoOutput</DataElementOutput>
                   <Style>

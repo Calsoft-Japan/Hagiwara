@@ -2543,9 +2543,9 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
               <MIMEType>image/bmp</MIMEType>
               <Sizing>FitProportional</Sizing>
               <Top>0.53857in</Top>
-              <Left>12.3258cm</Left>
+              <Left>14.14181cm</Left>
               <Height>17.24208pt</Height>
-              <Width>5.62032cm</Width>
+              <Width>3.80431cm</Width>
               <ZIndex>9</ZIndex>
               <DataElementOutput>NoOutput</DataElementOutput>
               <Style>
