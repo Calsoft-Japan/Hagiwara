@@ -2661,9 +2661,7 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style>
-                    <TextAlign>Center</TextAlign>
-                  </Style>
+                  <Style />
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -2717,6 +2715,23 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <PaddingRight>2pt</PaddingRight>
               </Style>
             </Textbox>
+            <Image Name="Approver_ESign">
+              <Source>Database</Source>
+              <Value>=Fields!ESign.Value</Value>
+              <MIMEType>image/bmp</MIMEType>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.56871in</Top>
+              <Left>13.56995cm</Left>
+              <Height>22.97143pt</Height>
+              <Width>4.37617cm</Width>
+              <ZIndex>10</ZIndex>
+              <DataElementOutput>NoOutput</DataElementOutput>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
           </ReportItems>
           <Style />
         </PageFooter>
@@ -2827,6 +2842,9 @@ End Function</Code>
         </Field>
         <Field Name="CurrencyCode">
           <DataField>CurrencyCode</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInformationPicture">
           <DataField>CompanyInformationPicture</DataField>

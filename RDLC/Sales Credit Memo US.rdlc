@@ -2456,6 +2456,23 @@ Cstr(Fields!AmountExemptfromSalesTaxCaption.Value)</Value>
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </Textbox>
+            <Image Name="Approver_ESign">
+              <Source>Database</Source>
+              <Value>=Fields!ESign.Value</Value>
+              <MIMEType>image/bmp</MIMEType>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.375in</Top>
+              <Left>5.24962cm</Left>
+              <Height>21.27032pt</Height>
+              <Width>4.96291cm</Width>
+              <ZIndex>44</ZIndex>
+              <DataElementOutput>NoOutput</DataElementOutput>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
           </ReportItems>
           <Style />
         </PageHeader>
@@ -2725,6 +2742,9 @@ End Function</Code>
       <Fields>
         <Field Name="No_SalesCrMemoHeader">
           <DataField>No_SalesCrMemoHeader</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInformationPicture">
           <DataField>CompanyInformationPicture</DataField>

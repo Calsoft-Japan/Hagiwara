@@ -2844,7 +2844,6 @@
                                             </Style>
                                           </Textbox>
                                           <ColSpan>2</ColSpan>
-                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell />
@@ -4725,6 +4724,23 @@ Cstr(Fields!ShipmentMethodDescriptionCaption.Value)
                     </TopBorder>
                   </Style>
                 </Textbox>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>FitProportional</Sizing>
+                  <Top>0.33333in</Top>
+                  <Left>11.40147cm</Left>
+                  <Height>35.75033pt</Height>
+                  <Width>6.63743cm</Width>
+                  <ZIndex>8</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Height>2.85751cm</Height>
@@ -4864,6 +4880,9 @@ End Function</Code>
         </Field>
         <Field Name="GrandTotalCaption">
           <DataField>GrandTotalCaption</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>

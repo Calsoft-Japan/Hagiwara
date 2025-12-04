@@ -2537,6 +2537,23 @@ Cstr(Fields!PackageTrackingNo.Value) + Chr(177)
                 <PaddingRight>2pt</PaddingRight>
               </Style>
             </Textbox>
+            <Image Name="Approver_ESign">
+              <Source>Database</Source>
+              <Value>=Fields!ESign.Value</Value>
+              <MIMEType>image/bmp</MIMEType>
+              <Sizing>FitProportional</Sizing>
+              <Top>0.53857in</Top>
+              <Left>12.3258cm</Left>
+              <Height>17.24208pt</Height>
+              <Width>5.62032cm</Width>
+              <ZIndex>9</ZIndex>
+              <DataElementOutput>NoOutput</DataElementOutput>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+              </Style>
+            </Image>
           </ReportItems>
           <Style />
         </PageFooter>
@@ -2644,6 +2661,9 @@ End Function</Code>
       <Fields>
         <Field Name="No_SalesInvHeader">
           <DataField>No_SalesInvHeader</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInformationPicture">
           <DataField>CompanyInformationPicture</DataField>

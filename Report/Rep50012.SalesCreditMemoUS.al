@@ -18,6 +18,10 @@ report 50012 "Sales Credit Memo US"
             column(No_SalesCrMemoHeader; "No.")
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem("Sales Cr.Memo Line"; "Sales Cr.Memo Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");
@@ -390,7 +394,23 @@ report 50012 "Sales Credit Memo US"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Credit Memo" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
                 IF PrintCompany THEN
@@ -574,6 +594,7 @@ report 50012 "Sales Credit Memo US"
         TotalCaptionLbl: Label 'Total:';
         AmountSubjecttoSalesTaxCaptionLbl: Label 'Amount Subject to Sales Tax';
         AmountExemptfromSalesTaxCaptionLbl: Label 'Amount Exempt from Sales Tax';
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     local procedure InsertTempLine(Comment: Text[80]; IncrNo: Integer)
     begin

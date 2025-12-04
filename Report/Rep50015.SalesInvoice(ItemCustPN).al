@@ -33,6 +33,10 @@ report 50015 "Sales - Invoice (Item/CustPN)"
             column(GrandTotalCaption; GrandTotalCaptionLbl)
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem(CopyLoop; Integer)
             {
                 DataItemTableView = SORTING(Number);
@@ -617,7 +621,23 @@ report 50015 "Sales - Invoice (Item/CustPN)"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
 
@@ -1108,7 +1128,7 @@ report 50015 "Sales - Invoice (Item/CustPN)"
         Footer4Visible: Boolean;
         //[InDataSet]
         Footer5Visible: Boolean;
-
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
 
     procedure InitLogInteraction()

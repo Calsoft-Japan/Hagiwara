@@ -24,6 +24,10 @@ report 50004 "Sales Invoice US"
             column(CurrencyCode; "Currency Code")
             {
             }
+            column(ESign; ESignTenantMedia.Content)
+            {
+                //N005
+            }
             dataitem("Sales Invoice Line"; "Sales Invoice Line")
             {
                 DataItemLink = "Document No." = FIELD("No.");
@@ -411,6 +415,9 @@ report 50004 "Sales Invoice US"
             }
 
             trigger OnAfterGetRecord()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup"; //N005
+                recApprESign: Record "Hagiwara Approver E-Signature"; //N005
             begin
                 IF PrintCompany THEN
                     IF RespCenter.GET("Responsibility Center") THEN BEGIN
@@ -418,6 +425,21 @@ report 50004 "Sales Invoice US"
                         CompanyInformation."Phone No." := RespCenter."Phone No.";
                         CompanyInformation."Fax No." := RespCenter."Fax No.";
                     END;
+
+                //N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+                end;
+                //N005 End
+
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
 
                 CurrReport.Language := cuLanguage.GetLanguageIdOrDefault("Language Code");
@@ -660,6 +682,7 @@ report 50004 "Sales Invoice US"
         AmountSubjecttoSalesTaxCaptionTxt: Label 'Amount Subject to Sales Tax %1';
         AmountExemptfromSalesTaxCaptionTxt: Label 'Amount Exempt from Sales Tax %1';
         Item: Record Item;
+        ESignTenantMedia: Record "Tenant Media"; //N005
 
     procedure InitLogInteraction()
     begin

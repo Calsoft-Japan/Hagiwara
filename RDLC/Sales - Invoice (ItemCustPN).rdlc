@@ -2942,7 +2942,6 @@
                                             </Style>
                                           </Textbox>
                                           <ColSpan>2</ColSpan>
-                                          <rd:Selected>true</rd:Selected>
                                         </CellContents>
                                       </TablixCell>
                                       <TablixCell />
@@ -4906,6 +4905,23 @@ Cstr(Fields!Cust_ShipFromName.Value), 1)</Hidden>
                     </Border>
                   </Style>
                 </Textbox>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>FitProportional</Sizing>
+                  <Top>0.5204in</Top>
+                  <Left>11.40147cm</Left>
+                  <Height>34.75033pt</Height>
+                  <Width>6.63743cm</Width>
+                  <ZIndex>10</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Top>0.17639cm</Top>
@@ -5046,6 +5062,9 @@ End Function</Code>
         </Field>
         <Field Name="GrandTotalCaption">
           <DataField>GrandTotalCaption</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>

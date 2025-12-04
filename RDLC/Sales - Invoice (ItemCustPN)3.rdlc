@@ -4995,6 +4995,23 @@ Cstr(Fields!CompInfoBranchCode.Value), 1)</Hidden>
                     <PaddingBottom>2pt</PaddingBottom>
                   </Style>
                 </Textbox>
+                <Image Name="Approver_ESign">
+                  <Source>Database</Source>
+                  <Value>=Fields!ESign.Value</Value>
+                  <MIMEType>image/bmp</MIMEType>
+                  <Sizing>FitProportional</Sizing>
+                  <Top>0.96416in</Top>
+                  <Left>1.1778cm</Left>
+                  <Height>18.24208pt</Height>
+                  <Width>6.95166cm</Width>
+                  <ZIndex>11</ZIndex>
+                  <DataElementOutput>NoOutput</DataElementOutput>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                  </Style>
+                </Image>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Left>0.0038in</Left>
@@ -5135,6 +5152,9 @@ End Function</Code>
         </Field>
         <Field Name="GrandTotalCaption">
           <DataField>GrandTotalCaption</DataField>
+        </Field>
+        <Field Name="ESign">
+          <DataField>ESign</DataField>
         </Field>
         <Field Name="CompanyInfoPicture">
           <DataField>CompanyInfoPicture</DataField>
