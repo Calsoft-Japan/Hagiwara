@@ -74,6 +74,22 @@ page 50121 "Hagiwara Approval Setup"
                 {
                     ApplicationArea = all;
                 }
+                field("Item Import Batch Nos."; Rec."Item Import Batch Nos.")
+                {
+                    ApplicationArea = all;
+                }
+                field("Customer Import Batch Nos."; Rec."Customer Import Batch Nos.")
+                {
+                    ApplicationArea = all;
+                }
+                field("Vendor Import Batch Nos."; Rec."Vendor Import Batch Nos.")
+                {
+                    ApplicationArea = all;
+                }
+                field("Price List Import Batch Nos."; Rec."Price List Import Batch Nos.")
+                {
+                    ApplicationArea = all;
+                }
 
             }
         }

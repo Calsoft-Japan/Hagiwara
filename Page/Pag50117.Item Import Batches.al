@@ -93,9 +93,9 @@ page 50117 "Item Import Batch"
                             Error('This approval request can''t be sent because it''s sent already.');
 
                         ItemImportline.SetRange("Batch Name", Rec.Name);
-                        ItemImportline.SETFILTER(ItemImportline.Status, '%1', ItemImportline.Status::Validated);
-                        if ItemImportline.IsEmpty() then begin
-                            Error('There is no validated lines of Batch %1.', Rec.Name);
+                        ItemImportline.SETFILTER(ItemImportline.Status, '<>%1', ItemImportline.Status::Validated);
+                        if not ItemImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
                         end;
 
                         if not Confirm('Do you want to submit an approval request?') then
@@ -114,6 +114,7 @@ page 50117 "Item Import Batch"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        ItemImportline: Record "Item Import Line";
                     begin
                         recApprSetup.Get();
                         if not recApprSetup."Item" then
@@ -121,6 +122,12 @@ page 50117 "Item Import Batch"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
+
+                        ItemImportline.SetRange("Batch Name", Rec.Name);
+                        ItemImportline.SETFILTER(ItemImportline.Status, '<>%1', ItemImportline.Status::Validated);
+                        if not ItemImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
@@ -138,6 +145,7 @@ page 50117 "Item Import Batch"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        ItemImportline: Record "Item Import Line";
                     begin
 
                         recApprSetup.Get();
@@ -146,6 +154,12 @@ page 50117 "Item Import Batch"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be approved.');
+
+                        ItemImportline.SetRange("Batch Name", Rec.Name);
+                        ItemImportline.SETFILTER(ItemImportline.Status, '<>%1', ItemImportline.Status::Validated);
+                        if not ItemImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if rec."Hagi Approver" <> UserId then
                             Error('You are not the Approver of this data.');
@@ -166,6 +180,7 @@ page 50117 "Item Import Batch"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        ItemImportline: Record "Item Import Line";
                     begin
 
                         recApprSetup.Get();
@@ -174,6 +189,12 @@ page 50117 "Item Import Batch"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
+
+                        ItemImportline.SetRange("Batch Name", Rec.Name);
+                        ItemImportline.SETFILTER(ItemImportline.Status, '<>%1', ItemImportline.Status::Validated);
+                        if not ItemImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if rec."Hagi Approver" <> UserId then
                             Error('You are not the Approver of this data.');

@@ -67,7 +67,22 @@ table 50121 "Hagiwara Approval Setup"
         {
             InitValue = false;
         }
-
+        field(26; "Item Import Batch Nos."; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
+        field(27; "Customer Import Batch Nos."; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
+        field(28; "Vendor Import Batch Nos."; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
+        field(29; "Price List Import Batch Nos."; Code[20])
+        {
+            TableRelation = "No. Series".Code;
+        }
 
     }
     keys

@@ -93,9 +93,9 @@ page 50113 "Vendor Import Batches"
                             Error('This approval request can''t be sent because it''s sent already.');
 
                         VendorImportline.SetRange("Batch Name", Rec.Name);
-                        VendorImportline.SETFILTER(VendorImportline.Status, '%1', VendorImportline.Status::Validated);
-                        if VendorImportline.IsEmpty() then begin
-                            Error('There is no validated lines of Batch %1.', Rec.Name);
+                        VendorImportline.SETFILTER(VendorImportline.Status, '<>%1', VendorImportline.Status::Validated);
+                        if not VendorImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
                         end;
 
                         if not Confirm('Do you want to submit an approval request?') then
@@ -114,6 +114,7 @@ page 50113 "Vendor Import Batches"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        VendorImportline: Record "Vendor Import Line";
                     begin
                         recApprSetup.Get();
                         if not recApprSetup."Vendor" then
@@ -121,6 +122,12 @@ page 50113 "Vendor Import Batches"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
+
+                        VendorImportline.SetRange("Batch Name", Rec.Name);
+                        VendorImportline.SETFILTER(VendorImportline.Status, '<>%1', VendorImportline.Status::Validated);
+                        if not VendorImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
@@ -138,6 +145,7 @@ page 50113 "Vendor Import Batches"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        VendorImportline: Record "Vendor Import Line";
                     begin
 
                         recApprSetup.Get();
@@ -146,6 +154,12 @@ page 50113 "Vendor Import Batches"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be approved.');
+
+                        VendorImportline.SetRange("Batch Name", Rec.Name);
+                        VendorImportline.SETFILTER(VendorImportline.Status, '<>%1', VendorImportline.Status::Validated);
+                        if not VendorImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if rec."Hagi Approver" <> UserId then
                             Error('You are not the Approver of this data.');
@@ -166,6 +180,7 @@ page 50113 "Vendor Import Batches"
                     var
                         recApprSetup: Record "Hagiwara Approval Setup";
                         cuApprMgt: Codeunit "Hagiwara Approval Management";
+                        VendorImportline: Record "Vendor Import Line";
                     begin
 
                         recApprSetup.Get();
@@ -174,6 +189,12 @@ page 50113 "Vendor Import Batches"
 
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
+
+                        VendorImportline.SetRange("Batch Name", Rec.Name);
+                        VendorImportline.SETFILTER(VendorImportline.Status, '<>%1', VendorImportline.Status::Validated);
+                        if not VendorImportline.IsEmpty() then begin
+                            Error('All Lines of Batch %1 should be validated.', Rec.Name);
+                        end;
 
                         if rec."Hagi Approver" <> UserId then
                             Error('You are not the Approver of this data.');
