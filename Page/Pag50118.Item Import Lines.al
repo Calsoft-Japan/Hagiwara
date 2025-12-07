@@ -295,9 +295,15 @@ page 50118 "Item Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Item" then begin
                             ItemImportBatch.get(G_BatchName);
-                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (ItemImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t import any records because approval process already initiated.');
                             end;
+
                         end;
 
                         cduImporter.SetBatchName(G_BatchName);
@@ -322,19 +328,29 @@ page 50118 "Item Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Item" then begin
                             ItemImportBatch.get(G_BatchName);
-                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (ItemImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t validate because approval process already initiated.');
                             end;
+
                         end;
 
+                        /*
+                        //FDD removed this check
                         // -------check records existe-------                        
                         ItemImportline.SetRange("Batch Name", G_BatchName);
                         ItemImportline.SETFILTER(ItemImportline.Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
                         if ItemImportline.IsEmpty() then begin
                             Error('There is no record to validate.');
                         end;
+                        */
 
                         // -------check record contents-------
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
                         if ItemImportline.FINDFIRST then
                             REPEAT
                                 CheckError(ItemImportline);
@@ -360,34 +376,51 @@ page 50118 "Item Import Lines"
                         ItemImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
                         if recApprSetup."Item" then begin
-                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
-                            end;
 
                             if not (ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+
+                            //Re-validate
+                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
+
+                                ItemImportline.SetRange("Batch Name", G_BatchName);
+                                if ItemImportline.FINDFIRST then
+                                    REPEAT
+                                        CheckError(ItemImportline);
+                                    UNTIL ItemImportline.NEXT = 0;
+
+                            end else begin
+                                exit;
+                            end;
+
+                            //commit the check error result.
+                            Commit();
+
+                            ItemImportline.SetRange("Batch Name", G_BatchName);
+                            ItemImportline.SetFilter(Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
+                            if not ItemImportline.IsEmpty then
+                                Error('Some of the lines are not validated.');
+
+                            // -------Execute-------
+                            ItemImportline.SetRange("Batch Name", G_BatchName);
+                            ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
+                            if ItemImportline.FINDFIRST then
+                                REPEAT
+                                    ExecuteProcess(ItemImportline);
+                                UNTIL ItemImportline.NEXT = 0;
+
+                            /*
+                            //FDD removed this process.
+                            // delete all
+                            ItemImportline.SetRange("Batch Name", G_BatchName);
+                            ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
+                            ItemImportline.DELETEALL;
+                            */
+
+                            Message('Carry out finished.');
                         end;
 
-                        ItemImportline.SetRange("Batch Name", G_BatchName);
-                        ItemImportline.SetFilter(Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
-                        if not ItemImportline.IsEmpty then
-                            Error('Some of the lines are not validated.');
-
-                        // -------Execute-------
-                        ItemImportline.SetRange("Batch Name", G_BatchName);
-                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
-                        if ItemImportline.FINDFIRST then
-                            REPEAT
-                                ExecuteProcess(ItemImportline);
-                            UNTIL ItemImportline.NEXT = 0;
-
-                        // delete all
-                        ItemImportline.SetRange("Batch Name", G_BatchName);
-                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
-                        ItemImportline.DELETEALL;
-
-                        Message('Carry out finished.');
                     end;
                 }
                 action("Delete All")
@@ -410,7 +443,12 @@ page 50118 "Item Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Item" then begin
                             ItemImportBatch.get(G_BatchName);
-                            if ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+
+                            if not (ItemImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
                                 Error('You can''t delete any records because approval process already initiated.');
                             end;
                         end;

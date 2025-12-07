@@ -435,8 +435,13 @@ page 50120 "Customer Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Customer" then begin
                             CustomerImportBatch.get(G_BatchName);
-                            if CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (CustomerImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t import any records because approval process already initiated.');
                             end;
                         end;
 
@@ -462,19 +467,28 @@ page 50120 "Customer Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Customer" then begin
                             CustomerImportBatch.get(G_BatchName);
-                            if CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (CustomerImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t validate because approval process already initiated.');
                             end;
                         end;
 
+                        /*
+                        //FDD removed this check
                         // -------check records existe-------                        
                         CustomerImportline.SetRange("Batch Name", G_BatchName);
                         CustomerImportline.SETFILTER(CustomerImportline.Status, '%1|%2', CustomerImportline.Status::Pending, CustomerImportline.Status::Error);
                         if CustomerImportline.IsEmpty() then begin
                             Error('There is no record to validate.');
                         end;
+                        */
 
                         // -------check record contents-------
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
                         if CustomerImportline.FINDFIRST then
                             REPEAT
                                 CheckError(CustomerImportline);
@@ -500,34 +514,51 @@ page 50120 "Customer Import Lines"
                         CustomerImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
                         if recApprSetup."Customer" then begin
-                            if CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
-                            end;
 
                             if not (CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+
+                            //Re-validate
+                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
+
+                                // -------check record contents-------
+                                CustomerImportline.SetRange("Batch Name", G_BatchName);
+                                if CustomerImportline.FINDFIRST then
+                                    REPEAT
+                                        CheckError(CustomerImportline);
+                                    UNTIL CustomerImportline.NEXT = 0;
+
+                            end else begin
+                                exit;
+                            end;
+
+                            //commit the check error result.
+                            Commit();
+
+                            CustomerImportline.SetRange("Batch Name", G_BatchName);
+                            CustomerImportline.SetFilter(Status, '%1|%2', CustomerImportline.Status::Pending, CustomerImportline.Status::Error);
+                            if not CustomerImportline.IsEmpty then
+                                Error('Some of the lines are not validated.');
+
+                            // -------Execute-------
+                            CustomerImportline.SetRange("Batch Name", G_BatchName);
+                            CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Validated);
+                            if CustomerImportline.FINDFIRST then
+                                REPEAT
+                                    ExecuteProcess(CustomerImportline);
+                                UNTIL CustomerImportline.NEXT = 0;
+
+                            /*
+                            //FDD removed this process.
+                            // delete all
+                            CustomerImportline.SetRange("Batch Name", G_BatchName);
+                            CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
+                            CustomerImportline.DELETEALL;
+                            */
+
+                            Message('Carry out finished.');
                         end;
-
-                        CustomerImportline.SetRange("Batch Name", G_BatchName);
-                        CustomerImportline.SetFilter(Status, '%1|%2', CustomerImportline.Status::Pending, CustomerImportline.Status::Error);
-                        if not CustomerImportline.IsEmpty then
-                            Error('Some of the lines are not validated.');
-
-                        // -------Execute-------
-                        CustomerImportline.SetRange("Batch Name", G_BatchName);
-                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Validated);
-                        if CustomerImportline.FINDFIRST then
-                            REPEAT
-                                ExecuteProcess(CustomerImportline);
-                            UNTIL CustomerImportline.NEXT = 0;
-
-                        // delete all
-                        CustomerImportline.SetRange("Batch Name", G_BatchName);
-                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
-                        CustomerImportline.DELETEALL;
-
-                        Message('Carry out finished.');
 
                     end;
                 }
@@ -551,7 +582,12 @@ page 50120 "Customer Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Customer" then begin
                             CustomerImportBatch.get(G_BatchName);
-                            if CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+
+                            if not (CustomerImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
                                 Error('You can''t delete any records because approval process already initiated.');
                             end;
                         end;

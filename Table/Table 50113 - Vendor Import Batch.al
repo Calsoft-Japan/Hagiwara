@@ -4,6 +4,7 @@ table 50113 "Vendor Import Batch"
     {
         field(1; "Name"; Code[20])
         {
+            Editable = false;
         }
         field(2; "Description"; Text[250])
         {
@@ -34,14 +35,38 @@ table 50113 "Vendor Import Batch"
         {
         }
     }
+
     trigger OnInsert()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        NoSeries: Codeunit "No. Series";
     begin
 
         recApprSetup.Get();
         if recApprSetup."Vendor" then begin
             rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+        end;
+
+        recApprSetup.TestField("Vendor Import Batch Nos.");
+        rec.Name := NoSeries.GetNextNo(recApprSetup."Vendor Import Batch Nos.");
+
+    end;
+
+    trigger OnModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+        VendorImportline: Record "Vendor Import Line";
+    begin
+
+        recApprSetup.Get();
+        if recApprSetup.Vendor then begin
+            if not (Rec."Approval Status" in [
+                Enum::"Hagiwara Approval Status"::Required,
+                Enum::"Hagiwara Approval Status"::Cancelled,
+                Enum::"Hagiwara Approval Status"::Rejected
+                ]) then begin
+                Error('You can''t edit this record because approval process already initiated.');
+            end;
         end;
 
     end;
@@ -53,9 +78,13 @@ table 50113 "Vendor Import Batch"
     begin
 
         recApprSetup.Get();
-        if recApprSetup."Vendor" then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
+        if recApprSetup.Vendor then begin
+            if not (Rec."Approval Status" in [
+                Enum::"Hagiwara Approval Status"::Required,
+                Enum::"Hagiwara Approval Status"::Cancelled,
+                Enum::"Hagiwara Approval Status"::Rejected
+                ]) then begin
+                Error('You can''t delete this record because approval process already initiated.');
             end;
         end;
 
@@ -71,9 +100,13 @@ table 50113 "Vendor Import Batch"
     begin
 
         recApprSetup.Get();
-        if recApprSetup."Vendor" then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
+        if recApprSetup.Vendor then begin
+            if not (Rec."Approval Status" in [
+                Enum::"Hagiwara Approval Status"::Required,
+                Enum::"Hagiwara Approval Status"::Cancelled,
+                Enum::"Hagiwara Approval Status"::Rejected
+                ]) then begin
+                Error('You can''t edit this record because approval process already initiated.');
             end;
         end;
 

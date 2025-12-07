@@ -338,8 +338,13 @@ page 50114 "Vendor Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Vendor" then begin
                             VendorImportBatch.get(G_BatchName);
-                            if VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (VendorImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t import any records because approval process already initiated.');
                             end;
                         end;
 
@@ -365,19 +370,29 @@ page 50114 "Vendor Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Vendor" then begin
                             VendorImportBatch.get(G_BatchName);
-                            if VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
+
+                            if not (VendorImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t validate because approval process already initiated.');
                             end;
                         end;
 
+                        /*
+                        //FDD removed this check
                         // -------check records existe-------                        
                         VendorImportline.SetRange("Batch Name", G_BatchName);
                         VendorImportline.SETFILTER(VendorImportline.Status, '%1|%2', VendorImportline.Status::Pending, VendorImportline.Status::Error);
                         if VendorImportline.IsEmpty() then begin
                             Error('There is no record to validate.');
                         end;
+                        */
 
                         // -------check record contents-------
+                        Clear(VendorNoList);
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
                         if VendorImportline.FINDFIRST then
                             REPEAT
                                 if not VendorNoList.Contains(VendorImportline."No.") then begin
@@ -410,38 +425,63 @@ page 50114 "Vendor Import Lines"
                         VendorImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
                         if recApprSetup."Vendor" then begin
-                            if VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                                Error('Can''t edit this data because of it''s submitted for approval.');
-                            end;
 
                             if not (VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+
+                            //Re-validate
+                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
+
+                                // -------check record contents-------
+                                Clear(VendorNoList);
+                                VendorImportline.SetRange("Batch Name", G_BatchName);
+                                if VendorImportline.FINDFIRST then
+                                    REPEAT
+                                        if not VendorNoList.Contains(VendorImportline."No.") then begin
+                                            VendorNoList.Add(VendorImportline."No.");
+                                        end;
+                                    UNTIL VendorImportline.NEXT = 0;
+
+                                if VendorImportline.FINDFIRST then
+                                    REPEAT
+                                        CheckError(VendorImportline);
+                                    UNTIL VendorImportline.NEXT = 0;
+
+                            end else begin
+                                exit;
+                            end;
+
+                            //commit the check error result.
+                            Commit();
+
+                            VendorImportline.SetRange("Batch Name", G_BatchName);
+                            VendorImportline.SetFilter(Status, '%1|%2', VendorImportline.Status::Pending, VendorImportline.Status::Error);
+                            if not VendorImportline.IsEmpty then
+                                Error('Some of the lines are not validated.');
+
+                            // -------Execute-------
+                            VendorImportline.SetRange("Batch Name", G_BatchName);
+                            VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Validated);
+                            if VendorImportline.FINDFIRST then
+                                REPEAT
+                                    ExecuteProcess(VendorImportline);
+                                UNTIL VendorImportline.NEXT = 0;
+                            if VendorImportline.FINDFIRST then
+                                REPEAT
+                                    UpdatePaytoVendorNo(VendorImportline);
+                                UNTIL VendorImportline.NEXT = 0;
+
+                            /*
+                            //FDD removed this process.
+                            // delete all
+                            VendorImportline.SetRange("Batch Name", G_BatchName);
+                            VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
+                            VendorImportline.DELETEALL;
+                            */
+
+                            Message('Carry out finished.');
                         end;
-
-                        VendorImportline.SetRange("Batch Name", G_BatchName);
-                        VendorImportline.SetFilter(Status, '%1|%2', VendorImportline.Status::Pending, VendorImportline.Status::Error);
-                        if not VendorImportline.IsEmpty then
-                            Error('Some of the lines are not validated.');
-
-                        // -------Execute-------
-                        VendorImportline.SetRange("Batch Name", G_BatchName);
-                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Validated);
-                        if VendorImportline.FINDFIRST then
-                            REPEAT
-                                ExecuteProcess(VendorImportline);
-                            UNTIL VendorImportline.NEXT = 0;
-                        if VendorImportline.FINDFIRST then
-                            REPEAT
-                                UpdatePaytoVendorNo(VendorImportline);
-                            UNTIL VendorImportline.NEXT = 0;
-
-                        // delete all
-                        VendorImportline.SetRange("Batch Name", G_BatchName);
-                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
-                        VendorImportline.DELETEALL;
-
-                        Message('Carry out finished.');
                     end;
                 }
                 action("Delete All")
@@ -464,7 +504,12 @@ page 50114 "Vendor Import Lines"
                         recApprSetup.Get();
                         if recApprSetup."Vendor" then begin
                             VendorImportBatch.get(G_BatchName);
-                            if VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+
+                            if not (VendorImportBatch."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
                                 Error('You can''t delete any records because approval process already initiated.');
                             end;
                         end;
@@ -515,7 +560,6 @@ page 50114 "Vendor Import Lines"
     var
         VendorRecord: Record "Vendor";
         PurchSetup: Record "Purchases & Payables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
         NoSeries: Codeunit "No. Series";
     begin
         VendorRecord.INIT;
