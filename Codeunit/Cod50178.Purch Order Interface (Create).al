@@ -47,7 +47,8 @@ codeunit 50178 "Purch Order Interface (Create)"
                 rec_PurchHeader.INIT;
                 rec_PurchHeader."Document Type" := rec_PurchHeader."Document Type"::Order;
                 // Vendor Code is hardcoded to V00010
-                GlobalPONbr := vNoSeriesMgt.GetNextNo(rec_PurchSetup."Order Nos.", TODAY, TRUE);
+                //GlobalPONbr := vNoSeriesMgt.GetNextNo(rec_PurchSetup."Order Nos.", TODAY, TRUE); //BC Upgrade
+                NoSeries.GetNextNo(rec_PurchSetup."Order Nos.");
                 rec_PurchHeader."No." := GlobalPONbr;
                 rec_PurchHeader.INSERT(TRUE);
                 //rec_PurchHeader.VALIDATE("Buy-from Vendor No.", 'V00010');//sanjeev 10/14/2018
@@ -249,7 +250,8 @@ codeunit 50178 "Purch Order Interface (Create)"
         iLine: Integer;
         pType: Integer;
         rec_Customer: Record Customer;
-        vNoSeriesMgt: Codeunit NoSeriesManagement;
+        //vNoSeriesMgt: Codeunit NoSeriesManagement; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         rec_PurchSetup: Record "Purchases & Payables Setup";
         GlobalPONbr: Code[20];
         rec_POInt1: Record "Renesas PO Interface";

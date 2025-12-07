@@ -231,13 +231,15 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             trigger OnValidate()
             var
                 InvtSetup: Record "Inventory Setup";
-                NoSeriesMgt: codeunit NoSeriesManagement;
+                //NoSeriesMgt: codeunit NoSeriesManagement; //BC Upgrade
+                NoSeries: Codeunit "No. Series";
             begin
                 //Siak Hui 20111124 - Start
                 //IF "Booking No." <> xRec."Booking No." THEN BEGIN
                 IF "Booking No." = '' THEN BEGIN
                     InvtSetup.get();
-                    NoSeriesMgt.TestManual(InvtSetup."Booking Serial Nos.");
+                    //NoSeriesMgt.TestManual(InvtSetup."Booking Serial Nos."); //BC Upgrade
+                    NoSeries.TestManual(InvtSetup."Booking Serial Nos.");
                     "No. Series" := '';
                 END;
             end;
@@ -449,7 +451,8 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                 Item: Record "Item";
                 rec_Customer: Record Customer;
                 InvtSetup: Record "Inventory Setup";
-                NoSeriesMgt: codeunit NoSeriesManagement;
+                //NoSeriesMgt: codeunit NoSeriesManagement; //BC Upgrade
+                NoSeries: Codeunit "No. Series";
                 g_NoSeries: Code[10];
             begin
 
@@ -490,7 +493,8 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                                 //GetInvtSetup;
                                 InvtSetup.Get();
                                 InvtSetup.TESTFIELD("Booking Serial Nos.");
-                                NoSeriesMgt.InitSeries(InvtSetup."Booking Serial Nos.", xRec."No. Series", 0D, "Booking No.", "No. Series");
+                                //NoSeriesMgt.InitSeries(InvtSetup."Booking Serial Nos.", xRec."No. Series", 0D, "Booking No.", "No. Series"); //BC Upgrade
+                                NoSeries.GetNextNo(InvtSetup."Booking Serial Nos.");
                             END ELSE BEGIN
                                 "Booking No." := xRec."Booking No.";
                             END;

@@ -18,10 +18,6 @@ pageextension 50027 VendorListExt extends "Vendor List"
             {
                 ApplicationArea = all;
             }
-            field(Address; Rec.Address)
-            {
-                ApplicationArea = all;
-            }
             field("Our Account No."; Rec."Our Account No.")
             {
                 ApplicationArea = all;
@@ -51,10 +47,6 @@ pageextension 50027 VendorListExt extends "Vendor List"
                 ApplicationArea = all;
             }
             field("Territory Code"; Rec."Territory Code")
-            {
-                ApplicationArea = all;
-            }
-            field(City; Rec.City)
             {
                 ApplicationArea = all;
             }

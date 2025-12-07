@@ -29,7 +29,7 @@ codeunit 50020 "ORE Collect Message"
     end;
 
     var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
+        //NoSeriesMgt: Codeunit NoSeriesManagement; //BC Upgrade
         PurchaseLine: Record "Purchase Line";
         Item: Record "Item";
         Vendor: Record "Vendor";
@@ -40,7 +40,8 @@ codeunit 50020 "ORE Collect Message"
     procedure "Collect Message_ORDERS"()
     var
         OREMessageCollectionORDERS: Record "ORE Message Collection ORDERS";
-        NoSeries: Code[10];
+        //NoSeries: Code[10]; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         VendorNo: Code[20];
         HistoryEntry: Integer;
         HistoryMessageStatus: Option Ready,Cancelled,Sent;
@@ -80,7 +81,8 @@ codeunit 50020 "ORE Collect Message"
                             OREMessageHistory."Reverse Routing Address" := Vendor."ORE Reverse Routing Address";
                             OREMessageHistory."Reverse Routing Address (SD)" := Vendor."ORE Reverse Routing Address SD"; //CS073
 
-                            NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries);
+                            //NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries); //BC Upgrade
+                            OREMessageHistory."Running No." := NoSeries.GetNextNo('OREMHRNO');
                             OREMessageHistory.INSERT(TRUE);
                             HistoryEntry := OREMessageHistory."Entry No.";
                             HistoryMessageStatus := OREMessageHistory."Message Status";
@@ -140,7 +142,8 @@ codeunit 50020 "ORE Collect Message"
 
     procedure "Collect Message_ORDCHG"()
     var
-        NoSeries: Code[10];
+        //NoSeries: Code[10]; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         OREMessageCollectionORDCHG: Record "ORE Message Collection ORDCHG";
         OrdchgNo: Integer;
         OREMessageCollectionORDERS: Record "ORE Message Collection ORDERS";
@@ -185,7 +188,8 @@ codeunit 50020 "ORE Collect Message"
                                     OREMessageHistory."Reverse Routing Address" := Vendor."ORE Reverse Routing Address";
                                     OREMessageHistory."Reverse Routing Address (SD)" := Vendor."ORE Reverse Routing Address SD"; //CS073
 
-                                    NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries);
+                                    //NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries); //BC Upgrade
+                                    OREMessageHistory."Running No." := NoSeries.GetNextNo('OREMHRNO');
                                     OREMessageHistory.INSERT(TRUE);
                                     HistoryEntry := OREMessageHistory."Entry No.";
                                     HistoryMessageStatus := OREMessageHistory."Message Status";
@@ -256,7 +260,8 @@ codeunit 50020 "ORE Collect Message"
 
     procedure "Collect Message_INVRPT"()
     var
-        NoSeries: Code[10];
+        //NoSeries: Code[10]; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         OREMessageCollectionINVRPT: Record "ORE Message Collection INVRPT";
         ValueEntry: Record "Value Entry";
         Quantity: Decimal;
@@ -284,7 +289,8 @@ codeunit 50020 "ORE Collect Message"
                     OREMessageHistory."Reverse Routing Address" := GeneralLedgerSetup."ORE Reverse Routing Address";
                     OREMessageHistory."Reverse Routing Address (SD)" := GeneralLedgerSetup."ORE Reverse Routing Address SD"; //CS073
 
-                    NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries);
+                    //NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries); //BC Upgrade
+                    OREMessageHistory."Running No." := NoSeries.GetNextNo('OREMHRNO');
                     OREMessageHistory.INSERT(TRUE);
                     HistoryEntry := OREMessageHistory."Entry No.";
                     HistoryMessageStatus := OREMessageHistory."Message Status";
@@ -347,7 +353,8 @@ codeunit 50020 "ORE Collect Message"
 
     procedure "Collect Message_INVRPT(Monthly)"()
     var
-        NoSeries: Code[10];
+        //NoSeries: Code[10]; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         OREMessageCollectionINVRPT: Record "ORE Message Collection INVRPT";
         ValueEntry: Record "Value Entry";
         Quantity: Decimal;
@@ -375,7 +382,8 @@ codeunit 50020 "ORE Collect Message"
                     OREMessageHistory."Reverse Routing Address" := GeneralLedgerSetup."ORE Reverse Routing Address";
                     OREMessageHistory."Reverse Routing Address (SD)" := GeneralLedgerSetup."ORE Reverse Routing Address SD"; //CS073
 
-                    NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries);
+                    //NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries); //BC Upgrade
+                    OREMessageHistory."Running No." := NoSeries.GetNextNo('OREMHRNO');
                     OREMessageHistory.INSERT(TRUE);
                     HistoryEntry := OREMessageHistory."Entry No.";
                     HistoryMessageStatus := OREMessageHistory."Message Status";
@@ -439,7 +447,8 @@ codeunit 50020 "ORE Collect Message"
     procedure "Collect Message_SLSRPT"()
     var
         SalesShipmentLine: Record "Sales Shipment Line";
-        NoSeries: Code[10];
+        //NoSeries: Code[10]; //BC Upgrade
+        NoSeries: Codeunit "No. Series";
         OREMessageCollectionSLSRPT: Record "ORE Message Collection SLSRPT";
         SalesShipmentHeader: Record "Sales Shipment Header";
         Customer_OEM: Record "Customer";
@@ -481,7 +490,8 @@ codeunit 50020 "ORE Collect Message"
                     OREMessageHistory."Reverse Routing Address" := GeneralLedgerSetup."ORE Reverse Routing Address";
                     OREMessageHistory."Reverse Routing Address (SD)" := GeneralLedgerSetup."ORE Reverse Routing Address SD"; //CS073
 
-                    NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries);
+                    //NoSeriesMgt.InitSeries('OREMHRNO', '', TODAY, OREMessageHistory."Running No.", NoSeries); //BC Upgrade
+                    OREMessageHistory."Running No." := NoSeries.GetNextNo('OREMHRNO');
                     OREMessageHistory.INSERT(TRUE);
                     HistoryEntry := OREMessageHistory."Entry No.";
                     HistoryMessageStatus := OREMessageHistory."Message Status";

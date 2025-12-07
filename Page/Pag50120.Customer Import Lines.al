@@ -636,7 +636,6 @@ page 50120 "Customer Import Lines"
     var
         CustomerRecord: Record "Customer";
         SlaesSetup: Record "Sales & Receivables Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
         NoSeries: Codeunit "No. Series";
     begin
         CustomerRecord.INIT;
