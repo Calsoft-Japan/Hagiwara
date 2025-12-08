@@ -344,12 +344,14 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
 
                 //+HW20091109
                 InvtSetup.GET();
-                Item := GetItem();
-                IF (InvtSetup."Max. PO Quantity Restriction") AND (Item."Purch. Order Quantity Limit" <> 0) THEN BEGIN
-                    IF Rec.Quantity > Item."Purch. Order Quantity Limit" THEN
-                        IF NOT CONFIRM(Text113, FALSE, Item."Purch. Order Quantity Limit") THEN
-                            ERROR('');
-                END;
+                IF (Type = Type::Item) then begin
+                    Item := GetItem();
+                    IF (InvtSetup."Max. PO Quantity Restriction") AND (Item."Purch. Order Quantity Limit" <> 0) THEN BEGIN
+                        IF Rec.Quantity > Item."Purch. Order Quantity Limit" THEN
+                            IF NOT CONFIRM(Text113, FALSE, Item."Purch. Order Quantity Limit") THEN
+                                ERROR('');
+                    END;
+                end;
                 //-
 
                 // Siak 25Nov2009

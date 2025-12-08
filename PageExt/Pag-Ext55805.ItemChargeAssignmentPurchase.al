@@ -12,6 +12,10 @@ pageextension 55805 ItemChargeAssignmentPurchExt extends "Item Charge Assignment
             {
                 ApplicationArea = all;
             }
+            field("Item Ledger Entry No."; Rec."Item Ledger Entry No.")
+            {
+                ApplicationArea = all;
+            }
         }
     }
 }

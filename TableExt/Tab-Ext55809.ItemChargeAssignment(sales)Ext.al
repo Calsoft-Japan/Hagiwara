@@ -10,5 +10,8 @@ tableextension 55809 "Item Charge Assign (Sales) Ext" extends "Item Charge Assig
         {
             Description = '//CS077';
         }
+        field(50002; "Item Ledger Entry No."; Integer)
+        {
+        }
     }
 }

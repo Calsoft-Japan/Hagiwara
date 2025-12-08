@@ -16,6 +16,10 @@ pageextension 55824 SalesShipmentLinesExt extends "Sales Shipment Lines"
 
                 ApplicationArea = all;
             }
+            field("Item Ledger Entry No."; Rec."Item Shpt. Entry No.")
+            {
+                ApplicationArea = all;
+            }
 
 
         }
@@ -30,6 +34,7 @@ pageextension 55824 SalesShipmentLinesExt extends "Sales Shipment Lines"
         rec.SETRANGE("No.", '');
         rec.SETRANGE("Posting Date", 0D);
         rec.SETRANGE("External Document No.", '');
+        rec.SETRANGE("Item Shpt. Entry No.", 0); //CS114
         //CS077 by Bobby 2024/05/10
         //END; //CS077 Shawn
     end;

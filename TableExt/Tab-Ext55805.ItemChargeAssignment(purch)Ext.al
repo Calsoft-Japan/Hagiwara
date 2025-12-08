@@ -10,5 +10,8 @@ tableextension 55805 "Item Charge Assign (Purch) Ext" extends "Item Charge Assig
         {
             Description = '//CS077';
         }
+        field(50002; "Item Ledger Entry No."; Integer)
+        {
+        }
     }
 }

@@ -17,7 +17,10 @@ pageextension 55806 PurchReceiptLinesExt extends "Purch. Receipt Lines"
 
                 ApplicationArea = all;
             }
-
+            field("Item Ledger Entry No."; rec."Item Rcpt. Entry No.")
+            {
+                ApplicationArea = all;
+            }
 
         }
     }
@@ -30,6 +33,7 @@ pageextension 55806 PurchReceiptLinesExt extends "Purch. Receipt Lines"
         rec.SETRANGE("No.", '');
         rec.SETRANGE("Posting Date", 0D);
         rec.SETRANGE("External Document No.", '');
+        rec.SETRANGE("Item Rcpt. Entry No.", 0); //CS114
         //CS077 by Bobby 2024/05/10
     end;
 
