@@ -86,10 +86,10 @@ table 50117 "Item Import Batch"
             end;
         end;
 
-        if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
-            ItemImportline.SetRange("Batch Name", Rec.Name);
-            ItemImportline.DeleteAll();
-        end;
+        //Delete Item Import Line
+        ItemImportline.SetRange("Batch Name", Rec.Name);
+        ItemImportline.DeleteAll();
+
     end;
 
     trigger OnRename()
