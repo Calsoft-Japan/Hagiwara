@@ -1,8 +1,6 @@
 page 50086 "Shipment Import Lines"
 {
 
-    ApplicationArea = All;
-    UsageCategory = Lists;
     Editable = false;
     PageType = List;
     SourceTable = "Shipment Import Line";

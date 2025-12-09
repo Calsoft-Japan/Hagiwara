@@ -1,8 +1,6 @@
 page 50101 "Receipt Import Lines"
 {
 
-    ApplicationArea = All;
-    UsageCategory = Lists;
     Editable = false;
     PageType = List;
     SourceTable = "Receipt Import Line";
@@ -38,14 +36,6 @@ page 50101 "Receipt Import Lines"
                     ApplicationArea = all;
                 }
                 field("CO No."; REC."CO No.")
-                {
-                    ApplicationArea = all;
-                }
-                field("Purch. Rept. No."; Rec."Purch. Rept. No.")
-                {
-                    ApplicationArea = all;
-                }
-                field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = all;
                 }
@@ -170,27 +160,18 @@ page 50101 "Receipt Import Lines"
         Staging1: Record "Receipt Import Line";
         Staging2: Record "Receipt Import Line";
         PurchRcptLine: Record "Purch. Rcpt. Line";
-        PurchRcptLineFound: Boolean;
         GroupKey: Integer;
         VendorNo: Code[20];
         ItemNo: Code[20];
         CustomerItemNo: Code[20];
         CONo: Code[6];
-        PurchReptNo: Code[20];
-        LineNo: Integer;
         ReceiveQty: Decimal;
         ErrDesc: Text;
     begin
 
-        /*
         Staging1.SETFILTER(Status, '%1|%2', Staging1.Status::Pending, Staging1.Status::Error);
-        Staging1.ModifyAll("Error Description", '');
-
-        //check dulplicate based on "CO No.".
-        Staging1.Reset();
-        Staging1.SETFILTER(Status, '%1|%2', Staging1.Status::Pending, Staging1.Status::Error);
-        Staging1.SetFilter("CO No.", '<>%1', '');
         Staging1.SetCurrentKey("Group Key", "Vendor No.", "Item No.", "Customer Item No.", "CO No.", "Received Quantity");
+
         if Staging1.FindSet() then
             repeat
                 if (GroupKey <> Staging1."Group Key")
@@ -207,6 +188,8 @@ page 50101 "Receipt Import Lines"
                     CONo := Staging1."CO No.";
                     ReceiveQty := Staging1."Received Quantity";
 
+                    ErrDesc := '';
+
                     Staging2.Reset();
                     Staging2.SETFILTER(Status, '%1|%2', Staging2.Status::Pending, Staging2.Status::Error);
                     Staging2.SetRange("Group Key", GroupKey);
@@ -219,118 +202,64 @@ page 50101 "Receipt Import Lines"
 
                         Staging2.ModifyAll(Status, Staging2.Status::Error);
                         Staging2.ModifyAll("Error Description", 'The same data exists in "Group Key", "Vendor No.", "Item No.", "Customer Item No.", "CO No." and " Received Quantity".');
-                    end;
-                end;
-            until Staging1.Next() = 0;
-
-
-
-
-        //check dulplicate based on "Purch. Rept. No." and "Line No.".
-        Clear(GroupKey);
-        Clear(VendorNo);
-        Clear(ItemNo);
-        Clear(CustomerItemNo);
-        Clear(ReceiveQty);
-        Staging1.Reset();
-        Staging1.SETFILTER(Status, '%1|%2', Staging1.Status::Pending, Staging1.Status::Error);
-        Staging1.SetRange("Error Description", '');
-        Staging1.SetCurrentKey("Group Key", "Vendor No.", "Item No.", "Customer Item No.", "Purch. Rept. No.", "Line No.", "Received Quantity");
-        if Staging1.FindSet() then
-            repeat
-                if (GroupKey <> Staging1."Group Key")
-                        or (VendorNo <> Staging1."Vendor No.")
-                        or (ItemNo <> Staging1."Item No.")
-                        or (CustomerItemNo <> Staging1."Customer Item No.")
-                        or (PurchReptNo <> Staging1."Purch. Rept. No.")
-                        or (LineNo <> Staging1."Line No.")
-                        or (ReceiveQty <> Staging1."Received Quantity") then begin
-
-                    GroupKey := Staging1."Group Key";
-                    VendorNo := Staging1."Vendor No.";
-                    ItemNo := Staging1."Item No.";
-                    CustomerItemNo := Staging1."Customer Item No.";
-                    PurchReptNo := Staging1."Purch. Rept. No.";
-                    LineNo := Staging1."Line No.";
-                    ReceiveQty := Staging1."Received Quantity";
-
-                    Staging2.Reset();
-                    Staging2.SETFILTER(Status, '%1|%2', Staging2.Status::Pending, Staging2.Status::Error);
-                    Staging2.SetRange("Group Key", GroupKey);
-                    Staging2.SetRange("Vendor No.", VendorNo);
-                    Staging2.SetRange("Item No.", ItemNo);
-                    Staging2.SetRange("Customer Item No.", CustomerItemNo);
-                    Staging2.SetRange("Purch. Rept. No.", PurchReptNo);
-                    Staging2.SetRange("Line No.", LineNo);
-                    Staging2.SetRange("Received Quantity", ReceiveQty);
-                    if Staging2.Count > 1 then begin
-
-                        Staging2.ModifyAll(Status, Staging2.Status::Error);
-                        Staging2.ModifyAll("Error Description", 'The same data exists in "Group Key", "Vendor No.", "Item No.", "Customer Item No.", "Purch. Rept. No.", "Line No." and " Received Quantity".');
-                    end;
-                end;
-            until Staging1.Next() = 0;
-
-        */
-
-        //check purchase receipt line exists.
-        Staging1.Reset();
-        Staging1.SETFILTER(Status, '%1|%2', Staging1.Status::Pending, Staging1.Status::Error);
-        Staging1.SetRange("Error Description", '');
-        if Staging1.FindSet() then
-            repeat
-                ErrDesc := '';
-                PurchRcptLineFound := false;
-                if Staging1."CO No." = '' then begin
-                    if (Staging1."Purch. Rept. No." = '') or (Staging1."Line No." = 0) then begin
-                        ErrDesc := 'CO No. or (PO No. and Line No.) must have value.';
                     end else begin
-                        if not PurchRcptLine.Get(Staging1."Purch. Rept. No.", Staging1."Line No.") then begin
-                            ErrDesc := 'Purchase Receipt Line is not found.';
+                        //check purchase receipt line exists.
+                        if Staging1."CO No." = '' then begin
+                            ErrDesc := 'CO No. is blank. ';
                         end else begin
-                            PurchRcptLine.Get(Staging1."Purch. Rept. No.", Staging1."Line No.");
-                            PurchRcptLineFound := true;
+                            PurchRcptLine.Reset();
+                            PurchRcptLine.SetRange("CO No.", Staging1."CO No.");
+                            if PurchRcptLine.IsEmpty then begin
+                                ErrDesc := 'CO No. is not found. ';
+                            end else begin
+                                PurchRcptLine.FindFirst();
+                                if PurchRcptLine."Buy-from Vendor No." <> Staging1."Vendor No." then
+                                    ErrDesc := ErrDesc + 'Vendor No. is not found. ';
+                                if PurchRcptLine."Customer Item No." <> Staging1."Customer Item No." then
+                                    ErrDesc := ErrDesc + 'Customer Item No. is wrong. ';
+                                if PurchRcptLine.Description <> Staging1."Item Description" then
+                                    ErrDesc := ErrDesc + 'Item Description is wrong. ';
+                                if PurchRcptLine."Currency Code" <> Staging1."Currency Code" then
+                                    ErrDesc := ErrDesc + 'Currency Code is wrong. ';
+                                if PurchRcptLine."Qty. Rcd. Not Invoiced" = 0 then
+                                    ErrDesc := ErrDesc + 'Purchase Receipt Line''s Qty.Rcd. Not Invoiced is zero. ';
+                                if PurchRcptLine.Quantity <> Staging1."Received Quantity" then
+                                    ErrDesc := ErrDesc + 'Received Quantity is wrong. ';
+                                if Staging1."Unit Cost" <> 0 then begin
+                                    if PurchRcptLine."Unit Cost" <> Staging1."Unit Cost" then
+                                        ErrDesc := ErrDesc + 'Unit Cost is wrong. ';
+                                end;
+                            end;
                         end;
-                    end;
-                end else begin
-                    PurchRcptLine.Reset();
-                    PurchRcptLine.SetRange("CO No.", Staging1."CO No.");
-                    if PurchRcptLine.IsEmpty then begin
-                        ErrDesc := 'CO No. is not found. ';
-                    end else if PurchRcptLine.Count > 1 then begin
-                        ErrDesc := 'CO No. is not unique. Please enter PO No. and Line No., and keep CO No. empty.';
-                    end else begin
-                        PurchRcptLine.FindFirst();
-                        PurchRcptLineFound := true;
-                    end;
-                end;
+                        if ErrDesc <> '' then begin
+                            Staging1.Status := Staging1.Status::Error;
+                            Staging1."Error Description" := PadStr(ErrDesc, StrLen(ErrDesc) - 1);
+                            Staging1.Modify();
+                        end;
 
-                if PurchRcptLineFound then begin
+                        /*
+                        PurchRcptLine.Reset();
+                        PurchRcptLine.SetRange("Buy-from Vendor No.", Staging1."Vendor No.");
+                        PurchRcptLine.SetRange("CO No.", Staging1."CO No.");
+                        PurchRcptLine.SetRange("Customer Item No.", Staging1."Customer Item No.");
+                        PurchRcptLine.SetRange(Description, Staging1."Item Description");
+                        PurchRcptLine.SetRange("Currency Code", Staging1."Currency Code");
+                        PurchRcptLine.SetFilter("Qty. Rcd. Not Invoiced", '<>%1', 0);
+                        PurchRcptLine.SetRange(Quantity, Staging1."Received Quantity");
+                        if Staging1."Unit Cost" <> 0 then begin
+                            PurchRcptLine.SetRange("Unit Cost", Staging1."Unit Cost");
+                        end;
+                        if PurchRcptLine.IsEmpty then begin
+                            Staging1.Status := Staging1.Status::Error;
+                            Staging1."Error Description" := 'There is no matched record in Purchase Receipt Line.';
+                            Staging1.Modify();
+                        end;
+                        */
 
-                    if PurchRcptLine."Buy-from Vendor No." <> Staging1."Vendor No." then
-                        ErrDesc := ErrDesc + 'Vendor No. is not found. ';
-                    if PurchRcptLine."Customer Item No." <> Staging1."Customer Item No." then
-                        ErrDesc := ErrDesc + 'Customer Item No. is wrong. ';
-                    if PurchRcptLine.Description <> Staging1."Item Description" then
-                        ErrDesc := ErrDesc + 'Item Description is wrong. ';
-                    if PurchRcptLine."Currency Code" <> Staging1."Currency Code" then
-                        ErrDesc := ErrDesc + 'Currency Code is wrong. ';
-                    if PurchRcptLine."Qty. Rcd. Not Invoiced" = 0 then
-                        ErrDesc := ErrDesc + 'Purchase Receipt Line''s Qty.Rcd. Not Invoiced is zero. ';
-                    if PurchRcptLine.Quantity <> Staging1."Received Quantity" then
-                        ErrDesc := ErrDesc + 'Received Quantity is wrong. ';
-                    if Staging1."Unit Cost" <> 0 then begin
-                        if PurchRcptLine."Unit Cost" <> Staging1."Unit Cost" then
-                            ErrDesc := ErrDesc + 'Unit Cost is wrong. ';
                     end;
                 end;
-                if ErrDesc <> '' then begin
-                    Staging1.Status := Staging1.Status::Error;
-                    Staging1."Error Description" := PadStr(ErrDesc, StrLen(ErrDesc) - 1);
-                    Staging1.Modify();
-                end;
-
             until Staging1.Next() = 0;
+
     end;
 
 }

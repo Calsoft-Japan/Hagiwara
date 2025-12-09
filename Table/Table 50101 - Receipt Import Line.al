@@ -25,28 +25,22 @@ table 50101 "Receipt Import Line"
         field(7; "CO No."; Code[6])
         {
         }
-        field(8; "Purch. Rept. No."; Code[20])
+        field(8; "Received Quantity"; Decimal)
         {
         }
-        field(9; "Line No."; Integer)
-        {
-        }
-        field(10; "Received Quantity"; Decimal)
-        {
-        }
-        field(11; "Unit Cost"; Decimal)
+        field(9; "Unit Cost"; Decimal)
         {
             DecimalPlaces = 2 : 5;
         }
-        field(12; "Currency Code"; Code[10])
+        field(10; "Currency Code"; Code[10])
         {
         }
-        field(13; Status; Option)
+        field(11; Status; Option)
         {
             OptionCaption = 'Pending,Error,Processed,OK';
             OptionMembers = Pending,Error,Processed,OK;
         }
-        field(14; "Error Description"; Text[250])
+        field(12; "Error Description"; Text[250])
         {
         }
     }
