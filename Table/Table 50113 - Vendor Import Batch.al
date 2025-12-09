@@ -88,10 +88,10 @@ table 50113 "Vendor Import Batch"
             end;
         end;
 
-        if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
-            VendorImportline.SetRange("Batch Name", Rec.Name);
-            VendorImportline.DeleteAll();
-        end;
+        //Delete Vendor Import Line
+        VendorImportline.SetRange("Batch Name", Rec.Name);
+        VendorImportline.DeleteAll();
+
     end;
 
     trigger OnRename()
