@@ -494,7 +494,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                                 InvtSetup.Get();
                                 InvtSetup.TESTFIELD("Booking Serial Nos.");
                                 //NoSeriesMgt.InitSeries(InvtSetup."Booking Serial Nos.", xRec."No. Series", 0D, "Booking No.", "No. Series"); //BC Upgrade
-                                NoSeries.GetNextNo(InvtSetup."Booking Serial Nos.");
+                                "Booking No." := NoSeries.GetNextNo(InvtSetup."Booking Serial Nos.");
                             END ELSE BEGIN
                                 "Booking No." := xRec."Booking No.";
                             END;
