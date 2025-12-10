@@ -488,6 +488,15 @@ page 50120 "Customer Import Lines"
                         */
 
                         // -------check record contents-------
+                        Clear(CustomerNoList);
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        if CustomerImportline.FINDFIRST then
+                            REPEAT
+                                if not CustomerNoList.Contains(CustomerImportline."No.") then begin
+                                    CustomerNoList.Add(CustomerImportline."No.");
+                                end;
+                            UNTIL CustomerImportline.NEXT = 0;
+
                         CustomerImportline.SetRange("Batch Name", G_BatchName);
                         if CustomerImportline.FINDFIRST then
                             REPEAT
@@ -518,47 +527,59 @@ page 50120 "Customer Import Lines"
                             if not (CustomerImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+                        end;
+                        //Re-validate
+                        if Confirm('Re-validation will be performed. Do you want to continue?') then begin
 
-                            //Re-validate
-                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
-
-                                // -------check record contents-------
-                                CustomerImportline.SetRange("Batch Name", G_BatchName);
-                                if CustomerImportline.FINDFIRST then
-                                    REPEAT
-                                        CheckError(CustomerImportline);
-                                    UNTIL CustomerImportline.NEXT = 0;
-
-                            end else begin
-                                exit;
-                            end;
-
-                            //commit the check error result.
-                            Commit();
-
+                            // -------check record contents-------
+                            Clear(CustomerNoList);
                             CustomerImportline.SetRange("Batch Name", G_BatchName);
-                            CustomerImportline.SetFilter(Status, '%1|%2', CustomerImportline.Status::Pending, CustomerImportline.Status::Error);
-                            if not CustomerImportline.IsEmpty then
-                                Error('Some of the lines are not validated.');
-
-                            // -------Execute-------
-                            CustomerImportline.SetRange("Batch Name", G_BatchName);
-                            CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Validated);
                             if CustomerImportline.FINDFIRST then
                                 REPEAT
-                                    ExecuteProcess(CustomerImportline);
+                                    if not CustomerNoList.Contains(CustomerImportline."No.") then begin
+                                        CustomerNoList.Add(CustomerImportline."No.");
+                                    end;
+                                UNTIL CustomerImportline.NEXT = 0;
+                            CustomerImportline.SetRange("Batch Name", G_BatchName);
+                            if CustomerImportline.FINDFIRST then
+                                REPEAT
+                                    CheckError(CustomerImportline);
                                 UNTIL CustomerImportline.NEXT = 0;
 
-                            /*
-                            //FDD removed this process.
-                            // delete all
-                            CustomerImportline.SetRange("Batch Name", G_BatchName);
-                            CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
-                            CustomerImportline.DELETEALL;
-                            */
-
-                            Message('Carry out finished.');
+                        end else begin
+                            exit;
                         end;
+
+                        //commit the check error result.
+                        Commit();
+
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        CustomerImportline.SetFilter(Status, '%1|%2', CustomerImportline.Status::Pending, CustomerImportline.Status::Error);
+                        if not CustomerImportline.IsEmpty then
+                            Error('Some of the lines are not validated.');
+
+                        // -------Execute-------
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Validated);
+                        if CustomerImportline.FINDFIRST then
+                            REPEAT
+                                ExecuteProcess(CustomerImportline);
+                            UNTIL CustomerImportline.NEXT = 0;
+
+                        if CustomerImportline.FINDFIRST then
+                            REPEAT
+                                UpdateBilltoCustomerNo(CustomerImportline);
+                            UNTIL CustomerImportline.NEXT = 0;
+                        /*
+                        //FDD removed this process.
+                        // delete all
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
+                        CustomerImportline.DELETEALL;
+                        */
+
+                        Message('Carry out finished.');
+
 
                     end;
                 }
@@ -604,6 +625,7 @@ page 50120 "Customer Import Lines"
 
     var
         G_BatchName: Code[20];
+        CustomerNoList: List of [Text];
 
     procedure SetBatchName(pBatchName: Code[20])
     begin
@@ -680,7 +702,7 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Country/Region Code", p_CustomerImportline."Country/Region Code");
         CustomerRecord.Validate("Collection Method", p_CustomerImportline."Collection Method");
         CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
-        CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
+        //CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
         CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
         CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
         CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
@@ -767,6 +789,16 @@ page 50120 "Customer Import Lines"
         CustomerBankAccountRecord.Insert();
     End;
 
+    procedure UpdateBilltoCustomerNo(var p_CustomerImportline: Record "Customer Import Line")
+    var
+        CustomerRecord: Record "Customer";
+    begin
+        if CustomerRecord.get(p_CustomerImportline."No.") then begin
+            CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
+            CustomerRecord.Modify(true);
+        end;
+    end;
+
     procedure UpdateRecordForCustomer(var p_CustomerImportline: Record "Customer Import Line")
     var
         CustomerRecord: Record "Customer";
@@ -796,7 +828,7 @@ page 50120 "Customer Import Lines"
             CustomerRecord.Validate("Country/Region Code", p_CustomerImportline."Country/Region Code");
             CustomerRecord.Validate("Collection Method", p_CustomerImportline."Collection Method");
             CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
-            CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
+            //CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
             CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
             CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
             CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
@@ -977,10 +1009,13 @@ page 50120 "Customer Import Lines"
         end;
         //Bill-to Customer No.
         if p_CustomerImportline."Bill-to Customer No." <> '' then begin
-            if not BilltoCustomerNo.get(p_CustomerImportline."Bill-to Customer No.") then begin
+            if ((p_CustomerImportline."Bill-to Customer No." <> p_CustomerImportline."No.")
+            and (not BilltoCustomerNo.get(p_CustomerImportline."Bill-to Customer No."))
+            and (not CustomerNoList.Contains(p_CustomerImportline."Bill-to Customer No."))) then begin
                 ErrDesc += 'Bill-to Customer No. is not found. ';
             end;
         end;
+
         //Payment Method Code
         if p_CustomerImportline."Payment Method Code" <> '' then begin
             if not PaymentMethodCode.get(p_CustomerImportline."Payment Method Code") then begin

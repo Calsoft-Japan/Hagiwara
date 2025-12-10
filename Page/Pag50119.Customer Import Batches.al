@@ -35,6 +35,7 @@ page 50119 "Customer Import Batches"
                 }
                 field(Approver; Rec."Hagi Approver")
                 {
+                    Caption = 'Approver';
                     ApplicationArea = all;
                 }
 
