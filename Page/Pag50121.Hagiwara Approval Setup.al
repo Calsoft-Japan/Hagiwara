@@ -74,6 +74,11 @@ page 50121 "Hagiwara Approval Setup"
                 {
                     ApplicationArea = all;
                 }
+
+            }
+            group(Numbering)
+            {
+
                 field("Item Import Batch Nos."; Rec."Item Import Batch Nos.")
                 {
                     ApplicationArea = all;

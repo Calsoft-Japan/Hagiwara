@@ -341,6 +341,53 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
             end;
         }
 
+        modify("Order Date")
+        {
+            trigger OnBeforeValidate()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                //N005 Begin
+                recApprSetup.Get();
+                if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                    or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                    or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                        ) then begin
+
+                    if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if ("Order Date" <> xRec."Order Date") then begin
+
+                            Error('Can''t edit this data because of it''s approved.');
+                        end;
+                    end;
+                end;
+                //N005 End
+            end;
+        }
+
+        modify("Campaign No.")
+        {
+            trigger OnBeforeValidate()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                //N005 Begin
+                recApprSetup.Get();
+                if ((recApprSetup."Sales Order") and (Rec."Document Type" = Rec."Document Type"::Order)
+                    or (recApprSetup."Sales Credit Memo") and (Rec."Document Type" = Rec."Document Type"::"Credit Memo")
+                    or (recApprSetup."Sales Return Order") and (Rec."Document Type" = Rec."Document Type"::"Return Order")
+                        ) then begin
+
+                    if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        if ("Campaign No." <> xRec."Campaign No.") then begin
+
+                            Error('Can''t edit this data because of it''s approved.');
+                        end;
+                    end;
+                end;
+                //N005 End
+            end;
+        }
 
         modify("Posting Date")
         {
