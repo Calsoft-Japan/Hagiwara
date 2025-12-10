@@ -77,6 +77,8 @@ table 50113 "Vendor Import Batch"
         VendorImportline: Record "Vendor Import Line";
     begin
 
+        // Move the check processing to Pag50117. Because to hide message [Go ahead and delete?]
+        /*
         recApprSetup.Get();
         if recApprSetup.Vendor then begin
             if not (Rec."Approval Status" in [
@@ -91,6 +93,7 @@ table 50113 "Vendor Import Batch"
         //Delete Vendor Import Line
         VendorImportline.SetRange("Batch Name", Rec.Name);
         VendorImportline.DeleteAll();
+        */
 
     end;
 

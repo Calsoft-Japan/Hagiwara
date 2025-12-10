@@ -5,6 +5,7 @@ page 50113 "Vendor Import Batches"
     PageType = List;
     Caption = 'Vendor Import Batches';
     SourceTable = "Vendor Import Batch";
+    DeleteAllowed = false;
 
     layout
     {
@@ -47,6 +48,41 @@ page 50113 "Vendor Import Batches"
         {
             group(Purchase)
             {
+                action("Delete")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Delete';
+                    Image = Delete;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        VendorImportline: Record "Vendor Import Line";
+                    begin
+
+                        recApprSetup.Get();
+                        if recApprSetup.Vendor then begin
+                            if not (Rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t delete this record because approval process already initiated.');
+                            end;
+                        end;
+
+                        //Delete Vendor Import Line
+                        VendorImportline.SetRange("Batch Name", Rec.Name);
+                        VendorImportline.DeleteAll();
+
+                        //Delete Vendor Import Batch
+                        Rec.Delete();
+
+                    end;
+                }
                 action("Vendor Import Lines")
                 {
                     ApplicationArea = all;

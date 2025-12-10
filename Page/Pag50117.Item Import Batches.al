@@ -5,6 +5,7 @@ page 50117 "Item Import Batch"
     PageType = List;
     Caption = 'Item Import Batches';
     SourceTable = "Item Import Batch";
+    DeleteAllowed = false;
 
     layout
     {
@@ -47,6 +48,41 @@ page 50117 "Item Import Batch"
         {
             group(Purchase)
             {
+                action("Delete")
+                {
+                    ApplicationArea = All;
+                    Caption = 'Delete';
+                    Image = Delete;
+                    Promoted = true;
+                    PromotedCategory = Process;
+                    PromotedIsBig = true;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        ItemImportline: Record "Item Import Line";
+                    begin
+
+
+                        recApprSetup.Get();
+                        if recApprSetup."Item" then begin
+                            if not (Rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Required,
+                                Enum::"Hagiwara Approval Status"::Cancelled,
+                                Enum::"Hagiwara Approval Status"::Rejected
+                                ]) then begin
+                                Error('You can''t delete this record because approval process already initiated.');
+                            end;
+                        end;
+
+                        //Delete Item Import Line
+                        ItemImportline.SetRange("Batch Name", Rec.Name);
+                        ItemImportline.DeleteAll();
+
+                        //Delete Item Import Batch
+                        Rec.Delete();
+                    end;
+                }
                 action("Item Import Lines")
                 {
                     ApplicationArea = all;

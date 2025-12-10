@@ -75,6 +75,8 @@ table 50117 "Item Import Batch"
         ItemImportline: Record "Item Import Line";
     begin
 
+        // Move the check processing to Pag50117. Because to hide message [Go ahead and delete?]
+        /*
         recApprSetup.Get();
         if recApprSetup."Item" then begin
             if not (Rec."Approval Status" in [
@@ -89,6 +91,7 @@ table 50117 "Item Import Batch"
         //Delete Item Import Line
         ItemImportline.SetRange("Batch Name", Rec.Name);
         ItemImportline.DeleteAll();
+        */
 
     end;
 
