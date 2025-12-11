@@ -262,7 +262,7 @@ table 50120 "Customer Import Line"
         field(81; "Price Update Target Date"; Option)
         {
             OptionCaption = ' ,Order Date, Shipment Date';
-            OptionMembers = "","Order Date","Shipment Date";
+            OptionMembers = " ","Order Date","Shipment Date";
         }
         field(82; "ORE Customer Name"; Text[35])
         {

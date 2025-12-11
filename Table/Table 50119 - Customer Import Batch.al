@@ -71,30 +71,30 @@ table 50119 "Customer Import Batch"
         end;
 
     end;
+    /*
+        trigger OnDelete()
+        var
+            recApprSetup: Record "Hagiwara Approval Setup";
+            CustomerImportline: Record "Customer Import Line";
+        begin
 
-    trigger OnDelete()
-    var
-        recApprSetup: Record "Hagiwara Approval Setup";
-        CustomerImportline: Record "Customer Import Line";
-    begin
+            recApprSetup.Get();
+            if recApprSetup.Customer then begin
+                if not (Rec."Approval Status" in [
+                    Enum::"Hagiwara Approval Status"::Required,
+                    Enum::"Hagiwara Approval Status"::Cancelled,
+                    Enum::"Hagiwara Approval Status"::Rejected
+                    ]) then begin
+                    Error('You can''t delete this record because approval process already initiated.');
+                end;
+            end;
 
-        recApprSetup.Get();
-        if recApprSetup.Customer then begin
-            if not (Rec."Approval Status" in [
-                Enum::"Hagiwara Approval Status"::Required,
-                Enum::"Hagiwara Approval Status"::Cancelled,
-                Enum::"Hagiwara Approval Status"::Rejected
-                ]) then begin
-                Error('You can''t delete this record because approval process already initiated.');
+            if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
+                CustomerImportline.SetRange("Batch Name", Rec.Name);
+                CustomerImportline.DeleteAll();
             end;
         end;
-
-        if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
-            CustomerImportline.SetRange("Batch Name", Rec.Name);
-            CustomerImportline.DeleteAll();
-        end;
-    end;
-
+    */
     trigger OnRename()
     var
         recApprSetup: Record "Hagiwara Approval Setup";

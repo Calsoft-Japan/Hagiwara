@@ -212,6 +212,7 @@ page 50120 "Customer Import Lines"
                 field("Partner Type"; Rec."Partner Type")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Preferred Bank Account Code"; Rec."Preferred Bank Account Code")
                 {
@@ -312,6 +313,7 @@ page 50120 "Customer Import Lines"
                 field("Item Supplier Source"; Rec."Item Supplier Source")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Vendor Cust. Code"; Rec."Vendor Cust. Code")
                 {
@@ -332,10 +334,12 @@ page 50120 "Customer Import Lines"
                 field("Default Country/Region of Org"; Rec."Default Country/Region of Org")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Price Update Target Date"; Rec."Price Update Target Date")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("ORE Customer Name"; Rec."ORE Customer Name")
                 {
@@ -392,6 +396,7 @@ page 50120 "Customer Import Lines"
                 field("Blocked"; Rec."Blocked")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Status"; Rec."Status")
                 {
@@ -404,6 +409,7 @@ page 50120 "Customer Import Lines"
                 field("Action"; Rec."Action")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
 
 
