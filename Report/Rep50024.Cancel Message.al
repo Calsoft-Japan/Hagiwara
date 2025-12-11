@@ -130,6 +130,7 @@ report 50024 "Cancel Message"
                             if Item.get(MessageColl."Item No.") then begin
                                 Item."Message Collected By" := '';
                                 Item."Message Collected On" := 0D;
+                                Item.Modify();
                             end;
 
                         until MessageColl.Next() = 0;
