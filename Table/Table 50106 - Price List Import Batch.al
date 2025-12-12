@@ -43,23 +43,23 @@ table 50106 "Price List Import Batch"
     begin
 
         recApprSetup.Get();
-        if recApprSetup."Vendor" then begin
+        if recApprSetup."Price List" then begin
             rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
         end;
 
-        recApprSetup.TestField("Vendor Import Batch Nos.");
-        rec.Name := NoSeries.GetNextNo(recApprSetup."Vendor Import Batch Nos.");
+        recApprSetup.TestField("Price List Import Batch Nos.");
+        rec.Name := NoSeries.GetNextNo(recApprSetup."Price List Import Batch Nos.");
 
     end;
 
     trigger OnModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
-        VendorImportline: Record "Vendor Import Line";
+        PriceListImportline: Record "Price List Import Line";
     begin
 
         recApprSetup.Get();
-        if recApprSetup.Vendor then begin
+        if recApprSetup."Price List" then begin
             if not (Rec."Approval Status" in [
                 Enum::"Hagiwara Approval Status"::Required,
                 Enum::"Hagiwara Approval Status"::Cancelled,
@@ -74,11 +74,11 @@ table 50106 "Price List Import Batch"
     trigger OnDelete()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
-        VendorImportline: Record "Vendor Import Line";
+        PriceListImportline: Record "Price List Import Line";
     begin
 
         recApprSetup.Get();
-        if recApprSetup.Vendor then begin
+        if recApprSetup."Price List" then begin
             if not (Rec."Approval Status" in [
                 Enum::"Hagiwara Approval Status"::Required,
                 Enum::"Hagiwara Approval Status"::Cancelled,
@@ -89,8 +89,8 @@ table 50106 "Price List Import Batch"
         end;
 
         if Confirm('Do you want to delete Batch ' + Rec.Name + '?. The lines of this Batch will also be deleted.') then begin
-            VendorImportline.SetRange("Batch Name", Rec.Name);
-            VendorImportline.DeleteAll();
+            PriceListImportline.SetRange("Batch Name", Rec.Name);
+            PriceListImportline.DeleteAll();
         end;
     end;
 
@@ -100,7 +100,7 @@ table 50106 "Price List Import Batch"
     begin
 
         recApprSetup.Get();
-        if recApprSetup.Vendor then begin
+        if recApprSetup."Price List" then begin
             if not (Rec."Approval Status" in [
                 Enum::"Hagiwara Approval Status"::Required,
                 Enum::"Hagiwara Approval Status"::Cancelled,
