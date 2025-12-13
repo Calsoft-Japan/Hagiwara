@@ -10,10 +10,10 @@ table 50107 "Price List Import Line"
         {
             Editable = false;
         }
-        field(11; "Starting Date "; Date)
+        field(11; "Starting Date"; Date)
         {
         }
-        field(12; "Ending Date "; Date)
+        field(12; "Ending Date"; Date)
         {
         }
         field(13; "Product Type"; Enum "Price Asset Type")

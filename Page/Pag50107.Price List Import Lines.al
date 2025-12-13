@@ -21,11 +21,11 @@ page 50107 "Price List Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Starting Date "; Rec."Starting Date ")
+                field("Starting Date"; Rec."Starting Date")
                 {
                     ApplicationArea = all;
                 }
-                field("Ending Date "; Rec."Ending Date ")
+                field("Ending Date"; Rec."Ending Date")
                 {
                     ApplicationArea = all;
                 }
@@ -226,6 +226,10 @@ page 50107 "Price List Import Lines"
                         PriceListImportBatch: Record "Price List Import Batch";
                         PriceListImportline: Record "Price List Import Line";
                         recApprSetup: Record "Hagiwara Approval Setup";
+                        recPriceListHeader: Record "Price List Header";
+                        recPriceListLine: Record "Price List Line";
+                        SalesPriceLineNoStarter: Integer;
+                        PurchPriceLineNoStarter: Integer;
                     begin
                         // -------check Approval Status -------
                         PriceListImportBatch.GET(G_BatchName);
@@ -261,11 +265,66 @@ page 50107 "Price List Import Lines"
                                 Error('Some of the lines are not validated.');
 
                             // -------Execute-------
+
+                            recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Purchase);
+                            recPriceListHeader.SetRange(Code, G_PurchPriceCode);
+                            if recPriceListHeader.IsEmpty() then
+                                Error(PriceList_NotFoundMsg, 'Purchase', G_PurchPriceCode);
+
+                            recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Sale);
+                            recPriceListHeader.SetRange(Code, G_SalesPriceCode);
+                            if recPriceListHeader.IsEmpty() then
+                                Error(PriceList_NotFoundMsg, 'Sales', G_SalesPriceCode);
+
+                            recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
+                            if recPriceListLine.FindLast() then begin
+                                SalesPriceLineNoStarter := recPriceListLine."Line No." + 10000;
+                            end else begin
+                                SalesPriceLineNoStarter := 10000;
+                            end;
+
+                            recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
+                            if recPriceListLine.FindLast() then begin
+                                SalesPriceLineNoStarter := recPriceListLine."Line No." + 10000;
+                            end else begin
+                                SalesPriceLineNoStarter := 10000;
+                            end;
+
                             PriceListImportline.SetRange("Batch Name", G_BatchName);
                             PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Validated);
                             if PriceListImportline.FINDFIRST then
                                 REPEAT
-                                    ExecuteProcess(PriceListImportline);
+
+                                    recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Purchase);
+                                    recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
+                                    recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
+                                    recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
+                                    recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
+                                    recPriceListLine.SetRange("Currency Code", PriceListImportline."Purchase Currency Code");
+                                    if recPriceListLine.IsEmpty() then begin
+                                        CreatePurchPriceListLines(PriceListImportline, PurchPriceLineNoStarter);
+                                        PurchPriceLineNoStarter += 10000;
+                                    end else begin
+                                        UpdatePurchPriceListLines(PriceListImportline);
+                                    end;
+
+                                    recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Sale);
+                                    recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
+                                    recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
+                                    recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
+                                    recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
+                                    recPriceListLine.SetRange("Currency Code", PriceListImportline."Sales Currency Code");
+                                    if recPriceListLine.IsEmpty() then begin
+                                        CreatePurchPriceListLines(PriceListImportline, SalesPriceLineNoStarter);
+                                        SalesPriceLineNoStarter += 10000;
+                                    end else begin
+                                        UpdatePurchPriceListLines(PriceListImportline);
+                                    end;
+
+
+                                    PriceListImportline.Validate(Status, PriceListImportline.Status::Completed);
+                                    PriceListImportline.Modify();
+
                                 UNTIL PriceListImportline.NEXT = 0;
 
                             /*
@@ -322,55 +381,180 @@ page 50107 "Price List Import Lines"
 
     var
         G_BatchName: Code[20];
+        G_SalesPriceCode: Code[20];
+        G_PurchPriceCode: Code[20];
+        G_ZeroPriceMargin: Decimal;
         PriceListNoList: List of [Text];
         NotFoundMsg: Label '%1 is not found. ';
+        PriceList_NotFoundMsg: Label '%1 Price List %2 is not found. ';
+
+
+    trigger OnInit()
+    begin
+        G_SalesPriceCode := 'S00001';
+        G_PurchPriceCode := 'P00001';
+        G_ZeroPriceMargin := -99999;
+    end;
 
     procedure SetBatchName(pBatchName: Code[20])
     begin
         G_BatchName := pBatchName;
     end;
 
-    procedure ExecuteProcess(var p_PriceListImportline: Record "Price List Import Line")
+
+    //Create new records on the PriceList table.
+    procedure CreatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; p_LineNoStarter: Integer)
+    var
+        recPriceListLine: Record "Price List Line";
     begin
+        recPriceListLine.INIT;
+        recPriceListLine."Price List Code" := G_PurchPriceCode;
+        recPriceListLine."Line No." := p_LineNoStarter;
+        recPriceListLine.Validate("Price Type", Enum::"Price Type"::Purchase);
+        recPriceListLine.Validate("Source Type", Enum::"Price Source Type"::Vendor);
+        recPriceListLine.Validate("Source No.", p_PriceListImportline."Vendor No.");
+        recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
+        recPriceListLine.Validate("Currency Code", p_PriceListImportline."Purchase Currency Code");
+        recPriceListLine.Validate("Asset Type", p_PriceListImportline."Product Type");
+        recPriceListLine.Validate("Product No.", p_PriceListImportline."Product No.");
+        recPriceListLine.Validate("Description", GetProductDesc(p_PriceListImportline));
+        recPriceListLine.Validate("Starting Date", p_PriceListImportline."Starting Date");
+        recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+        recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+        recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+        recPriceListLine.Validate("Amount Type", Enum::"Price Amount Type"::Any); //Defines, Any means "Price & Discount";
+        recPriceListLine.Validate("ORE Debit Cost", p_PriceListImportline."ORE Debit Cost");
+        recPriceListLine.Validate("Ship&Debit Flag", p_PriceListImportline."Ship&Debit Flag");
+        recPriceListLine.Validate("PC. Currency Code", p_PriceListImportline."PC. Currency Code");
+        recPriceListLine.Validate("PC. Direct Unit Cost", p_PriceListImportline."PC. Direct Unit Cost");
+        recPriceListLine.Validate("PC. Update Price", p_PriceListImportline."PC. Update Price");
 
-        // -------Create-------
-        if p_PriceListImportline.Action = p_PriceListImportline.Action::Create then begin
-            //If Price List Import Line. No. is blank, use the default No. Series.
-            CreateRecordForPriceList(p_PriceListImportline);
+        recPriceListLine.Insert(true);
 
-        end;
-
-        // -------Update-------
-        if p_PriceListImportline.Action = p_PriceListImportline.Action::Update then begin
-            UpdateRecordForPriceList(p_PriceListImportline);
-
-        end;
-
-        //After completed, update the status to Completed. 
-        p_PriceListImportline.Validate(p_PriceListImportline.Status, p_PriceListImportline.Status::Completed);
-        p_PriceListImportline.Modify(true);
-
+        recPriceListLine.Validate("Status", Enum::"Price Status"::Active);
+        recPriceListLine.Modify(true);
     end;
 
     //Create new records on the PriceList table.
-    procedure CreateRecordForPriceList(var p_PriceListImportline: Record "Price List Import Line")
+    procedure UpdatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line")
     var
-        PriceListRecord: Record "Price List Line";
-        PurchSetup: Record "Purchases & Payables Setup";
-        NoSeries: Codeunit "No. Series";
+        recPriceListLine: Record "Price List Line";
     begin
-        PriceListRecord.INIT;
-        //ToDo
-        PriceListRecord.Modify();
+
+        recPriceListLine.Validate("Status", Enum::"Price Status"::Draft);
+        recPriceListLine.Modify(true);
+
+        recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+        recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
+        recPriceListLine.Validate("Currency Code", p_PriceListImportline."Purchase Currency Code");
+        recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+        recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+        recPriceListLine.Validate("ORE Debit Cost", p_PriceListImportline."ORE Debit Cost");
+        recPriceListLine.Validate("Ship&Debit Flag", p_PriceListImportline."Ship&Debit Flag");
+        recPriceListLine.Validate("PC. Currency Code", p_PriceListImportline."PC. Currency Code");
+        recPriceListLine.Validate("PC. Direct Unit Cost", p_PriceListImportline."PC. Direct Unit Cost");
+        recPriceListLine.Validate("PC. Update Price", p_PriceListImportline."PC. Update Price");
+
+        recPriceListLine.Modify(true);
+
+        recPriceListLine.Validate("Status", p_PriceListImportline."Price Line Status");
+        recPriceListLine.Modify(true);
     end;
 
-    //Update existing records on the PriceList table.
-    procedure UpdateRecordForPriceList(var p_PriceListImportline: Record "Price List Import Line")
+    //Create new records on the PriceList table.
+    procedure CreateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; p_LineNoStarter: Integer)
     var
-        PriceListRecord: Record "Price List Line";
+        recPriceListLine: Record "Price List Line";
     begin
-        //Todo
-        PriceListRecord.Modify(true);
+        recPriceListLine.INIT;
+        recPriceListLine."Price List Code" := G_SalesPriceCode;
+        recPriceListLine."Line No." := p_LineNoStarter;
+        recPriceListLine.Validate("Price Type", Enum::"Price Type"::Sale);
+        recPriceListLine.Validate("Source Type", Enum::"Price Source Type"::Customer);
+        recPriceListLine.Validate("Source No.", p_PriceListImportline."Customer No.");
+        recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
+        recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");
+        recPriceListLine.Validate("Asset Type", p_PriceListImportline."Product Type");
+        recPriceListLine.Validate("Product No.", p_PriceListImportline."Product No.");
+        recPriceListLine.Validate("Description", GetProductDesc(p_PriceListImportline));
+        recPriceListLine.Validate("Starting Date", p_PriceListImportline."Starting Date");
+        recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+        recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+        recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+        recPriceListLine.Validate("Amount Type", Enum::"Price Amount Type"::Any); //Defines, Any means "Price & Discount";
+        recPriceListLine.Validate("Renesas Report Unit Price Cur.", p_PriceListImportline."Renesas Report Unit Price Cur.");
+
+        recPriceListLine.Insert(true);
+
+        recPriceListLine.Validate("Status", Enum::"Price Status"::Active);
+        recPriceListLine.Modify(true);
+    end;
+
+    procedure UpdateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line")
+    var
+        recPriceListLine: Record "Price List Line";
+    begin
+
+        recPriceListLine.Validate("Status", Enum::"Price Status"::Draft);
+        recPriceListLine.Modify(true);
+
+        recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
+        recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");
+        recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+        recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+        recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+        recPriceListLine.Validate("Renesas Report Unit Price Cur.", p_PriceListImportline."Renesas Report Unit Price Cur.");
+
+        recPriceListLine.Modify(true);
+
+        recPriceListLine.Validate("Status", p_PriceListImportline."Price Line Status");
+        recPriceListLine.Modify(true);
+    end;
+
+    local procedure GetProductDesc(var p_PriceListImportline: Record "Price List Import Line"): Text[100]
+    var
+        recItem: Record Item;
+        recGLAccount: Record "G/L Account";
+        recResource: Record Resource;
+        recResourceGroup: Record "Resource Group";
+        recItemDiscGroup: Record "Item Discount Group";
+        Desc: Text[100];
+    begin
+
+        case p_PriceListImportline."Product Type" of
+            Enum::"Price Asset Type"::Item:
+                begin
+                    if recItem.Get(p_PriceListImportline."Product No.") then begin
+                        Desc := recItem.Description;
+                    end;
+                end;
+            Enum::"Price Asset Type"::"G/L Account":
+                begin
+                    if not recGLAccount.Get(p_PriceListImportline."Product No.") then begin
+                        Desc := recGLAccount.Name;
+                    end;
+                end;
+            Enum::"Price Asset Type"::Resource:
+                begin
+                    if not recResource.Get(p_PriceListImportline."Product No.") then begin
+                        Desc := recResource.Name;
+                    end;
+                end;
+            Enum::"Price Asset Type"::"Resource Group":
+                begin
+                    if not recResourceGroup.Get(p_PriceListImportline."Product No.") then begin
+                        Desc := recResourceGroup.Name;
+                    end;
+                end;
+            Enum::"Price Asset Type"::"Item Discount Group":
+                begin
+                    if not recItemDiscGroup.Get(p_PriceListImportline."Product No.") then begin
+                        Desc := recItemDiscGroup.Description;
+                    end;
+                end;
+        end;
+
+        exit(Desc);
     end;
 
 
@@ -384,12 +568,13 @@ page 50107 "Price List Import Lines"
         recResourceGroup: Record "Resource Group";
         recItemDiscGroup: Record "Item Discount Group";
         recCurrency: Record Currency;
+        recPriceListLine: Record "Price List Line";
         recUOM: Record "Unit of Measure";
 
     begin
 
         Staging1.SetRange("Product No.", p_PriceListImportline."Product No.");
-        Staging1.SetRange("Starting Date ", p_PriceListImportline."Starting Date ");
+        Staging1.SetRange("Starting Date", p_PriceListImportline."Starting Date");
         Staging1.SetRange("Sales Currency Code", p_PriceListImportline."Sales Currency Code");
         Staging1.SetRange("Purchase Currency Code", p_PriceListImportline."Purchase Currency Code");
         if Staging1.Count >= 1 then begin
@@ -469,16 +654,38 @@ page 50107 "Price List Import Lines"
             p_PriceListImportline."Purchase Price (LCY)" := CalcPurchPriceLCY(p_PriceListImportline);
 
             if (p_PriceListImportline."Sales Price (LCY)" = 0) or (p_PriceListImportline."Purchase Price (LCY)" = 0) then begin
-                p_PriceListImportline."Margin%" := -99999;
+                p_PriceListImportline."Margin%" := G_ZeroPriceMargin;
             end else begin
                 p_PriceListImportline."Margin%" := (p_PriceListImportline."Sales Price (LCY)" - p_PriceListImportline."Purchase Price (LCY)") / p_PriceListImportline."Sales Price (LCY)" * 100;
             end;
 
             //Create or Update
-            //todo
+            //Set Create as default, then set to Update if sales / purchase price list line exsits.
+            p_PriceListImportline.Action := p_PriceListImportline.Action::Create;
+
+            recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Sale);
+            recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
+            recPriceListLine.SetRange("Asset Type", p_PriceListImportline."Product Type");
+            recPriceListLine.SetRange("Product No.", p_PriceListImportline."Product No.");
+            recPriceListLine.SetRange("Starting Date", p_PriceListImportline."Starting Date");
+            recPriceListLine.SetRange("Currency Code", p_PriceListImportline."Sales Currency Code");
+            if not recPriceListLine.IsEmpty() then begin
+                p_PriceListImportline.Action := p_PriceListImportline.Action::Update;
+            end;
+
+            recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Purchase);
+            recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
+            recPriceListLine.SetRange("Asset Type", p_PriceListImportline."Product Type");
+            recPriceListLine.SetRange("Product No.", p_PriceListImportline."Product No.");
+            recPriceListLine.SetRange("Starting Date", p_PriceListImportline."Starting Date");
+            recPriceListLine.SetRange("Currency Code", p_PriceListImportline."Purchase Currency Code");
+            if not recPriceListLine.IsEmpty() then begin
+                p_PriceListImportline.Action := p_PriceListImportline.Action::Update;
+            end;
 
             p_PriceListImportline.Validate(p_PriceListImportline.Status, p_PriceListImportline.Status::Validated);
         end;
+
         p_PriceListImportline.Modify(true);
     end;
 
@@ -566,6 +773,5 @@ page 50107 "Price List Import Lines"
         exit(rtnAmountLCY);
 
     end;
-
 
 }

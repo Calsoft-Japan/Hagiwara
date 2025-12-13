@@ -104,8 +104,8 @@ codeunit 50107 "Price List Import"
             //----------------------Set values for each item----------------------
             rec_POInt."Batch Name" := G_BatchName;
             rec_POInt."Entry No." := EntryNo;
-            Evaluate(rec_POInt."Starting Date ", GetValueAtCell(RowNo, 1));
-            Evaluate(rec_POInt."Ending Date ", GetValueAtCell(RowNo, 2));
+            Evaluate(rec_POInt."Starting Date", GetValueAtCell(RowNo, 1));
+            Evaluate(rec_POInt."Ending Date", GetValueAtCell(RowNo, 2));
             Evaluate(rec_POInt."Product Type", GetValueAtCell(RowNo, 3));
             Evaluate(rec_POInt."Product No.", GetValueAtCell(RowNo, 4));
             Evaluate(rec_POInt."Customer No.", GetValueAtCell(RowNo, 5));
