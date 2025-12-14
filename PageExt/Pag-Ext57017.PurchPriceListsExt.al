@@ -1,9 +1,9 @@
 pageextension 57017 PurchPriceListsExt extends "Purchase Price Lists"
 {
+    Editable = false;
+
     layout
     {
-
-
         addafter(Status)
         {
             field("Approval Status"; rec."Approval Status")
@@ -27,6 +27,7 @@ pageextension 57017 PurchPriceListsExt extends "Purchase Price Lists"
 
         addfirst(Processing)
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -155,6 +156,7 @@ pageextension 57017 PurchPriceListsExt extends "Purchase Price Lists"
                     end;
                 }
             }
+            */
         }
     }
 }

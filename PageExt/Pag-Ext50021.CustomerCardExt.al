@@ -280,6 +280,7 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
 
         addbefore("F&unctions")
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -407,10 +408,11 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
                 }
-            }
+            }*/
         }
     }
 
+    /*
     trigger OnOpenPage()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -427,6 +429,7 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
         //N005 End
 
     end;
+    */
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin

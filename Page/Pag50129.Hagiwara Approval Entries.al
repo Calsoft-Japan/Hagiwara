@@ -63,6 +63,10 @@ page 50129 "Hagiwara Approval Entries"
                 {
                     ApplicationArea = all;
                 }
+                field(Link; Rec.Link)
+                {
+                    ApplicationArea = all;
+                }
                 field(Open; Rec.Open)
                 {
                     ApplicationArea = all;
@@ -76,6 +80,11 @@ page 50129 "Hagiwara Approval Entries"
         area(factboxes)
         {
             part(ApprovalComment; "Hagiwara Approval Comment FB")
+            {
+                ApplicationArea = all;
+                SubPageLink = "Entry No." = field("Entry No.");
+            }
+            part(ApprovalLink; "Hagiwara Approval Link FB")
             {
                 ApplicationArea = all;
                 SubPageLink = "Entry No." = field("Entry No.");

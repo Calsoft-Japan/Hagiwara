@@ -1,9 +1,9 @@
 pageextension 57016 SalesPriceListExt extends "Sales Price List"
 {
+    Editable = false;
+
     layout
     {
-
-
         addafter(Status)
         {
             field("Approval Status"; rec."Approval Status")
@@ -24,9 +24,22 @@ pageextension 57016 SalesPriceListExt extends "Sales Price List"
 
     actions
     {
+        modify(SuggestLines)
+        {
+            Visible = false;
+        }
+        modify(CopyLines)
+        {
+            Visible = false;
+        }
+        modify(VerifyLines)
+        {
+            Visible = false;
+        }
 
         addfirst(Processing)
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -154,10 +167,11 @@ pageextension 57016 SalesPriceListExt extends "Sales Price List"
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
                 }
-            }
+            }*/
         }
     }
 
+    /*
     trigger OnOpenPage()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -174,4 +188,5 @@ pageextension 57016 SalesPriceListExt extends "Sales Price List"
         //N005 End
 
     end;
+    */
 }

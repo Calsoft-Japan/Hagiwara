@@ -1,9 +1,9 @@
 pageextension 57018 PurchPriceListExt extends "Purchase Price List"
 {
+    Editable = false;
+
     layout
     {
-
-
         addafter(Status)
         {
             field("Approval Status"; rec."Approval Status")
@@ -24,9 +24,22 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
 
     actions
     {
+        modify(SuggestLines)
+        {
+            Visible = false;
+        }
+        modify(CopyLines)
+        {
+            Visible = false;
+        }
+        modify(VerifyLines)
+        {
+            Visible = false;
+        }
 
         addfirst(Processing)
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -155,9 +168,11 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
                     end;
                 }
             }
+            */
         }
     }
 
+    /*
     trigger OnOpenPage()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -174,4 +189,5 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
         //N005 End
 
     end;
+    */
 }

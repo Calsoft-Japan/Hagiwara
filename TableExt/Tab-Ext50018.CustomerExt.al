@@ -162,6 +162,7 @@ tableextension 50018 "Customer Ext" extends "Customer"
             MinValue = 0;
         }
 
+        /*
         modify(Blocked)
         {
             trigger OnBeforeValidate()
@@ -180,8 +181,10 @@ tableextension 50018 "Customer Ext" extends "Customer"
                 //N005 End
             end;
         }
+        */
     }
 
+    /*
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -226,4 +229,5 @@ tableextension 50018 "Customer Ext" extends "Customer"
 
         Modify();
     end;
+    */
 }

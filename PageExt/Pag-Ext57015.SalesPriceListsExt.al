@@ -1,9 +1,9 @@
 pageextension 57015 SalesPriceListsExt extends "Sales Price Lists"
 {
+    Editable = false;
+
     layout
     {
-
-
         addafter(Status)
         {
             field("Approval Status"; rec."Approval Status")
@@ -27,6 +27,7 @@ pageextension 57015 SalesPriceListsExt extends "Sales Price Lists"
 
         addfirst(Processing)
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -155,6 +156,8 @@ pageextension 57015 SalesPriceListsExt extends "Sales Price Lists"
                     end;
                 }
             }
+            */
         }
+
     }
 }

@@ -47,6 +47,7 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         }
     }
 
+    /*
     trigger OnBeforeModify()
     var
         PriceListHeader: Record "Price List Header";
@@ -100,4 +101,5 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         //N005 End
 
     end;
+    */
 }

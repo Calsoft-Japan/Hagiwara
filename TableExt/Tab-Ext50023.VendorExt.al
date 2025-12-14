@@ -205,6 +205,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
             Description = 'HG10.00.10 NJ 10/04/2018';
         }
 
+        /*
         modify(Blocked)
         {
             trigger OnBeforeValidate()
@@ -223,9 +224,11 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
                 //N005 End
             end;
         }
+        */
 
     }
 
+    /*
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -270,4 +273,5 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
 
         Modify();
     end;
+    */
 }

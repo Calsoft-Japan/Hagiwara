@@ -129,6 +129,7 @@ pageextension 50027 VendorListExt extends "Vendor List"
 
         addbefore("Payment Journal")
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -257,6 +258,7 @@ pageextension 50027 VendorListExt extends "Vendor List"
                     end;
                 }
             }
+            */
         }
     }
 

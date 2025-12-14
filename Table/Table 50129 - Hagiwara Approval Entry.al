@@ -52,6 +52,10 @@ table 50129 "Hagiwara Approval Entry"
         {
 
         }
+        field(14; "Link"; Text[2048])
+        {
+
+        }
     }
 
     keys

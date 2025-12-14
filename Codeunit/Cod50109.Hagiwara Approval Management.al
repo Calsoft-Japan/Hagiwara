@@ -22,6 +22,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         ReqGroup: Code[30];
         ApprGroup: Code[30];
@@ -29,6 +30,7 @@ codeunit 50109 "Hagiwara Approval Management"
         PriceMargin: Decimal;
         Approver: Code[50];
         MsgComment: Text;
+        LinkText: Text;
         SubmitStatus: Enum "Hagiwara Approval Status";
     begin
 
@@ -75,10 +77,17 @@ codeunit 50109 "Hagiwara Approval Management"
                     PurchHeader.CalcFields(Amount);
                     AmountLCY := CalcPOAmountLCY(PurchHeader);
                 end;
+            Enum::"Hagiwara Approval Data"::"Item Journal",
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    AmountLCY := CalcItemJournalAmountLCY(pData, pDataNo);
+                end;
+        /*
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
                     PriceMargin := GetPriceMargin(pData, pDataNo);
                 end;
+        */
 
         end;
 
@@ -86,11 +95,15 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetRange("Request Group Code", reqGroup);
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
+        /*
         if pData = Enum::"Hagiwara Approval Data"::"Price List" then begin
             recApprCondition.SetFilter("Margin %", '%1|<=%2', 0, PriceMargin);
         end else begin
             recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
         end;
+        */
+        recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
+
         if not recApprCondition.FindLast() then
             error('Hagiwara Approval Condition seems not setup right.');
 
@@ -104,11 +117,13 @@ codeunit 50109 "Hagiwara Approval Management"
         Approver := GetSubstitution(Approver);
 
         pagComment.SetData(pData, pDataNo);
+        pagComment.ShowLink(true);
         if pagComment.RunModal() = Action::OK then begin
 
             SubmitStatus := GetSubmitStatus(pData, pDataNo);
 
             MsgComment := pagComment.GetComment();
+            LinkText := pagComment.GetLink();
             MsgComment := 'Requester (' + pUsername + '):' + TypeHelper.LFSeparator() + MsgComment + TypeHelper.LFSeparator();
             recApprEntry := InsertApprEntry(
                 pData,
@@ -119,7 +134,8 @@ codeunit 50109 "Hagiwara Approval Management"
                 ApprGroup,
                 recApprHrcy."Sequence No.",
                 SubmitStatus,
-                MsgComment
+                MsgComment,
+                LinkText
             );
 
             case pData of
@@ -220,11 +236,19 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::"Price List":
                     begin
+                        /*
                         PriceListHeader.get(pDataNo);
                         PriceListHeader."Approval Status" := SubmitStatus;
                         PriceListHeader.Requester := UserId;
                         PriceListHeader."Hagi Approver" := Approver;
                         PriceListHeader.Modify();
+                        */
+
+                        PriceListImportBatch.get(pDataNo);
+                        PriceListImportBatch."Approval Status" := SubmitStatus;
+                        PriceListImportBatch.Requester := UserId;
+                        PriceListImportBatch."Hagi Approver" := Approver;
+                        PriceListImportBatch.Modify();
                     end;
             end;
 
@@ -248,6 +272,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -402,11 +427,19 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::"Price List":
                     begin
+                        /*
                         PriceListHeader.get(pDataNo);
                         PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
                         PriceListHeader.Requester := '';
                         PriceListHeader."Hagi Approver" := '';
                         PriceListHeader.Modify();
+                        */
+
+                        PriceListImportBatch.get(pDataNo);
+                        PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                        PriceListImportBatch.Requester := '';
+                        PriceListImportBatch."Hagi Approver" := '';
+                        PriceListImportBatch.Modify();
                     end;
             end;
 
@@ -429,6 +462,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -471,7 +505,8 @@ codeunit 50109 "Hagiwara Approval Management"
                     recApprEntry."Approval Group",
                     recApprHrcy."Sequence No.",
                     recApprEntry.Status,
-                    recApprEntry.GetComment()
+                    recApprEntry.GetComment(),
+                    recApprEntry.Link
                 );
 
                 // update transaction data.
@@ -574,9 +609,15 @@ codeunit 50109 "Hagiwara Approval Management"
                         end;
                     Enum::"Hagiwara Approval Data"::"Price List":
                         begin
+                            /*
                             PriceListHeader.get(pDataNo);
                             PriceListHeader."Hagi Approver" := nextApprover;
                             PriceListHeader.Modify();
+                            */
+
+                            PriceListImportBatch.get(pDataNo);
+                            PriceListImportBatch."Hagi Approver" := nextApprover;
+                            PriceListImportBatch.Modify();
                         end;
                 end;
 
@@ -735,10 +776,17 @@ codeunit 50109 "Hagiwara Approval Management"
                         end;
                     Enum::"Hagiwara Approval Data"::"Price List":
                         begin
+                            /*
                             PriceListHeader.get(pDataNo);
                             PriceListHeader.Status := PriceListHeader.Status::Active;
                             PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Approved;
                             PriceListHeader.Modify();
+                            */
+
+                            PriceListImportBatch.get(pDataNo);
+                            PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::Approved;
+                            PriceListImportBatch.Modify();
+
                         end;
                 end;
             end;
@@ -768,6 +816,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -908,10 +957,17 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::"Price List":
                     begin
+                        /*
                         PriceListHeader.get(pDataNo);
                         PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
                         PriceListHeader."Hagi Approver" := pUsername;
                         PriceListHeader.Modify();
+                        */
+
+                        PriceListImportBatch.get(pDataNo);
+                        PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                        PriceListImportBatch."Hagi Approver" := pUsername;
+                        PriceListImportBatch.Modify();
                     end;
             end;
 
@@ -934,6 +990,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -1071,11 +1128,19 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
+                    /*
                     PriceListHeader.get(pDataNo);
                     PriceListHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
                     PriceListHeader."Hagi Approver" := '';
                     PriceListHeader.Requester := '';
                     PriceListHeader.Modify();
+                    */
+
+                    PriceListImportBatch.get(pDataNo);
+                    PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                    PriceListImportBatch."Hagi Approver" := '';
+                    PriceListImportBatch.Requester := '';
+                    PriceListImportBatch.Modify();
                 end;
         end;
     end;
@@ -1090,6 +1155,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -1219,6 +1285,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
+                    /*
                     if PriceListHeader.Get(pApprEntry."No.") then begin
                         if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Sale then begin
                             DocFound := true;
@@ -1229,6 +1296,13 @@ codeunit 50109 "Hagiwara Approval Management"
                         end else begin
                             //no this case.
                         end;
+                    end;
+                    */
+
+                    if PriceListImportBatch.Get(pApprEntry."No.") then begin
+                        PriceListImportBatch.SetRecFilter();
+                        DocFound := true;
+                        Page.RunModal(Page::"Price List Import Batches", PriceListImportBatch);
                     end;
                 end;
         end;
@@ -1252,6 +1326,7 @@ codeunit 50109 "Hagiwara Approval Management"
         ItemImportBatch: Record "Item Import Batch";
         CustImportBatch: Record "Customer Import Batch";
         VendImportBatch: Record "Vendor Import Batch";
+        PriceListImportBatch: Record "Price List Import Batch";
         PriceListHeader: Record "Price List Header";
         Cust: Record Customer;
         Vend: Record Vendor;
@@ -1273,7 +1348,8 @@ codeunit 50109 "Hagiwara Approval Management"
             '', //"Approval Group",
             0,  //recApprHrcy."Sequence No.",
             recApprEntry.Status::"Auto Approved",
-            'System Auto Approved.' //recApprEntry.GetComment()
+            'System Auto Approved.', //recApprEntry.GetComment()
+            '' //Link
         );
 
         recApprEntry.Open := false;
@@ -1423,10 +1499,16 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
+                    /*
                     PriceListHeader.get(pDataNo);
                     PriceListHeader.Status := PriceListHeader.Status::Active;
                     PriceListHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
                     PriceListHeader.Modify();
+                    */
+
+                    PriceListImportBatch.get(pDataNo);
+                    PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
+                    PriceListImportBatch.Modify();
 
                 end;
         end;
@@ -1457,7 +1539,8 @@ codeunit 50109 "Hagiwara Approval Management"
                    pApprGroup: Code[30];
                    pApprSeq: Integer;
                    pStatus: Enum "Hagiwara Approval Status";
-                   pComment: Text
+                   pComment: Text;
+                   pLink: Text
     ): Record "Hagiwara Approval Entry"
     var
         recApprEntry: Record "Hagiwara Approval Entry";
@@ -1472,6 +1555,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprEntry."Request Date" := CurrentDateTime;
         recApprEntry.Status := pStatus;
         recApprEntry.Open := true;
+        recApprEntry.Link := pLink;
 
         recApprEntry.Insert();
 
@@ -1533,6 +1617,28 @@ codeunit 50109 "Hagiwara Approval Management"
         else
             rtnAmountLCY :=
               Round(pPurchHeader.Amount, CurrencyLocal."Amount Rounding Precision");
+
+        exit(rtnAmountLCY);
+    end;
+
+    local procedure CalcItemJournalAmountLCY(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Decimal
+    var
+        ItemJourLine: Record "Item journal Line";
+        CurrencyLocal: Record Currency;
+        CurrExchRate: Record "Currency Exchange Rate";
+        RateDate: Date;
+        rtnAmountLCY: Decimal;
+    begin
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Item Journal",
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ItemJourLine.SetRange("Document No.", pDataNo);
+                    ItemJourLine.CalcSums(Amount, "Discount Amount");
+
+                    rtnAmountLCY := ItemJourLine.Amount - ItemJourLine."Discount Amount";
+                end;
+        end;
 
         exit(rtnAmountLCY);
     end;
@@ -1641,6 +1747,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 exit('&page=17&filter=''G/L Account''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
+                    /*
                     PriceListHeader.Get(pDataNo);
                     if PriceListHeader."Price Type" = PriceListHeader."Price Type"::Sale then begin
                         exit('&page=7016&filter=''Price List Header''.''Code'' is ''' + pDataNo + '''');
@@ -1650,6 +1757,8 @@ codeunit 50109 "Hagiwara Approval Management"
                         //no this case.
                         exit('');
                     end;
+                    */
+                    exit('&page=50106&filter=''Price List Import Batch''.''Name'' is ''' + pDataNo + '''');
                 end;
         end;
 

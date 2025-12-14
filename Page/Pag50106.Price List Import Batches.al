@@ -1,7 +1,7 @@
 page 50106 "Price List Import Batches"
 {
     ApplicationArea = All;
-    //UsageCategory = Lists; /Todo
+    UsageCategory = Lists;
     PageType = List;
     Caption = 'Price List Import Batches';
     SourceTable = "Price List Import Batch";

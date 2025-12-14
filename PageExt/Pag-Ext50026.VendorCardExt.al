@@ -156,6 +156,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
 
         addbefore("F&unctions")
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -284,6 +285,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
                     end;
                 }
             }
+            */
         }
     }
 
@@ -293,6 +295,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
     begin
         IncotermVisibility := HagiwaraFunctions.GetIncotermVisibility; //HG10.00.04 NJ 13/02/2018
 
+        /*
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup.Vendor then begin
@@ -303,6 +306,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             end;
         end;
         //N005 End
+        */
     end;
 
     var

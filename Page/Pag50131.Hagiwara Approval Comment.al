@@ -30,9 +30,30 @@ page 50131 "Hagiwara Approval Comment"
                 Caption = 'Comment';
                 field(Msg; MsgText)
                 {
+                    Importance = Promoted;
                     Caption = 'Comment';
                     ApplicationArea = all;
                     MultiLine = true;
+                }
+            }
+            group("Link")
+            {
+                field(LinkText; LinkText)
+                {
+                    Importance = Promoted;
+                    Visible = LinkVisible;
+                    Caption = 'Link';
+                    ApplicationArea = all;
+                    MultiLine = true;
+
+                    trigger OnValidate()
+                    var
+                        myInt: Integer;
+                    begin
+                        if StrLen(LinkText) > 2048 then begin
+                            Error('Link is over maximum length (2048).');
+                        end;
+                    end;
                 }
             }
         }
@@ -43,6 +64,8 @@ page 50131 "Hagiwara Approval Comment"
         DataNo: Code[20];
         TitleText: Text;
         MsgText: Text;
+        LinkText: Text;
+        LinkVisible: Boolean;
 
 
     procedure SetData(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20])
@@ -56,6 +79,16 @@ page 50131 "Hagiwara Approval Comment"
     begin
         exit(MsgText);
 
+    end;
+
+    procedure ShowLink(pShowLink: Boolean)
+    begin
+        LinkVisible := pShowLink;
+    end;
+
+    procedure GetLink(): Text
+    begin
+        exit(LinkText);
     end;
 
 }

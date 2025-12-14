@@ -155,6 +155,7 @@ pageextension 50022 CustomerListExt extends "Customer List"
 
         addbefore(PricesAndDiscounts)
         {
+            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -283,6 +284,7 @@ pageextension 50022 CustomerListExt extends "Customer List"
                     end;
                 }
             }
+            */
         }
     }
 }
