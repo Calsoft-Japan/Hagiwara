@@ -848,18 +848,20 @@ report 50000 "Sales Invoice BBN"
                 _Country: Record "Country/Region";
                 recApprSetup: Record "Hagiwara Approval Setup"; //N005
                 recApprESign: Record "Hagiwara Approver E-Signature"; //N005
+                recSalesSetup: Record "Sales & Receivables Setup"; //N005
             begin
                 //N005 Begin
                 recApprSetup.Get();
+                recSalesSetup.Get();
                 if recApprSetup."Sales Order" then begin
-                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
-                        if recApprESign.get("Hagi Approver") then begin
-                            if recApprESign."Sign Picture".HasValue then begin
-                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
-                                ESignTenantMedia.CalcFields(Content);
-                            end;
+                    //if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                    if recApprESign.get(recSalesSetup."Posted Sales E-Sig.") then begin
+                        if recApprESign."Sign Picture".HasValue then begin
+                            ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                            ESignTenantMedia.CalcFields(Content);
                         end;
                     end;
+                    //end;
                 end;
                 //N005 End
                 //CurrReport.LANGUAGE := Language.GetLanguageID("Language Code");
