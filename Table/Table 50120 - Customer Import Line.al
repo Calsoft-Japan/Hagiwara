@@ -89,8 +89,8 @@ table 50120 "Customer Import Line"
         }
         field(29; "Application Method"; Option)
         {
-            OptionCaption = 'Manual, Apply to Oldest';
-            OptionMembers = Manual,"Apply to Oldest";
+            OptionCaption = ',Manual, Apply to Oldest';
+            OptionMembers = " ",Manual,"Apply to Oldest";
         }
         field(30; "Prices Including VAT"; Boolean)
         {
@@ -173,8 +173,8 @@ table 50120 "Customer Import Line"
         }
         field(55; "Shipping Advice"; Option)
         {
-            OptionCaption = 'Partial, Complete';
-            OptionMembers = Partial,Complete;
+            OptionCaption = ',Partial, Complete';
+            OptionMembers = " ",Partial,Complete;
         }
         field(56; "Shipping Time"; DateFormula)
         {
@@ -193,13 +193,13 @@ table 50120 "Customer Import Line"
         }
         field(61; "Copy Sell-to Addr. to Qte From"; Option)
         {
-            OptionCaption = 'Company, Person';
-            OptionMembers = Company,Person;
+            OptionCaption = ',Company, Person';
+            OptionMembers = " ",Company,Person;
         }
         field(62; "Customer Type"; Option)
         {
-            OptionCaption = 'Standard, OEM, Trading';
-            OptionMembers = Standard,OEM,Trading;
+            OptionCaption = ',Standard, OEM, Trading';
+            OptionMembers = " ",Standard,OEM,Trading;
         }
         field(63; "NEC OEM Code"; Code[10])
         {

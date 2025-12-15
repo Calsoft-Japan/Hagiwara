@@ -128,6 +128,7 @@ page 50120 "Customer Import Lines"
                 field("Application Method"; Rec."Application Method")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Prices Including VAT"; Rec."Prices Including VAT")
                 {
@@ -233,6 +234,7 @@ page 50120 "Customer Import Lines"
                 field("Shipping Advice"; Rec."Shipping Advice")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Shipping Time"; Rec."Shipping Time")
                 {
@@ -257,10 +259,12 @@ page 50120 "Customer Import Lines"
                 field("Copy Sell-to Addr. to Qte From"; Rec."Copy Sell-to Addr. to Qte From")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Customer Type"; Rec."Customer Type")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("NEC OEM Code"; Rec."NEC OEM Code")
                 {
@@ -710,7 +714,12 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
         //CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
         CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
-        CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
+
+        if p_CustomerImportline."Application Method" <> p_CustomerImportline."Application Method"::" " then
+            CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method")
+        else
+            CustomerRecord.Validate("Application Method", CustomerRecord."Application Method"::Manual);
+
         CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
         CustomerRecord.Validate("Location Code", p_CustomerImportline."Location Code");
         CustomerRecord.Validate("Fax No.", p_CustomerImportline."Fax No.");
@@ -734,14 +743,28 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Cash Flow Payment Terms Code", p_CustomerImportline."Cash Flow Payment Terms Code");
         CustomerRecord.Validate("Primary Contact No.", p_CustomerImportline."Primary Contact No.");
         CustomerRecord.Validate("Responsibility Center", p_CustomerImportline."Responsibility Center");
-        CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice");
+
+        if p_CustomerImportline."Shipping Advice" <> p_CustomerImportline."Shipping Advice"::" " then
+            CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice")
+        else
+            CustomerRecord.Validate("Shipping Advice", CustomerRecord."Shipping Advice"::Partial);
+
         CustomerRecord.Validate("Shipping Time", p_CustomerImportline."Shipping Time");
         CustomerRecord.Validate("Shipping Agent Service Code", p_CustomerImportline."Shipping Agent Service Code");
         CustomerRecord.Validate("Service Zone Code", p_CustomerImportline."Service Zone Code");
         CustomerRecord.Validate("Contract Gain/Loss Amount", p_CustomerImportline."Contract Gain/Loss Amount");
         CustomerRecord.Validate("Allow Line Disc.", p_CustomerImportline."Allow Line Disc.");
-        CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From");
-        CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type");
+
+        if p_CustomerImportline."Copy Sell-to Addr. to Qte From" <> p_CustomerImportline."Copy Sell-to Addr. to Qte From"::" " then
+            CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From")
+        else
+            CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", CustomerRecord."Copy Sell-to Addr. to Qte From"::Company);
+
+        if p_CustomerImportline."Customer Type" <> p_CustomerImportline."Customer Type"::" " then
+            CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type")
+        else
+            CustomerRecord.Validate("Customer Type", CustomerRecord."Customer Type"::Standard);
+
         CustomerRecord.Validate("NEC OEM Code", p_CustomerImportline."NEC OEM Code");
         CustomerRecord.Validate("NEC OEM Name", p_CustomerImportline."NEC OEM Name");
         CustomerRecord.Validate("Shipping Mark1", p_CustomerImportline."Shipping Mark1");
@@ -836,7 +859,10 @@ page 50120 "Customer Import Lines"
             CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
             //CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
             CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
-            CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
+
+            if p_CustomerImportline."Application Method" <> p_CustomerImportline."Application Method"::" " then
+                CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
+
             CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
             CustomerRecord.Validate("Location Code", p_CustomerImportline."Location Code");
             CustomerRecord.Validate("Fax No.", p_CustomerImportline."Fax No.");
@@ -861,14 +887,22 @@ page 50120 "Customer Import Lines"
             CustomerRecord.Validate("Cash Flow Payment Terms Code", p_CustomerImportline."Cash Flow Payment Terms Code");
             CustomerRecord.Validate("Primary Contact No.", p_CustomerImportline."Primary Contact No.");
             CustomerRecord.Validate("Responsibility Center", p_CustomerImportline."Responsibility Center");
-            CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice");
+
+            if p_CustomerImportline."Shipping Advice" <> p_CustomerImportline."Shipping Advice"::" " then
+                CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice");
+
             CustomerRecord.Validate("Shipping Time", p_CustomerImportline."Shipping Time");
             CustomerRecord.Validate("Shipping Agent Service Code", p_CustomerImportline."Shipping Agent Service Code");
             CustomerRecord.Validate("Service Zone Code", p_CustomerImportline."Service Zone Code");
             CustomerRecord.Validate("Contract Gain/Loss Amount", p_CustomerImportline."Contract Gain/Loss Amount");
             CustomerRecord.Validate("Allow Line Disc.", p_CustomerImportline."Allow Line Disc.");
-            CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From");
-            CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type");
+
+            if p_CustomerImportline."Copy Sell-to Addr. to Qte From" <> p_CustomerImportline."Copy Sell-to Addr. to Qte From"::" " then
+                CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From");
+
+            if p_CustomerImportline."Customer Type" <> p_CustomerImportline."Customer Type"::" " then
+                CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type");
+
             CustomerRecord.Validate("NEC OEM Code", p_CustomerImportline."NEC OEM Code");
             CustomerRecord.Validate("NEC OEM Name", p_CustomerImportline."NEC OEM Name");
             CustomerRecord.Validate("Shipping Mark1", p_CustomerImportline."Shipping Mark1");
