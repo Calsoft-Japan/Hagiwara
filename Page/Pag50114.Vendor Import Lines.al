@@ -124,6 +124,7 @@ page 50114 "Vendor Import Lines"
                 field("Application Method"; Rec."Application Method")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Prices Including VAT"; Rec."Prices Including VAT")
                 {
@@ -192,6 +193,7 @@ page 50114 "Vendor Import Lines"
                 field("Partner Type"; Rec."Partner Type")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Creditor No."; Rec."Creditor No.")
                 {
@@ -296,6 +298,7 @@ page 50114 "Vendor Import Lines"
                 field("Blocked"; Rec."Blocked")
                 {
                     ApplicationArea = all;
+                    BlankZero = true;
                 }
                 field("Status"; Rec."Status")
                 {
@@ -429,59 +432,59 @@ page 50114 "Vendor Import Lines"
                             if not (VendorImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
-
-                            //Re-validate
-                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
-
-                                // -------check record contents-------
-                                Clear(VendorNoList);
-                                VendorImportline.SetRange("Batch Name", G_BatchName);
-                                if VendorImportline.FINDFIRST then
-                                    REPEAT
-                                        if not VendorNoList.Contains(VendorImportline."No.") then begin
-                                            VendorNoList.Add(VendorImportline."No.");
-                                        end;
-                                    UNTIL VendorImportline.NEXT = 0;
-
-                                if VendorImportline.FINDFIRST then
-                                    REPEAT
-                                        CheckError(VendorImportline);
-                                    UNTIL VendorImportline.NEXT = 0;
-
-                            end else begin
-                                exit;
-                            end;
-
-                            //commit the check error result.
-                            Commit();
-
-                            VendorImportline.SetRange("Batch Name", G_BatchName);
-                            VendorImportline.SetFilter(Status, '%1|%2', VendorImportline.Status::Pending, VendorImportline.Status::Error);
-                            if not VendorImportline.IsEmpty then
-                                Error('Some of the lines are not validated.');
-
-                            // -------Execute-------
-                            VendorImportline.SetRange("Batch Name", G_BatchName);
-                            VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Validated);
-                            if VendorImportline.FINDFIRST then
-                                REPEAT
-                                    ExecuteProcess(VendorImportline);
-                                UNTIL VendorImportline.NEXT = 0;
-                            if VendorImportline.FINDFIRST then
-                                REPEAT
-                                    UpdatePaytoVendorNo(VendorImportline);
-                                UNTIL VendorImportline.NEXT = 0;
-
-                            /*
-                            //FDD removed this process.
-                            // delete all
-                            VendorImportline.SetRange("Batch Name", G_BatchName);
-                            VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
-                            VendorImportline.DELETEALL;
-                            */
-
-                            Message('Carry out finished.');
                         end;
+
+                        //Re-validate
+                        if Confirm('Re-validation will be performed. Do you want to continue?') then begin
+
+                            // -------check record contents-------
+                            Clear(VendorNoList);
+                            VendorImportline.SetRange("Batch Name", G_BatchName);
+                            if VendorImportline.FINDFIRST then
+                                REPEAT
+                                    if not VendorNoList.Contains(VendorImportline."No.") then begin
+                                        VendorNoList.Add(VendorImportline."No.");
+                                    end;
+                                UNTIL VendorImportline.NEXT = 0;
+
+                            if VendorImportline.FINDFIRST then
+                                REPEAT
+                                    CheckError(VendorImportline);
+                                UNTIL VendorImportline.NEXT = 0;
+
+                        end else begin
+                            exit;
+                        end;
+
+                        //commit the check error result.
+                        Commit();
+
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
+                        VendorImportline.SetFilter(Status, '%1|%2', VendorImportline.Status::Pending, VendorImportline.Status::Error);
+                        if not VendorImportline.IsEmpty then
+                            Error('Some of the lines are not validated.');
+
+                        // -------Execute-------
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
+                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Validated);
+                        if VendorImportline.FINDFIRST then
+                            REPEAT
+                                ExecuteProcess(VendorImportline);
+                            UNTIL VendorImportline.NEXT = 0;
+                        if VendorImportline.FINDFIRST then
+                            REPEAT
+                                UpdatePaytoVendorNo(VendorImportline);
+                            UNTIL VendorImportline.NEXT = 0;
+
+                        /*
+                        //FDD removed this process.
+                        // delete all
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
+                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
+                        VendorImportline.DELETEALL;
+                        */
+
+                        Message('Carry out finished.');
                     end;
                 }
                 action("Delete All")
@@ -605,7 +608,12 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
         //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
         VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
-        VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+        //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+        if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then
+            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method")
+        else
+            VendorRecord.Validate("Application Method", VendorRecord."Application Method"::Manual);
+
         VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
         VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
         VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
@@ -695,7 +703,11 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
             //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
             VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
-            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+            //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+            if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then begin
+                VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+            end;
+
             VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
             VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
             VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
@@ -712,7 +724,11 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Block Payment Tolerance", p_VendorImportline."Block Payment Tolerance");
             VendorRecord.Validate("IC Partner Code", p_VendorImportline."IC Partner Code");
             VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
-            VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
+            //VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
+            if p_VendorImportline."Partner Type" <> p_VendorImportline."Partner Type"::" " then begin
+                VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
+            end;
+
             VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
             VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
             VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
@@ -736,7 +752,11 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Pay-to County", p_VendorImportline."Pay-to County");
             VendorRecord.Validate("Pay-to Country/Region Code", p_VendorImportline."Pay-to Country/Region Code");
             VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
-            VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
+            //VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
+            if p_VendorImportline."Update PO Price Target Date" <> p_VendorImportline."Update PO Price Target Date"::" " then begin
+                VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
+            end;
+
             VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
             //VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
             VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
