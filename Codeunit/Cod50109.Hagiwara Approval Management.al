@@ -636,7 +636,7 @@ codeunit 50109 "Hagiwara Approval Management"
                                 SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
                             end;
 
-                            SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                            SalesLine.SetRange("Document Type", SalesHeader."Document Type");
                             SalesLine.SetRange("Document No.", pDataNo);
                             if SalesLine.FindSet() then
                                 repeat
@@ -667,7 +667,7 @@ codeunit 50109 "Hagiwara Approval Management"
                                 PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
                             end;
 
-                            PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
+                            PurchLine.SetRange("Document Type", PurchHeader."Document Type");
                             PurchLine.SetRange("Document No.", pDataNo);
                             if PurchLine.FindSet() then
                                 repeat
@@ -709,7 +709,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         begin
                             AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
 
-                            AssemLine.SetRange("Document Type", AssemLine."Document Type"::Order);
+                            AssemLine.SetRange("Document Type", AssemblyHeader."Document Type");
                             AssemLine.SetRange("Document No.", pDataNo);
                             if AssemLine.FindSet() then
                                 repeat
@@ -1369,7 +1369,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
                     end;
 
-                    SalesLine.SetRange("Document Type", SalesLine."Document Type"::Order);
+                    SalesLine.SetRange("Document Type", SalesHeader."Document Type");
                     SalesLine.SetRange("Document No.", pDataNo);
                     if SalesLine.FindSet() then
                         repeat
@@ -1400,7 +1400,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
                     end;
 
-                    PurchLine.SetRange("Document Type", PurchLine."Document Type"::Order);
+                    PurchLine.SetRange("Document Type", PurchHeader."Document Type");
                     PurchLine.SetRange("Document No.", pDataNo);
                     if PurchLine.FindSet() then
                         repeat
