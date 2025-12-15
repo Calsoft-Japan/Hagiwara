@@ -8,7 +8,10 @@ pageextension 50518 PurchLinesExt extends "Purchase Lines"
 
             field("CO No."; rec."CO No.")
             {
-
+                ApplicationArea = all;
+            }
+            field("Customer Item No."; Rec."Customer Item No.")
+            {
                 ApplicationArea = all;
             }
 

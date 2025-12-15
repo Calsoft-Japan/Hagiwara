@@ -59,12 +59,10 @@ tableextension 55741 "Transfer Line Ext" extends "Transfer Line"
             end;
 
             if TransferHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
-                if Rec."Approval History Exists" then begin
-                    if (Quantity <> xRec.Quantity)
-                    or ("Unit of Measure Code" <> xRec."Unit of Measure Code") then begin
+                if (Quantity <> xRec.Quantity)
+                or ("Unit of Measure Code" <> xRec."Unit of Measure Code") then begin
 
-                        Error('Can''t edit this data because of it''s approved.');
-                    end;
+                    Error('Can''t edit this data because of it''s approved.');
                 end;
             end;
         end;
@@ -83,6 +81,10 @@ tableextension 55741 "Transfer Line Ext" extends "Transfer Line"
             TransferHeader := Rec.GetTransferHeader();
             if TransferHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
                 Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+
+            if TransferHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                Error('Can''t edit this data because of it''s approved.');
             end;
         end;
         //N005 End
