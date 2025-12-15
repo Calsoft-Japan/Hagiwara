@@ -1442,7 +1442,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 begin
                     AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
 
-                    AssemLine.SetRange("Document Type", AssemLine."Document Type"::Order);
+                    AssemLine.SetRange("Document Type", AssemblyHeader."Document Type");
                     AssemLine.SetRange("Document No.", pDataNo);
                     if AssemLine.FindSet() then
                         repeat
