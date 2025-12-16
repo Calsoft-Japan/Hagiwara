@@ -85,10 +85,8 @@ table 50114 "Vendor Import Line"
         field(27; "Payment Method Code"; Code[10])
         {
         }
-        field(28; "Application Method"; Option)
+        field(28; "Application Method"; Enum "Application Method")
         {
-            OptionCaption = ' ,Manual,Apply to Oldest';
-            OptionMembers = " ","Manual","Apply to Oldest";
         }
         field(29; "Prices Including VAT"; Boolean)
         {
@@ -139,10 +137,8 @@ table 50114 "Vendor Import Line"
         field(44; "Prepayment %"; Decimal)
         {
         }
-        field(45; "Partner Type"; option)
+        field(45; "Partner Type"; Enum "Partner Type")
         {
-            OptionCaption = ' ,Company,Person,Government';
-            OptionMembers = " ","Company","Person","Government";
         }
         field(46; "Creditor No."; Code[20])
         {
@@ -221,10 +217,8 @@ table 50114 "Vendor Import Line"
         field(70; "IRS 1099 Code"; Code[10])
         {
         }
-        field(71; "Blocked"; option)
+        field(71; "Blocked"; Enum "Vendor Blocked")
         {
-            OptionCaption = ' ,Payment,All';
-            OptionMembers = " ","Payment","All";
         }
         field(72; "Status"; Option)
         {

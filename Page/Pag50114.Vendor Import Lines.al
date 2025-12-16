@@ -124,7 +124,6 @@ page 50114 "Vendor Import Lines"
                 field("Application Method"; Rec."Application Method")
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Prices Including VAT"; Rec."Prices Including VAT")
                 {
@@ -193,7 +192,6 @@ page 50114 "Vendor Import Lines"
                 field("Partner Type"; Rec."Partner Type")
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Creditor No."; Rec."Creditor No.")
                 {
@@ -298,7 +296,6 @@ page 50114 "Vendor Import Lines"
                 field("Blocked"; Rec."Blocked")
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Status"; Rec."Status")
                 {
@@ -608,12 +605,7 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
         //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
         VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
-        //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
-        if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then
-            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method" - 1)//Unlike the standard fields, we added a blank option to the first option, so we need the minus 1.
-        else
-            VendorRecord.Validate("Application Method", VendorRecord."Application Method"::Manual);
-
+        VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
         VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
         VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
         VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
@@ -703,11 +695,7 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
             //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
             VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
-            //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
-            if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then begin
-                VendorRecord.Validate("Application Method", p_VendorImportline."Application Method" - 1);//Unlike the standard fields, we added a blank option to the first option, so we need the minus 1.
-            end;
-
+            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
             VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
             VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
             VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
@@ -724,11 +712,7 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Block Payment Tolerance", p_VendorImportline."Block Payment Tolerance");
             VendorRecord.Validate("IC Partner Code", p_VendorImportline."IC Partner Code");
             VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
-            //VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
-            if p_VendorImportline."Partner Type" <> p_VendorImportline."Partner Type"::" " then begin
-                VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
-            end;
-
+            VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
             VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
             VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
             VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
@@ -752,11 +736,7 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Pay-to County", p_VendorImportline."Pay-to County");
             VendorRecord.Validate("Pay-to Country/Region Code", p_VendorImportline."Pay-to Country/Region Code");
             VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
-            //VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
-            if p_VendorImportline."Update PO Price Target Date" <> p_VendorImportline."Update PO Price Target Date"::" " then begin
-                VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
-            end;
-
+            VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
             VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
             //VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
             VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
