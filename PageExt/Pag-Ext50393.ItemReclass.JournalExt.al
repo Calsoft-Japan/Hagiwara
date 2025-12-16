@@ -92,8 +92,12 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
                         if not recApprSetup."Item Reclass Journal" then
                             exit;
 
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request can''t be sent because it''s sent already.');
+                        if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::"Approved",
+                            Enum::"Hagiwara Approval Status"::"Auto Approved"] then
+                            Error('This approval request can''t be sent because it''s sent or approved already.');
 
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;
@@ -179,6 +183,31 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
                             exit;
 
                         cuApprMgt.Reject(enum::"Hagiwara Approval Data"::"Item Reclass Journal", Rec."Document No.", UserId);
+                    end;
+                }
+                action("Update")
+                {
+                    Caption = 'Update';
+                    ApplicationArea = all;
+                    Image = ResetStatus;
+
+                    trigger OnAction()
+                    var
+                        recApprSetup: Record "Hagiwara Approval Setup";
+                        cuApprMgt: Codeunit "Hagiwara Approval Management";
+                    begin
+
+                        recApprSetup.Get();
+                        if not recApprSetup."Item Reclass Journal" then
+                            exit;
+
+                        if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then
+                            exit;
+
+                        if not Confirm('Do you want to update it?\\You need to start approval process from the beginning after updated.') then
+                            exit;
+
+                        cuApprMgt.Update(enum::"Hagiwara Approval Data"::"Item Reclass Journal", Rec."Document No.", UserId);
                     end;
                 }
                 action("Approval Entries")

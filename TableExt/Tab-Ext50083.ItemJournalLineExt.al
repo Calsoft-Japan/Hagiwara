@@ -66,30 +66,40 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
     begin
 
         //N005 Begin
-        case
-            "Source Code" of
-            'ITEMJNL':
-                begin
+        if "Posting Date" = xRec."Posting Date" then begin
+            case
+                "Source Code" of
+                'ITEMJNL':
+                    begin
 
-                    recApprSetup.Get();
-                    if (recApprSetup."Item Journal") then begin
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                        recApprSetup.Get();
+                        if (recApprSetup."Item Journal") then begin
+                            if (rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Submitted,
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                            end;
                         end;
                     end;
-                end;
-            'RECLASSJNL':
-                begin
+                'RECLASSJNL':
+                    begin
 
-                    recApprSetup.Get();
-                    if (recApprSetup."Item Reclass Journal") then begin
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                        recApprSetup.Get();
+                        if (recApprSetup."Item Reclass Journal") then begin
+                            if (rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Submitted,
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                            end;
                         end;
                     end;
+                else begin
+                    //Do nothing.
                 end;
-            else begin
-                //Do nothing.
             end;
         end;
         //N005 End
@@ -164,9 +174,13 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                 begin
                     if (recApprSetup."Item Journal") then begin
                         ItemJourLine.SetRange("Document No.", Rec."Document No.");
-                        ItemJourLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted");
+                        ItemJourLine.SetFilter("Approval Status", '%1|%2|%3|%4',
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::Approved,
+                            Enum::"Hagiwara Approval Status"::"Auto Approved");
                         if Not ItemJourLine.IsEmpty then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                            Error('Can''t edit this data because lines of this Document No. are submitted or approved.');
                         end;
 
                         Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
@@ -177,9 +191,13 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                 begin
                     if (recApprSetup."Item Reclass Journal") then begin
                         ItemJourLine.SetRange("Document No.", Rec."Document No.");
-                        ItemJourLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted");
+                        ItemJourLine.SetFilter("Approval Status", '%1|%2|%3|%4',
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::Approved,
+                            Enum::"Hagiwara Approval Status"::"Auto Approved");
                         if Not ItemJourLine.IsEmpty then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                            Error('Can''t edit this data because lines of this Document No. are submitted or approved.');
                         end;
 
                         Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
@@ -249,24 +267,25 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
             'ITEMJNL':
                 begin
                     if (recApprSetup."Item Journal") then begin
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
+                        if (rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Submitted,
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                            Error('Can''t edit this data because lines of this Document No. are submitted or approved.');
                         end;
 
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
-                            Error('Can''t edit this data because of it''s approved.');
-                        end;
                     end;
                 end;
             'RECLASSJNL':
                 begin
                     if (recApprSetup."Item Reclass Journal") then begin
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then begin
-                            Error('Can''t edit this data because lines of this Document No. are submitted for approval.');
-                        end;
-
-                        if (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
-                            Error('Can''t edit this data because of it''s approved.');
+                        if (rec."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Submitted,
+                                Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                            Error('Can''t edit this data because lines of this Document No. are submitted or approved.');
                         end;
                     end;
                 end;

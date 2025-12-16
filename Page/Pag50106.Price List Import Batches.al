@@ -89,8 +89,12 @@ page 50106 "Price List Import Batches"
                         if not recApprSetup."Price List" then
                             exit;
 
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request can''t be sent because it''s sent already.');
+                        if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::"Approved",
+                            Enum::"Hagiwara Approval Status"::"Auto Approved"] then
+                            Error('This approval request can''t be sent because it''s sent or approved already.');
 
                         PriceListImportline.SetRange("Batch Name", Rec.Name);
                         PriceListImportline.SETFILTER(PriceListImportline.Status, '<>%1', PriceListImportline.Status::Validated);

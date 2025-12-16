@@ -134,8 +134,12 @@ pageextension 59307 PurchOrderListExt extends "Purchase Order List"
                         if not recApprSetup."Purchase Order" then
                             exit;
 
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request can''t be sent because it''s sent already.');
+                        if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::"Approved",
+                            Enum::"Hagiwara Approval Status"::"Auto Approved"] then
+                            Error('This approval request can''t be sent because it''s sent or approved already.');
 
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;

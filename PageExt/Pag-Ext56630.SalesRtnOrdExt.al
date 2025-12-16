@@ -75,8 +75,12 @@ pageextension 56630 SalesRtnOrdExt extends "Sales Return Order"
                         if not recApprSetup."Sales Return Order" then
                             exit;
 
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request can''t be sent because it''s sent already.');
+                        if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::"Approved",
+                            Enum::"Hagiwara Approval Status"::"Auto Approved"] then
+                            Error('This approval request can''t be sent because it''s sent or approved already.');
 
                         if not Confirm('Do you want to submit an approval request?') then
                             exit;

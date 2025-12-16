@@ -125,8 +125,12 @@ page 50117 "Item Import Batch"
                         if not recApprSetup."Item" then
                             exit;
 
-                        if rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then
-                            Error('This approval request can''t be sent because it''s sent already.');
+                        if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::Submitted,
+                            Enum::"Hagiwara Approval Status"::"Re-Submitted",
+                            Enum::"Hagiwara Approval Status"::"Approved",
+                            Enum::"Hagiwara Approval Status"::"Auto Approved"] then
+                            Error('This approval request can''t be sent because it''s sent or approved already.');
 
                         ItemImportline.SetRange("Batch Name", Rec.Name);
                         ItemImportline.SETFILTER(ItemImportline.Status, '<>%1', ItemImportline.Status::Validated);
