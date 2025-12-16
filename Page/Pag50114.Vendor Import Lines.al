@@ -610,7 +610,7 @@ page 50114 "Vendor Import Lines"
         VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
         //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
         if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then
-            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method")
+            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method" - 1)//Unlike the standard fields, we added a blank option to the first option, so we need the minus 1.
         else
             VendorRecord.Validate("Application Method", VendorRecord."Application Method"::Manual);
 
@@ -705,7 +705,7 @@ page 50114 "Vendor Import Lines"
             VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
             //VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
             if p_VendorImportline."Application Method" <> p_VendorImportline."Application Method"::" " then begin
-                VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+                VendorRecord.Validate("Application Method", p_VendorImportline."Application Method" - 1);//Unlike the standard fields, we added a blank option to the first option, so we need the minus 1.
             end;
 
             VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
