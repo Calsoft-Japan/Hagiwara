@@ -380,46 +380,46 @@ page 50118 "Item Import Lines"
                             if not (ItemImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+                        end;
 
-                            //Re-validate
-                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
-
-                                ItemImportline.SetRange("Batch Name", G_BatchName);
-                                if ItemImportline.FINDFIRST then
-                                    REPEAT
-                                        CheckError(ItemImportline);
-                                    UNTIL ItemImportline.NEXT = 0;
-
-                            end else begin
-                                exit;
-                            end;
-
-                            //commit the check error result.
-                            Commit();
+                        //Re-validate
+                        if Confirm('Re-validation will be performed. Do you want to continue?') then begin
 
                             ItemImportline.SetRange("Batch Name", G_BatchName);
-                            ItemImportline.SetFilter(Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
-                            if not ItemImportline.IsEmpty then
-                                Error('Some of the lines are not validated.');
-
-                            // -------Execute-------
-                            ItemImportline.SetRange("Batch Name", G_BatchName);
-                            ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
                             if ItemImportline.FINDFIRST then
                                 REPEAT
-                                    ExecuteProcess(ItemImportline);
+                                    CheckError(ItemImportline);
                                 UNTIL ItemImportline.NEXT = 0;
 
-                            /*
-                            //FDD removed this process.
-                            // delete all
-                            ItemImportline.SetRange("Batch Name", G_BatchName);
-                            ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
-                            ItemImportline.DELETEALL;
-                            */
-
-                            Message('Carry out finished.');
+                        end else begin
+                            exit;
                         end;
+
+                        //commit the check error result.
+                        Commit();
+
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1|%2', ItemImportline.Status::Pending, ItemImportline.Status::Error);
+                        if not ItemImportline.IsEmpty then
+                            Error('Some of the lines are not validated.');
+
+                        // -------Execute-------
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
+                        if ItemImportline.FINDFIRST then
+                            REPEAT
+                                ExecuteProcess(ItemImportline);
+                            UNTIL ItemImportline.NEXT = 0;
+
+                        /*
+                        //FDD removed this process.
+                        // delete all
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
+                        ItemImportline.DELETEALL;
+                        */
+
+                        Message('Carry out finished.');
 
                     end;
                 }
