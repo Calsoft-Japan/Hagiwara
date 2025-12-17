@@ -311,7 +311,6 @@ codeunit 50115 "SQ&SO Import"
                     RecSalesHeader.Validate("Bill-to Customer No.", RecSQSOImport."Customer No.");
                     RecSalesHeader.Validate("External Document No.", RecSQSOImport."Customer Order No.");
                     RecSalesHeader.Validate("Your Reference", RecSQSOImport."Customer Order No.");
-                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::"Auto Approved";
                     if (RecSQSOImport."Order Date" <> 0D) then begin
                         RecSalesHeader.Validate("Order Date", RecSQSOImport."Order Date");
                     end
@@ -326,6 +325,7 @@ codeunit 50115 "SQ&SO Import"
                             RecSalesHeader.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                         end;
                     END;
+                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::"Auto Approved";
                     //RecSalesHeader.Modify(true);
                     RecSalesHeader.Insert();
                     RecTmpSQSOImportInsert.Reset();

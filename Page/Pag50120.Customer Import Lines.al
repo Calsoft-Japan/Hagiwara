@@ -125,10 +125,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Application Method"; Rec."Application Method")
+                field("Application Method"; Format(Rec."Application Method"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Prices Including VAT"; Rec."Prices Including VAT")
                 {
@@ -210,10 +209,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Partner Type"; Rec."Partner Type")
+                field("Partner Type"; Format(Rec."Partner Type"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Preferred Bank Account Code"; Rec."Preferred Bank Account Code")
                 {
@@ -231,10 +229,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Shipping Advice"; Rec."Shipping Advice")
+                field("Shipping Advice"; Format(Rec."Shipping Advice"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Shipping Time"; Rec."Shipping Time")
                 {
@@ -256,15 +253,13 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Copy Sell-to Addr. to Qte From"; Rec."Copy Sell-to Addr. to Qte From")
+                field("Copy Sell-to Addr. to Qte From"; Format(Rec."Copy Sell-to Addr. to Qte From"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
-                field("Customer Type"; Rec."Customer Type")
+                field("Customer Type"; Format(Rec."Customer Type"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("NEC OEM Code"; Rec."NEC OEM Code")
                 {
@@ -314,10 +309,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Item Supplier Source"; Rec."Item Supplier Source")
+                field("Item Supplier Source"; Format(Rec."Item Supplier Source"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Vendor Cust. Code"; Rec."Vendor Cust. Code")
                 {
@@ -335,15 +329,13 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Default Country/Region of Org"; Rec."Default Country/Region of Org")
+                field("Default Country/Region of Org"; Format(Rec."Default Country/Region of Org"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
-                field("Price Update Target Date"; Rec."Price Update Target Date")
+                field("Price Update Target Date"; Format(Rec."Price Update Target Date"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("ORE Customer Name"; Rec."ORE Customer Name")
                 {
@@ -397,10 +389,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Blocked"; Rec."Blocked")
+                field("Blocked"; Format(Rec."Blocked"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
                 field("Status"; Rec."Status")
                 {
@@ -410,10 +401,9 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
-                field("Action"; Rec."Action")
+                field("Action"; Format(Rec."Action"))
                 {
                     ApplicationArea = all;
-                    BlankZero = true;
                 }
 
 

@@ -306,7 +306,7 @@ codeunit 50119 "Customer Import"
                 Error(PrintStatementsNotValid);
             end;
 
-            if ((ApplicationMethodStr <> '') and (not Evaluate(rec_POInt."Application Method", ApplicationMethodStr))) then begin
+            if (ApplicationMethodStr <> 'MANUAL') and (ApplicationMethodStr <> 'APPLY TO OLDEST') then begin
                 Error(ApplicationMethodNotValid);
             end;
 
@@ -322,7 +322,7 @@ codeunit 50119 "Customer Import"
                 Error(TaxLiableNotValid);
             end;
 
-            if ((ReserveStr <> '') and (not Evaluate(rec_POInt.Reserve, ReserveStr))) then begin
+            if (ReserveStr <> 'NEVER') and (ReserveStr = 'OPTIONAL') and (ReserveStr = 'ALWAYS') then begin
                 Error(ReserveNotValid);
             end;
 
@@ -334,11 +334,11 @@ codeunit 50119 "Customer Import"
                 Error(PrepaymentNotValid);
             end;
 
-            if ((PartnerTypeStr <> '') and (not Evaluate(rec_POInt."Partner Type", PartnerTypeStr))) then begin
+            if (PartnerTypeStr <> '') and (PartnerTypeStr <> 'COMPANY') and (PartnerTypeStr <> 'PERSON') and (PartnerTypeStr <> 'GOVERNMENT') then begin
                 Error(PartnerTypeNotValid);
             end;
 
-            if ((ShippingAdviceStr <> '') and (not Evaluate(rec_POInt."Shipping Advice", ShippingAdviceStr))) then begin
+            if (ShippingAdviceStr <> 'PARTIAL') and (ShippingAdviceStr <> 'COMPLETE') then begin
                 Error(ShippingAdviceNotValid);
             end;
 
@@ -354,23 +354,23 @@ codeunit 50119 "Customer Import"
                 Error(AllowLineDiscNotValid);
             end;
 
-            if ((CopySelltoAddrtoQteFromStr <> '') and (not Evaluate(rec_POInt."Copy Sell-to Addr. to Qte From", CopySelltoAddrtoQteFromStr))) then begin
+            if (CopySelltoAddrtoQteFromStr <> 'COMPANY') and (CopySelltoAddrtoQteFromStr <> 'PERSON') then begin
                 Error(CopySelltoAddrtoQteFromNotValid);
             end;
 
-            if ((CustomerTypeStr <> '') and (not Evaluate(rec_POInt."Customer Type", CustomerTypeStr))) then begin
+            if (CustomerTypeStr <> 'STANDARD') and (CustomerTypeStr <> 'OEM') and (CustomerTypeStr <> 'TRADING') then begin
                 Error(CustomerTypeNotValid);
             end;
 
-            if ((ItemSupplierSourceStr <> '') and (not Evaluate(rec_POInt."Item Supplier Source", ItemSupplierSourceStr))) then begin
+            if (ItemSupplierSourceStr <> '') and (ItemSupplierSourceStr <> 'RENESAS') then begin
                 Error(ItemSupplierSourceNotValid);
             end;
 
-            if ((DefaultCountryRegionofOrgStr <> '') and (not Evaluate(rec_POInt."Default Country/Region of Org", DefaultCountryRegionofOrgStr))) then begin
+            if (DefaultCountryRegionofOrgStr <> '') and (DefaultCountryRegionofOrgStr <> 'BACK-END') and (DefaultCountryRegionofOrgStr <> 'FRONT-END') then begin
                 Error(DefaultCountryRegionofOrgNotValid);
             end;
 
-            if ((PriceUpdateTargetDateStr <> '') and (not Evaluate(rec_POInt."Price Update Target Date", PriceUpdateTargetDateStr))) then begin
+            if (PriceUpdateTargetDateStr <> '') and (PriceUpdateTargetDateStr <> 'ORDER DATE') and (PriceUpdateTargetDateStr <> 'SHIPMENT DATE') then begin
                 Error(PriceUpdateTargetDateNotValid);
             end;
 
@@ -382,7 +382,10 @@ codeunit 50119 "Customer Import"
                 Error(DaysforAutoInvReservationNotValid);
             end;
 
-            if ((BlockedStr <> '') and (not Evaluate(rec_POInt.Blocked, BlockedStr))) then begin
+            if (BlockedStr <> '') and (BlockedStr <> 'SHIP') and (BlockedStr <> 'INVOICE') and (BlockedStr <> 'ALL') then begin
+                rec_POInt.Blocked := rec_POInt.Blocked::All;
+            end
+            else begin
                 Error(BlockedNotValid);
             end;
             //----------------------Set values for each item----------------------
