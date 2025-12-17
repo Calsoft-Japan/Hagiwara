@@ -32,17 +32,12 @@ report 50024 "Cancel Message"
                                 SalesHeader."Message Collected By(Booking)" := '';
                                 SalesHeader."Message Collected On(Booking)" := 0D;
                                 SalesHeader.Modify();
+                            end;
 
-                                SalesLine.Reset();
-                                SalesLine.SetRange("Document Type", SalesHeader."Document Type");
-                                SalesLine.SetRange("Document No.", SalesHeader."No.");
-                                SalesLine.SetRange(Type, SalesLine.Type::Item);
-                                SalesLine.SetRange("Item Supplier Source", SalesLine."Item Supplier Source"::Renesas);
-                                SalesLine.SetFilter("No.", '<>%1', '');
-                                SalesLine.SetFilter(Blocked, '=%1', FALSE);
-                                SalesLine.ModifyAll("Message Status", SalesLine."Message Status"::"Ready to Collect");
-                                SalesLine.ModifyAll("JA Collection Date", 0D);
-
+                            if SalesLine.Get(SalesHeader."Document Type", MessageColl."Source Document No.", MessageColl."Source Document Line No.") then begin
+                                SalesLine."Message Status" := SalesLine."Message Status"::"Ready to Collect";
+                                SalesLine."JA Collection Date" := 0D;
+                                SalesLine.Modify();
                             end;
 
                         until MessageColl.Next() = 0;
@@ -66,16 +61,12 @@ report 50024 "Cancel Message"
                                 SalesShptHeader."Message Collected By(Shipment)" := '';
                                 SalesShptHeader."Message Collected On(Shipment)" := 0D;
                                 SalesShptHeader.Modify();
+                            end;
 
-                                SalesShptLine.Reset();
-                                SalesShptLine.SetRange("Document No.", SalesShptHeader."No.");
-                                SalesShptLine.SetRange(Type, SalesShptLine.Type::Item);
-                                SalesShptLine.SetRange("Item Supplier Source", SalesShptLine."Item Supplier Source"::Renesas);
-                                SalesShptLine.SetFilter("No.", '<>%1', '');
-                                SalesShptLine.SETFILTER(Correction, '<>%1', TRUE);
-                                SalesShptLine.ModifyAll("Message Status", SalesShptLine."Message Status"::"Ready to Collect");
-                                SalesShptLine.ModifyAll("Shipment Collection Date", 0D);
-
+                            if SalesShptLine.Get(MessageColl."Source Document No.", MessageColl."Source Document Line No.") then begin
+                                SalesShptLine."Message Status" := SalesShptLine."Message Status"::"Ready to Collect";
+                                SalesShptLine."Shipment Collection Date" := 0D;
+                                SalesShptLine.Modify();
                             end;
 
                         until MessageColl.Next() = 0;
@@ -99,16 +90,12 @@ report 50024 "Cancel Message"
                                 SalesHeader."Message Collected By(Backlog)" := '';
                                 SalesHeader."Message Collected On(Backlog)" := 0D;
                                 SalesHeader.Modify();
+                            end;
 
-                                SalesLine.Reset();
-                                SalesLine.SetRange("Document Type", SalesHeader."Document Type");
-                                SalesLine.SetRange("Document No.", SalesHeader."No.");
-                                SalesLine.SetRange(Type, SalesLine.Type::Item);
-                                SalesLine.SetRange("Item Supplier Source", SalesLine."Item Supplier Source"::Renesas);
-                                SalesLine.SetFilter("No.", '<>%1', '');
-                                SalesLine.SetFilter(Blocked, '=%1', FALSE);
-                                SalesLine.ModifyAll("Message Status (JC)", SalesLine."Message Status (JC)"::"Ready to Collect");
-                                SalesLine.ModifyAll("JC Collection Date", 0D);
+                            if SalesLine.Get(SalesHeader."Document Type", MessageColl."Source Document No.", MessageColl."Source Document Line No.") then begin
+                                SalesLine."Message Status (JC)" := SalesLine."Message Status (JC)"::"Ready to Collect";
+                                SalesLine."JC Collection Date" := 0D;
+                                SalesLine.Modify();
                             end;
 
                         until MessageColl.Next() = 0;
@@ -154,16 +141,12 @@ report 50024 "Cancel Message"
                                 PurchRcptHeader."Message Collected By(Incoming)" := '';
                                 PurchRcptHeader."Message Collected On(Incoming)" := 0D;
                                 PurchRcptHeader.Modify();
+                            end;
 
-                                PurchRcptLine.Reset();
-                                PurchRcptLine.SetRange("Document No.", PurchRcptHeader."No.");
-                                PurchRcptLine.SetRange(Type, PurchRcptLine.Type::Item);
-                                PurchRcptLine.SetRange("Item Supplier Source", PurchRcptLine."Item Supplier Source"::Renesas);
-                                PurchRcptLine.SetFilter("No.", '<>%1', '');
-                                PurchRcptLine.SETFILTER(Correction, '<>%1', TRUE);
-                                PurchRcptLine.ModifyAll("Message Status", PurchRcptLine."Message Status"::"Ready to Collect");
-                                PurchRcptLine.ModifyAll("Receipt Collection Date", 0D);
-
+                            if PurchRcptLine.Get(MessageColl."Source Document No.", MessageColl."Source Document Line No.") then begin
+                                PurchRcptLine."Message Status" := PurchRcptLine."Message Status"::"Ready to Collect";
+                                PurchRcptLine."Receipt Collection Date" := 0D;
+                                PurchRcptLine.Modify();
                             end;
 
                         until MessageColl.Next() = 0;
