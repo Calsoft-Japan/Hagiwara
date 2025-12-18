@@ -66,70 +66,75 @@ report 50087 "PO Post Receive"
                 END;
                 //CS054 End
 
-                PurchaseHeader.RESET;
-                CLEAR(PurchPost);
-                PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.");
-                IF PurchaseHeader.FIND THEN BEGIN
-                    PurchaseHeader.Invoice := FALSE;
-                    PurchaseHeader.Receive := TRUE;
-                    PurchaseHeader."Posting Date" := TODAY;
-                    PurchaseHeader.VALIDATE("Document Date", PurchaseHeader."Goods Arrival Date");
-                    PurchaseHeader.VALIDATE("Vendor Invoice No.", '');
+                if not PostedPONoList.Contains("PO No.") then begin
 
-                    //PurchaseHeader.Invoice :=TRUE;
-                    PurchaseHeader.MODIFY;
+                    PurchaseHeader.RESET;
+                    CLEAR(PurchPost);
+                    PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "PO No.");
+                    IF PurchaseHeader.FIND THEN BEGIN
+                        PurchaseHeader.Invoice := FALSE;
+                        PurchaseHeader.Receive := TRUE;
+                        PurchaseHeader."Posting Date" := TODAY;
+                        PurchaseHeader.VALIDATE("Document Date", PurchaseHeader."Goods Arrival Date");
+                        PurchaseHeader.VALIDATE("Vendor Invoice No.", '');
 
-                    // BC Upgrade
-                    COMMIT;
+                        //PurchaseHeader.Invoice :=TRUE;
+                        PurchaseHeader.MODIFY;
 
-                    PurchaseHeader2.RESET;
-                    PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "PO No.");
-                    if not PurchPost.RUN(PurchaseHeader2) then begin
+                        // BC Upgrade
+                        COMMIT;
 
-                        ErrMsg := GETLASTERRORTEXT;
-                        IsError := true;
+                        PurchaseHeader2.RESET;
+                        PurchaseHeader2.GET(PurchaseHeader."Document Type"::Order, "PO No.");
+                        if not PurchPost.RUN(PurchaseHeader2) then begin
 
-                    end;
-                    //PurchPost.RUN(PurchaseHeader);
-                    // BC Upgrade
+                            ErrMsg := GETLASTERRORTEXT;
+                            IsError := true;
+
+                        end;
+                        //PurchPost.RUN(PurchaseHeader);
+                        // BC Upgrade
 
 
-                    // BC Upgrade
-                    /*
-                    PurchReceiptImportStaging.RESET;
-                    PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
-                    IF PurchReceiptImportStaging.FINDSET THEN BEGIN
-                        REPEAT
-                            //PurchReceiptImportStaging.Received := TRUE;
-                            //PurchReceiptImportStaging.MODIFY;
-                            PurchReceiptImportStaging.DELETE;
-                        UNTIL PurchReceiptImportStaging.NEXT = 0;
+                        // BC Upgrade
+                        /*
+                        PurchReceiptImportStaging.RESET;
+                        PurchReceiptImportStaging.SETRANGE("PO No.", "PO No.");
+                        IF PurchReceiptImportStaging.FINDSET THEN BEGIN
+                            REPEAT
+                                //PurchReceiptImportStaging.Received := TRUE;
+                                //PurchReceiptImportStaging.MODIFY;
+                                PurchReceiptImportStaging.DELETE;
+                            UNTIL PurchReceiptImportStaging.NEXT = 0;
 
-                    END;
-                    */
+                        END;
+                        */
 
-                    // BC Upgrade
-                    IF PurchReceiptImportStaging2.FindSet() THEN
-                        REPEAT
-                            IF IsError THEN BEGIN
-                                if ErrMsg = '' then
-                                    ErrMsg := 'Error detail can not be shown, please check your setup or data.';
-                                PurchReceiptImportStaging2."Error Description" := ErrMsg;
-                                PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::Error;
-                            END
-                            ELSE BEGIN
-                                PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::OK;
-                                PurchReceiptImportStaging2."Error Description" := '';
-                            END;
+                        // BC Upgrade
+                        IF PurchReceiptImportStaging2.FindSet() THEN
+                            REPEAT
+                                IF IsError THEN BEGIN
+                                    if ErrMsg = '' then
+                                        ErrMsg := 'Error detail can not be shown, please check your setup or data.';
+                                    PurchReceiptImportStaging2."Error Description" := ErrMsg;
+                                    PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::Error;
+                                END
+                                ELSE BEGIN
+                                    PurchReceiptImportStaging2.Status := PurchReceiptImportStaging2.Status::OK;
+                                    PurchReceiptImportStaging2."Error Description" := '';
+                                END;
 
-                            PurchReceiptImportStaging2.MODIFY();
-                        UNTIL PurchReceiptImportStaging2.NEXT() = 0;
-                    // BC Upgrade
+                                PurchReceiptImportStaging2.MODIFY();
+                            UNTIL PurchReceiptImportStaging2.NEXT() = 0;
+                        // BC Upgrade
 
-                END ELSE
-                    EXIT;
-                // END;
-                // MESSAGE('Recevied Sucessfully');
+                    END ELSE
+                        EXIT;
+                    // END;
+                    // MESSAGE('Recevied Sucessfully');
+
+                    PostedPONoList.Add("PO No.");
+                end;
             end;
         }
     }
@@ -150,6 +155,11 @@ report 50087 "PO Post Receive"
     {
     }
 
+    trigger OnPreReport()
+    begin
+        Clear(PostedPONoList);
+    end;
+
     trigger OnPostReport()
     begin
         if IsError then begin
@@ -166,5 +176,6 @@ report 50087 "PO Post Receive"
         PurchaseHeader2: Record "Purchase Header";
         PurchReceiptImportStaging2: Record "Purch. Receipt Import Staging";
         IsError: Boolean;
+        PostedPONoList: List of [Code[20]];
 }
 
