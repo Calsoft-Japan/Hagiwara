@@ -383,9 +383,6 @@ codeunit 50119 "Customer Import"
             end;
 
             if (BlockedStr <> '') and (BlockedStr <> 'SHIP') and (BlockedStr <> 'INVOICE') and (BlockedStr <> 'ALL') then begin
-                rec_POInt.Blocked := rec_POInt.Blocked::All;
-            end
-            else begin
                 Error(BlockedNotValid);
             end;
             //----------------------Set values for each item----------------------
