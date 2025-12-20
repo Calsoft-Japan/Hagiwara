@@ -239,104 +239,105 @@ page 50107 "Price List Import Lines"
                             if not (PriceListImportBatch."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
                                 Error('You can''t carry out the action. You need to go through approval process first.');
                             end;
+                        end;
 
-                            //Re-validate
-                            if Confirm('Re-validation will be performed. Do you want to continue?') then begin
+                        //Re-validate
+                        if Confirm('Re-validation will be performed. Do you want to continue?') then begin
 
-                                // -------check record contents-------
-                                Clear(PriceListNoList);
-                                PriceListImportline.SetRange("Batch Name", G_BatchName);
-
-                                if PriceListImportline.FINDFIRST then
-                                    REPEAT
-                                        CheckError(PriceListImportline);
-                                    UNTIL PriceListImportline.NEXT = 0;
-
-                            end else begin
-                                exit;
-                            end;
-
-                            //commit the check error result.
-                            Commit();
-
+                            // -------check record contents-------
+                            Clear(PriceListNoList);
                             PriceListImportline.SetRange("Batch Name", G_BatchName);
-                            PriceListImportline.SetFilter(Status, '%1|%2', PriceListImportline.Status::Pending, PriceListImportline.Status::Error);
-                            if not PriceListImportline.IsEmpty then
-                                Error('Some of the lines are not validated.');
 
-                            // -------Execute-------
-
-                            recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Purchase);
-                            recPriceListHeader.SetRange(Code, G_PurchPriceCode);
-                            if recPriceListHeader.IsEmpty() then
-                                Error(PriceList_NotFoundMsg, 'Purchase', G_PurchPriceCode);
-
-                            recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Sale);
-                            recPriceListHeader.SetRange(Code, G_SalesPriceCode);
-                            if recPriceListHeader.IsEmpty() then
-                                Error(PriceList_NotFoundMsg, 'Sales', G_SalesPriceCode);
-
-                            recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
-                            if recPriceListLine.FindLast() then begin
-                                PurchPriceLineNoStarter := recPriceListLine."Line No." + 10000;
-                            end else begin
-                                PurchPriceLineNoStarter := 10000;
-                            end;
-
-                            recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
-                            if recPriceListLine.FindLast() then begin
-                                SalesPriceLineNoStarter := recPriceListLine."Line No." + 10000;
-                            end else begin
-                                SalesPriceLineNoStarter := 10000;
-                            end;
-
-                            PriceListImportline.SetRange("Batch Name", G_BatchName);
-                            PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Validated);
                             if PriceListImportline.FINDFIRST then
                                 REPEAT
-                                    recPriceListLine.Reset();
-                                    recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Purchase);
-                                    recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
-                                    recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
-                                    recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
-                                    recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
-                                    recPriceListLine.SetRange("Currency Code", PriceListImportline."Purchase Currency Code");
-                                    if recPriceListLine.IsEmpty() then begin
-                                        CreatePurchPriceListLines(PriceListImportline, PurchPriceLineNoStarter);
-                                        PurchPriceLineNoStarter += 10000;
-                                    end else begin
-                                        UpdatePurchPriceListLines(PriceListImportline);
-                                    end;
-
-                                    recPriceListLine.Reset();
-                                    recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Sale);
-                                    recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
-                                    recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
-                                    recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
-                                    recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
-                                    recPriceListLine.SetRange("Currency Code", PriceListImportline."Sales Currency Code");
-                                    if recPriceListLine.IsEmpty() then begin
-                                        CreateSalesPriceListLines(PriceListImportline, SalesPriceLineNoStarter);
-                                        SalesPriceLineNoStarter += 10000;
-                                    end else begin
-                                        UpdateSalesPriceListLines(PriceListImportline);
-                                    end;
-
-                                    PriceListImportline.Validate(Status, PriceListImportline.Status::Completed);
-                                    PriceListImportline.Modify();
-
+                                    CheckError(PriceListImportline);
                                 UNTIL PriceListImportline.NEXT = 0;
 
-                            /*
-                            //FDD removed this process.
-                            // delete all
-                            PriceListImportline.SetRange("Batch Name", G_BatchName);
-                            PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Completed);
-                            PriceListImportline.DELETEALL;
-                            */
-
-                            Message('Carry out finished.');
+                        end else begin
+                            exit;
                         end;
+
+                        //commit the check error result.
+                        Commit();
+
+                        PriceListImportline.SetRange("Batch Name", G_BatchName);
+                        PriceListImportline.SetFilter(Status, '%1|%2', PriceListImportline.Status::Pending, PriceListImportline.Status::Error);
+                        if not PriceListImportline.IsEmpty then
+                            Error('Some of the lines are not validated.');
+
+                        // -------Execute-------
+                        recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Purchase);
+                        recPriceListHeader.SetRange(Code, G_PurchPriceCode);
+                        if recPriceListHeader.IsEmpty() then
+                            Error(PriceList_NotFoundMsg, 'Purchase', G_PurchPriceCode);
+
+                        recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Sale);
+                        recPriceListHeader.SetRange(Code, G_SalesPriceCode);
+                        if recPriceListHeader.IsEmpty() then
+                            Error(PriceList_NotFoundMsg, 'Sales', G_SalesPriceCode);
+
+                        recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
+                        if recPriceListLine.FindLast() then begin
+                            PurchPriceLineNoStarter := recPriceListLine."Line No." + 10000;
+                        end else begin
+                            PurchPriceLineNoStarter := 10000;
+                        end;
+
+                        recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
+                        if recPriceListLine.FindLast() then begin
+                            SalesPriceLineNoStarter := recPriceListLine."Line No." + 10000;
+                        end else begin
+                            SalesPriceLineNoStarter := 10000;
+                        end;
+
+                        PriceListImportline.SetRange("Batch Name", G_BatchName);
+                        PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Validated);
+                        if PriceListImportline.FINDFIRST then
+                            REPEAT
+                                recPriceListLine.Reset();
+                                recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Purchase);
+                                recPriceListLine.SetRange("Price List Code", G_PurchPriceCode);
+                                recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
+                                recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
+                                recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
+                                recPriceListLine.SetRange("Currency Code", PriceListImportline."Purchase Currency Code");
+                                if recPriceListLine.IsEmpty() then begin
+                                    CreatePurchPriceListLines(PriceListImportline, PurchPriceLineNoStarter);
+                                    PurchPriceLineNoStarter += 10000;
+                                end else begin
+                                    recPriceListLine.FindFirst();
+                                    UpdatePurchPriceListLines(PriceListImportline, recPriceListLine);
+                                end;
+
+                                recPriceListLine.Reset();
+                                recPriceListLine.SetRange("Price Type", Enum::"Price Type"::Sale);
+                                recPriceListLine.SetRange("Price List Code", G_SalesPriceCode);
+                                recPriceListLine.SetRange("Asset Type", PriceListImportline."Product Type");
+                                recPriceListLine.SetRange("Product No.", PriceListImportline."Product No.");
+                                recPriceListLine.SetRange("Starting Date", PriceListImportline."Starting Date");
+                                recPriceListLine.SetRange("Currency Code", PriceListImportline."Sales Currency Code");
+                                if recPriceListLine.IsEmpty() then begin
+                                    CreateSalesPriceListLines(PriceListImportline, SalesPriceLineNoStarter);
+                                    SalesPriceLineNoStarter += 10000;
+                                end else begin
+                                    recPriceListLine.FindFirst();
+                                    UpdateSalesPriceListLines(PriceListImportline, recPriceListLine);
+                                end;
+
+                                PriceListImportline.Validate(Status, PriceListImportline.Status::Completed);
+                                PriceListImportline.Modify();
+
+                            UNTIL PriceListImportline.NEXT = 0;
+
+                        /*
+                        //FDD removed this process.
+                        // delete all
+                        PriceListImportline.SetRange("Batch Name", G_BatchName);
+                        PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Completed);
+                        PriceListImportline.DELETEALL;
+                        */
+
+                        Message('Carry out finished.');
                     end;
                 }
                 action("Delete All")
@@ -436,13 +437,8 @@ page 50107 "Price List Import Lines"
     end;
 
     //Create new records on the PriceList table.
-    procedure UpdatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line")
-    var
-        recPriceListLine: Record "Price List Line";
+    procedure UpdatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
-
-        recPriceListLine.Validate("Status", Enum::"Price Status"::Draft);
-        recPriceListLine.Modify(true);
 
         recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
         recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
@@ -454,9 +450,6 @@ page 50107 "Price List Import Lines"
         recPriceListLine.Validate("PC. Currency Code", p_PriceListImportline."PC. Currency Code");
         recPriceListLine.Validate("PC. Direct Unit Cost", p_PriceListImportline."PC. Direct Unit Cost");
         recPriceListLine.Validate("PC. Update Price", p_PriceListImportline."PC. Update Price");
-
-        recPriceListLine.Modify(true);
-
         recPriceListLine.Validate("Status", p_PriceListImportline."Price Line Status");
         recPriceListLine.Modify(true);
     end;
@@ -490,13 +483,8 @@ page 50107 "Price List Import Lines"
         recPriceListLine.Modify(true);
     end;
 
-    procedure UpdateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line")
-    var
-        recPriceListLine: Record "Price List Line";
+    procedure UpdateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
-
-        recPriceListLine.Validate("Status", Enum::"Price Status"::Draft);
-        recPriceListLine.Modify(true);
 
         recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
         recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");
@@ -504,9 +492,6 @@ page 50107 "Price List Import Lines"
         recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
         recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
         recPriceListLine.Validate("Renesas Report Unit Price Cur.", p_PriceListImportline."Renesas Report Unit Price Cur.");
-
-        recPriceListLine.Modify(true);
-
         recPriceListLine.Validate("Status", p_PriceListImportline."Price Line Status");
         recPriceListLine.Modify(true);
     end;
@@ -560,13 +545,15 @@ page 50107 "Price List Import Lines"
 
     procedure CheckError(var p_PriceListImportline: Record "Price List Import Line")
     var
-        ErrDesc: Text[1024];//the total of error message is over of ( [Table – Vendor Import Line]'[Error Description] length : 250)
+        ErrDesc: Text[1024];//the total of error message is over of ( [Table – Price List Import Line]'[Error Description] length : 250)
         Staging1: Record "Price List Import Line";
         recItem: Record Item;
         recGLAccount: Record "G/L Account";
         recResource: Record Resource;
         recResourceGroup: Record "Resource Group";
         recItemDiscGroup: Record "Item Discount Group";
+        recCustomer: Record Customer;
+        recVendor: Record Vendor;
         recCurrency: Record Currency;
         recPriceListLine: Record "Price List Line";
         recUOM: Record "Unit of Measure";
@@ -613,6 +600,14 @@ page 50107 "Price List Import Lines"
                             ErrDesc += StrSubstNo(NotFoundMsg, 'Product No.');
                         end;
                     end;
+            end;
+
+            if not recCustomer.Get(p_PriceListImportline."Customer No.") then begin
+                ErrDesc += StrSubstNo(NotFoundMsg, 'Customer No.');
+            end;
+
+            if not recVendor.Get(p_PriceListImportline."Vendor No.") then begin
+                ErrDesc += StrSubstNo(NotFoundMsg, 'Vendor No.');
             end;
 
             if p_PriceListImportline."Sales Currency Code" <> '' then begin

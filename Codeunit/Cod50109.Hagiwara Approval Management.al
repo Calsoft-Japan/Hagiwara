@@ -82,12 +82,10 @@ codeunit 50109 "Hagiwara Approval Management"
                 begin
                     AmountLCY := CalcItemJournalAmountLCY(pData, pDataNo);
                 end;
-        /*
             Enum::"Hagiwara Approval Data"::"Price List":
                 begin
                     PriceMargin := GetPriceMargin(pData, pDataNo);
                 end;
-        */
 
         end;
 
@@ -95,14 +93,11 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetRange("Request Group Code", reqGroup);
         recApprCondition.SetFilter("Start Date", '..%1', WorkDate());
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
-        /*
         if pData = Enum::"Hagiwara Approval Data"::"Price List" then begin
             recApprCondition.SetFilter("Margin %", '%1|<=%2', 0, PriceMargin);
         end else begin
             recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
         end;
-        */
-        recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);
 
         if not recApprCondition.FindLast() then
             error('Hagiwara Approval Condition seems not setup right.');
@@ -1645,11 +1640,15 @@ codeunit 50109 "Hagiwara Approval Management"
 
     local procedure GetPriceMargin(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Decimal
     var
+        /*
         recPriceHeader: Record "Price List Header";
         recSalesPrice: Record "Price List Line";
         recPurchPrice: Record "Price List Line";
+        */
+        PriceListImportline: Record "Price List Import Line";
         rtnMargin: Decimal;
     begin
+        /*
         recPriceHeader.get(pDataNo);
         if recPriceHeader."Price Type" = recPriceHeader."Price Type"::Sale then begin
             recSalesPrice.SetRange("Price List Code", pDataNo);
@@ -1687,6 +1686,13 @@ codeunit 50109 "Hagiwara Approval Management"
                 until recPurchPrice.Next() = 0;
         end else begin
             //no this case.
+        end;
+        */
+
+        PriceListImportline.SetCurrentKey("Margin%");
+        PriceListImportline.SetRange("Batch Name", pDataNo);
+        if PriceListImportline.FindFirst() then begin
+            rtnMargin := PriceListImportline."Margin%";
         end;
 
         exit(rtnMargin);
