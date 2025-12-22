@@ -154,10 +154,8 @@ table 50120 "Customer Import Line"
         field(49; "Prepayment %"; Decimal)
         {
         }
-        field(50; "Partner Type"; Option)
+        field(50; "Partner Type"; Enum "Partner Type")
         {
-            OptionCaption = ' ,Company, Person, Government';
-            OptionMembers = " ",Company,Person,Government;
         }
         field(51; "Preferred Bank Account Code"; Code[20])
         {
