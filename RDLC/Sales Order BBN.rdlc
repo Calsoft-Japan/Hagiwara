@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:cl="http://schemas.microsoft.com/sqlserver/reporting/2010/01/componentdefinition" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2010/01/reportdefinition">
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
     <DataSource Name="DataSource">
@@ -2228,10 +2228,10 @@
                               <Value>=Fields!ESign.Value</Value>
                               <MIMEType>image/bmp</MIMEType>
                               <Sizing>Fit</Sizing>
-                              <Top>0.22959in</Top>
-                              <Left>0.1823cm</Left>
-                              <Height>33.42835pt</Height>
-                              <Width>2.96771cm</Width>
+                              <Top>0.43779in</Top>
+                              <Left>11.34107cm</Left>
+                              <Height>17.57165pt</Height>
+                              <Width>6.07334cm</Width>
                               <ZIndex>14</ZIndex>
                               <DataElementOutput>NoOutput</DataElementOutput>
                               <Style>
