@@ -1,11 +1,12 @@
 pageextension 57018 PurchPriceListExt extends "Purchase Price List"
 {
-    Editable = false;
+    //Editable = false; //Temporarily. todo
 
     layout
     {
         addafter(Status)
         {
+            /* 
             field("Approval Status"; rec."Approval Status")
             {
                 ApplicationArea = all;
@@ -18,6 +19,7 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
             {
                 ApplicationArea = all;
             }
+            */
         }
 
     }

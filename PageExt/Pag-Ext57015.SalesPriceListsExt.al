@@ -1,11 +1,12 @@
 pageextension 57015 SalesPriceListsExt extends "Sales Price Lists"
 {
-    Editable = false;
+    //Editable = false; //Temporarily. todo
 
     layout
     {
         addafter(Status)
         {
+            /*
             field("Approval Status"; rec."Approval Status")
             {
                 ApplicationArea = all;
@@ -18,6 +19,7 @@ pageextension 57015 SalesPriceListsExt extends "Sales Price Lists"
             {
                 ApplicationArea = all;
             }
+            */
         }
 
     }

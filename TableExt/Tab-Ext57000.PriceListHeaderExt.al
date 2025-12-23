@@ -2,6 +2,7 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
 {
     fields
     {
+        /*
         field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
         {
             Editable = false;
@@ -15,7 +16,9 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
             Caption = 'Approver';
             Editable = false;
         }
+        */
 
+        /*
         modify(Status)
         {
             trigger OnBeforeValidate()
@@ -34,8 +37,10 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
                 //N005 End
             end;
         }
+        */
     }
 
+    /*
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -80,4 +85,5 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
 
         Modify();
     end;
+    */
 }

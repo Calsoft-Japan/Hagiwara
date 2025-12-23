@@ -71,14 +71,14 @@ codeunit 50090 "Purch-Post Subscriber"
                 SC_HandledOutTran.Reset();
                 SC_HandledOutTran.SetAscending("Transaction No.", false);
                 SC_HandledOutTran.SetRange("Document No.", pPurchHeader."No.");
-                SC_HandledOutTran.SetRange("Source Type", SC_HandledOutTran."Source Type"::"Purchase Document");
+                SC_HandledOutTran.SetRange("IC Source Type", SC_HandledOutTran."IC Source Type"::"Purchase Document");
                 SC_HandledOutTran.SetRange("Document Type", SC_HandledOutTran."Document Type"::Order);
                 SC_HandledOutTran.SetRange(Status, SC_HandledOutTran.Status::"Sent to IC Partner");
                 if SC_HandledOutTran.FindFirst() then begin
                     PC_HandledInTran.Reset();
                     PC_HandledInTran.SetRange("Transaction No.", SC_HandledOutTran."Transaction No.");
                     PC_HandledInTran.SetRange("Document No.", pPurchHeader."No.");
-                    PC_HandledInTran.SetRange("Source Type", PC_HandledInTran."Source Type"::"Sales Document");
+                    PC_HandledInTran.SetRange("IC Source Type", PC_HandledInTran."IC Source Type"::"Sales Document");
                     PC_HandledInTran.SetRange("Document Type", PC_HandledInTran."Document Type"::Order);
                     PC_HandledInTran.SetFilter(Status, '%1|%2', PC_HandledInTran.Status::Accepted, PC_HandledInTran.Status::Posted);
                     if PC_HandledInTran.FindFirst() then begin
