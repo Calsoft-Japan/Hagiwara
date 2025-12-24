@@ -22,12 +22,15 @@ codeunit 50115 "SQ&SO Import"
         EntryNoNotValid: Label 'The Entry No. is not valid.';
         EntryNoDuplicated: Label 'The Entry No. is duplicated.';
         GroupingKeyNotValid: Label 'Grouping Key is not valid.';
+        GroupingKeyRequested: Label 'Grouping Key is requested, can''t be empty.';
+        GroupingKeyCoexisted: Label 'The Grouping Key is coexisted.';
         DocumentTypeNotValid: Label 'Document Type is not valid.';
         CustomerNoRequested: Label 'Customer No. is requested, can''t be empty.';
         CustomerOrderNoRequested: Label 'Customer Order No. is requested, can''t be empty.';
         OrderDateNotValid: Label 'Order Date is not valid.';
         RequestedDeliveryDateNotValid: Label 'Requested Delivery Date is not valid.';
         ShipmentDateNotValid: Label 'Shipment Date is not valid.';
+        ShipmentDateRequested: Label 'Shipment Date is requested, can''t be empty.';
         ItemNoRequested: Label 'Item No. is requested, can''t be empty.';
         QuantityNotValid: Label 'Quantity is not valid.';
         QuantityRequested: Label 'Quantity is requested, can''t be empty.';
@@ -135,6 +138,10 @@ codeunit 50115 "SQ&SO Import"
                 Error(EntryNoDuplicated);
             end;
 
+            if ((DocumentTypeStr = '') or ((DocumentTypeStr <> 'SQ') and (DocumentTypeStr <> 'SO'))) then begin
+                Error(DocumentTypeNotValid);
+            end;
+
             if DocumentNoStr <> '' then begin
                 if ((LineNoStr = '') or (not Evaluate(LineNo, LineNoStr))) then begin
                     Error(LineNoNotValid);
@@ -144,8 +151,23 @@ codeunit 50115 "SQ&SO Import"
                 end;
             end
             else begin
-                if ((GroupingKeyStr = '') or (not Evaluate(GroupingKey, GroupingKeyStr))) then begin
+                if (GroupingKeyStr = '') then begin
+                    Error(GroupingKeyRequested);
+                end;
+                if (not Evaluate(GroupingKey, GroupingKeyStr)) then begin
                     Error(GroupingKeyNotValid);
+                end;
+                RecSQSOImportCheck.Reset();
+                RecSQSOImportCheck.SetRange("Document No.", '');
+                RecSQSOImportCheck.SetRange("Grouping Key", GroupingKey);
+                if DocumentTypeStr = 'SQ' then begin
+                    RecSQSOImportCheck.SetRange("Document Type", RecSQSOImportCheck."Document Type"::SO);
+                end
+                else begin
+                    RecSQSOImportCheck.SetRange("Document Type", RecSQSOImportCheck."Document Type"::SQ);
+                end;
+                if not RecSQSOImportCheck.IsEmpty() then begin
+                    Error(GroupingKeyCoexisted);
                 end;
                 if (CustomerNoStr = '') then begin
                     Error(CustomerNoRequested);
@@ -162,10 +184,12 @@ codeunit 50115 "SQ&SO Import"
                 if ((not Evaluate(Quantity, QuantityStr)) or (Quantity <= 0)) then begin
                     Error(QuantityNotValid);
                 end;
-            end;
-
-            if ((DocumentTypeStr = '') or ((DocumentTypeStr <> 'SQ') and (DocumentTypeStr <> 'SO'))) then begin
-                Error(DocumentTypeNotValid);
+                if (ShipmentDateStr = '') then begin
+                    Error(ShipmentDateRequested);
+                end;
+                if (not Evaluate(ShipmentDate, ShipmentDateStr)) then begin
+                    Error(ShipmentDateNotValid);
+                end;
             end;
 
             if ((OrderDateStr <> '') and (not Evaluate(OrderDate, OrderDateStr))) then begin
@@ -174,10 +198,6 @@ codeunit 50115 "SQ&SO Import"
 
             if ((RequestedDeliveryDateStr <> '') and (not Evaluate(RequestedDeliveryDate, RequestedDeliveryDateStr))) then begin
                 Error(RequestedDeliveryDateNotValid);
-            end;
-
-            if ((ShipmentDateStr <> '') and (not Evaluate(ShipmentDate, ShipmentDateStr))) then begin
-                Error(ShipmentDateNotValid);
             end;
 
             RecSQSOImportInsert."Entry No." := EntryNo;
@@ -260,9 +280,9 @@ codeunit 50115 "SQ&SO Import"
                     RecSalesLine.SetRange("Line No.", RecSQSOImport."Line No.");
                     if RecSalesLine.FindFirst() then begin
                         RecSalesLine.Validate("No.");
-                        if RecSQSOImport.Quantity > 0 then begin
-                            RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
-                        end;
+                        //if RecSQSOImport.Quantity > 0 then begin
+                        RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
+                        //end;
                         if RecSQSOImport."Customer Order No." <> '' then begin
                             RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                         end;

@@ -381,6 +381,8 @@ xmlport 50016 "Denso Group Sales File Import"
                 END;
             END;
             IF NOT SameDOAnswer THEN BEGIN
+                ErrorMsg := 'Import cancelled';
+                InsertDataInBuffer(ErrorMsg);
                 EXIT(FALSE);
             END;
         END;
