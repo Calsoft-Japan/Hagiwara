@@ -80,7 +80,7 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         PurchaseLine: Record "Purchase Line")
     var
     begin
-        ICOutboxPurchaseLine."Customer Order No." := PurchaseLine."CO No.";
+        ICOutboxPurchaseLine."Customer Order No." := PurchaseLine."Document No."; //[Purchase Header].[No.]
         ICOutboxPurchaseLine."Requested Delivery Date_1" := PurchaseLine."Requested Receipt Date_1";
         ICOutboxPurchaseLine.Modify();
     end;

@@ -133,6 +133,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                     trigger OnAction()
                     var
                         Staging: Record "Purch. Receipt Import Staging";
+                        Staging1: Record "PURCH. RECEIPT IMPORT STAGING";
                         PurchFound: Boolean;
                     begin
                         Staging.SETCURRENTKEY("Batch No.");
@@ -255,6 +256,7 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
 
                     trigger OnAction()
                     var
+                        Staging: Record "Purch. Receipt Import Staging";
                         RptPostInvoice: Report "PO Post Receive & Invoice";
                     begin
 
@@ -265,6 +267,11 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                             MESSAGE('Posting Done.');
                         END;
                         */
+
+                        Staging.SETFILTER(Staging.Status, '<>%1', Staging.Status::Processed);
+                        Staging.SETRANGE(Staging."Batch No.", Rec."Batch No.");
+                        if not Staging.IsEmpty() then
+                            Error('The status of all records should be Processed.');
 
                         //BC Upgrade
                         IF not DIALOG.CONFIRM('Are you sure you want to post the receive and invoice?', TRUE) THEN
@@ -310,8 +317,6 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
         PurchReceiptImportStaging: Record "PURCH. RECEIPT IMPORT STAGING";
         PurchaseLine: Record "Purchase Line";
         PurchaseLine1: Record "Purchase Line";
-        Staging: Record "PURCH. RECEIPT IMPORT STAGING";
-        Staging1: Record "PURCH. RECEIPT IMPORT STAGING";
         PurchaseHeader: Record "Purchase Header";
         PurchaseLine2: Record "Purchase Line";
 

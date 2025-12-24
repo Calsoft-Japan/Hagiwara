@@ -163,6 +163,9 @@ page 50113 "Vendor Import Batches"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
 
+                        if rec.Requester <> UserId then
+                            Error('You are not the Requester of this data.');
+
                         VendorImportline.SetRange("Batch Name", Rec.Name);
                         VendorImportline.SETFILTER(VendorImportline.Status, '<>%1', VendorImportline.Status::Validated);
                         if not VendorImportline.IsEmpty() then begin

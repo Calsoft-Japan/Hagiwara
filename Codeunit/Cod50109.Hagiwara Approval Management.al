@@ -300,64 +300,48 @@ codeunit 50109 "Hagiwara Approval Management"
                     begin
                         SalesHeader.get(SalesHeader."Document Type"::Order, pDataNo);
                         SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        SalesHeader.Requester := '';
-                        SalesHeader."Hagi Approver" := '';
                         SalesHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Sales Credit Memo":
                     begin
                         SalesHeader.get(SalesHeader."Document Type"::"Credit Memo", pDataNo);
                         SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        SalesHeader.Requester := '';
-                        SalesHeader."Hagi Approver" := '';
                         SalesHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Sales Return Order":
                     begin
                         SalesHeader.get(SalesHeader."Document Type"::"Return Order", pDataNo);
                         SalesHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        SalesHeader.Requester := '';
-                        SalesHeader."Hagi Approver" := '';
                         SalesHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Purchase Order":
                     begin
                         PurchHeader.get(PurchHeader."Document Type"::Order, pDataNo);
                         PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        PurchHeader.Requester := '';
-                        PurchHeader."Hagi Approver" := '';
                         PurchHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Purchase Credit Memo":
                     begin
                         PurchHeader.get(PurchHeader."Document Type"::"Credit Memo", pDataNo);
                         PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        PurchHeader.Requester := '';
-                        PurchHeader."Hagi Approver" := '';
                         PurchHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Purchase Return Order":
                     begin
                         PurchHeader.get(PurchHeader."Document Type"::"Return Order", pDataNo);
                         PurchHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        PurchHeader.Requester := '';
-                        PurchHeader."Hagi Approver" := '';
                         PurchHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Transfer Order":
                     begin
                         TransHeader.get(pDataNo);
                         TransHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        TransHeader.Requester := '';
-                        TransHeader."Hagi Approver" := '';
                         TransHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Assembly Order":
                     begin
                         AssemblyHeader.get(AssemblyHeader."Document Type"::Order, pDataNo);
                         AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        AssemblyHeader.Requester := '';
-                        AssemblyHeader."Hagi Approver" := '';
                         AssemblyHeader.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Item Journal",
@@ -368,8 +352,6 @@ codeunit 50109 "Hagiwara Approval Management"
                         if ItemJourLine.FindSet() then
                             repeat
                                 ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                                ItemJourLine.Requester := '';
-                                ItemJourLine."Hagi Approver" := '';
                                 ItemJourLine.Modify();
                             until ItemJourLine.Next() = 0;
                     end;
@@ -377,8 +359,6 @@ codeunit 50109 "Hagiwara Approval Management"
                     begin
                         ItemImportBatch.get(pDataNo);
                         ItemImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        ItemImportBatch.Requester := '';
-                        ItemImportBatch."Hagi Approver" := '';
                         ItemImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::Customer:
@@ -392,8 +372,6 @@ codeunit 50109 "Hagiwara Approval Management"
                         */
                         CustImportBatch.get(pDataNo);
                         CustImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        CustImportBatch.Requester := '';
-                        CustImportBatch."Hagi Approver" := '';
                         CustImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::Vendor:
@@ -401,23 +379,17 @@ codeunit 50109 "Hagiwara Approval Management"
                         /*
                         Vend.get(pDataNo);
                         Vend."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        Vend.Requester := '';
-                        Vend."Hagi Approver" := '';
                         Vend.Modify();
                         */
 
                         VendImportBatch.get(pDataNo);
                         VendImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        VendImportBatch.Requester := '';
-                        VendImportBatch."Hagi Approver" := '';
                         VendImportBatch.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"G/L Account":
                     begin
                         GLAccount.get(pDataNo);
                         GLAccount."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        GLAccount.Requester := '';
-                        GLAccount."Hagi Approver" := '';
                         GLAccount.Modify();
                     end;
                 Enum::"Hagiwara Approval Data"::"Price List":
@@ -425,20 +397,16 @@ codeunit 50109 "Hagiwara Approval Management"
                         /*
                         PriceListHeader.get(pDataNo);
                         PriceListHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        PriceListHeader.Requester := '';
-                        PriceListHeader."Hagi Approver" := '';
                         PriceListHeader.Modify();
                         */
 
                         PriceListImportBatch.get(pDataNo);
                         PriceListImportBatch."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        PriceListImportBatch.Requester := '';
-                        PriceListImportBatch."Hagi Approver" := '';
                         PriceListImportBatch.Modify();
                     end;
             end;
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Cancel, recApprEntry);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Approver, '', EmailType::Cancel, recApprEntry);
 
             Message('Approval Request cancelled.');
         end;

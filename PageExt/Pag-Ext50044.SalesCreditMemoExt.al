@@ -114,6 +114,9 @@ pageextension 50044 SalesCreditMemoExt extends "Sales Credit Memo"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
 
+                        if rec.Requester <> UserId then
+                            Error('You are not the Requester of this data.');
+
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
 

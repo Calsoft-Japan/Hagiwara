@@ -127,6 +127,9 @@ page 50106 "Price List Import Batches"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be cancelled.');
 
+                        if rec.Requester <> UserId then
+                            Error('You are not the Requester of this data.');
+
                         PriceListImportline.SetRange("Batch Name", Rec.Name);
                         PriceListImportline.SETFILTER(PriceListImportline.Status, '<>%1', PriceListImportline.Status::Validated);
                         if not PriceListImportline.IsEmpty() then begin

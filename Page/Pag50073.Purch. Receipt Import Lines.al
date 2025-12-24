@@ -286,8 +286,15 @@ page 50073 "Purch. Receipt Import Lines"
 
                     trigger OnAction()
                     var
+                        Staging: Record "Purch. Receipt Import Staging";
                         RptPostRcpt: Report "PO Post Receive";
                     begin
+
+                        Staging.SETFILTER(Staging.Status, '<>%1', Staging.Status::Processed);
+                        Staging.SETRANGE(Staging."Batch No.", Rec."Batch No.");
+                        if not Staging.IsEmpty() then
+                            Error('The status of all records should be Processed.');
+
                         IF not DIALOG.CONFIRM('Are you sure you want to post the receipt?', TRUE) THEN
                             exit;
 
