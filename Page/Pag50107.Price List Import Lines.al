@@ -230,6 +230,7 @@ page 50107 "Price List Import Lines"
                         recPriceListLine: Record "Price List Line";
                         SalesPriceLineNoStarter: Integer;
                         PurchPriceLineNoStarter: Integer;
+                        PriceListManagement: Codeunit "Price List Management";
                     begin
                         // -------check Approval Status -------
                         PriceListImportBatch.GET(G_BatchName);
@@ -337,6 +338,13 @@ page 50107 "Price List Import Lines"
                         PriceListImportline.DELETEALL;
                         */
 
+                        //vefiry lines.
+                        recPriceListHeader.Get(G_PurchPriceCode);
+                        PriceListManagement.ActivateDraftLines(recPriceListHeader, true);
+
+                        recPriceListHeader.Get(G_SalesPriceCode);
+                        PriceListManagement.ActivateDraftLines(recPriceListHeader, true);
+
                         Message('Carry out finished.');
                     end;
                 }
@@ -440,6 +448,8 @@ page 50107 "Price List Import Lines"
     procedure UpdatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
 
+        recPriceListLine."Status" := recPriceListLine.Status::Draft;
+
         recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
         recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
         recPriceListLine.Validate("Currency Code", p_PriceListImportline."Purchase Currency Code");
@@ -485,6 +495,8 @@ page 50107 "Price List Import Lines"
 
     procedure UpdateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
+
+        recPriceListLine."Status" := recPriceListLine.Status::Draft;
 
         recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
         recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");

@@ -56,6 +56,7 @@ codeunit 50107 "Price List Import"
         UnitPriceStr: Text;
         DirectUnitCostStr: Text;
         VendorNoStr: Text;
+        UOMStr: Text;
         ShipDebitFlagStr: Text;
         PCUpdatePriceStr: Text;
         PriceLineStatusStr: Text;
@@ -93,6 +94,7 @@ codeunit 50107 "Price List Import"
             UnitPriceStr := GetValueAtCell(RowNo, 7).Trim();
             DirectUnitCostStr := GetValueAtCell(RowNo, 8).Trim();
             VendorNoStr := GetValueAtCell(RowNo, 10).Trim();
+            UOMStr := GetValueAtCell(RowNo, 11).Trim();
             ShipDebitFlagStr := GetValueAtCell(RowNo, 15).Trim();
             PCUpdatePriceStr := GetValueAtCell(RowNo, 18).Trim();
             PriceLineStatusStr := GetValueAtCell(RowNo, 19).Trim();
@@ -118,6 +120,9 @@ codeunit 50107 "Price List Import"
             end;
             if VendorNoStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("Vendor No."));
+            end;
+            if UOMStr = '' then begin
+                Error(MandatoryMsg, rec_POInt.FieldCaption("Unit of Measure Code"));
             end;
             if ShipDebitFlagStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("Ship&Debit Flag"));
@@ -161,11 +166,11 @@ codeunit 50107 "Price List Import"
             Evaluate(rec_POInt."Vendor No.", GetValueAtCell(RowNo, 10));
             Evaluate(rec_POInt."Unit of Measure Code", GetValueAtCell(RowNo, 11));
             Evaluate(rec_POInt."Renesas Report Unit Price Cur.", GetValueAtCell(RowNo, 12));
-            Evaluate(rec_POInt."Renesas Report Unit Price", GetValueAtCell(RowNo, 13));
-            Evaluate(rec_POInt."ORE Debit Cost", GetValueAtCell(RowNo, 14));
+            if Evaluate(rec_POInt."Renesas Report Unit Price", GetValueAtCell(RowNo, 13)) then;
+            if Evaluate(rec_POInt."ORE Debit Cost", GetValueAtCell(RowNo, 14)) then;
             Evaluate(rec_POInt."Ship&Debit Flag", GetValueAtCell(RowNo, 15));
             Evaluate(rec_POInt."PC. Currency Code", GetValueAtCell(RowNo, 16));
-            Evaluate(rec_POInt."PC. Direct Unit Cost", GetValueAtCell(RowNo, 17));
+            if Evaluate(rec_POInt."PC. Direct Unit Cost", GetValueAtCell(RowNo, 17)) then;
             Evaluate(rec_POInt."PC. Update Price", GetValueAtCell(RowNo, 18));
             Evaluate(rec_POInt."Price Line Status", GetValueAtCell(RowNo, 19));
 
