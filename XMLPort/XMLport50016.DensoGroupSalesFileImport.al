@@ -178,7 +178,7 @@ xmlport 50016 "Denso Group Sales File Import"
 
     trigger OnPostXmlPort()
     var
-        RecItem: Record Item;
+        RecCustomer: Record Customer;
     begin
         ImportCounter := 0;
         RecTEMPSalesFileImportBuffer.RESET;
@@ -195,12 +195,12 @@ xmlport 50016 "Denso Group Sales File Import"
                     ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
-                    IF CreateSalesHeader(RecItem) THEN
+                    IF CreateSalesHeader(RecCustomer) THEN
                         SalesHeaderCreated := TRUE;
                 END;
 
                 IF SalesHeaderCreated THEN begin
-                    CreateSalesLine(RecItem);
+                    CreateSalesLine(RecCustomer);
                 end
                 ELSE begin
                     //InsertDataInBuffer(ErrorMsg);
@@ -222,12 +222,12 @@ xmlport 50016 "Denso Group Sales File Import"
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
 
-                    IF CreateSalesHeader(RecItem) THEN
+                    IF CreateSalesHeader(RecCustomer) THEN
                         SalesHeaderCreated := TRUE;
                 END;
 
                 IF SalesHeaderCreated THEN begin
-                    CreateSalesLine(RecItem);
+                    CreateSalesLine(RecCustomer);
                 end
                 ELSE begin
                     //InsertDataInBuffer(ErrorMsg);
@@ -336,9 +336,9 @@ xmlport 50016 "Denso Group Sales File Import"
         RecSalesFileImportBuffer.INSERT(TRUE);
     end;
 
-    local procedure CreateSalesHeader(var RecItem: Record Item): Boolean
+    local procedure CreateSalesHeader(var RecCustomer: Record Customer): Boolean
     var
-        RecCustomer: Record Customer;
+        RecItem: Record Item;
         SalesHeaderError: Boolean;
     begin
 
@@ -349,7 +349,7 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
-        //<!--CS092 Channing.Zhou 15/9/2025 move to here to prevent SO Header created event there is errors in the SO Line input data
+        //<!--CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data
 
         RecItem.Reset();
         RecItem.SETRANGE("Customer No.", RecCustomer."No.");
@@ -366,9 +366,9 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
-        //CS092 Channing.Zhou 15/9/2025 move to here to prevent SO Header created event there is errors in the SO Line input data-->
+        //CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data-->
 
-        //<!--CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation
+        //<!--CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation
         //HG10.00.11 NJ 16/04/2018
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Firm THEN BEGIN
             SameDOAnswer := TRUE;
@@ -387,7 +387,7 @@ xmlport 50016 "Denso Group Sales File Import"
             END;
         END;
         //HG10.00.11 NJ 16/04/2018
-        //CS092 Channing.Zhou 15/9/2025 move to here to prevent the confirmation message shows before the import data valiation-->
+        //CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation-->
 
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Planned THEN BEGIN
             RecSalesHeader.RESET;
@@ -428,8 +428,25 @@ xmlport 50016 "Denso Group Sales File Import"
         EXIT(TRUE);
     end;
 
-    local procedure CreateSalesLine(var RecItem: Record Item): Boolean
+    local procedure CreateSalesLine(RecCustomer: Record Customer): Boolean
+    var
+        RecItem: Record Item;
     begin
+        RecItem.Reset();
+        RecItem.SETRANGE("Customer No.", RecCustomer."No.");
+        RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
+        IF NOT RecItem.FINDFIRST THEN BEGIN
+            ErrorMsg := 'Item Not Found';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
+        IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
+            ErrorMsg := 'Qty is 0';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
         LineNo := LineNo + 10000;
 
         RecSalesLine.INIT;
