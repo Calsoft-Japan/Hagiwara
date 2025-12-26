@@ -58,6 +58,7 @@ codeunit 50117 "Item Import"
         CustomerNoNotValid: Label 'Customer No. is not valid.';
         CustomerItemNoNotValid: Label 'Customer Item No. is not valid.';
         CustomerItemNoPlainNotValid: Label 'Customer Item No. (Plain) is not valid.';
+        OEMNoRequested: Label 'OEM No. is requested, can''t be empty.';
         OEMNoNotValid: Label 'OEM No. is not valid.';
         VendorNoNotValid: Label 'Vendor No. is not valid.';
         ItemSupplierSourceNotValid: Label 'Item Supplier Source is not valid.';
@@ -419,7 +420,11 @@ codeunit 50117 "Item Import"
                 Error(CustomerItemNoPlainNotValid);
             end;
 
-            if ((OEMNoStr <> '') and (not Evaluate(rec_POInt."OEM No.", OEMNoStr))) then begin
+            if (OEMNoStr = '') then begin
+                Error(OEMNoRequested);
+            end;
+
+            if (not Evaluate(rec_POInt."OEM No.", OEMNoStr)) then begin
                 Error(OEMNoNotValid);
             end;
 
