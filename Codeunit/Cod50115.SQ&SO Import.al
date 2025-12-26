@@ -22,18 +22,18 @@ codeunit 50115 "SQ&SO Import"
         EntryNoNotValid: Label 'The Entry No. is not valid.';
         EntryNoDuplicated: Label 'The Entry No. is duplicated.';
         GroupingKeyNotValid: Label 'Grouping Key is not valid.';
-        GroupingKeyRequested: Label 'Grouping Key is requested, can''t be empty.';
+        GroupingKeyRequested: Label 'Grouping Key is requested.';
         GroupingKeyCoexisted: Label 'The Grouping Key is coexisted.';
         DocumentTypeNotValid: Label 'Document Type is not valid.';
-        CustomerNoRequested: Label 'Customer No. is requested, can''t be empty.';
-        CustomerOrderNoRequested: Label 'Customer Order No. is requested, can''t be empty.';
+        CustomerNoRequested: Label 'Customer No. is requested.';
+        CustomerOrderNoRequested: Label 'Customer Order No. is requested.';
         OrderDateNotValid: Label 'Order Date is not valid.';
         RequestedDeliveryDateNotValid: Label 'Requested Delivery Date is not valid.';
         ShipmentDateNotValid: Label 'Shipment Date is not valid.';
-        ShipmentDateRequested: Label 'Shipment Date is requested, can''t be empty.';
-        ItemNoRequested: Label 'Item No. is requested, can''t be empty.';
+        ShipmentDateRequested: Label 'Shipment Date is requested.';
+        ItemNoRequested: Label 'Item No. is requested.';
         QuantityNotValid: Label 'Quantity is not valid.';
-        QuantityRequested: Label 'Quantity is requested, can''t be empty.';
+        QuantityRequested: Label 'Quantity is requested.';
         LineNoNotValid: Label 'Line No. is not valid.';
 
     local procedure UploadAndReadExcelFile()
