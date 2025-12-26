@@ -47,38 +47,28 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         }
     }
 
-    /*
-    trigger OnBeforeModify()
+
+    trigger OnBeforeInsert()
     var
-        PriceListHeader: Record "Price List Header";
         recApprSetup: Record "Hagiwara Approval Setup";
     begin
-
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            PriceListHeader.Get(Rec."Price List Code");
-            if PriceListHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
     end;
 
-    trigger OnBeforeInsert()
+    trigger OnBeforeModify()
     var
-        SalesHeader: Record "Sales Header";
         recApprSetup: Record "Hagiwara Approval Setup";
     begin
-
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            PriceListHeader.Get(Rec."Price List Code");
-            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
@@ -86,20 +76,15 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
 
     trigger OnBeforeDelete()
     var
-        SalesHeader: Record "Sales Header";
         recApprSetup: Record "Hagiwara Approval Setup";
     begin
-
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            PriceListHeader.Get(Rec."Price List Code");
-            if SalesHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
     end;
-    */
+
 }

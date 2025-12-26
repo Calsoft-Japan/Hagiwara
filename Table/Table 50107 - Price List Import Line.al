@@ -36,6 +36,7 @@ table 50107 "Price List Import Line"
         }
         field(19; "Sales Price (LCY)"; Decimal)
         {
+            AutoFormatExpression = '';
             AutoFormatType = 2;
         }
         field(20; "Margin%"; Decimal)
@@ -49,6 +50,7 @@ table 50107 "Price List Import Line"
         }
         field(22; "Purchase Price (LCY)"; Decimal)
         {
+            AutoFormatExpression = '';
             AutoFormatType = 2;
         }
         field(23; "Purchase Currency Code"; Code[10])
@@ -72,7 +74,7 @@ table 50107 "Price List Import Line"
         }
         field(30; "ORE Debit Cost"; Decimal)
         {
-            DecimalPlaces = 2 : 2;
+            DecimalPlaces = 0 : 3;
         }
         field(31; "Ship&Debit Flag"; Boolean)
         {

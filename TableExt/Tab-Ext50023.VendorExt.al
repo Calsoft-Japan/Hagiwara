@@ -228,7 +228,20 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
 
     }
 
-    /*
+
+    trigger OnBeforeInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Vendor) then begin
+            Error('The Approval setup is active.\The process cannot be completed.');
+        end;
+        //N005 End
+
+    end;
+
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -236,9 +249,7 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Vendor) then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
@@ -251,14 +262,13 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Vendor) then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
     end;
 
+    /*
     trigger OnAfterInsert()
     var
         recApprSetup: Record "Hagiwara Approval Setup";

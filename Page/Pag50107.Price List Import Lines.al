@@ -715,10 +715,10 @@ page 50107 "Price List Import Lines"
                   p_PriceListImportline."Sales Currency Code",
                   p_PriceListImportline."Unit Price",
                   CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Sales Currency Code")),
-                CurrencyLocal."Amount Rounding Precision")
+                CurrencyLocal."Unit-Amount Rounding Precision")
         else
             rtnAmountLCY :=
-              Round(p_PriceListImportline."Unit Price", CurrencyLocal."Amount Rounding Precision");
+              Round(p_PriceListImportline."Unit Price", CurrencyLocal."Unit-Amount Rounding Precision");
 
         exit(rtnAmountLCY);
     end;
@@ -744,10 +744,10 @@ page 50107 "Price List Import Lines"
                       p_PriceListImportline."Purchase Currency Code",
                       p_PriceListImportline."Direct Unit Cost",
                       CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
-                    CurrencyLocal."Amount Rounding Precision")
+                    CurrencyLocal."Unit-Amount Rounding Precision")
             else
                 rtnAmountLCY :=
-                  Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Amount Rounding Precision");
+                  Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
         end else begin
             if p_PriceListImportline."PC. Direct Unit Cost" <> 0 then begin
                 if p_PriceListImportline."Purchase Currency Code" <> '' then
@@ -758,10 +758,10 @@ page 50107 "Price List Import Lines"
                           p_PriceListImportline."Purchase Currency Code",
                           p_PriceListImportline."Direct Unit Cost",
                           CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
-                        CurrencyLocal."Amount Rounding Precision")
+                        CurrencyLocal."Unit-Amount Rounding Precision")
                 else
                     rtnAmountLCY :=
-                      Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Amount Rounding Precision");
+                      Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
             end else begin
                 if p_PriceListImportline."Purchase Currency Code" <> '' then
                     rtnAmountLCY :=
@@ -771,10 +771,10 @@ page 50107 "Price List Import Lines"
                           p_PriceListImportline."Purchase Currency Code",
                           p_PriceListImportline."ORE Debit Cost",
                           CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
-                        CurrencyLocal."Amount Rounding Precision")
+                        CurrencyLocal."Unit-Amount Rounding Precision")
                 else
                     rtnAmountLCY :=
-                      Round(p_PriceListImportline."ORE Debit Cost", CurrencyLocal."Amount Rounding Precision");
+                      Round(p_PriceListImportline."ORE Debit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
             end;
         end;
 

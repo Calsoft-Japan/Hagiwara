@@ -445,4 +445,43 @@ tableextension 50027 "Item Ext" extends "Item"
         }
 
     }
+
+    trigger OnBeforeInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Item) then begin
+            Error('The Approval setup is active.\The process cannot be completed.');
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeModify()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Item) then begin
+            Error('The Approval setup is active.\The process cannot be completed.');
+        end;
+        //N005 End
+
+    end;
+
+    trigger OnBeforeDelete()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Item) then begin
+            Error('The Approval setup is active.\The process cannot be completed.');
+        end;
+        //N005 End
+
+    end;
 }

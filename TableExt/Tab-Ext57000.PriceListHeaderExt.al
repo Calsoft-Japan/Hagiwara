@@ -40,7 +40,19 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
         */
     }
 
-    /*
+    trigger OnBeforeInsert()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."Price List") then begin
+            Error('The Approval setup is active.\The process cannot be completed.');
+        end;
+        //N005 End
+
+    end;
+
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -48,9 +60,7 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
@@ -63,14 +73,13 @@ tableextension 57000 "Price List Header Ext" extends "Price List Header"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                Error('Can''t edit this data because of it''s submitted for approval.');
-            end;
+            Error('The Approval setup is active.\The process cannot be completed.');
         end;
         //N005 End
 
     end;
 
+    /*
     trigger OnAfterInsert()
     var
         recApprSetup: Record "Hagiwara Approval Setup";

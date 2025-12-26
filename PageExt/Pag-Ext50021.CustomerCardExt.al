@@ -421,7 +421,6 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
         }
     }
 
-    /*
     trigger OnOpenPage()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
@@ -429,16 +428,11 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup.Customer then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                CurrPage.Editable(false);
-            end else begin
-                CurrPage.Editable(true);
-            end;
+            CurrPage.Editable(false);
         end;
         //N005 End
 
     end;
-    */
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean
     begin
@@ -460,5 +454,6 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
         Text001: Label 'Vendor Cust. code must have a value when Item Supplier Source equals to "Renesas".';
         Text002: Label 'Item Supplier Source must equal to "Renesas" when Vendor Cust. Code is not blank.';
         Text003: Label 'Vendor Cust. Code must have 10 digits.';
+
 
 }

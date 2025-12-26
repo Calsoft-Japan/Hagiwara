@@ -297,4 +297,17 @@ pageextension 50022 CustomerListExt extends "Customer List"
             */
         }
     }
+
+    trigger OnOpenPage()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup.Customer then begin
+            CurrPage.Editable(false);
+        end;
+        //N005 End
+
+    end;
 }
