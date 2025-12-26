@@ -46,6 +46,23 @@ tableextension 50015 "G/L Account Ext" extends "G/L Account"
             Caption = 'Approver';
             Editable = false;
         }
+
+        modify(Blocked)
+        {
+            trigger OnBeforeValidate()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                //N005 Begin
+                if (xRec.Blocked <> Rec.Blocked) and (Rec.Blocked = false) then begin
+                    recApprSetup.Get();
+                    if (recApprSetup."G/L Account") then begin
+                        Error('The Approval setup is active.\The Blocked field cannot be changed.');
+                    end;
+                end;
+                //N005 End
+            end;
+        }
     }
 
     trigger OnBeforeModify()
