@@ -462,6 +462,9 @@ page 50114 "Vendor Import Lines"
                             Error('Some of the lines are not validated.');
 
                         // -------Execute-------
+                        recApprSetup."Inprogress Vendor" := true;
+                        recApprSetup.Modify();
+
                         VendorImportline.SetRange("Batch Name", G_BatchName);
                         VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Validated);
                         if VendorImportline.FINDFIRST then
@@ -472,6 +475,9 @@ page 50114 "Vendor Import Lines"
                             REPEAT
                                 UpdatePaytoVendorNo(VendorImportline);
                             UNTIL VendorImportline.NEXT = 0;
+
+                        recApprSetup."Inprogress Vendor" := false;
+                        recApprSetup.Modify();
 
                         /*
                         //FDD removed this process.

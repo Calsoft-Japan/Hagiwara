@@ -404,6 +404,9 @@ page 50118 "Item Import Lines"
                             Error('Some of the lines are not validated.');
 
                         // -------Execute-------
+                        recApprSetup."Inprogress Item" := true;
+                        recApprSetup.Modify();
+
                         ItemImportline.SetRange("Batch Name", G_BatchName);
                         ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Validated);
                         if ItemImportline.FINDFIRST then
@@ -411,6 +414,8 @@ page 50118 "Item Import Lines"
                                 ExecuteProcess(ItemImportline);
                             UNTIL ItemImportline.NEXT = 0;
 
+                        recApprSetup."Inprogress Item" := false;
+                        recApprSetup.Modify();
                         /*
                         //FDD removed this process.
                         // delete all

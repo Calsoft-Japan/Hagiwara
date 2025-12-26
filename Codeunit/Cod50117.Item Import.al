@@ -19,7 +19,6 @@ codeunit 50117 "Item Import"
         EntryNoDuplicated: Label 'Entry No. is duplicated.';
         TypeNotValid: Label 'Type is not valid.';
         ItemNoNotValid: Label 'Item No. is not valid.';
-        ItemNoRequested: Label 'Item No. is requested, can''t be empty.';
         FamiliarNameNotValid: Label 'Familiar Name is not valid.';
         DescriptionNotValid: Label 'Description is not valid.';
         Description2NotValid: Label 'Description 2 is not valid.';
@@ -262,10 +261,7 @@ codeunit 50117 "Item Import"
                 Error(TypeNotValid);
             end;
 
-            if (ItemNoStr = '') then begin
-                Error(ItemNoRequested);
-            end;
-            if (not Evaluate(rec_POInt."Item No.", ItemNoStr)) then begin
+            if ((ItemNoStr <> '') and (not Evaluate(rec_POInt."Item No.", ItemNoStr))) then begin
                 Error(ItemNoNotValid);
             end;
 
