@@ -84,6 +84,23 @@ table 50121 "Hagiwara Approval Setup"
             TableRelation = "No. Series".Code;
         }
 
+        field(51; "Inprogress Item"; Boolean)
+        {
+
+        }
+        field(52; "Inprogress Customer"; Boolean)
+        {
+
+        }
+        field(53; "Inprogress Vendor"; Boolean)
+        {
+
+        }
+        field(54; "Inprogress Price List"; Boolean)
+        {
+
+        }
+
     }
     keys
     {

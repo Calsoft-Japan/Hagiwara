@@ -191,7 +191,9 @@ tableextension 50018 "Customer Ext" extends "Customer"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Customer) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Customer" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -204,7 +206,9 @@ tableextension 50018 "Customer Ext" extends "Customer"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Customer) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Customer" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -217,7 +221,9 @@ tableextension 50018 "Customer Ext" extends "Customer"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Customer) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Customer" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 

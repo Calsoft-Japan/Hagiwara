@@ -55,7 +55,9 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Price List" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -68,7 +70,9 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Price List" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -81,7 +85,9 @@ tableextension 57001 "Price List Line Ext" extends "Price List Line"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup."Price List") then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Price List" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 

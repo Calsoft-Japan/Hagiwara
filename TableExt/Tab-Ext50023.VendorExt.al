@@ -236,7 +236,9 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Vendor) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Vendor" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -249,7 +251,9 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Vendor) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Vendor" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
@@ -262,7 +266,9 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         //N005 Begin
         recApprSetup.Get();
         if (recApprSetup.Vendor) then begin
-            Error('The Approval setup is active.\The process cannot be completed.');
+            if not recApprSetup."Inprogress Vendor" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
         end;
         //N005 End
 
