@@ -582,6 +582,8 @@ page 50118 "Item Import Lines"
             Item.SetLoadFields("No.");
             while Item.Get(Item."No.") do
                 item.Validate("No.", NoSeries.GetNextNo(Item."No. Series"));
+
+            p_ItemImportline."Item No." := Item."No.";
         end else begin
             Item.Validate("No.", p_ItemImportline."Item No.");
         end;

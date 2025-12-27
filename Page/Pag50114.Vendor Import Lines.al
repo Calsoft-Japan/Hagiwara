@@ -581,6 +581,8 @@ page 50114 "Vendor Import Lines"
             VendorRecord.SetLoadFields("No.");
             while VendorRecord.Get(VendorRecord."No.") do
                 VendorRecord."No." := NoSeries.GetNextNo(VendorRecord."No. Series");
+
+            p_VendorImportline."No." := VendorRecord."No.";
         end else begin
             VendorRecord.Validate("No.", p_VendorImportline."No.");
         end;
