@@ -308,11 +308,7 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup.Vendor then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                CurrPage.Editable(false);
-            end else begin
-                CurrPage.Editable(true);
-            end;
+            CurrPage.Editable(false);
         end;
         //N005 End
         */

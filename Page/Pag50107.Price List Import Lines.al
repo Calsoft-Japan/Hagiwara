@@ -267,6 +267,9 @@ page 50107 "Price List Import Lines"
                             Error('Some of the lines are not validated.');
 
                         // -------Execute-------
+                        recApprSetup."Inprogress Price List" := true;
+                        recApprSetup.Modify();
+
                         recPriceListHeader.SetRange("Price Type", Enum::"Price Type"::Purchase);
                         recPriceListHeader.SetRange(Code, G_PurchPriceCode);
                         if recPriceListHeader.IsEmpty() then
@@ -344,6 +347,9 @@ page 50107 "Price List Import Lines"
 
                         recPriceListHeader.Get(G_SalesPriceCode);
                         PriceListManagement.ActivateDraftLines(recPriceListHeader, true);
+
+                        recApprSetup."Inprogress Price List" := false;
+                        recApprSetup.Modify();
 
                         Message('Carry out finished.');
                     end;
@@ -717,8 +723,7 @@ page 50107 "Price List Import Lines"
                   CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Sales Currency Code")),
                 CurrencyLocal."Unit-Amount Rounding Precision")
         else
-            rtnAmountLCY :=
-              Round(p_PriceListImportline."Unit Price", CurrencyLocal."Unit-Amount Rounding Precision");
+            rtnAmountLCY := p_PriceListImportline."Unit Price";
 
         exit(rtnAmountLCY);
     end;
@@ -746,8 +751,7 @@ page 50107 "Price List Import Lines"
                       CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
                     CurrencyLocal."Unit-Amount Rounding Precision")
             else
-                rtnAmountLCY :=
-                  Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
+                rtnAmountLCY := p_PriceListImportline."Direct Unit Cost";
         end else begin
             if p_PriceListImportline."PC. Direct Unit Cost" <> 0 then begin
                 if p_PriceListImportline."Purchase Currency Code" <> '' then
@@ -760,8 +764,7 @@ page 50107 "Price List Import Lines"
                           CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
                         CurrencyLocal."Unit-Amount Rounding Precision")
                 else
-                    rtnAmountLCY :=
-                      Round(p_PriceListImportline."Direct Unit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
+                    rtnAmountLCY := p_PriceListImportline."Direct Unit Cost";
             end else begin
                 if p_PriceListImportline."Purchase Currency Code" <> '' then
                     rtnAmountLCY :=
@@ -773,8 +776,7 @@ page 50107 "Price List Import Lines"
                           CurrExchRate.ExchangeRate(RateDate, p_PriceListImportline."Purchase Currency Code")),
                         CurrencyLocal."Unit-Amount Rounding Precision")
                 else
-                    rtnAmountLCY :=
-                      Round(p_PriceListImportline."ORE Debit Cost", CurrencyLocal."Unit-Amount Rounding Precision");
+                    rtnAmountLCY := p_PriceListImportline."ORE Debit Cost";
             end;
         end;
 
