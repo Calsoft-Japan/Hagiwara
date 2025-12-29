@@ -349,25 +349,6 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
-        //<!--CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data
-
-        RecItem.Reset();
-        RecItem.SETRANGE("Customer No.", RecCustomer."No.");
-        RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
-        IF NOT RecItem.FINDFIRST THEN BEGIN
-            ErrorMsg := 'Item Not Found';
-            InsertDataInBuffer(ErrorMsg);
-            EXIT(FALSE);
-        END;
-
-        IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
-            ErrorMsg := 'Qty is 0';
-            InsertDataInBuffer(ErrorMsg);
-            EXIT(FALSE);
-        END;
-
-        //CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data-->
-
         //<!--CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation
         //HG10.00.11 NJ 16/04/2018
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Firm THEN BEGIN
@@ -388,6 +369,23 @@ xmlport 50016 "Denso Group Sales File Import"
         END;
         //HG10.00.11 NJ 16/04/2018
         //CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation-->
+
+        //<!--CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data Start
+        RecItem.Reset();
+        RecItem.SETRANGE("Customer No.", RecCustomer."No.");
+        RecItem.SETRANGE("Customer Item No.", RecTEMPSalesFileImportBuffer."Buyer Part Number");
+        IF NOT RecItem.FINDFIRST THEN BEGIN
+            ErrorMsg := 'Item Not Found';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+
+        IF RecTEMPSalesFileImportBuffer."Qty Due" = 0 THEN BEGIN
+            ErrorMsg := 'Qty is 0';
+            InsertDataInBuffer(ErrorMsg);
+            EXIT(FALSE);
+        END;
+        //CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data end-->
 
         IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Planned THEN BEGIN
             RecSalesHeader.RESET;
