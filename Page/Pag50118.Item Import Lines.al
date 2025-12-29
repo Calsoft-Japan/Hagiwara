@@ -485,7 +485,7 @@ page 50118 "Item Import Lines"
             CreateRecordForItem(p_ItemImportline);
 
             //Create new records on the Item Unit of Measure table with the following mappings.
-            //CreateRecordForItemUnitofMeasure(p_ItemImportline); // Item作成時Validateでついでに作成するため
+            //CreateRecordForItemUnitofMeasure(p_ItemImportline); // To create it at the same time as creating an Item by using Validate
 
             //Create new records on the Item Reference table with the following mappings.
             //  For Customer
@@ -500,7 +500,7 @@ page 50118 "Item Import Lines"
             UpdateRecordForItem(p_ItemImportline);
 
             //Update existing records on the Item Unit of Measure table.
-            //UpdateRecordForItemUnitofMeasure(p_ItemImportline);// Item作成時Validateでついでに作成するため
+            //UpdateRecordForItemUnitofMeasure(p_ItemImportline);// To create it at the same time as creating an Item by using Validate
 
             //Update existing records on the Item Reference table.
             //  For Customer
@@ -719,7 +719,7 @@ page 50118 "Item Import Lines"
         ItemUnitofMeasure: Record "Item Unit of Measure";
     begin
         if ItemUnitofMeasure.GET(p_ItemImportline."Item No.", p_ItemImportline."Base Unit of Measure") then begin
-            //TODO 仕様確認必要
+            //Do nothing
         end else begin
             //If Base Unit of Measure Code is different from the existing one, it will be “Create” action. 
             ItemUnitofMeasure.INIT;
@@ -909,7 +909,7 @@ page 50118 "Item Import Lines"
             end;
         end;
 
-        // -------Option Value Check-------//TODO 確認必要
+        // -------Option Value Check-------
 
         // -------the result of Validation-------
         if (ErrDesc <> '') then begin
