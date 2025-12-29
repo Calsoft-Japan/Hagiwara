@@ -189,11 +189,7 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup."Price List" then begin
-            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
-                CurrPage.Editable(false);
-            end else begin
-                CurrPage.Editable(true);
-            end;
+            CurrPage.Editable(false);
         end;
         //N005 End
 

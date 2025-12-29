@@ -425,13 +425,14 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
     var
         recApprSetup: Record "Hagiwara Approval Setup";
     begin
+        /*
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup.Customer then begin
             CurrPage.Editable(false);
         end;
         //N005 End
-
+        */
     end;
 
     trigger OnQueryClosePage(CloseAction: Action): Boolean

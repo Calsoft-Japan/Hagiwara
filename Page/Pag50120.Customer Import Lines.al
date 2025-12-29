@@ -559,6 +559,9 @@ page 50120 "Customer Import Lines"
                             Error('Some of the lines are not validated.');
 
                         // -------Execute-------
+                        recApprSetup."Inprogress Customer" := true;
+                        recApprSetup.Modify();
+
                         CustomerImportline.SetRange("Batch Name", G_BatchName);
                         CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Validated);
                         if CustomerImportline.FINDFIRST then
@@ -577,6 +580,9 @@ page 50120 "Customer Import Lines"
                         CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
                         CustomerImportline.DELETEALL;
                         */
+
+                        recApprSetup."Inprogress Customer" := false;
+                        recApprSetup.Modify();
 
                         Message('Carry out finished.');
 
