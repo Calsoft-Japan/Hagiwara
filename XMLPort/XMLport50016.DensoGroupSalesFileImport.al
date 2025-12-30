@@ -191,8 +191,12 @@ xmlport 50016 "Denso Group Sales File Import"
             REPEAT
 
                 IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") OR (SalesHeaderCreated = false) THEN BEGIN
-                    Status := RecTEMPSalesFileImportBuffer.Status;
-                    ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
+                    if (Status <> RecTEMPSalesFileImportBuffer.Status) then begin
+                        Status := RecTEMPSalesFileImportBuffer.Status;
+                    end;
+                    if (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") then begin
+                        ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
+                    end;
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
                     IF CreateSalesHeader(RecCustomer) THEN
@@ -218,9 +222,34 @@ xmlport 50016 "Denso Group Sales File Import"
                 IF (Status <> RecTEMPSalesFileImportBuffer.Status) OR (ShipTo <> RecTEMPSalesFileImportBuffer."Ship To") OR (DeliveryOrder <> RecTEMPSalesFileImportBuffer."Delivery Order") OR (SalesHeaderCreated = false) THEN BEGIN
                     Status := RecTEMPSalesFileImportBuffer.Status;
                     ShipTo := RecTEMPSalesFileImportBuffer."Ship To";
-                    DeliveryOrder := RecTEMPSalesFileImportBuffer."Delivery Order";
+                    if (DeliveryOrder <> RecTEMPSalesFileImportBuffer."Delivery Order") then begin
+                        DeliveryOrder := RecTEMPSalesFileImportBuffer."Delivery Order";
+                        SameDOConfirm := false;
+                        DOCanCreate := true;
+                    end;
                     SalesHeaderCreated := FALSE;
                     LineNo := 0;
+
+                    //<!--CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation
+                    //HG10.00.11 NJ 16/04/2018
+                    if not SameDOConfirm then begin
+                        SameDOConfirm := true;
+                        RecSalesHeader.RESET;
+                        RecSalesHeader.SETRANGE("Document Type", RecSalesHeader."Document Type"::Order);
+                        RecSalesHeader.SETRANGE("External Document No.", DeliveryOrder);
+                        IF RecSalesHeader.FINDFIRST THEN BEGIN
+                            IF not CONFIRM(STRSUBSTNO(Text001, DeliveryOrder), FALSE) THEN BEGIN
+                                DOCanCreate := false;
+                            END;
+                        END;
+                    end;
+                    if not DOCanCreate then begin
+                        ErrorMsg := 'Import cancelled';
+                        InsertDataInBuffer(ErrorMsg);
+                        continue;
+                    end;
+                    //HG10.00.11 NJ 16/04/2018
+                    //CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation-->
 
                     IF CreateSalesHeader(RecCustomer) THEN
                         SalesHeaderCreated := TRUE;
@@ -255,7 +284,8 @@ xmlport 50016 "Denso Group Sales File Import"
         ErrorMsg: Text[100];
         DeliveryOrder: Code[35];
         Text001: Label 'DO No. %1 already exists. Do you want to add this DO?';
-        SameDOAnswer: Boolean;
+        SameDOConfirm: Boolean;
+        DOCanCreate: Boolean;
 
     local procedure InsertDataInTemp()
     var
@@ -348,27 +378,6 @@ xmlport 50016 "Denso Group Sales File Import"
             InsertDataInBuffer(ErrorMsg);
             EXIT(FALSE);
         END;
-
-        //<!--CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation
-        //HG10.00.11 NJ 16/04/2018
-        IF RecTEMPSalesFileImportBuffer.Status = RecTEMPSalesFileImportBuffer.Status::Firm THEN BEGIN
-            SameDOAnswer := TRUE;
-            RecSalesHeader.RESET;
-            RecSalesHeader.SETRANGE("Document Type", RecSalesHeader."Document Type"::Order);
-            RecSalesHeader.SETRANGE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
-            IF RecSalesHeader.FINDFIRST THEN BEGIN
-                IF NOT CONFIRM(STRSUBSTNO(Text001, RecTEMPSalesFileImportBuffer."Delivery Order"), FALSE) THEN BEGIN
-                    SameDOAnswer := FALSE;
-                END;
-            END;
-            IF NOT SameDOAnswer THEN BEGIN
-                ErrorMsg := 'Import cancelled';
-                InsertDataInBuffer(ErrorMsg);
-                EXIT(FALSE);
-            END;
-        END;
-        //HG10.00.11 NJ 16/04/2018
-        //CS092 Channing.Zhou 9/15/2025 move to here to prevent the confirmation message shows before the import data valiation-->
 
         //<!--CS092 Channing.Zhou 9/15/2025 add to here to prevent SO Header created event there is errors in the SO Line input data Start
         RecItem.Reset();
