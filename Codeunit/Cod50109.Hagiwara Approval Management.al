@@ -1670,11 +1670,22 @@ codeunit 50109 "Hagiwara Approval Management"
     var
         AADTenant: Codeunit "Azure AD Tenant";
         EnvInfo: Codeunit "Environment Information";
+        recApprSetup: Record "Hagiwara Approval Setup";
         dataLink: Text;
     begin
-        dataLink := '<a href="https://businesscentral.dynamics.com/';
-        dataLink := dataLink + AADTenant.GetAadTenantId() + '/';
-        dataLink := dataLink + EnvInfo.GetEnvironmentName();
+
+        dataLink := '<a href="';
+
+        if EnvInfo.IsSaaS() then begin
+            dataLink := dataLink + 'https://businesscentral.dynamics.com/';
+            dataLink := dataLink + AADTenant.GetAadTenantId() + '/';
+            dataLink := dataLink + EnvInfo.GetEnvironmentName();
+        end else begin
+            recApprSetup.Get();
+            recApprSetup.TestField("Environment URL");
+
+            dataLink := dataLink + recApprSetup."Environment URL";
+        end;
         dataLink := dataLink + '?company=' + CompanyName;
         dataLink := dataLink + GetDataPageURI(pData, pDataNo);
         dataLink := dataLink + '">'; //<a href> end
@@ -1773,7 +1784,6 @@ codeunit 50109 "Hagiwara Approval Management"
         exit(pApprover);
     end;
 
-    [TryFunction]
     procedure SendNotificationEmail(
         pData: Enum "Hagiwara Approval Data";
                    pDataNo: code[20];
@@ -1845,11 +1855,10 @@ codeunit 50109 "Hagiwara Approval Management"
         if userinfo.FindFirst() then
             EmailCC := userinfo."Contact Email";
 
-        isSent := SendEmail(EmailTo, EmailCC, subject, body);
+        SendEmail(EmailTo, EmailCC, subject, body);
 
     end;
 
-    [TryFunction]
     local procedure SendEmail(EmailTo: Text; EmailCC: Text; EmailSubject: Text; EmailBody: Text)
     var
         EmailToList: List of [Text];
@@ -1874,10 +1883,10 @@ codeunit 50109 "Hagiwara Approval Management"
         if TempCuEmailAccount.FindFirst() then begin
             isSent := CuEmail.Send(CuEmailMessage, TempCuEmailAccount."Account Id", TempCuEmailAccount.Connector);
             if not isSent then begin
-                Error('Email Account seems not setup right.');
+                Message('The action is processed while Email Account seems not setup right.');
             end;
         end else begin
-            Error('There is no email account ''%1''', FromEmailAccount);
+            Message('The action is processed while Email Account seems not setup right.');
         end;
     end;
 }

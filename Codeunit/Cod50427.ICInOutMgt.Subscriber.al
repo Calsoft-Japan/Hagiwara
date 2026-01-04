@@ -136,7 +136,6 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
     /// <param name="pICOutboxTransaction"></param>
     /// <param name="pPurchHeader"></param>
     /// <returns></returns>
-    [TryFunction]
     procedure SendEmail_SendToPC(pICOutboxTransaction: Record "IC Outbox Transaction"; pPurchHeader: Record "Purchase Header")
     var
         CompInfoSC: Record "Company Information";
@@ -220,8 +219,6 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
 
     end;
 
-
-    [TryFunction]
     /// Send Email from PC to SC when PC rejected the purchase order.
     /// This function is supposed called only from PC.
     procedure SendEmail_ReturnToSC(pICInboxTransaction: Record "IC Inbox Transaction")
@@ -282,10 +279,10 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         if TempCuEmailAccount.FindFirst() then begin
             isSent := CuEmail.Send(CuEmailMessage, TempCuEmailAccount."Account Id", TempCuEmailAccount.Connector);
             if not isSent then begin
-                Error('Email Account seems not setup right.');
+                Message('The action is processed while Email Account seems not setup right.');
             end;
         end else begin
-            Error('There is no email account ''%1''', FromEmailAccount);
+            Message('The action is processed while Email Account seems not setup right.');
         end;
 
     end;

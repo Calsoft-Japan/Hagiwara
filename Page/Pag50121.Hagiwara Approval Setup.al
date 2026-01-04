@@ -97,6 +97,14 @@ page 50121 "Hagiwara Approval Setup"
                 }
 
             }
+            group("Onpremise Setup")
+            {
+                field("Environment URL"; Rec."Environment URL")
+                {
+                    ApplicationArea = all;
+                }
+
+            }
         }
     }
 

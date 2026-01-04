@@ -83,6 +83,10 @@ table 50121 "Hagiwara Approval Setup"
         {
             TableRelation = "No. Series".Code;
         }
+        field(30; "Environment URL"; Text[200])
+        {
+            ToolTip = 'The Environment URL for On-Premise server. Format: http://servername:portname/BCInstanceName/. e.g. http://52.175.19.235:8080/HSUpgrade/';
+        }
 
         field(51; "Inprogress Item"; Boolean)
         {
