@@ -59,7 +59,6 @@ codeunit 50107 "Price List Import"
         UOMStr: Text;
         ShipDebitFlagStr: Text;
         PCUpdatePriceStr: Text;
-        PriceLineStatusStr: Text;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -97,7 +96,6 @@ codeunit 50107 "Price List Import"
             UOMStr := GetValueAtCell(RowNo, 11).Trim();
             ShipDebitFlagStr := GetValueAtCell(RowNo, 15).Trim();
             PCUpdatePriceStr := GetValueAtCell(RowNo, 18).Trim();
-            PriceLineStatusStr := GetValueAtCell(RowNo, 19).Trim();
 
             //Mandatory Check
             if StartDateStr = '' then begin
@@ -130,9 +128,6 @@ codeunit 50107 "Price List Import"
             if PCUpdatePriceStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("PC. Update Price"));
             end;
-            if PriceLineStatusStr = '' then begin
-                Error(MandatoryMsg, rec_POInt.FieldCaption("Price Line Status"));
-            end;
 
             //Option Value Check
             if (not Evaluate(rec_POInt."Product Type", ProductTypeStr)) then begin
@@ -145,10 +140,6 @@ codeunit 50107 "Price List Import"
 
             if (not Evaluate(rec_POInt."PC. Update Price", PCUpdatePriceStr)) then begin
                 Error(NotValidMsg, rec_POInt.FieldCaption("PC. Update Price"));
-            end;
-
-            if (not Evaluate(rec_POInt."Price Line Status", PriceLineStatusStr)) then begin
-                Error(NotValidMsg, rec_POInt.FieldCaption("Price Line Status"));
             end;
 
             //----------------------Set values for each----------------------
@@ -172,7 +163,7 @@ codeunit 50107 "Price List Import"
             Evaluate(rec_POInt."PC. Currency Code", GetValueAtCell(RowNo, 16));
             if Evaluate(rec_POInt."PC. Direct Unit Cost", GetValueAtCell(RowNo, 17)) then;
             Evaluate(rec_POInt."PC. Update Price", GetValueAtCell(RowNo, 18));
-            Evaluate(rec_POInt."Price Line Status", GetValueAtCell(RowNo, 19));
+            Evaluate(rec_POInt."Delete Flag", GetValueAtCell(RowNo, 19));
 
             rec_POInt.Insert();
         end;

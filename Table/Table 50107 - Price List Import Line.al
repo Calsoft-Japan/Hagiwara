@@ -91,8 +91,9 @@ table 50107 "Price List Import Line"
         field(34; "PC. Update Price"; Boolean)
         {
         }
-        field(40; "Price Line Status"; Enum "Price Status")
+        field(40; "Delete Flag"; Boolean)
         {
+            InitValue = false;
         }
         field(41; "Status"; Option)
         {

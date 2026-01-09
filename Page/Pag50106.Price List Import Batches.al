@@ -130,11 +130,13 @@ page 50106 "Price List Import Batches"
                         if rec.Requester <> UserId then
                             Error('You are not the Requester of this data.');
 
+                        /*
                         PriceListImportline.SetRange("Batch Name", Rec.Name);
                         PriceListImportline.SETFILTER(PriceListImportline.Status, '<>%1', PriceListImportline.Status::Validated);
                         if not PriceListImportline.IsEmpty() then begin
                             Error('All Lines of Batch %1 should be validated.', Rec.Name);
                         end;
+                        */
 
                         if not Confirm('Do you want to cancel the approval request?') then
                             exit;
@@ -197,11 +199,13 @@ page 50106 "Price List Import Batches"
                         if not (rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"]) then
                             Error('This approval request can not be rejected.');
 
+                        /*
                         PriceListImportline.SetRange("Batch Name", Rec.Name);
                         PriceListImportline.SETFILTER(PriceListImportline.Status, '<>%1', PriceListImportline.Status::Validated);
                         if not PriceListImportline.IsEmpty() then begin
                             Error('All Lines of Batch %1 should be validated.', Rec.Name);
                         end;
+                        */
 
                         if rec."Hagi Approver" <> UserId then
                             Error('You are not the Approver of this data.');
