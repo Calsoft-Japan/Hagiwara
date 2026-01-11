@@ -150,6 +150,7 @@ pageextension 50027 VendorListExt extends "Vendor List"
                             exit;
 
                         if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::"Not Applicable",
                             Enum::"Hagiwara Approval Status"::Submitted,
                             Enum::"Hagiwara Approval Status"::"Re-Submitted",
                             Enum::"Hagiwara Approval Status"::"Approved",

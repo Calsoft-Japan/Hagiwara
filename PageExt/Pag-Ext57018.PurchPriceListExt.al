@@ -60,6 +60,7 @@ pageextension 57018 PurchPriceListExt extends "Purchase Price List"
                             exit;
 
                         if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::"Not Applicable",
                             Enum::"Hagiwara Approval Status"::Submitted,
                             Enum::"Hagiwara Approval Status"::"Re-Submitted",
                             Enum::"Hagiwara Approval Status"::"Approved",

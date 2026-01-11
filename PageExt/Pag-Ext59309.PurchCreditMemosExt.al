@@ -59,6 +59,7 @@ pageextension 59309 PurchCreditMemosExt extends "Purchase Credit Memos"
                             exit;
 
                         if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::"Not Applicable",
                             Enum::"Hagiwara Approval Status"::Submitted,
                             Enum::"Hagiwara Approval Status"::"Re-Submitted",
                             Enum::"Hagiwara Approval Status"::"Approved",

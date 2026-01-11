@@ -249,7 +249,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
             end;
 
-            SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', EmailType::Submit, recApprEntry);
+            SendNotificationEmail(pData, pDataNo, pUsername, Approver, '', Enum::"Hagiwara Approval Action"::Submit, recApprEntry);
 
             Message('Approval Request submitted.');
         end;
@@ -336,9 +336,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::"Transfer Order":
                     begin
-                        TransHeader.get(pDataNo);
-                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
-                        TransHeader.Modify();
+                        ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Cancel);
                     end;
                 Enum::"Hagiwara Approval Data"::"Assembly Order":
                     begin
@@ -346,8 +344,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
                         AssemblyHeader.Modify();
                     end;
-                Enum::"Hagiwara Approval Data"::"Item Journal",
-                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                Enum::"Hagiwara Approval Data"::"Item Journal":
                     begin
                         ItemJourLine.Reset();
                         ItemJourLine.setRange("Document No.", pDataNo);
@@ -356,6 +353,11 @@ codeunit 50109 "Hagiwara Approval Management"
                                 ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Cancelled;
                                 ItemJourLine.Modify();
                             until ItemJourLine.Next() = 0;
+                    end;
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                    begin
+
+                        ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Cancel);
                     end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
@@ -408,7 +410,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
             end;
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Approver, '', EmailType::Cancel, recApprEntry);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Approver, '', Enum::"Hagiwara Approval Action"::Cancel, recApprEntry);
 
             Message('Approval Request cancelled.');
         end;
@@ -762,7 +764,7 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprEntry."Close Date" := CurrentDateTime;
             recApprEntry.Modify();
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, EmailType::Approval, recApprEntry);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, Enum::"Hagiwara Approval Action"::Approve, recApprEntry);
 
             Message('Approval Request approved.\\The following approval request was sent if the furthermore approval is necessary.');
         end;
@@ -854,10 +856,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
                 Enum::"Hagiwara Approval Data"::"Transfer Order":
                     begin
-                        TransHeader.get(pDataNo);
-                        TransHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
-                        TransHeader."Hagi Approver" := pUsername;
-                        TransHeader.Modify();
+                        ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Reject);
                     end;
                 Enum::"Hagiwara Approval Data"::"Assembly Order":
                     begin
@@ -866,8 +865,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         AssemblyHeader."Hagi Approver" := pUsername;
                         AssemblyHeader.Modify();
                     end;
-                Enum::"Hagiwara Approval Data"::"Item Journal",
-                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                Enum::"Hagiwara Approval Data"::"Item Journal":
                     begin
                         ItemJourLine.Reset();
                         ItemJourLine.setRange("Document No.", pDataNo);
@@ -877,6 +875,10 @@ codeunit 50109 "Hagiwara Approval Management"
                                 ItemJourLine."Hagi Approver" := pUsername;
                                 ItemJourLine.Modify();
                             until ItemJourLine.Next() = 0;
+                    end;
+                Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                    begin
+                        ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Reject);
                     end;
                 Enum::"Hagiwara Approval Data"::"Item":
                     begin
@@ -936,7 +938,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     end;
             end;
 
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', EmailType::Reject, recApprEntry);
+            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', Enum::"Hagiwara Approval Action"::Reject, recApprEntry);
 
             Message('Approval Request rejected.');
         end;
@@ -1015,11 +1017,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 end;
             Enum::"Hagiwara Approval Data"::"Transfer Order":
                 begin
-                    TransHeader.get(pDataNo);
-                    TransHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
-                    TransHeader."Hagi Approver" := '';
-                    TransHeader.Requester := '';
-                    TransHeader.Modify();
+                    ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Update);
                 end;
             Enum::"Hagiwara Approval Data"::"Assembly Order":
                 begin
@@ -1029,8 +1027,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     AssemblyHeader.Requester := '';
                     AssemblyHeader.Modify();
                 end;
-            Enum::"Hagiwara Approval Data"::"Item Journal",
-            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+            Enum::"Hagiwara Approval Data"::"Item Journal":
                 begin
                     ItemJourLine.Reset();
                     ItemJourLine.setRange("Document No.", pDataNo);
@@ -1041,6 +1038,10 @@ codeunit 50109 "Hagiwara Approval Management"
                             ItemJourLine.Requester := '';
                             ItemJourLine.Modify();
                         until ItemJourLine.Next() = 0;
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ResetStatusWithLocation(pData, pDataNo, pUsername, Enum::"Hagiwara Approval Action"::Update);
                 end;
             Enum::"Hagiwara Approval Data"::"Item":
                 begin
@@ -1531,7 +1532,6 @@ codeunit 50109 "Hagiwara Approval Management"
     end;
 
     var
-        EmailType: Option Submit,Cancel,Approval,Reject;
         TypeHelper: Codeunit "Type Helper";
 
     local procedure CalcSOAmountLCY(pSalesHeader: Record "Sales Header"): Decimal
@@ -1668,6 +1668,112 @@ codeunit 50109 "Hagiwara Approval Management"
         exit(rtnMargin);
     end;
 
+
+    procedure ResetItemJourLineStatus(
+        pData: Enum "Hagiwara Approval Data";
+        pDataNo: Code[20];
+        pUsername: Code[50];
+        ApprAction: Enum "Hagiwara Approval Action")
+    var
+        ItemJourLine: Record "Item Journal Line";
+        recLocation: Record Location;
+    begin
+
+
+
+    end;
+
+    procedure ResetStatusWithLocation(
+        pData: Enum "Hagiwara Approval Data";
+        pDataNo: Code[20];
+        pUsername: Code[50];
+        ApprAction: Enum "Hagiwara Approval Action")
+    var
+        TransHeader: Record "Transfer Header";
+        ItemJourLine: Record "Item Journal Line";
+        recLocation: Record Location;
+    begin
+
+        case pData of
+            Enum::"Hagiwara Approval Data"::"Transfer Order":
+                begin
+                    TransHeader.get(pDataNo);
+                    //check if location is approval target.
+                    if (recLocation.Get(TransHeader."Transfer-from Code")) and (not recLocation."Approval Target")
+                    and (recLocation.Get(TransHeader."Transfer-to Code")) and (not recLocation."Approval Target") then begin
+
+                        TransHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
+                        TransHeader."Hagi Approver" := '';
+                        TransHeader.Requester := '';
+                    end else begin
+                        case ApprAction of
+                            Enum::"Hagiwara Approval Action"::Cancel:
+                                begin
+                                    TransHeader."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                                    TransHeader.Modify();
+                                end;
+                            Enum::"Hagiwara Approval Action"::Reject:
+                                begin
+                                    TransHeader."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                                    TransHeader."Hagi Approver" := pUsername;
+                                end;
+                            Enum::"Hagiwara Approval Action"::Update:
+                                begin
+                                    TransHeader."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                                    TransHeader."Hagi Approver" := '';
+                                    TransHeader.Requester := '';
+                                end;
+                            else begin
+                                // should do nothing.
+                            end;
+                        end;
+                    end;
+                    TransHeader.Modify();
+                end;
+            Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
+                begin
+                    ItemJourLine.Reset();
+                    ItemJourLine.setRange("Document No.", pDataNo);
+                    if ItemJourLine.FindSet() then
+                        repeat
+                            //check if location is approval target.
+                            if (recLocation.Get(ItemJourLine."New Location Code")) and (not recLocation."Approval Target")
+                            and (recLocation.Get(ItemJourLine."Location Code")) and (not recLocation."Approval Target") then begin
+
+                                ItemJourLine."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
+                                ItemJourLine."Hagi Approver" := '';
+                                ItemJourLine.Requester := '';
+                            end else begin
+                                case ApprAction of
+                                    Enum::"Hagiwara Approval Action"::Cancel:
+                                        begin
+                                            ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Cancelled;
+                                        end;
+                                    Enum::"Hagiwara Approval Action"::Reject:
+                                        begin
+                                            ItemJourLine."Approval Status" := "Hagiwara Approval Status"::Rejected;
+                                            ItemJourLine."Hagi Approver" := pUsername;
+                                        end;
+                                    Enum::"Hagiwara Approval Action"::Update:
+                                        begin
+                                            ItemJourLine."Approval Status" := "Hagiwara Approval Status"::"Re-Approval Required";
+                                            ItemJourLine."Hagi Approver" := '';
+                                            ItemJourLine.Requester := '';
+                                        end;
+                                    else begin
+                                        // should do nothing.
+                                    end;
+                                end;
+
+                            end;
+                            ItemJourLine.Modify();
+                        until ItemJourLine.Next() = 0;
+                end;
+
+        end;
+
+    end;
+
     local procedure CreateDataLink(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
     var
         AADTenant: Codeunit "Azure AD Tenant";
@@ -1792,7 +1898,7 @@ codeunit 50109 "Hagiwara Approval Management"
                    SendFrom: Code[50];
                    SendTo: Code[50];
                    SendCC: Code[50];
-                   EmailType: Option Submit,Cancel,Approval,Reject;
+                   ApprAction: Enum "Hagiwara Approval Action";
                    pApprEntry: Record "Hagiwara Approval Entry")
     var
         subject, body : text;
@@ -1802,8 +1908,8 @@ codeunit 50109 "Hagiwara Approval Management"
         EmailTo: Text;
         EmailCC: Text;
     begin
-        case EmailType of
-            EmailType::Submit:
+        case ApprAction of
+            ApprAction::Submit:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been made.';
@@ -1814,7 +1920,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
                     body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
-            EmailType::Cancel:
+            ApprAction::Cancel:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been cancelled.';
@@ -1825,7 +1931,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
                     body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
-            EmailType::Approval:
+            ApprAction::Approve:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been approved.';
@@ -1836,7 +1942,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
                     body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
-            EmailType::Reject:
+            ApprAction::Reject:
                 begin
 
                     subject := Format(pData) + ' : ' + pDataNo + ' Approval Request has been rejected.';
@@ -1847,6 +1953,9 @@ codeunit 50109 "Hagiwara Approval Management"
                     body := body + '<p><b>Approval Hierarchy(Seq: Approver)</b></p>';
                     body := body + '<p>' + GetApprHrcy(pApprEntry."Approval Group") + '</p>';
                 end;
+            else begin
+                // Do not send email.
+            end;
         end;
 
         userinfo.SetRange("User Name", SendTo);

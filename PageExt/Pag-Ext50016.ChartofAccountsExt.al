@@ -44,6 +44,7 @@ pageextension 50016 ChartofAccountsExt extends "Chart of Accounts"
                             exit;
 
                         if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::"Not Applicable",
                             Enum::"Hagiwara Approval Status"::Submitted,
                             Enum::"Hagiwara Approval Status"::"Re-Submitted",
                             Enum::"Hagiwara Approval Status"::"Approved",

@@ -39,7 +39,11 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //so add this check on page.
                 recApprSetup.Get();
                 if (recApprSetup."Transfer Order") then begin
-                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    if not (Rec."Approval Status" in
+                        [enum::"Hagiwara Approval Status"::Approved,
+                        enum::"Hagiwara Approval Status"::"Auto Approved",
+                        enum::"Hagiwara Approval Status"::"Not Applicable"
+                        ]) then begin
                         Error('It is not approved yet.');
                     end;
                 end;
@@ -59,7 +63,11 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //so add this check on page.
                 recApprSetup.Get();
                 if (recApprSetup."Transfer Order") then begin
-                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    if not (Rec."Approval Status" in
+                        [enum::"Hagiwara Approval Status"::Approved,
+                        enum::"Hagiwara Approval Status"::"Auto Approved",
+                        enum::"Hagiwara Approval Status"::"Not Applicable"
+                        ]) then begin
                         Error('It is not approved yet.');
                     end;
                 end;
@@ -79,7 +87,11 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                 //so add this check on page.
                 recApprSetup.Get();
                 if (recApprSetup."Transfer Order") then begin
-                    if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    if not (Rec."Approval Status" in
+                        [enum::"Hagiwara Approval Status"::Approved,
+                        enum::"Hagiwara Approval Status"::"Auto Approved",
+                        enum::"Hagiwara Approval Status"::"Not Applicable"
+                        ]) then begin
                         Error('It is not approved yet.');
                     end;
                 end;
@@ -107,6 +119,7 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
                             exit;
 
                         if rec."Approval Status" in [
+                            Enum::"Hagiwara Approval Status"::"Not Applicable",
                             Enum::"Hagiwara Approval Status"::Submitted,
                             Enum::"Hagiwara Approval Status"::"Re-Submitted",
                             Enum::"Hagiwara Approval Status"::"Approved",

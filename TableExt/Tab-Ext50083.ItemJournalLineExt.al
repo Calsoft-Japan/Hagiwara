@@ -125,12 +125,13 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                     if (recApprSetup."Item Journal") then begin
                         //check if location is approval target.
                         if (xRec."Location Code" <> Rec."Location Code") then begin
-                            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-                            Rec.Modify();
 
+                            //Need confirm AutoApprove is still necessary.
+                            /*
                             if (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
                                 cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
                             end;
+                            */
                         end;
                     end;
                 end;
@@ -140,12 +141,15 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                     if (recApprSetup."Item Reclass Journal") then begin
                         //check if location is approval target.
                         if (xRec."New Location Code" <> Rec."New Location Code") or (xRec."Location Code" <> Rec."Location Code") then begin
-                            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-                            Rec.Modify();
 
                             if (recLocation.Get(Rec."New Location Code")) and (not recLocation."Approval Target")
                             and (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
-                                cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
+                                //cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
+                                Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
+                                Rec.Modify();
+                            end else begin
+                                Rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+                                Rec.Modify();
                             end;
                         end;
                     end;
@@ -226,12 +230,16 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
             'ITEMJNL':
                 begin
                     if (recApprSetup."Item Journal") then begin
+
+                        //Need confirm AutoApprove is still necessary.
+                        /*
                         //check if location is approval target.
                         if (recLocation.Get(Rec."New Location Code")) and (not recLocation."Approval Target")
                         and (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
 
                             cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
                         end;
+                        */
                     end;
                 end;
             'RECLASSJNL':
@@ -241,7 +249,9 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                         if (recLocation.Get(Rec."New Location Code")) and (not recLocation."Approval Target")
                         and (recLocation.Get(Rec."Location Code")) and (not recLocation."Approval Target") then begin
 
-                            cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
+                            //cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
+                            Rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
+                            Rec.Modify();
                         end;
                     end;
                 end;
