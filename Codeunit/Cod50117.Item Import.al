@@ -35,6 +35,7 @@ codeunit 50117 "Item Import"
         ReplenishmentSystemNotValid: Label 'Replenishment System is not valid.';
         ItemTrackingCodeNotValid: Label 'Item Tracking Code is not valid.';
         ManufactureCodeNotValid: Label 'Manufacture Code is not valid.';
+        ManufactureCodeRequested: Label 'Manufacture Code is requested, can''t be empty.';
         ItemCategoryCodeNotValid: Label 'Item Category Code is not valid.';
         OriginalItemNoNotValid: Label 'Original Item No. is not valid.';
         CountryRegionofOriginCodeNotValid: Label 'Country/Region of Origin Code is not valid.';
@@ -324,7 +325,11 @@ codeunit 50117 "Item Import"
                 Error(ItemTrackingCodeNotValid);
             end;
 
-            if ((ManufactureCodeStr <> '') and (not Evaluate(rec_POInt."Manufacture Code", ManufactureCodeStr))) then begin
+            if (ManufactureCodeStr = '') then begin
+                Error(ManufactureCodeRequested);
+            end;
+
+            if (not Evaluate(rec_POInt."Manufacture Code", ManufactureCodeStr)) then begin
                 Error(ManufactureCodeNotValid);
             end;
 
