@@ -56,6 +56,7 @@ codeunit 50117 "Item Import"
         MemoNotValid: Label 'Memo is not valid.';
         EDINotValid: Label 'EDI is not valid.';
         CustomerNoNotValid: Label 'Customer No. is not valid.';
+        CustomerNoRequested: Label 'Customer No. is requested, can''t be empty.';
         CustomerItemNoNotValid: Label 'Customer Item No. is not valid.';
         CustomerItemNoPlainNotValid: Label 'Customer Item No. (Plain) is not valid.';
         OEMNoRequested: Label 'OEM No. is requested, can''t be empty.';
@@ -407,6 +408,10 @@ codeunit 50117 "Item Import"
 
             if ((EDIStr <> '') and (not Evaluate(rec_POInt."EDI", EDIStr))) then begin
                 Error(EDINotValid);
+            end;
+
+            if (CustomerNoStr = '') then begin
+                Error(CustomerNoRequested);
             end;
 
             if ((CustomerNoStr <> '') and (not Evaluate(rec_POInt."Customer No.", CustomerNoStr))) then begin
