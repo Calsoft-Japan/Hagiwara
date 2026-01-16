@@ -421,6 +421,14 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
             }
         }
 
+        addafter(AssemblyBOM)
+        {
+            field("Written Product"; Rec."Written Product")
+            {
+                ApplicationArea = All;
+            }
+        }
+
     }
 
     actions

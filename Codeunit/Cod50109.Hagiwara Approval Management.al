@@ -95,7 +95,7 @@ codeunit 50109 "Hagiwara Approval Management"
         recApprCondition.SetFilter("End Date", '%1|%2..', 0D, WorkDate());
         if pData = Enum::"Hagiwara Approval Data"::"Price List" then begin
             recApprCondition.SetCurrentKey("Margin %");
-            recApprCondition.SetFilter("Margin %", '%1|<=%2', 0, PriceMargin);
+            recApprCondition.SetFilter("Margin %", '<=%1', PriceMargin);
         end else begin
             recApprCondition.SetCurrentKey("Amount (LCY)");
             recApprCondition.SetFilter("Amount (LCY)", '%1|<=%2', 0, AmountLCY);

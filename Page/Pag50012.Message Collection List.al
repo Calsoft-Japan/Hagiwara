@@ -15,6 +15,10 @@ page 50012 "Message Collection List"
         {
             repeater(Group)
             {
+                field("Message Control No."; Rec."Message Control No.")
+                {
+                    ApplicationArea = all;
+                }
                 field("Entry No."; Rec."Entry No.")
                 {
                     ApplicationArea = all;
@@ -304,6 +308,10 @@ page 50012 "Message Collection List"
                     ApplicationArea = all;
                 }
                 field("PC. Inventory Amount"; Rec."PC. Inventory Amount")
+                {
+                    ApplicationArea = all;
+                }
+                field(SystemCreatedAt; Rec.SystemCreatedAt)
                 {
                     ApplicationArea = all;
                 }

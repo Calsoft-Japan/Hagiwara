@@ -450,6 +450,11 @@ report 50023 "Collect Message"
         rec_AssemblyBOM: Record "BOM Component";
         rec_ParentItem: Record Item;
         g_datStartDate2: Date;
+        g_CtrlNo_JA: Integer;
+        g_CtrlNo_JB: Integer;
+        g_CtrlNo_JC: Integer;
+        g_CtrlNo_JD: Integer;
+        g_CtrlNo_JJ: Integer;
 
     procedure Navigate_Ctrls()
     begin
@@ -620,6 +625,7 @@ report 50023 "Collect Message"
                             "Source Document Line No." := rec_SalesLine."Line No.";
                             "Collected By" := USERID;
                             "Collected On" := TODAY;
+                            "Message Control No." := g_CtrlNo_JA;
                             //
                             //sh 20110426
                             rec_SalesLine."Message Status" := rec_SalesLine."Message Status"::Collected;
@@ -810,6 +816,7 @@ report 50023 "Collect Message"
                             "Source Document Line No." := rec_SalesShipmentLine."Line No.";
                             "Collected By" := USERID;
                             "Collected On" := TODAY;
+                            "Message Control No." := g_CtrlNo_JB;
 
                             //====Start v20201112.
                             rec_MessageCollection."Unit Price" := rec_SalesShipmentLine."Unit Price";
@@ -977,6 +984,7 @@ report 50023 "Collect Message"
                     "Source Document Line No." := rec_SalesLine."Line No.";
                     "Collected By" := USERID;
                     "Collected On" := TODAY;
+                    "Message Control No." := g_CtrlNo_JC;
 
                     //====Start v20201112.
                     rec_MessageCollection."Unit Price" := rec_SalesLine."Unit Price";
@@ -1125,7 +1133,10 @@ report 50023 "Collect Message"
         rec_Item.SETFILTER("Message Collected On", '<>%1', TODAY);
         rec_Item.SETFILTER("Date Filter", '..%1', TODAY);
         rec_Item.SETFILTER(Blocked, '=%1', FALSE);
-        rec_Item.SETFILTER("Assembly BOM", '=%1', FALSE); //CS009
+        // BC Upgrade
+        //rec_Item.SETFILTER("Assembly BOM", '=%1', FALSE); //CS009
+        rec_Item.SetRange("Written Product", false);
+        // BC Upgrade
         IF rec_Item.FINDSET THEN
             REPEAT
                 //Siak 20140807
@@ -1145,9 +1156,15 @@ report 50023 "Collect Message"
                     "Purpose Code" := '';               //Not in use
                     "Supplier Code" := '';              //Not in use
                     "Parts Number" := rec_Item."Parts No.";
+                    // BC upgrade
+                    /*
                     //sh 21112011 Start
                     "Item Description" := rec_Item.Description;
                     //sh 21112011 End
+                    */
+                    "Item Description" := Get_ItemDes3(rec_Item."No.");
+                    // BC upgrade end
+
                     "Item No." := rec_Item."No.";
                     "Inventory Class" := CONST_InvClass;
                     "Pos/Neg Class" := CONST_Class;
@@ -1231,9 +1248,11 @@ report 50023 "Collect Message"
                     IF rec_AssemblyBOM.FINDSET THEN BEGIN
                         REPEAT
                             rec_ParentItem.GET(rec_AssemblyBOM."Parent Item No.");
-                            rec_ParentItem.CALCFIELDS("Net Change", Hold);
-                            tmp_Quantity := rec_ParentItem."Net Change" - rec_ParentItem.Hold;
-                            Quantity += tmp_Quantity;
+                            if rec_ParentItem."Written Product" then begin
+                                rec_ParentItem.CALCFIELDS("Net Change", Hold);
+                                tmp_Quantity := rec_ParentItem."Net Change" - rec_ParentItem.Hold;
+                                Quantity += tmp_Quantity;
+                            end;
                         UNTIL rec_AssemblyBOM.NEXT = 0;
                         "Inventory Amount" := (Quantity * "Inventory Price");
                     END;
@@ -1268,6 +1287,7 @@ report 50023 "Collect Message"
                     "Source Document Line No." := 0;
                     "Collected By" := USERID;
                     "Collected On" := TODAY;
+                    "Message Control No." := g_CtrlNo_JD;
                     INSERT;
                     g_Daily := g_Daily + 1;
 
@@ -1424,6 +1444,7 @@ report 50023 "Collect Message"
                             "Source Document Line No." := rec_PurchRcptLine."Line No.";
                             "Collected By" := USERID;
                             "Collected On" := TODAY;
+                            "Message Control No." := g_CtrlNo_JJ;
                             //sh 20110426
                             rec_PurchRcptLine."Message Status" := rec_PurchRcptLine."Message Status"::Collected;
                             rec_PurchRcptLine."Receipt Collection Date" := TODAY;
@@ -1613,6 +1634,8 @@ report 50023 "Collect Message"
     end;
 
     procedure CollectData_JZ_Blank(pMsg_ID_Blank: Code[2]; pint_Array_Blank: Integer)
+    var
+        Ctrl_No: Integer;
     begin
         //
         WITH rec_MsgControl DO BEGIN
@@ -1622,6 +1645,8 @@ report 50023 "Collect Message"
             SETRANGE("Message Status", "Message Status"::Ready);
             IF FINDSET THEN BEGIN
                 //     MESSAGE(MSG_002,pMsg_ID_Blank);
+                rec_MsgControl.FindFirst();
+                Ctrl_No := rec_MsgControl."Entry No.";
             END
             ELSE BEGIN
                 //      MESSAGE(MSG_003,pMsg_ID_Blank);
@@ -1642,8 +1667,24 @@ report 50023 "Collect Message"
                 //sh    "Collected On" := TODAY;
                 "Collected On" := dt_ByDate;
                 INSERT;
+
+                Ctrl_No := "Entry No.";
             END;
         END;
+
+        case pMsg_ID_Blank of
+            CONST_JA:
+                g_CtrlNo_JA := Ctrl_No;
+            CONST_JB:
+                g_CtrlNo_JB := Ctrl_No;
+            CONST_JC:
+                g_CtrlNo_JC := Ctrl_No;
+            CONST_JD:
+                g_CtrlNo_JD := Ctrl_No;
+            CONST_JJ:
+                g_CtrlNo_JJ := Ctrl_No;
+
+        end;
     end;
 
     procedure Get_PartsNo(p_ItemNo: Code[20]) ItemPartsNo: Code[40]
@@ -1747,19 +1788,53 @@ report 50023 "Collect Message"
         END;
     end;
 
+    //BC Upgrade
+    //Get first child item description.
     procedure Get_ItemDes2(p_ItemNumber: Code[20]) ItemDes: Text[40];
     BEGIN
         //CS009 Start
         IF rec_Item.GET(p_ItemNumber) THEN BEGIN
-            rec_AssemblyBOM.RESET;
-            rec_AssemblyBOM.SETRANGE("Parent Item No.", p_ItemNumber);
-            rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
-            IF rec_AssemblyBOM.FINDFIRST THEN rec_Item.GET(rec_AssemblyBOM."No.");
+            if rec_Item."Written Product" then begin
+
+                rec_AssemblyBOM.RESET;
+                rec_AssemblyBOM.SETRANGE("Parent Item No.", p_ItemNumber);
+                rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
+                IF rec_AssemblyBOM.FINDFIRST THEN rec_Item.GET(rec_AssemblyBOM."No.");
+
+            end;
+
             ItemDes := rec_Item.Description;
         END;
+
         EXIT(ItemDes);
         //CS009 End
     END;
+
+    //Get parent item description.
+    procedure Get_ItemDes3(p_ItemNumber: Code[20]) ItemDes: Text[40];
+    var
+        l_Item: Record Item;
+    BEGIN
+
+        IF l_Item.GET(p_ItemNumber) THEN BEGIN
+            ItemDes := l_Item.Description;
+
+            rec_AssemblyBOM.RESET;
+            rec_AssemblyBOM.SetRange("No.", p_ItemNumber);
+            if rec_AssemblyBOM.FindFirst() then begin
+
+                IF l_Item.GET(rec_AssemblyBOM."Parent Item No.") THEN BEGIN
+                    if l_Item."Written Product" then begin
+                        ItemDes := l_Item.Description;
+                    end;
+                end;
+            end;
+        end;
+
+        EXIT(ItemDes);
+
+    END;
+    //BC Upgrade
 
 }
 

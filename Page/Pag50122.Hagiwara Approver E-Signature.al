@@ -33,6 +33,9 @@ page 50122 "Hagiwara Approver E-Signature"
                 ApplicationArea = All;
                 Caption = 'Import signature';
                 Image = Import;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 var
@@ -75,6 +78,9 @@ page 50122 "Hagiwara Approver E-Signature"
                 Caption = 'Delete Signature';
                 Enabled = DeleteExportEnabled;
                 Image = Delete;
+                Promoted = true;
+                PromotedIsBig = true;
+                PromotedCategory = Process;
 
                 trigger OnAction()
                 begin
@@ -93,6 +99,7 @@ page 50122 "Hagiwara Approver E-Signature"
             }
             action("Refresh Signature")
             {
+                ApplicationArea = All;
                 Image = Signature;
                 Promoted = true;
                 PromotedIsBig = true;

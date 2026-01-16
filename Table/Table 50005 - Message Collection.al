@@ -293,6 +293,11 @@ table 50005 "Message Collection"
             DecimalPlaces = 0 : 4;
         }
 
+        field(50049; "Message Control No."; Integer)
+        {
+
+        }
+
     }
 
     keys

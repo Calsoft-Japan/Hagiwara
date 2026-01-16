@@ -346,6 +346,9 @@ tableextension 50027 "Item Ext" extends "Item"
         {
             Description = 'CS098';
         }
+        field(50143; "Written Product"; Boolean)
+        {
+        }
         field(50150; "Customer Item No.(Plain)"; Code[20])
         {
             Description = 'CS080';
