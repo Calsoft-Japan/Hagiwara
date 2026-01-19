@@ -27,9 +27,11 @@ tableextension 50312 "Purchases & Payables Setup Ext" extends "Purchases & Payab
             Description = 'HG10.00.02 NJ 01/06/2017';
         }
 
-        //field(50007; "Posted Sales E-Sig."; Code[50])
+        /*
+        field(50007; "Posted Sales E-Sig."; Code[50])
         {
             TableRelation = "User Setup"."User ID";
-        }//
+        }
+        */
     }
 }
