@@ -203,12 +203,10 @@ page 50116 "PO Import"
                             Message('You can not carry out the process. The status of all records must be Validated.');
                             exit;
                         end;
-                        if CuPOImport.ProcessAllData() then begin
-                            CurrPage.Update(false);
-                        end
-                        else begin
-                            Error(GetLastErrorText());
-                        end;
+
+                        CuPOImport.ProcessAllData();
+                        CurrPage.Update(false);
+
                     end;
                 }
                 action("Delete All")

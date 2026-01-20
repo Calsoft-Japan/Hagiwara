@@ -51,7 +51,6 @@ codeunit 50116 "PO Import"
         ImportExcelBuffer.ReadSheet();
     end;
 
-    [TryFunction]
     local procedure ImportExcelData()
     var
         RecPOImportInsert: Record "PO Import";
@@ -200,7 +199,6 @@ codeunit 50116 "PO Import"
             exit('');
     end;
 
-    [TryFunction]
     procedure ProcessAllData()
     var
         RecPOImportInsert: record "PO Import";

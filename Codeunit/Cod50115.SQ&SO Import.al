@@ -56,7 +56,6 @@ codeunit 50115 "SQ&SO Import"
         end;
     end;
 
-    [TryFunction]
     local procedure ImportExcelData()
     var
         RecSQSOImportInsert: Record "SQ&SO Import";
@@ -239,7 +238,6 @@ codeunit 50115 "SQ&SO Import"
             exit('');
     end;
 
-    [TryFunction]
     procedure ProcessAllData()
     var
         RecSQSOImport: Record "SQ&SO Import";

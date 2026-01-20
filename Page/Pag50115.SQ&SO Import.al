@@ -216,12 +216,9 @@ page 50115 "SQ&SO Import"
                             Message('You can''t carry out the process. The status of all records must be Validated.');
                             exit;
                         end;
-                        if CuSQSOImport.ProcessAllData() then begin
-                            CurrPage.Update(false);
-                        end
-                        else begin
-                            Error(GetLastErrorText());
-                        end;
+
+                        CuSQSOImport.ProcessAllData();
+                        CurrPage.Update(false);
                     end;
                 }
                 action("Delete All")
