@@ -149,6 +149,14 @@ codeunit 50115 "SQ&SO Import"
                 if ((QuantityStr <> '') and ((not Evaluate(Quantity, QuantityStr)) or (Quantity < 0))) then begin
                     Error(QuantityNotValid);
                 end;
+                /*2025/1/15 Channing.Zhou changed based on FDDV1.1 Shipment Date is required for modify case start*/
+                if (ShipmentDateStr = '') then begin
+                    Error(ShipmentDateRequested);
+                end;
+                if (not Evaluate(ShipmentDate, ShipmentDateStr)) then begin
+                    Error(ShipmentDateNotValid);
+                end;
+                /*2025/1/15 Channing.Zhou changed based on FDDV1.1 Shipment Date is required for modify case end*/
             end
             else begin
                 if (GroupingKeyStr = '') then begin
@@ -181,9 +189,11 @@ codeunit 50115 "SQ&SO Import"
                 if (QuantityStr = '') then begin
                     Error(QuantityRequested);
                 end;
-                if ((not Evaluate(Quantity, QuantityStr)) or (Quantity <= 0)) then begin
+                /*2025/1/15 Channing.Zhou changed based on FDDV1.1 allow the quantity set to 0 for insert case start*/
+                if (not Evaluate(Quantity, QuantityStr)) then begin
                     Error(QuantityNotValid);
                 end;
+                /*2025/1/15 Channing.Zhou changed based on FDDV1.1 allow the quantity set to 0 for insert case end*/
                 if (ShipmentDateStr = '') then begin
                     Error(ShipmentDateRequested);
                 end;
@@ -245,6 +255,8 @@ codeunit 50115 "SQ&SO Import"
         LineNo: Integer;
         tmpHeaderAppSta: Enum "Hagiwara Approval Status";
         NoSeriesMgt: Codeunit "No. Series";
+        SalesHeaderIsReleased: Boolean;
+        ReleaseSalDoc: Codeunit "Release Sales Document";
     begin
         RecSQSOImport.Reset();
         if RecSQSOImport.IsEmpty() then begin
@@ -268,6 +280,15 @@ codeunit 50115 "SQ&SO Import"
                     tmpHeaderAppSta := RecSalesHeader."Approval Status";
                     RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::Required;
                     RecSalesHeader.Modify();
+                    /*2025/1/15 Channing.Zhou changed based on FDDV1.1 reopen the sales header if the status is released on udate case start*/
+                    SalesHeaderIsReleased := false;
+                    RecSalesHeader.Reset();
+                    RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
+                    if RecSalesHeader.Status = RecSalesHeader.Status::Released then begin
+                        SalesHeaderIsReleased := true;
+                        ReleaseSalDoc.PerformManualReopen(RecSalesHeader);
+                    end;
+                    /*2025/1/15 Channing.Zhou changed based on FDDV1.1 reopen the sales header if the status is released on udate case end*/
                     //Commit();
                     RecSalesLine.Reset();
                     if RecSQSOImport."Document Type" = RecSQSOImport."Document Type"::SQ then begin
@@ -299,6 +320,13 @@ codeunit 50115 "SQ&SO Import"
                         end;
                         RecSalesLine.Modify();
                     end;
+                    /*2025/1/15 Channing.Zhou changed based on FDDV1.1 set the sales header back to released if the status is reopened on udate case start*/
+                    RecSalesHeader.Reset();
+                    RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
+                    if SalesHeaderIsReleased then begin
+                        ReleaseSalDoc.PerformManualRelease(RecSalesHeader);
+                    end;
+                    /*2025/1/15 Channing.Zhou changed based on FDDV1.1 set the sales header back to released if the status is reopened on udate case end*/
                     RecSalesHeader.Reset();
                     RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
                     RecSalesHeader."Approval Status" := tmpHeaderAppSta;
