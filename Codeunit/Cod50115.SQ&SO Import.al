@@ -33,7 +33,10 @@ codeunit 50115 "SQ&SO Import"
         ShipmentDateRequested: Label 'Shipment Date is requested.';
         ItemNoRequested: Label 'Item No. is requested.';
         QuantityNotValid: Label 'Quantity is not valid.';
-        QuantityRequested: Label 'Quantity is requested.';
+
+        /*2025/1/15 Channing.Zhou changed based on FDDV1.1 allow the quantity set to 0 for insert case start*/
+        //QuantityRequested: Label 'Quantity is requested.';
+        /*2025/1/15 Channing.Zhou changed based on FDDV1.1 Shipment Date is required for modify case end*/
         LineNoNotValid: Label 'Line No. is not valid.';
 
     local procedure UploadAndReadExcelFile()
@@ -185,11 +188,11 @@ codeunit 50115 "SQ&SO Import"
                 if (ItemNoStr = '') then begin
                     Error(ItemNoRequested);
                 end;
-                if (QuantityStr = '') then begin
-                    Error(QuantityRequested);
-                end;
                 /*2025/1/15 Channing.Zhou changed based on FDDV1.1 allow the quantity set to 0 for insert case start*/
-                if (not Evaluate(Quantity, QuantityStr)) then begin
+                /*if (QuantityStr = '') then begin
+                    Error(QuantityRequested);
+                end;*/
+                if ((QuantityStr <> '') and (not Evaluate(Quantity, QuantityStr))) then begin
                     Error(QuantityNotValid);
                 end;
                 /*2025/1/15 Channing.Zhou changed based on FDDV1.1 allow the quantity set to 0 for insert case end*/
