@@ -134,6 +134,12 @@ page 50115 "SQ&SO Import"
                                             HasError := true;
                                         end;
                                     end;
+                                    /*2026/1/21 Channing.Zhou Add validate logic to check if the shipment date is before work date start*/
+                                    if (Rec."Shipment Date" < WorkDate()) then begin
+                                        ErrorDescription += 'Shipment Date cannot be before Work Date.';
+                                        HasError := true;
+                                    end;
+                                    /*2026/1/21 Channing.Zhou Add validate logic to check if the shipment date is before work date end*/
                                     if HasError then begin
                                         Rec.Status := Rec.Status::Error;
                                         Rec."Error Description" := ErrorDescription;
@@ -175,6 +181,12 @@ page 50115 "SQ&SO Import"
                                         ErrorDescription += 'Item is blocked.';
                                         HasError := true;
                                     end;*/
+                                    /*2026/1/21 Channing.Zhou Add validate logic to check if the shipment date is before work date start*/
+                                    if (Rec."Shipment Date" < WorkDate()) then begin
+                                        ErrorDescription += 'Shipment Date cannot be before Work Date.';
+                                        HasError := true;
+                                    end;
+                                    /*2026/1/21 Channing.Zhou Add validate logic to check if the shipment date is before work date end*/
                                     if HasError then begin
                                         Rec.Status := Rec.Status::Error;
                                         Rec."Error Description" := ErrorDescription;
