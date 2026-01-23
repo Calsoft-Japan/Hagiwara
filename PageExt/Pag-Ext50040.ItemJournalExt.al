@@ -19,6 +19,11 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
             }
         }
 
+        modify("Document No.")
+        {
+            Editable = false;
+        }
+
     }
 
     actions

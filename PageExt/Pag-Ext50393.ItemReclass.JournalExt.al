@@ -43,6 +43,11 @@ pageextension 50393 ItemReclassJournalExt extends "Item Reclass. Journal"
                 ApplicationArea = all;
             }
         }
+
+        modify("Document No.")
+        {
+            Editable = false;
+        }
     }
 
     actions
