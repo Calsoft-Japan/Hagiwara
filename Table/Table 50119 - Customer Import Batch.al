@@ -12,6 +12,8 @@ table 50119 "Customer Import Batch"
         }
         field(3; "No. of Customers"; Integer)
         {
+            FieldClass = FlowField;
+            CalcFormula = count("Customer Import Line" where("Batch Name" = field(Name)));
             Editable = false;
         }
         field(4; "Approval Status"; Enum "Hagiwara Approval Status")
