@@ -258,8 +258,10 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
 
         addafter("Qty. on Purch. Order")
         {
-
-
+            field("Qty. on P. O. (Approved)"; Rec."Qty. on P. O. (Approved)")
+            {
+                ApplicationArea = all;
+            }
             field("Qty. on Purch. Quote"; Rec."Qty. on Purch. Quote")
             {
                 ApplicationArea = all;
@@ -282,6 +284,15 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
                 ApplicationArea = all;
             }
         }
+
+        addafter("Qty. on Sales Order")
+        {
+            field("Qty. on S. O. (Approved)"; Rec."Qty. on S. O. (Approved)")
+            {
+                ApplicationArea = all;
+            }
+        }
+
         addafter("Unit Price")
         {
 
