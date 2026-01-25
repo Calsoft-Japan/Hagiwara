@@ -512,7 +512,10 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                                         IF SalesLine.Type = SalesLine.Type::Item THEN BEGIN
                                             ShortageFlag := FALSE;
                                             Shortage := '';
-                                            QtyToShip := SalesLine.Quantity - SalesLine."Quantity Shipped";
+                                            //N005
+                                            //QtyToShip := SalesLine.Quantity - SalesLine."Quantity Shipped";
+                                            QtyToShip := SalesLine."Approved Quantity" - SalesLine."Quantity Shipped";
+                                            //N005
                                             //QtyAvailable := CheckQty(SalesLine."No.", SalesLine."Location Code", SalesLine."Document No.");
                                             //  TempDO.INIT;
                                             TempDO.SETRANGE(TempDO."Document No.", SalesLine."Document No.", SalesLine."Document No.");
@@ -565,7 +568,10 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                                         CSVBuffer.InsertEntry(LineNo, 28, CountryOfOrigin);
                                         CSVBuffer.InsertEntry(LineNo, 29, SalesLine."Customer Item No.");
                                         CSVBuffer.InsertEntry(LineNo, 30, SalesLine."No.");
-                                        CSVBuffer.InsertEntry(LineNo, 31, '"' + Format(SalesLine."Unit Price") + '"');
+                                        //N005
+                                        //CSVBuffer.InsertEntry(LineNo, 31, '"' + Format(SalesLine."Unit Price") + '"');
+                                        CSVBuffer.InsertEntry(LineNo, 31, '"' + Format(SalesLine."Approved Unit Price") + '"');
+                                        //N005
                                         CSVBuffer.InsertEntry(LineNo, 32, SalesLine."Currency Code");
                                         CSVBuffer.InsertEntry(LineNo, 33, '"' + Format(SalesLine."Outstanding Quantity") + '"');
                                         CSVBuffer.InsertEntry(LineNo, 34, '"' + Format(QtyToShip) + Shortage + '"');
