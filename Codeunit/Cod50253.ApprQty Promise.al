@@ -17,7 +17,7 @@ using Microsoft.Projects.Project.Planning;
 using Microsoft.Purchases.Document;
 using Microsoft.Sales.Document;
 
-codeunit 50252 "Approved Qty. to Promise"
+codeunit 50253 "Approved Qty. to Promise"
 {
     Permissions = tabledata "Assembly Header" = r,
                   tabledata "Assembly Line" = r,
@@ -108,6 +108,9 @@ codeunit 50252 "Approved Qty. to Promise"
         OnBeforeCalcGrossRequirement(Item, GrossRequirement, IsHandled);
         if not IsHandled then begin
             QtyOnComponentLines := Item.CalcQtyOnComponentLines();
+
+            //N005
+            /*
             GrossRequirement :=
                 QtyOnComponentLines +
                 Item."Planning Issues (Qty.)" +
@@ -117,6 +120,19 @@ codeunit 50252 "Approved Qty. to Promise"
                 Item."Trans. Ord. Shipment (Qty.)" +
                 Item."Qty. on Asm. Component" +
                 Item."Qty. on Purch. Return";
+            */
+
+            GrossRequirement :=
+                QtyOnComponentLines +
+                Item."Planning Issues (Qty.)" +
+                Item."Planning Transfer Ship. (Qty)." +
+                Item."Qty. on S. O. (Approved)" +
+                Item."Qty. on Job Order" +
+                Item."Qty. Trans. O. Ship (Approved)" +
+                Item."Qty. on Asm. Comp. (Approved)" +
+                Item."Qty. on Purch. Return";
+
+            //N005
         end;
 
         OnAfterCalcGrossRequirement(Item, GrossRequirement);
@@ -150,6 +166,8 @@ codeunit 50252 "Approved Qty. to Promise"
         CalcAllItemFields(Item);
         IsHandled := false;
         OnBeforeCalcScheduledReceipt(Item, ScheduledReceipt, IsHandled);
+        //N005
+        /*
         if not IsHandled then
             ScheduledReceipt :=
                 Item.CalcScheduledReceiptQty() +
@@ -159,6 +177,18 @@ codeunit 50252 "Approved Qty. to Promise"
                 Item."Qty. in Transit" +
                 Item."Qty. on Assembly Order" +
                 Item."Qty. on Sales Return";
+        */
+
+        if not IsHandled then
+            ScheduledReceipt :=
+                Item.CalcScheduledReceiptQty() +
+                Item.CalcPlannedOrderReceiptQty() +
+                Item."Qty. on P. O. (Approved)" +
+                Item."Qty. Trans. O. Rcpt (Approved)" +
+                Item."Qty. in Transit" +
+                Item."Qty. on Asm. O. (Approved)" +
+                Item."Qty. on Sales Return";
+        //N005
 
         OnAfterCalcScheduledReceipt(Item, ScheduledReceipt);
         exit(ScheduledReceipt);
@@ -530,6 +560,17 @@ codeunit 50252 "Approved Qty. to Promise"
           "Res. Qty. on Assembly Order",
           "Res. Qty. on Sales Returns");
 
+        //N005
+        Item.CalcFields(
+            "Qty. on P. O. (Approved)",
+            "Qty. on S. O. (Approved)",
+            "Qty. Trans. O. Rcpt (Approved)",
+            "Qty. Trans. O. Ship (Approved)",
+            "Qty. on Asm. O. (Approved)",
+            "Qty. on Asm. Comp. (Approved)"
+        );
+        //N005
+
         OnCalcAllItemFieldsOnAfterItemCalcFields(Item);
 
         AllFieldCalculated := true;
@@ -572,8 +613,14 @@ codeunit 50252 "Approved Qty. to Promise"
         if TransferLine.FindLinesWithItemToPlan(Item, true, false) then
             repeat
                 TransferLine.CalcFields("Reserved Qty. Inbnd. (Base)", "Reserved Qty. Shipped (Base)");
+                //N005
+                /*
                 UpdateScheduledReceipt(AvailabilityAtDate, TransferLine."Receipt Date",
                   TransferLine."Outstanding Qty. (Base)" + TransferLine."Qty. Shipped (Base)" - TransferLine."Qty. Received (Base)" - TransferLine."Reserved Qty. Inbnd. (Base)" - TransferLine."Reserved Qty. Shipped (Base)");
+                */
+                UpdateScheduledReceipt(AvailabilityAtDate, TransferLine."Receipt Date",
+                  TransferLine."Approved Quantity" + TransferLine."Qty. Shipped (Base)" - TransferLine."Qty. Received (Base)" - TransferLine."Reserved Qty. Inbnd. (Base)" - TransferLine."Reserved Qty. Shipped (Base)");
+            //N005
             until TransferLine.Next() = 0;
     end;
 
@@ -608,13 +655,17 @@ codeunit 50252 "Approved Qty. to Promise"
             repeat
                 if IncludeSalesLineToAvailCalc(SalesLine) then begin
                     SalesLine.CalcFields("Reserved Qty. (Base)");
-                    UpdateGrossRequirement(AvailabilityAtDate, SalesLine."Shipment Date", SalesLine."Outstanding Qty. (Base)" - SalesLine."Reserved Qty. (Base)")
+                    //N005
+                    //UpdateGrossRequirement(AvailabilityAtDate, SalesLine."Shipment Date", SalesLine."Outstanding Qty. (Base)" - SalesLine."Reserved Qty. (Base)")
+                    UpdateGrossRequirement(AvailabilityAtDate, SalesLine."Shipment Date", SalesLine."Approved Quantity" - SalesLine."Reserved Qty. (Base)")
+                    //N005
                 end
             until SalesLine.Next() = 0;
 
         if SalesLine.FindLinesWithItemToPlan(Item, SalesLine."Document Type"::"Return Order") then
             repeat
                 SalesLine.CalcFields("Reserved Qty. (Base)");
+                //N005. Keep this as-is in case "Return Order".
                 UpdateScheduledReceipt(AvailabilityAtDate, SalesLine."Shipment Date", SalesLine."Outstanding Qty. (Base)" - SalesLine."Reserved Qty. (Base)")
             until SalesLine.Next() = 0;
     end;
@@ -632,7 +683,10 @@ codeunit 50252 "Approved Qty. to Promise"
         if TransferLine.FindLinesWithItemToPlan(Item, false, false) then
             repeat
                 TransferLine.CalcFields("Reserved Qty. Outbnd. (Base)");
-                UpdateGrossRequirement(AvailabilityAtDate, TransferLine."Shipment Date", TransferLine."Outstanding Qty. (Base)" - TransferLine."Reserved Qty. Outbnd. (Base)");
+                //N005
+                //UpdateGrossRequirement(AvailabilityAtDate, TransferLine."Shipment Date", TransferLine."Outstanding Qty. (Base)" - TransferLine."Reserved Qty. Outbnd. (Base)");
+                UpdateGrossRequirement(AvailabilityAtDate, TransferLine."Shipment Date", TransferLine."Approved Quantity" - TransferLine."Reserved Qty. Outbnd. (Base)");
+            //N005
             until TransferLine.Next() = 0;
     end;
 
@@ -649,7 +703,10 @@ codeunit 50252 "Approved Qty. to Promise"
         if AssemblyHeader.FindItemToPlanLines(Item, AssemblyHeader."Document Type"::Order) then
             repeat
                 AssemblyHeader.CalcFields("Reserved Qty. (Base)");
-                UpdateScheduledReceipt(AvailabilityAtDate, AssemblyHeader."Due Date", AssemblyHeader."Remaining Quantity (Base)" - AssemblyHeader."Reserved Qty. (Base)");
+                //N005
+                //UpdateScheduledReceipt(AvailabilityAtDate, AssemblyHeader."Due Date", AssemblyHeader."Remaining Quantity (Base)" - AssemblyHeader."Reserved Qty. (Base)");
+                UpdateScheduledReceipt(AvailabilityAtDate, AssemblyHeader."Due Date", AssemblyHeader."Approved Quantity" - AssemblyHeader."Reserved Qty. (Base)");
+            //N005
             until AssemblyHeader.Next() = 0;
     end;
 
@@ -667,7 +724,10 @@ codeunit 50252 "Approved Qty. to Promise"
             repeat
                 if not AreEqualAssemblyLines(ChangedAssemblyLine, AssemblyLine) then begin
                     AssemblyLine.CalcFields("Reserved Qty. (Base)");
-                    UpdateGrossRequirement(AvailabilityAtDate, AssemblyLine."Due Date", AssemblyLine."Remaining Quantity (Base)" - AssemblyLine."Reserved Qty. (Base)");
+                    //N005
+                    //UpdateGrossRequirement(AvailabilityAtDate, AssemblyLine."Due Date", AssemblyLine."Remaining Quantity (Base)" - AssemblyLine."Reserved Qty. (Base)");
+                    UpdateGrossRequirement(AvailabilityAtDate, AssemblyLine."Due Date", AssemblyLine."Approved Quantity" - AssemblyLine."Reserved Qty. (Base)");
+                    //N005
                 end;
             until AssemblyLine.Next() = 0;
     end;
