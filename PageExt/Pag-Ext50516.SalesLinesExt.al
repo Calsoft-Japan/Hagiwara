@@ -118,12 +118,16 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
 
         addafter("Outstanding Quantity")
         {
-
+            field("Approved Quantity"; Rec."Approved Quantity")
+            {
+                ApplicationArea = all;
+            }
             field("Outstanding Qty. (Base)"; rec."Outstanding Qty. (Base)")
             {
 
                 ApplicationArea = all;
             }
+
         }
 
     }

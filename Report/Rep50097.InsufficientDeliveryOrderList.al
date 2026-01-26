@@ -244,7 +244,10 @@ report 50097 "Insufficient DO List"
                     IF "Sales Line".Type = "Sales Line".Type::Item THEN BEGIN
                         ShortageFlag := FALSE;
                         Shortage := '';
-                        QtyToShip := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                        //N005
+                        //QtyToShip := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                        QtyToShip := "Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped";
+                        //N005
                         //QtyAvailable := CheckQty("Sales Line"."No.", "Sales Line"."Location Code", "Sales Line"."Document No.");
                         //  TempDO.INIT;
                         TempDO.SETRANGE(TempDO."Document No.", "Sales Line"."Document No.", "Sales Line"."Document No.");
@@ -261,11 +264,20 @@ report 50097 "Insufficient DO List"
                             END;
                         END;
                         // Yuka 20060213
+                        //N005
+                        /*
                         UnitPrice := ROUND(
-                              CurrExchRate.ExchangeAmtFCYToLCY(
-                                WORKDATE, SalesHeader."Currency Code",
-                                "Unit Price", SalesHeader."Currency Factor"), 0.0001);
+                                        CurrExchRate.ExchangeAmtFCYToLCY(
+                                        WORKDATE, SalesHeader."Currency Code",
+                                        "Unit Price", SalesHeader."Currency Factor"), 0.0001);
                         Qty := ("Sales Line".Quantity - "Sales Line"."Quantity Shipped") - QtyAvailable;
+                        */
+                        UnitPrice := ROUND(
+                                CurrExchRate.ExchangeAmtFCYToLCY(
+                                WORKDATE, SalesHeader."Currency Code",
+                                "Approved Unit Price", SalesHeader."Currency Factor"), 0.0001);
+                        Qty := ("Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped") - QtyAvailable;
+                        //N005
                         Amount := UnitPrice * Qty;
                         // Yuka 20060213 End
                     END;
@@ -535,7 +547,10 @@ report 50097 "Insufficient DO List"
                     WorkRec."Shipment Date" := "Sales Line"."Shipment Date";
                     WorkRec."Document No." := "Sales Line"."Document No.";
                     WorkRec."Line No." := "Sales Line"."Line No.";
-                    WorkRec.Quantity := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                    //N005
+                    //WorkRec.Quantity := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                    WorkRec.Quantity := "Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped";
+                    //N005
                     WorkRec.Location := "Sales Line"."Location Code";
                     WorkRec."Reserved Qty" := "Sales Line"."Reserved Quantity";
                     IF "Sales Line"."Reserved Quantity" <> 0 THEN BEGIN

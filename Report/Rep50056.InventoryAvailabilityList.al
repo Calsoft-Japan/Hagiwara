@@ -2448,9 +2448,15 @@ report 50056 "Inventory Availability List"
                         CALCFIELDS(
                           // sh 20100523 Change Qty on PO based on Request Receipt Date instead of Expected
                           //    "Qty. on Purch. Order",
-                          "Qty. on P. O. (Req Rec Date)",
+                          //N005
+                          //"Qty. on P. O. (Req Rec Date)",
+                          "Qty. on P. O. (Approved)",
+                          //N005
                           //sh End
-                          "Qty. on Sales Order",
+                          //N005
+                          //"Qty. on Sales Order",
+                          "Qty. on S. O. (Approved)",
+                          //N005
                           "Qty. on Purch. Quote",
                           "Qty. on Sales Quote",
                           "Sales (Qty.)",
@@ -2466,7 +2472,10 @@ report 50056 "Inventory Availability List"
                           "Expected Receipt Date Flag");  //CS013
 
                         GrossReq[i] :=
-                            "Qty. on Sales Order";
+                            //N005
+                            //"Qty. on Sales Order";
+                            "Qty. on S. O. (Approved)";
+                        //N005
                         //      "Qty. on Sales Order" +
                         //      "Scheduled Need (Qty.)" +
                         //      "Planning Issues (Qty.)";
@@ -2475,7 +2484,10 @@ report 50056 "Inventory Availability List"
                           "Planned Order Receipt (Qty.)";
                         SchedReceipt[i] :=
                             //SH    "Qty. on Purch. Order";
-                            "Qty. on P. O. (Req Rec Date)";
+                            //N005
+                            //"Qty. on P. O. (Req Rec Date)";
+                            "Qty. on P. O. (Approved)";
+                        //N005
                         //      "FP Order Receipt (Qty.)" +
                         //      "Rel. Order Receipt (Qty.)" +
                         //      "Qty. on Purch. Order";

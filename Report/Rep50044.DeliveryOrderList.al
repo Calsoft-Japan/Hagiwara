@@ -398,7 +398,10 @@ report 50044 "Delivery Order List"
                     IF "Sales Line".Type = "Sales Line".Type::Item THEN BEGIN
                         ShortageFlag := FALSE;
                         Shortage := '';
-                        QtyToShip := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                        //N005
+                        //QtyToShip := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                        QtyToShip := "Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped";
+                        //N005
                         //QtyAvailable := CheckQty("Sales Line"."No.", "Sales Line"."Location Code", "Sales Line"."Document No.");
                         //  TempDO.INIT;
                         TempDO.SETRANGE(TempDO."Document No.", "Sales Line"."Document No.", "Sales Line"."Document No.");
