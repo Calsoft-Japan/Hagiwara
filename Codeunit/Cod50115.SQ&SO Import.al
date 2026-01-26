@@ -301,7 +301,7 @@ codeunit 50115 "SQ&SO Import"
                     RecSalesLine.SetRange("Document No.", RecSQSOImport."Document No.");
                     RecSalesLine.SetRange("Line No.", RecSQSOImport."Line No.");
                     if RecSalesLine.FindFirst() then begin
-                        RecSalesLine.Validate("No.");
+                        //RecSalesLine.Validate("No."); //why need this Validation? Error occured after partial-post, comment this line.
                         //if RecSQSOImport.Quantity > 0 then begin
                         RecSalesLine.Validate(Quantity, RecSQSOImport.Quantity);
                         //end;
