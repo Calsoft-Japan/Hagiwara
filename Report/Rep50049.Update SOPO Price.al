@@ -246,10 +246,13 @@ report 50049 "Update SO/PO Price"
 
             trigger OnPreDataItem()
             var
+                RecSalesHeader: Record "Sales Header";
                 RecSalesLine: Record "Sales Line";
+                RecPurchHeader: Record "Purchase Header";
                 RecPurchLine: Record "Purchase Line";
                 UpdSalesLineExists: Boolean;
                 UpdPurchLineExists: Boolean;
+                recApprSetup: Record "Hagiwara Approval Setup";
             begin
 
                 UpdSalesLineExists := false;
@@ -257,6 +260,13 @@ report 50049 "Update SO/PO Price"
                 RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Order);
                 if RecSalesLine.FindSet() then begin
                     repeat
+                        if recApprSetup."Sales Order" then begin
+                            if not (RecSalesHeader."Approval Status" in [
+                                Enum::"Hagiwara Approval Status"::Approved,
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                continue;
+                            end;
+                        end;
                         if RecSalesLine."Quantity Invoiced" <> RecSalesLine.Quantity then begin
                             UpdSalesLineExists := true;
                             break;
@@ -269,6 +279,13 @@ report 50049 "Update SO/PO Price"
                     RecPurchLine.SetRange("Document Type", RecPurchLine."Document Type"::Order);
                     if RecPurchLine.FindSet() then begin
                         repeat
+                            if recApprSetup."Purchase Order" then begin
+                                if not (RecPurchHeader."Approval Status" in [
+                                    Enum::"Hagiwara Approval Status"::Approved,
+                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                    continue;
+                                end;
+                            end;
                             if RecPurchLine."Quantity Invoiced" <> RecPurchLine.Quantity then begin
                                 UpdPurchLineExists := true;
                                 break;

@@ -76,6 +76,14 @@ codeunit 50178 "Purch Order Interface (Create)"
                     rec_PurchHeader.VALIDATE("Location Code", rec_Customer."Receiving Location");
                 END;
                 //v20210226 End
+
+                //BC upgrade N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Purchase Order" then begin
+                    rec_PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                end;
+                //BC upgrade N005 End
+
                 rec_PurchHeader.MODIFY;
 
                 iLine := 10000;
@@ -172,6 +180,15 @@ codeunit 50178 "Purch Order Interface (Create)"
                             rec_PurchLine.MODIFY;
                         END;
 
+                        //BC upgrade N005 Begin
+                        recApprSetup.Get();
+                        if recApprSetup."Purchase Order" then begin
+                            rec_PurchLine."Approved Quantity" := rec_PurchLine.Quantity;
+                            rec_PurchLine."Approved Unit Cost" := rec_PurchLine."Direct Unit Cost";
+                            rec_PurchLine.Modify();
+                        end;
+                        //BC upgrade N005 End
+
                         //To  insert Standard Text on Purch. Line Type = ' '
                         rec_PurchLine.INIT;
                         rec_PurchLine."Document Type" := rec_PurchLine."Document Type"::Order;
@@ -267,5 +284,7 @@ codeunit 50178 "Purch Order Interface (Create)"
         g_Error: Integer;
         IN_setup: Record "Inventory Setup";
         IN_setup_vendor_No: Code[20];
+
+        recApprSetup: Record "Hagiwara Approval Setup";
 
 }
