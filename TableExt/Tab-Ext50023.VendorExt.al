@@ -173,19 +173,21 @@ tableextension 50023 "Vendor Ext" extends "Vendor"
         }
         field(60006; "Pay-to City"; Text[30])
         {
-            TableRelation = IF ("Pay-to Country/Region Code" = CONST()) "Post Code".City
+            TableRelation = IF ("Pay-to Country/Region Code" = CONST('')) "Post Code".City
             ELSE IF ("Pay-to Country/Region Code" = FILTER(<> '')) "Post Code".City WHERE("Country/Region Code" = FIELD("Pay-to Country/Region Code"));
             Caption = 'Pay-to City';
             Description = 'HG10.00.10 NJ 10/04/2018';
+            //ValidateTableRelation = false;
             //This property is currently not supported
             //TestTableRelation = false;
         }
         field(60007; "Pay-to Post Code"; Code[20])
         {
-            TableRelation = IF ("Pay-to Country/Region Code" = CONST()) "Post Code"
+            TableRelation = IF ("Pay-to Country/Region Code" = CONST('')) "Post Code"
             ELSE IF ("Pay-to Country/Region Code" = FILTER(<> '')) "Post Code" WHERE("Country/Region Code" = FIELD("Pay-to Country/Region Code"));
             Caption = 'Pay-to Post Code';
             Description = 'HG10.00.10 NJ 10/04/2018';
+            //ValidateTableRelation = false;
             //This property is currently not supported
             //TestTableRelation = false;
         }
