@@ -25,7 +25,6 @@ report 50049 "Update SO/PO Price"
                     SalesHeader: Record "Sales Header";
                     PriceList_perCust: Record "Price List Line";
                     PriceList_allCust: Record "Price List Line";
-                    recApprSetup: Record "Hagiwara Approval Setup";
                     Cnt_perCust: Integer;
                     Cnt_allCust: Integer;
                     HeaderStatus: Enum "Sales Document Status";
@@ -93,13 +92,7 @@ report 50049 "Update SO/PO Price"
                                 end;
 
                                 VALIDATE("Unit Price", UnitPrice);
-
-                                recApprSetup.Get();
-                                if recApprSetup."Sales Order" then begin
-                                    if "Approval History Exists" then begin
-                                        "Approved Unit Price" := "Unit Price";
-                                    end;
-                                end;
+                                "Approved Unit Price" := "Unit Price";
 
                                 MODIFY;
 
@@ -116,9 +109,16 @@ report 50049 "Update SO/PO Price"
                 end;
 
                 trigger OnPreDataItem()
+                var
+                    recApprSetup: Record "Hagiwara Approval Setup";
                 begin
                     "Sales Line".SetFilter("Unit Price", '<>%1', 0);
                     "Sales Line".SetRange("Price Target Update", true);
+
+                    recApprSetup.Get();
+                    if recApprSetup."Sales Order" then begin
+                        "Sales Line".SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
 
                 end;
             }
@@ -135,7 +135,6 @@ report 50049 "Update SO/PO Price"
                     PurchHeader: Record "Purchase Header";
                     PriceList_perVend: Record "Price List Line";
                     PriceList_allVend: Record "Price List Line";
-                    recApprSetup: Record "Hagiwara Approval Setup";
                     Cnt_perVend: Integer;
                     Cnt_allVend: Integer;
                     HeaderStatus: enum "Purchase Document Status";
@@ -201,13 +200,7 @@ report 50049 "Update SO/PO Price"
                                 end;
 
                                 VALIDATE("Direct Unit Cost", DirectUnitCost);
-
-                                recApprSetup.Get();
-                                if recApprSetup."Purchase Order" then begin
-                                    if "Approval History Exists" then begin
-                                        "Approved Unit Cost" := "Direct Unit Cost";
-                                    end;
-                                end;
+                                "Approved Unit Cost" := "Direct Unit Cost";
 
                                 MODIFY;
 
@@ -224,9 +217,17 @@ report 50049 "Update SO/PO Price"
                 end;
 
                 trigger OnPreDataItem()
+                var
+                    recApprSetup: Record "Hagiwara Approval Setup";
                 begin
                     "Purchase Line".SetFilter("Direct Unit Cost", '<>%1', 0);
                     "Purchase Line".SetRange("Price Target Update", true);
+
+                    recApprSetup.Get();
+                    if recApprSetup."Purchase Order" then begin
+                        "Purchase Line".SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
+
                 end;
             }
 
@@ -246,9 +247,7 @@ report 50049 "Update SO/PO Price"
 
             trigger OnPreDataItem()
             var
-                RecSalesHeader: Record "Sales Header";
                 RecSalesLine: Record "Sales Line";
-                RecPurchHeader: Record "Purchase Header";
                 RecPurchLine: Record "Purchase Line";
                 UpdSalesLineExists: Boolean;
                 UpdPurchLineExists: Boolean;
@@ -258,15 +257,13 @@ report 50049 "Update SO/PO Price"
                 UpdSalesLineExists := false;
                 UpdPurchLineExists := false;
                 RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Order);
+
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    RecSalesLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                end;
                 if RecSalesLine.FindSet() then begin
                     repeat
-                        if recApprSetup."Sales Order" then begin
-                            if not (RecSalesHeader."Approval Status" in [
-                                Enum::"Hagiwara Approval Status"::Approved,
-                                Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
-                                continue;
-                            end;
-                        end;
                         if RecSalesLine."Quantity Invoiced" <> RecSalesLine.Quantity then begin
                             UpdSalesLineExists := true;
                             break;
@@ -277,15 +274,11 @@ report 50049 "Update SO/PO Price"
                 if Not UpdSalesLineExists then begin
 
                     RecPurchLine.SetRange("Document Type", RecPurchLine."Document Type"::Order);
+                    if recApprSetup."Purchase Order" then begin
+                        RecPurchLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
                     if RecPurchLine.FindSet() then begin
                         repeat
-                            if recApprSetup."Purchase Order" then begin
-                                if not (RecPurchHeader."Approval Status" in [
-                                    Enum::"Hagiwara Approval Status"::Approved,
-                                    Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
-                                    continue;
-                                end;
-                            end;
                             if RecPurchLine."Quantity Invoiced" <> RecPurchLine.Quantity then begin
                                 UpdPurchLineExists := true;
                                 break;

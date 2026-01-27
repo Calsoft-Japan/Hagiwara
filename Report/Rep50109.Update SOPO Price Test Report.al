@@ -91,9 +91,16 @@ report 50109 "Update SO/PO Price Test Report"
                 end;
 
                 trigger OnPreDataItem()
+                var
+                    recApprSetup: Record "Hagiwara Approval Setup";
                 begin
                     "Sales Line".SetFilter("Unit Price", '<>%1', 0);
                     "Sales Line".SetRange("Price Target Update", true);
+
+                    recApprSetup.Get();
+                    if recApprSetup."Sales Order" then begin
+                        "Sales Line".SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
 
                 end;
             }
@@ -173,9 +180,18 @@ report 50109 "Update SO/PO Price Test Report"
                 end;
 
                 trigger OnPreDataItem()
+                var
+                    recApprSetup: Record "Hagiwara Approval Setup";
                 begin
                     "Purchase Line".SetFilter("Direct Unit Cost", '<>%1', 0);
                     "Purchase Line".SetRange("Price Target Update", true);
+
+                    recApprSetup.Get();
+                    if recApprSetup."Purchase Order" then begin
+                        "Purchase Line".SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
+                    "Purchase Line".SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+
                 end;
             }
 
@@ -197,11 +213,17 @@ report 50109 "Update SO/PO Price Test Report"
                 RecPurchLine: Record "Purchase Line";
                 UpdSalesLineExists: Boolean;
                 UpdPurchLineExists: Boolean;
+                recApprSetup: Record "Hagiwara Approval Setup";
             begin
 
                 UpdSalesLineExists := false;
                 UpdPurchLineExists := false;
                 RecSalesLine.SetRange("Document Type", RecSalesLine."Document Type"::Order);
+
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    RecSalesLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                end;
                 if RecSalesLine.FindSet() then begin
                     repeat
                         if RecSalesLine."Quantity Invoiced" <> RecSalesLine.Quantity then begin
@@ -214,6 +236,9 @@ report 50109 "Update SO/PO Price Test Report"
                 if Not UpdSalesLineExists then begin
 
                     RecPurchLine.SetRange("Document Type", RecPurchLine."Document Type"::Order);
+                    if recApprSetup."Purchase Order" then begin
+                        RecPurchLine.SetFilter("Approval Status", '%1|%2', Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved");
+                    end;
                     if RecPurchLine.FindSet() then begin
                         repeat
                             if RecPurchLine."Quantity Invoiced" <> RecPurchLine.Quantity then begin

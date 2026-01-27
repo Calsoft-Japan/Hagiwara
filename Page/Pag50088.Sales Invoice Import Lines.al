@@ -202,6 +202,7 @@ page 50088 "Sales Invoice Import Lines"
         RecRef: RecordRef;
         FNumber: Integer;
         FRef: FieldRef;
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         //Run Validate
         SOInvLine.RESET;
@@ -229,6 +230,16 @@ page 50088 "Sales Invoice Import Lines"
 
                 IF NOT SOLine.GET(SOHeader."Document Type"::Order, SOInvLine."Order No.", SOInvLine."Line No.") THEN
                     ErrMsg += 'Combination of "Document No." and "Line No." does not exist. ';
+
+                //BC upgrade N005 Begin
+                recApprSetup.Get();
+                if recApprSetup."Sales Order" then begin
+                    if not (SOHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                        ErrMsg += 'It''s not approved yet. ';
+                    end;
+                end;
+                //BC upgrade N005 End
+
                 COMMIT;
                 IF ErrMsg = '' THEN
                     REPEAT

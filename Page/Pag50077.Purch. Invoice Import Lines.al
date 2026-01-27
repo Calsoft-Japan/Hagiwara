@@ -137,6 +137,7 @@ page 50077 "Purch. Invoice Import Lines"
                     var
                         Staging: Record "PURCH. RECEIPT IMPORT STAGING";
                         Staging1: Record "PURCH. RECEIPT IMPORT STAGING";
+                        recApprSetup: Record "Hagiwara Approval Setup";
                     begin
                         Staging.SETCURRENTKEY("Batch No.");
                         Staging.SETFILTER(Staging.Status, '<>%1', Staging.Status::Processed);
@@ -145,6 +146,38 @@ page 50077 "Purch. Invoice Import Lines"
                             REPEAT
                                 CheckError(Staging);
                             UNTIL Staging.NEXT = 0;
+
+                        //BC upgrade N005 Begin
+                        recApprSetup.Get();
+                        if recApprSetup."Purchase Order" then begin
+                            Staging.SETCURRENTKEY(Status, "Batch No.");
+                            Staging.SETFILTER(Staging.Status, '=%1', Staging.Status::OK);
+                            Staging.SETRANGE(Staging."Batch No.", Rec."Batch No.");
+                            IF Staging.FINDFIRST THEN
+                                REPEAT
+
+                                    IF (Staging."PO No." = '') OR (Staging."Line No." = 0) THEN BEGIN
+                                        PurchaseLine2.RESET;
+                                        PurchaseLine2.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
+                                        PurchaseLine2.SETRANGE(Type, PurchaseLine.Type::Item);
+                                        PurchaseLine2.SETRANGE("CO No.", Staging."CO No.");
+                                        IF PurchaseLine2.FINDFIRST THEN BEGIN
+                                            PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, PurchaseLine2."Document No.");
+                                        END;
+                                    END ELSE BEGIN
+                                        PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, Staging."PO No.");
+                                    END;
+
+                                    if not (PurchaseHeader."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                                        Staging1.GET(Staging."Batch No.", Staging."Entry No.");
+                                        Staging1."Error Description" := 'It''s not approved yet. ';
+                                        Staging1.Status := Staging1.Status::Error;
+                                        Staging1.MODIFY;
+                                    end;
+
+                                UNTIL Staging.NEXT = 0;
+                        end;
+                        //BC upgrade N005 End
 
                         CurrPage.UPDATE;
                         //MESSAGE('Validation Completed Please Check Status');

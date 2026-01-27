@@ -47,6 +47,14 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             // cleaned
         }
+        field(50100; "Approval Status"; Enum "Hagiwara Approval Status")
+        {
+            //N005
+            FieldClass = FlowField;
+            CalcFormula = Lookup("Sales Header"."Approval Status" WHERE("Document Type" = FIELD("Document Type"),
+                                                                        "No." = field("Document No.")));
+            Editable = false;
+        }
         field(50101; "Approved Quantity"; Decimal)
         {
             //N005
