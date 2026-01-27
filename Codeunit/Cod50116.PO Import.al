@@ -240,7 +240,7 @@ codeunit 50116 "PO Import"
                             if RecPurchaseLine."Requested Receipt Date_1" <> 0D then begin
                                 TmpReqRecDate1 := RecPurchaseLine."Requested Receipt Date_1";
                             end;
-                            RecPurchaseLine.Validate("No.");
+                            //RecPurchaseLine.Validate("No."); //not update fields.
                             RecPurchaseLine.Validate(Quantity, RecPOImportInsert.Quantity);
                             if (RecPOImportInsert."Requested Receipt Date" <> 0D) then begin
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", RecPOImportInsert."Requested Receipt Date");
