@@ -370,6 +370,7 @@ xmlport 50016 "Denso Group Sales File Import"
     var
         RecItem: Record Item;
         SalesHeaderError: Boolean;
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
 
         RecCustomer.SETRANGE("Import File Ship To", RecTEMPSalesFileImportBuffer."Ship To");
@@ -425,6 +426,11 @@ xmlport 50016 "Denso Group Sales File Import"
             RecSalesHeader.VALIDATE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
             RecSalesHeader.VALIDATE("Your Reference", RecTEMPSalesFileImportBuffer."Delivery Order");
             RecSalesHeader.VALIDATE("Requested Delivery Date", RecTEMPSalesFileImportBuffer."Due Date");
+
+            recApprSetup.Get();
+            if recApprSetup."Sales Order" then begin
+                RecSalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+            end;
         END;
         IF NOT RecSalesHeader.MODIFY(TRUE) THEN BEGIN
             ErrorMsg := GETLASTERRORTEXT;
@@ -438,6 +444,7 @@ xmlport 50016 "Denso Group Sales File Import"
     local procedure CreateSalesLine(RecCustomer: Record Customer): Boolean
     var
         RecItem: Record Item;
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         RecItem.Reset();
         RecItem.SETRANGE("Customer No.", RecCustomer."No.");
@@ -475,11 +482,19 @@ xmlport 50016 "Denso Group Sales File Import"
             RecSalesLine.VALIDATE("Shipment Date", CALCDATE('<-5D>', RecTEMPSalesFileImportBuffer."Due Date"));
         RecSalesLine.VALIDATE("Requested Delivery Date_1", RecTEMPSalesFileImportBuffer."Due Date");
         RecSalesLine.VALIDATE("Promised Delivery Date_1", RecTEMPSalesFileImportBuffer."Due Date");
+
         IF NOT RecSalesLine.INSERT(TRUE) THEN BEGIN
             ErrorMsg := GETLASTERRORTEXT;
             InsertDataInBuffer(ErrorMsg);
             EXIT(FALSE);
         END;
+
+        recApprSetup.Get();
+        if recApprSetup."Sales Order" then begin
+            RecSalesLine."Approved Quantity" := RecTEMPSalesFileImportBuffer."Qty Due";
+            RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
+            RecSalesLine.Modify();
+        end;
 
         EXIT(TRUE);
     end;
