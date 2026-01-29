@@ -180,6 +180,8 @@ xmlport 50016 "Denso Group Sales File Import"
     var
         RecCustomer: Record Customer;
     begin
+        recApprSetup.Get();
+
         ImportCounter := 0;
         RecTEMPSalesFileImportBuffer.RESET;
         //HG10.00.06 NJ 12/03/2018 -->
@@ -264,6 +266,8 @@ xmlport 50016 "Denso Group Sales File Import"
 
             UNTIL RecTEMPSalesFileImportBuffer.NEXT = 0;
 
+            UpdateSOApprStatus(); //change approval status after all lines created.
+
         END;
         //HG10.00.06 NJ 12/03/2018 <--
 
@@ -286,6 +290,8 @@ xmlport 50016 "Denso Group Sales File Import"
         Text001: Label 'DO No. %1 already exists. Do you want to add this DO?';
         SameDOConfirm: Boolean;
         DOCanCreate: Boolean;
+        recApprSetup: Record "Hagiwara Approval Setup";
+        SONoList: List of [Text];
 
     local procedure InsertDataInTemp()
     var
@@ -370,7 +376,6 @@ xmlport 50016 "Denso Group Sales File Import"
     var
         RecItem: Record Item;
         SalesHeaderError: Boolean;
-        recApprSetup: Record "Hagiwara Approval Setup";
     begin
 
         RecCustomer.SETRANGE("Import File Ship To", RecTEMPSalesFileImportBuffer."Ship To");
@@ -426,11 +431,6 @@ xmlport 50016 "Denso Group Sales File Import"
             RecSalesHeader.VALIDATE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
             RecSalesHeader.VALIDATE("Your Reference", RecTEMPSalesFileImportBuffer."Delivery Order");
             RecSalesHeader.VALIDATE("Requested Delivery Date", RecTEMPSalesFileImportBuffer."Due Date");
-
-            recApprSetup.Get();
-            if recApprSetup."Sales Order" then begin
-                RecSalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
-            end;
         END;
         IF NOT RecSalesHeader.MODIFY(TRUE) THEN BEGIN
             ErrorMsg := GETLASTERRORTEXT;
@@ -438,13 +438,14 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
+        SONoList.Add(RecSalesHeader."No.");
+
         EXIT(TRUE);
     end;
 
     local procedure CreateSalesLine(RecCustomer: Record Customer): Boolean
     var
         RecItem: Record Item;
-        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         RecItem.Reset();
         RecItem.SETRANGE("Customer No.", RecCustomer."No.");
@@ -489,7 +490,6 @@ xmlport 50016 "Denso Group Sales File Import"
             EXIT(FALSE);
         END;
 
-        recApprSetup.Get();
         if recApprSetup."Sales Order" then begin
             RecSalesLine."Approved Quantity" := RecTEMPSalesFileImportBuffer."Qty Due";
             RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
@@ -497,6 +497,21 @@ xmlport 50016 "Denso Group Sales File Import"
         end;
 
         EXIT(TRUE);
+    end;
+
+    local procedure UpdateSOApprStatus()
+    var
+        RecSalesHeader: Record "Sales Header";
+        SONo: Code[20];
+    begin
+        if recApprSetup."Sales Order" then begin
+            foreach SONo in SONoList do begin
+                if RecSalesHeader.get(Enum::"Sales Document Type"::Order, SONo) then begin
+                    RecSalesHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                    RecSalesHeader.Modify();
+                end;
+            end;
+        end;
     end;
 }
 
