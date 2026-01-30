@@ -119,6 +119,15 @@ report 50003 "ActualOrderAmountOrderBalance"
             column(SO_CustomerPostingGroup; CustPostingGroup)
             {
             }
+            column(SO_ApprovedQuantity; "Approved Quantity")
+            {
+            }
+            column(SO_ApprovedUnitPrice; "Approved Unit Price")
+            {
+            }
+            column(SO_ApprovedAmount; "Approved Quantity" * "Approved Unit Price")
+            {
+            }
 
             trigger OnPreDataItem()
             begin

@@ -331,7 +331,8 @@ report 50045 "DeliveryOrderListTransferOrder"
                     //IF "Transfer Line".Type = "Transfer Line".Type::Item THEN BEGIN
                     ShortageFlag := FALSE;
                     Shortage := '';
-                    QtyToShip := "Transfer Line".Quantity - "Transfer Line"."Quantity Shipped";
+                    //QtyToShip := "Transfer Line".Quantity - "Transfer Line"."Quantity Shipped"; //N005
+                    QtyToShip := "Transfer Line"."Approved Quantity" - "Transfer Line"."Quantity Shipped";
                     //QtyAvailable := CheckQty("Sales Line"."No.", "Sales Line"."Location Code", "Sales Line"."Document No.");
                     //  TempDO.INIT;
                     TempDO.SETRANGE(TempDO."Document No.", "Transfer Line"."Document No.", "Transfer Line"."Document No.");
@@ -714,7 +715,8 @@ report 50045 "DeliveryOrderListTransferOrder"
                 WorkRec."Shipment Date" := "Transfer Line"."Shipment Date";
                 WorkRec."Document No." := "Transfer Line"."Document No.";
                 WorkRec."Line No." := "Transfer Line"."Line No.";
-                WorkRec.Quantity := "Transfer Line".Quantity - "Transfer Line"."Quantity Shipped";
+                //WorkRec.Quantity := "Transfer Line".Quantity - "Transfer Line"."Quantity Shipped"; //N005
+                WorkRec.Quantity := "Transfer Line"."Approved Quantity" - "Transfer Line"."Quantity Shipped"; //N005
                 "Transfer Header".Get("Transfer Line"."Document No.");
                 //bobby 10/31/2025 begin
                 //WorkRec.Location := "Transfer Line"."Location Code";

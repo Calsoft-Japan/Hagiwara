@@ -296,7 +296,8 @@ pageextension 55742 TransferOrdersExt extends "Transfer Orders"
                                     //IF TransferLine.Type = TransferLine.Type::Item THEN BEGIN
                                     ShortageFlag := FALSE;
                                     Shortage := '';
-                                    QtyToShip := TransferLine.Quantity - TransferLine."Quantity Shipped";
+                                    //QtyToShip := TransferLine.Quantity - TransferLine."Quantity Shipped"; //N005
+                                    QtyToShip := TransferLine."Approved Quantity" - TransferLine."Quantity Shipped"; //N005
                                     //QtyAvailable := CheckQty(SalesLine."No.", SalesLine."Location Code", SalesLine."Document No.");
                                     //  TempDO.INIT;
                                     TempDO.SETRANGE(TempDO."Document No.", TransferLine."Document No.", TransferLine."Document No.");
