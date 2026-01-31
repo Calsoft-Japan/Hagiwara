@@ -20,7 +20,7 @@ codeunit 50252 "Purch Approved Qty. Mgt."
 
     procedure CalcAvailability(var PurchLine: Record "Purchase Line"): Decimal
     var
-        AvailableToPromise: Codeunit "Available to Promise";
+        AvailableToPromise: Codeunit "Approved Qty. to Promise";
         GrossRequirement: Decimal;
         ScheduledReceipt: Decimal;
         AvailableQuantity: Decimal;

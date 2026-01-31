@@ -153,6 +153,22 @@ pageextension 50031 ItemListExt extends "Item List"
                 ApplicationArea = All;
             }
         }
+
+        addafter("Qty. on Purch. Order")
+        {
+            field("Qty. on P. O. (Approved)"; Rec."Qty. on P. O. (Approved)")
+            {
+                ApplicationArea = all;
+            }
+        }
+
+        addafter("Qty. on Sales Order")
+        {
+            field("Qty. on S. O. (Approved)"; Rec."Qty. on S. O. (Approved)")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 
     actions
