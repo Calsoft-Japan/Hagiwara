@@ -807,6 +807,7 @@ page 50118 "Item Import Lines"
         UnitOfMeasure: Record "Unit of Measure";
         Manufacturer: Record "Manufacturer";
         ItemCategory: Record "Item Category";
+        ItemTracking: Record "Item Tracking Code";
         CountryRegion: Record "Country/Region";
         ItemGroup: Record "Item Group";
         Customer: Record "Customer";
@@ -814,8 +815,12 @@ page 50118 "Item Import Lines"
         GenProductPostingGroup: Record "Gen. Product Posting Group";
         InventoryPostingGroup: Record "Inventory Posting Group";
         VATProdPostingGroup: Record "VAT Product Posting Group";
+        GlobalDimension1Code: Record "Dimension Value";
+        GlobalDimension2Code: Record "Dimension Value";
+        GLSetup: Record "General Ledger Setup";
     begin
         // -------Existence Check (See table relation info.)-------
+        GLSetup.Get();
         //Base Unit of Measure Code
         if p_ItemImportline."Base Unit of Measure" <> '' then begin
             if not UnitOfMeasure.get(p_ItemImportline."Base Unit of Measure") then begin
@@ -838,6 +843,12 @@ page 50118 "Item Import Lines"
         if p_ItemImportline."Manufacture Code" <> '' then begin
             if not Manufacturer.get(p_ItemImportline."Manufacture Code") then begin
                 ErrDesc += 'Manufacture Code is not found. ';
+            end;
+        end;
+        //Item Tracking Code
+        if p_ItemImportline."Item Tracking Code" <> '' then begin
+            if not ItemTracking.get(p_ItemImportline."Item Tracking Code") then begin
+                ErrDesc += 'Item Tracking Code is not found. ';
             end;
         end;
         //Item Category Code
@@ -906,6 +917,18 @@ page 50118 "Item Import Lines"
         if p_ItemImportline."VAT Prod. Posting Group" <> '' then begin
             if not VATProdPostingGroup.get(p_ItemImportline."VAT Prod. Posting Group") then begin
                 ErrDesc += 'VAT Prod. Posting Group is not found. ';
+            end;
+        end;
+        //Global Dimension 1 Code
+        if p_ItemImportline."Customer Group Code" <> '' then begin
+            if not GlobalDimension1Code.get(GLSetup."Global Dimension 1 Code", p_ItemImportline."Customer Group Code") then begin
+                ErrDesc += 'Customer Group Code is not found. ';
+            end;
+        end;
+        //Global Dimension 2 Code
+        if p_ItemImportline."Base Currency Code" <> '' then begin
+            if not GlobalDimension2Code.get(GLSetup."Global Dimension 2 Code", p_ItemImportline."Base Currency Code") then begin
+                ErrDesc += 'Base Currency Code is not found. ';
             end;
         end;
 
