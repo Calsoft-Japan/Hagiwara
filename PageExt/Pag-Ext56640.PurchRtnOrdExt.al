@@ -56,6 +56,70 @@ pageextension 56640 PurchRtnOrdExt extends "Purchase Return Order"
             Visible = false;
         }
 
+        modify("&Print")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Purchase Return Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("Email")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Purchase Return Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("Send")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Purchase Return Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
+        modify("AttachAsPDF")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+                recApprSetup.Get();
+                if not recApprSetup."Purchase Return Order" then
+                    exit;
+
+                if not (Rec."Approval Status" in [enum::"Hagiwara Approval Status"::Approved, enum::"Hagiwara Approval Status"::"Auto Approved"]) then begin
+                    Error('It is not approved yet.');
+                end;
+            end;
+        }
+
         addbefore("P&osting")
         {
             group("Hagiwara Approval")

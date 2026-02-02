@@ -44,6 +44,8 @@ query 50004 "BI Sales Line"
             column(Quantity; Quantity) { }
 
             column(Requested_Delivery_Date_1; "Requested Delivery Date_1") { }
+            column(Approved_Quantity; "Approved Quantity") { }
+            column(Approved_Unit_Price; "Approved Unit Price") { }
 
         }
     }
