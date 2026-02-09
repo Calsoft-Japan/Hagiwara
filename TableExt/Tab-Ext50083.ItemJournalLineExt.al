@@ -63,13 +63,14 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
     trigger OnBeforeModify()
     var
         recApprSetup: Record "Hagiwara Approval Setup";
+        recSourceSetup: Record "Source Code Setup";
     begin
-
+        recSourceSetup.Get();
         //N005 Begin
         if "Posting Date" = xRec."Posting Date" then begin
             case
                 "Source Code" of
-                'ITEMJNL':
+                recSourceSetup."Item Journal":
                     begin
 
                         recApprSetup.Get();
@@ -83,7 +84,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                             end;
                         end;
                     end;
-                'RECLASSJNL':
+                recSourceSetup."Item Reclass. Journal":
                     begin
 
                         recApprSetup.Get();
@@ -112,14 +113,15 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
         recApprSetup: Record "Hagiwara Approval Setup";
         cuApprMgt: Codeunit "Hagiwara Approval Management";
         recLocation: Record Location;
+        recSourceSetup: Record "Source Code Setup";
     begin
 
         //N005 Begin
-
         recApprSetup.Get();
+        recSourceSetup.Get();
         case
             "Source Code" of
-            'ITEMJNL':
+            recSourceSetup."Item Journal":
                 begin
 
                     if (recApprSetup."Item Journal") then begin
@@ -135,7 +137,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                         end;
                     end;
                 end;
-            'RECLASSJNL':
+            recSourceSetup."Item Reclass. Journal":
                 begin
 
                     if (recApprSetup."Item Reclass Journal") then begin
@@ -168,13 +170,15 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
     var
         ItemJourLine: Record "Item Journal Line";
         recApprSetup: Record "Hagiwara Approval Setup";
+        recSourceSetup: Record "Source Code Setup";
     begin
 
         //N005 Begin
         recApprSetup.Get();
+        recSourceSetup.Get();
         case
             "Source Code" of
-            'ITEMJNL':
+            recSourceSetup."Item Journal":
                 begin
                     if (recApprSetup."Item Journal") then begin
                         ItemJourLine.SetRange("Document No.", Rec."Document No.");
@@ -191,7 +195,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
 
                     end;
                 end;
-            'RECLASSJNL':
+            recSourceSetup."Item Reclass. Journal":
                 begin
                     if (recApprSetup."Item Reclass Journal") then begin
                         ItemJourLine.SetRange("Document No.", Rec."Document No.");
@@ -221,13 +225,15 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
         recApprSetup: Record "Hagiwara Approval Setup";
         cuApprMgt: Codeunit "Hagiwara Approval Management";
         recLocation: Record Location;
+        recSourceSetup: Record "Source Code Setup";
     begin
 
         //N005 Begin
         recApprSetup.Get();
+        recSourceSetup.Get();
         case
             "Source Code" of
-            'ITEMJNL':
+            recSourceSetup."Item Journal":
                 begin
                     if (recApprSetup."Item Journal") then begin
 
@@ -242,7 +248,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
                         */
                     end;
                 end;
-            'RECLASSJNL':
+            recSourceSetup."Item Reclass. Journal":
                 begin
                     if (recApprSetup."Item Reclass Journal") then begin
                         //check if location is approval target.
@@ -268,13 +274,15 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
     var
         ItemJourLine: Record "Item Journal Line";
         recApprSetup: Record "Hagiwara Approval Setup";
+        recSourceSetup: Record "Source Code Setup";
     begin
 
         //N005 Begin
         recApprSetup.Get();
+        recSourceSetup.Get();
         case
             "Source Code" of
-            'ITEMJNL':
+            recSourceSetup."Item Journal":
                 begin
                     if (recApprSetup."Item Journal") then begin
                         if (rec."Approval Status" in [
@@ -287,7 +295,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
 
                     end;
                 end;
-            'RECLASSJNL':
+            recSourceSetup."Item Reclass. Journal":
                 begin
                     if (recApprSetup."Item Reclass Journal") then begin
                         if (rec."Approval Status" in [
