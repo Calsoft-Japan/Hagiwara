@@ -434,6 +434,7 @@ report 50017 "Sales Order US"
             var
                 recApprSetup: Record "Hagiwara Approval Setup"; //N005
                 recApprESign: Record "Hagiwara Approver E-Signature"; //N005
+                recSalesSetup: Record "Sales & Receivables Setup";
             begin
                 IF PrintCompany THEN
                     IF RespCenter.GET("Responsibility Center") THEN BEGIN
@@ -445,8 +446,16 @@ report 50017 "Sales Order US"
                 //N005 Begin
                 recApprSetup.Get();
                 if recApprSetup."Sales Order" then begin
-                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                    if "Approval Status" = Enum::"Hagiwara Approval Status"::Approved then begin
                         if recApprESign.get("Hagi Approver") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end else if "Approval Status" = Enum::"Hagiwara Approval Status"::"Auto Approved" then begin
+                        recSalesSetup.Get();
+                        if recApprESign.get(recSalesSetup."Posted Sales E-Sig.") then begin
                             if recApprESign."Sign Picture".HasValue then begin
                                 ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
                                 ESignTenantMedia.CalcFields(Content);

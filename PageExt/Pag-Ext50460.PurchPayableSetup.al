@@ -20,13 +20,10 @@ pageextension 50460 PurchPayableSetupExt extends "Purchases & Payables Setup"
             {
                 ApplicationArea = all;
             }
-            /*
-            field("Posted Sales E-Sig."; Rec."Posted Sales E-Sig.")
+            field("Posted Purch. E-Sig."; Rec."Posted Purch. E-Sig.")
             {
                 ApplicationArea = all;
-                Visible = false; //TODO TBD
             }
-            */
         }
     }
 }

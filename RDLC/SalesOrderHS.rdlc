@@ -3113,7 +3113,7 @@ Cstr(Fields!DocumentDateCaption.Value), 1)</Hidden>
                     <Paragraph>
                       <TextRuns>
                         <TextRun>
-                          <Value>=Parameters!FooterText5.Value</Value>
+                          <Value>=Parameters!FooterText5.Value + "  " + First(Fields!ApprovedDate.Value, "DataSet_Result")</Value>
                           <Style>
                             <FontStyle>Normal</FontStyle>
                             <FontSize>9pt</FontSize>
@@ -3647,6 +3647,9 @@ End Function
         </Field>
         <Field Name="ESign">
           <DataField>ESign</DataField>
+        </Field>
+        <Field Name="ApprovedDate">
+          <DataField>ApprovedDate</DataField>
         </Field>
         <Field Name="OrderConfirmation">
           <DataField>OrderConfirmation</DataField>

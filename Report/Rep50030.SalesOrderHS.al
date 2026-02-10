@@ -38,6 +38,10 @@ report 50030 "Sales Order HS"
             {
                 //N005
             }
+            column(ApprovedDate; format(ApprovedDate, 0, '<Day,2>/<Month,2>/<Year4>'))
+            {
+                //N005
+            }
             dataitem(CopyLoop; Integer)
             {
                 DataItemTableView = SORTING(Number);
@@ -448,16 +452,37 @@ report 50030 "Sales Order HS"
             var
                 recApprSetup: Record "Hagiwara Approval Setup"; //N005
                 recApprESign: Record "Hagiwara Approver E-Signature"; //N005
+                recSalesSetup: Record "Sales & Receivables Setup";
+                recApprEntry: Record "Hagiwara Approval Entry";
             begin
                 //N005 Begin
                 recApprSetup.Get();
                 if recApprSetup."Sales Order" then begin
-                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                    if "Approval Status" = Enum::"Hagiwara Approval Status"::Approved then begin
                         if recApprESign.get("Hagi Approver") then begin
                             if recApprESign."Sign Picture".HasValue then begin
                                 ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
                                 ESignTenantMedia.CalcFields(Content);
                             end;
+                        end;
+                    end else if "Approval Status" = Enum::"Hagiwara Approval Status"::"Auto Approved" then begin
+                        recSalesSetup.Get();
+                        if recApprESign.get(recSalesSetup."Posted Sales E-Sig.") then begin
+                            if recApprESign."Sign Picture".HasValue then begin
+                                ESignTenantMedia.get(recApprESign."Sign Picture".MediaId);
+                                ESignTenantMedia.CalcFields(Content);
+                            end;
+                        end;
+                    end;
+
+                    if "Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                        recApprEntry.SetCurrentKey("Close Date");
+                        recApprEntry.Ascending(false);
+                        recApprEntry.SetRange(Data, Enum::"Hagiwara Approval Data"::"Sales Order");
+                        recApprEntry.SetRange("No.", "No.");
+                        recApprEntry.SetRange(Open, false);
+                        if recApprEntry.FindFirst() then begin
+                            ApprovedDate := DT2Date(recApprEntry."Close Date");
                         end;
                     end;
                 end;
@@ -760,6 +785,7 @@ report 50030 "Sales Order HS"
         OEMNameCaptionLbl: Label 'OEM Name';
         CustOrderNoCaptionLbl: Label 'Customer Order No.';
         ESignTenantMedia: Record "Tenant Media"; //N005
+        ApprovedDate: Date; //N005
 
     procedure InitializeRequest(NoOfCopiesFrom: Integer; ShowInternalInfoFrom: Boolean; ArchiveDocumentFrom: Boolean; LogInteractionFrom: Boolean; PrintFrom: Boolean; DisplayAsmInfo: Boolean)
     begin
