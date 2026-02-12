@@ -157,9 +157,10 @@ table 50120 "Customer Import Line"
         field(50; "Partner Type"; Enum "Partner Type")
         {
         }
+        /* Comment the code as required on 02/12/2026
         field(51; "Preferred Bank Account Code"; Code[20])
         {
-        }
+        }*/
         field(52; "Cash Flow Payment Terms Code"; Code[10])
         {
         }

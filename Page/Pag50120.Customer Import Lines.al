@@ -213,10 +213,12 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
+                /* Comment the code as required on 02/12/2026
                 field("Preferred Bank Account Code"; Rec."Preferred Bank Account Code")
                 {
                     ApplicationArea = all;
                 }
+                */
                 field("Cash Flow Payment Terms Code"; Rec."Cash Flow Payment Terms Code")
                 {
                     ApplicationArea = all;
@@ -776,13 +778,16 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Days for Auto Inv. Reservation", p_CustomerImportline."Days for Auto Inv. Reservation");
         CustomerRecord.Validate("Blocked", p_CustomerImportline."Blocked");
 
+        /* Comment the code as required on 02/12/2026
         //Create new records on the Customer Bank Account table.
         CreateRecordForCustomerBankAccount(p_CustomerImportline);
 
         CustomerRecord.Validate("Preferred Bank Account Code", p_CustomerImportline."Preferred Bank Account Code");
-
+        */
         CustomerRecord.Modify();
     end;
+
+    /* Comment the code as required on 02/12/2026
     //Create new records on the Customer Bank Account table.
     procedure CreateRecordForCustomerBankAccount(var p_CustomerImportline: Record "Customer Import Line")
     var
@@ -794,7 +799,7 @@ page 50120 "Customer Import Lines"
 
         CustomerBankAccountRecord.Insert();
     End;
-
+    */
     procedure UpdateBilltoCustomerNo(var p_CustomerImportline: Record "Customer Import Line")
     var
         CustomerRecord: Record "Customer";
@@ -857,7 +862,7 @@ page 50120 "Customer Import Lines"
             CustomerRecord.Validate("IC Partner Code", p_CustomerImportline."IC Partner Code");
             CustomerRecord.Validate("Prepayment %", p_CustomerImportline."Prepayment %");
             CustomerRecord.Validate("Partner Type", p_CustomerImportline."Partner Type");
-            CustomerRecord.Validate("Preferred Bank Account Code", p_CustomerImportline."Preferred Bank Account Code");
+            //CustomerRecord.Validate("Preferred Bank Account Code", p_CustomerImportline."Preferred Bank Account Code");// Comment the code as required on 02/12/2026
             CustomerRecord.Validate("Cash Flow Payment Terms Code", p_CustomerImportline."Cash Flow Payment Terms Code");
             CustomerRecord.Validate("Primary Contact No.", p_CustomerImportline."Primary Contact No.");
             CustomerRecord.Validate("Responsibility Center", p_CustomerImportline."Responsibility Center");
@@ -1065,11 +1070,13 @@ page 50120 "Customer Import Lines"
             end;
         end;
         //Preferred Bank Account Code
+        /*
         if p_CustomerImportline."Preferred Bank Account Code" <> '' then begin
             if not PreferredBankAccountCode.get(p_CustomerImportline."No.", p_CustomerImportline."Preferred Bank Account Code") then begin
                 ErrDesc += 'Preferred Bank Account Code is not found. ';
             end;
         end;
+        */
         //Cash Flow Payment Terms Code
         if p_CustomerImportline."Cash Flow Payment Terms Code" <> '' then begin
             if not CashFlowPaymentTermsCode.get(p_CustomerImportline."Cash Flow Payment Terms Code") then begin
