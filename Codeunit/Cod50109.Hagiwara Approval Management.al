@@ -688,6 +688,9 @@ codeunit 50109 "Hagiwara Approval Management"
                                     AssemLine.Modify();
                                 until AssemLine.next() = 0;
 
+                            if AssemblyHeader."Approved Quantity" <> AssemblyHeader.Quantity then begin
+                                AssemblyHeader."Approved Quantity" := AssemblyHeader.Quantity;
+                            end;
                             AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Approved";
                             AssemblyHeader."Approval Cycle No." += 1;
                             AssemblyHeader.Modify();
@@ -1420,6 +1423,9 @@ codeunit 50109 "Hagiwara Approval Management"
                             AssemLine.Modify();
                         until AssemLine.next() = 0;
 
+                    if AssemblyHeader."Approved Quantity" <> AssemblyHeader.Quantity then begin
+                        AssemblyHeader."Approved Quantity" := AssemblyHeader.Quantity;
+                    end;
                     AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
                     AssemblyHeader."Approval Cycle No." += 1;
                     AssemblyHeader.Modify();
