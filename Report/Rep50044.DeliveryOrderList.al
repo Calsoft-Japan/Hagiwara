@@ -227,7 +227,8 @@ report 50044 "Delivery Order List"
                 column(Shortage; Shortage)
                 {
                 }
-                column(Sales_Line__Outstanding_Quantity_; "Outstanding Quantity")
+                //column(Sales_Line__Outstanding_Quantity_; "Outstanding Quantity")
+                column(Sales_Line__Outstanding_Quantity_; "QtyToShip")
                 {
                     DecimalPlaces = 0 : 0;
                 }
