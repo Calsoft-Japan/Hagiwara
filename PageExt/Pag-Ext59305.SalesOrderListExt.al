@@ -575,7 +575,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                             CSVBuffer.InsertEntry(LineNo, 32, SalesLine."Currency Code");
                             //N005 begin
                             //CSVBuffer.InsertEntry(LineNo, 33, '"' + Format(SalesLine."Outstanding Quantity") + '"');
-                            CSVBuffer.InsertEntry(LineNo, 33, '"' + Format(QtyToShip) + '"');
+                            CSVBuffer.InsertEntry(LineNo, 33, '"' + Format(SalesLine."Approved Quantity" - SalesLine."Quantity Shipped") + '"');
                             //N005 end
                             CSVBuffer.InsertEntry(LineNo, 34, '"' + Format(QtyToShip) + Shortage + '"');
                             CSVBuffer.InsertEntry(LineNo, 35, '"' + SalesLine."OEM Name" + '"');

@@ -228,7 +228,7 @@ report 50044 "Delivery Order List"
                 {
                 }
                 //column(Sales_Line__Outstanding_Quantity_; "Outstanding Quantity")
-                column(Sales_Line__Outstanding_Quantity_; "QtyToShip")
+                column(Sales_Line__Outstanding_Quantity_; "Approved Quantity" - "Quantity Shipped")
                 {
                     DecimalPlaces = 0 : 0;
                 }
