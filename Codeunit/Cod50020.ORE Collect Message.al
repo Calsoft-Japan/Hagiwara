@@ -29,7 +29,6 @@ codeunit 50020 "ORE Collect Message"
     end;
 
     var
-        //NoSeriesMgt: Codeunit NoSeriesManagement; //BC Upgrade
         PurchaseLine: Record "Purchase Line";
         Item: Record "Item";
         Vendor: Record "Vendor";

@@ -239,7 +239,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             trigger OnValidate()
             var
                 InvtSetup: Record "Inventory Setup";
-                //NoSeriesMgt: codeunit NoSeriesManagement; //BC Upgrade
                 NoSeries: Codeunit "No. Series";
             begin
                 //Siak Hui 20111124 - Start
@@ -459,7 +458,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                 Item: Record "Item";
                 rec_Customer: Record Customer;
                 InvtSetup: Record "Inventory Setup";
-                //NoSeriesMgt: codeunit NoSeriesManagement; //BC Upgrade
                 NoSeries: Codeunit "No. Series";
                 g_NoSeries: Code[10];
             begin

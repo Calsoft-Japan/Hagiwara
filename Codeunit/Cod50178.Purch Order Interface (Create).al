@@ -267,7 +267,6 @@ codeunit 50178 "Purch Order Interface (Create)"
         iLine: Integer;
         pType: Integer;
         rec_Customer: Record Customer;
-        //vNoSeriesMgt: Codeunit NoSeriesManagement; //BC Upgrade
         NoSeries: Codeunit "No. Series";
         rec_PurchSetup: Record "Purchases & Payables Setup";
         GlobalPONbr: Code[20];
