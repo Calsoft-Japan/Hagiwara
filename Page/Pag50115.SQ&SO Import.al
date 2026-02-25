@@ -105,6 +105,7 @@ page 50115 "SQ&SO Import"
                         ErrorDescription: Text;
                         HasError: Boolean;
                         RecSalesLine: Record "Sales Line";
+                        RecSalesHeader: Record "Sales Header";
                         RecCustomer: Record Customer;
                         RecItem: Record Item;
                     begin
@@ -132,6 +133,15 @@ page 50115 "SQ&SO Import"
                                         if not RecSalesLine.FindFirst() then begin
                                             ErrorDescription += 'Record to update was not found.';
                                             HasError := true;
+                                        end else begin
+                                            RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
+                                            if RecSalesHeader."Approval Status" in [
+                                                Enum::"Hagiwara Approval Status"::Submitted,
+                                                Enum::"Hagiwara Approval Status"::"Re-Submitted"
+                                                ] then begin
+                                                ErrorDescription := 'Record to update is applying Approval Work Flow.';
+                                                HasError := true;
+                                            end;
                                         end;
                                     end;
                                     /*2026/1/21 Channing.Zhou Add validate logic to check if the shipment date is before work date start*/

@@ -101,6 +101,7 @@ page 50116 "PO Import"
                         ErrorDescription: Text;
                         HasError: Boolean;
                         RecPurchaseLine: Record "Purchase Line";
+                        RecPurchaseHeader: Record "Purchase Header";
                         RecVendor: Record Vendor;
                         RecItem: Record Item;
                     begin
@@ -123,6 +124,15 @@ page 50116 "PO Import"
                                         if not RecPurchaseLine.FindFirst() then begin
                                             ErrorDescription := 'Record to update was not found.';
                                             HasError := true;
+                                        end else begin
+                                            RecPurchaseHeader.Get(RecPurchaseLine."Document Type", RecPurchaseLine."Document No.");
+                                            if RecPurchaseHeader."Approval Status" in [
+                                                Enum::"Hagiwara Approval Status"::Submitted,
+                                                Enum::"Hagiwara Approval Status"::"Re-Submitted"
+                                                ] then begin
+                                                ErrorDescription := 'Record to update is applying Approval Work Flow.';
+                                                HasError := true;
+                                            end;
                                         end;
                                     end;
 

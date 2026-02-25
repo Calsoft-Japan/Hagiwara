@@ -16,6 +16,7 @@ codeunit 50114 "Vendor Import"
         ExcelImportSucess: Label 'Import finished.';
         EntryNoNotValid: Label 'Entry No. is not valid.';
         EntryNoRequested: Label 'Entry No. is requested, can''t be empty.';
+        NameRequested: Label 'Name is requested, can''t be empty.';
         EntryNoDuplicated: Label 'Entry No. is duplicated.';
         MaximumOrderQuantityNotValid: Label 'Maximum Order Quantity is not valid.';
         ApplicationMethodMsg: Label 'Application Method is not valid.';
@@ -58,6 +59,7 @@ codeunit 50114 "Vendor Import"
         PartnerTypeStr: Text;
         UpdatePOriceTargetDateStr: Text;
         BlockedStr: Text;
+        NameStr: Text;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -77,6 +79,7 @@ codeunit 50114 "Vendor Import"
 
             //----------------------Preparing for the check----------------------
             EntryNoStr := GetValueAtCell(RowNo, 1).Trim();
+            NameStr := GetValueAtCell(RowNo, 3).Trim();
             ApplicationMethodStr := GetValueAtCell(RowNo, 27).Trim();
             PartnerTypeStr := GetValueAtCell(RowNo, 44).Trim();
             UpdatePOriceTargetDateStr := GetValueAtCell(RowNo, 68).Trim();
@@ -93,6 +96,9 @@ codeunit 50114 "Vendor Import"
                 Error(EntryNoDuplicated);
             end;
 
+            if (NameStr = '') then begin
+                Error(NameRequested);
+            end;
             //Option Value Check
             //Application Method
             /* if (not Evaluate(rec_POInt."Application Method", ApplicationMethodStr)) then begin
