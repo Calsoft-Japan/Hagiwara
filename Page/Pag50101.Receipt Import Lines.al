@@ -1,6 +1,7 @@
 page 50101 "Receipt Import Lines"
 {
 
+    ApplicationArea = all;
     Editable = false;
     PageType = List;
     SourceTable = "Receipt Import Line";
@@ -53,6 +54,7 @@ page 50101 "Receipt Import Lines"
                 }
                 field(Status; Rec.Status)
                 {
+                    ApplicationArea = all;
                 }
                 field("Error Description"; REC."Error Description")
                 {
@@ -74,6 +76,7 @@ page 50101 "Receipt Import Lines"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
+                    ApplicationArea = all;
 
                     trigger OnAction()
                     var
@@ -88,6 +91,7 @@ page 50101 "Receipt Import Lines"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
+                    ApplicationArea = all;
 
                     trigger OnAction()
                     var
@@ -113,6 +117,7 @@ page 50101 "Receipt Import Lines"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
+                    ApplicationArea = all;
 
                     trigger OnAction()
                     var
@@ -138,6 +143,7 @@ page 50101 "Receipt Import Lines"
                     Promoted = true;
                     PromotedIsBig = true;
                     PromotedCategory = Process;
+                    ApplicationArea = all;
 
                     trigger OnAction()
                     var

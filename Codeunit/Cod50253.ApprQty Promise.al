@@ -2,6 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
+
+/*
+// validation failed  PTE0021
 namespace Microsoft.Inventory.Availability;
 
 using Microsoft.Assembly.Document;
@@ -16,6 +19,7 @@ using Microsoft.Inventory.Transfer;
 using Microsoft.Projects.Project.Planning;
 using Microsoft.Purchases.Document;
 using Microsoft.Sales.Document;
+*/
 
 codeunit 50253 "Approved Qty. to Promise"
 {

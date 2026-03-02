@@ -2,6 +2,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
+//
+/*
+// validation failed  PTE0021
 namespace Microsoft.Sales.Document;
 
 using Microsoft.Foundation.Enums;
@@ -9,6 +12,7 @@ using Microsoft.Foundation.UOM;
 using Microsoft.Inventory.Availability;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Tracking;
+*/
 
 codeunit 50251 "Sales Approved Qty. Mgt."
 {
