@@ -58,6 +58,36 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
             end;
         }
 
+        modify("Post and &Print")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+                ItemJourLine: Record "Item Journal Line";
+            begin
+                recApprSetup.Get();
+                if (recApprSetup."Item Journal") then begin
+                    //Why need this copy(Rec)?
+                    //The lines to be post are possibly filtered (opened from approval email is also in this case).
+                    //Make sure the lines to be checked are as same as what users see on the BC screen.
+                    ItemJourLine.Copy(Rec);
+                    ItemJourLine.SetRange("Journal Template Name", Rec."Journal Template Name");
+                    ItemJourLine.SetRange("Journal Batch Name", Rec."Journal Batch Name");
+                    if ItemJourLine.FindSet() then
+                        repeat
+                            if not (ItemJourLine."Approval Status" in
+                                [Enum::"Hagiwara Approval Status"::"Not Applicable",
+                                Enum::"Hagiwara Approval Status"::Approved,
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"
+                                ]) then begin
+                                Error('All lines need to be approved.');
+                            end;
+                        until ItemJourLine.Next() = 0;
+
+                end;
+            end;
+        }
+
         addbefore("P&osting")
         {
             group("Hagiwara Approval")

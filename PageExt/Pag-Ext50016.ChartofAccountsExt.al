@@ -4,6 +4,13 @@ pageextension 50016 ChartofAccountsExt extends "Chart of Accounts"
 
     layout
     {
+        addafter(Name)
+        {
+            field(Description; Rec.Description)
+            {
+                ApplicationArea = all;
+            }
+        }
         addafter("Gen. Prod. Posting Group")
         {
             field("Approval Status"; rec."Approval Status")

@@ -4,6 +4,10 @@ pageextension 50018 GLAccountListExt extends "G/L Account List"
     {
         addafter(Name)
         {
+            field(Description; Rec.Description)
+            {
+                ApplicationArea = all;
+            }
             field("Debit Amount"; Rec."Debit Amount")
             {
                 ApplicationArea = all;

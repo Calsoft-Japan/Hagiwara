@@ -1,7 +1,6 @@
 page 50131 "Hagiwara Approval Comment"
 {
     ApplicationArea = All;
-    UsageCategory = Administration;
     PageType = StandardDialog;
 
     layout

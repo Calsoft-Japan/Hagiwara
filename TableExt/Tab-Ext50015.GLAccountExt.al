@@ -33,6 +33,9 @@ tableextension 50015 "G/L Account Ext" extends "G/L Account"
         {
             Description = 'ACWSH';
         }
+        field(50011; Description; Text[250])
+        {
+        }
         field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
         {
             Editable = false;

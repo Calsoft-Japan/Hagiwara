@@ -2,7 +2,6 @@ page 50133 "Hagiwara Approval Link FB"
 {
     Caption = 'Approval Link';
     ApplicationArea = All;
-    UsageCategory = Administration;
     PageType = CardPart;
     SourceTable = "Hagiwara Approval Entry";
 

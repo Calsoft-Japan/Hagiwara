@@ -1812,6 +1812,7 @@ codeunit 50109 "Hagiwara Approval Management"
     local procedure GetDataPageURI(pData: Enum "Hagiwara Approval Data"; pDataNo: Code[20]): Text
     var
         PriceListHeader: Record "Price List Header";
+        recItemJnlLine: Record "Item Journal Line";
     begin
         case pData of
             Enum::"Hagiwara Approval Data"::"Sales Order":
@@ -1827,9 +1828,25 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"Purchase Return Order":
                 exit('&page=6640&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Journal":
-                exit('&page=40&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
+                begin
+                    recItemJnlLine.SetRange("Document No.", pDataNo);
+                    if recItemJnlLine.FindFirst() then begin
+                        exit('&page=40&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + ''''
+                                + ' and ''Item Journal Line''.''Journal Template Name'' is ''' + recItemJnlLine."Journal Template Name" + ''''
+                                + ' and ''Item Journal Line''.''Journal Batch Name'' is ''' + recItemJnlLine."Journal Batch Name" + ''''
+                        );
+                    end;
+                end;
             Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
-                exit('&page=393&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
+                begin
+                    recItemJnlLine.SetRange("Document No.", pDataNo);
+                    if recItemJnlLine.FindFirst() then begin
+                        exit('&page=393&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + ''''
+                                + ' and ''Item Journal Line''.''Journal Template Name'' is ''' + recItemJnlLine."Journal Template Name" + ''''
+                                + ' and ''Item Journal Line''.''Journal Batch Name'' is ''' + recItemJnlLine."Journal Batch Name" + ''''
+                        );
+                    end;
+                end;
             Enum::"Hagiwara Approval Data"::"Transfer Order":
                 exit('&page=5740&filter=''Transfer Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Assembly Order":
@@ -1860,6 +1877,8 @@ codeunit 50109 "Hagiwara Approval Management"
                     exit('&page=50106&filter=''Price List Import Batch''.''Name'' is ''' + pDataNo + '''');
                 end;
         end;
+
+        exit('');
 
     end;
 

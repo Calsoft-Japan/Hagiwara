@@ -26,6 +26,27 @@ pageextension 55740 TransferOrderExt extends "Transfer Order"
     }
     actions
     {
+        modify("&Print")
+        {
+            trigger OnBeforeAction()
+            var
+                recApprSetup: Record "Hagiwara Approval Setup";
+            begin
+
+                //N005 Begin
+                recApprSetup.Get();
+                if (recApprSetup."Transfer Order") then begin
+                    if not (Rec."Approval Status" in
+                        [enum::"Hagiwara Approval Status"::Approved,
+                        enum::"Hagiwara Approval Status"::"Auto Approved",
+                        enum::"Hagiwara Approval Status"::"Not Applicable"
+                        ]) then begin
+                        Error('It is not approved yet.');
+                    end;
+                end;
+                //N005 End
+            end;
+        }
         modify("Post")
         {
             trigger OnBeforeAction()

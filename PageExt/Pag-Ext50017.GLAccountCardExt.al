@@ -2,6 +2,13 @@ pageextension 50017 GLAccountCardExt extends "G/L Account Card"
 {
     layout
     {
+        addafter(Name)
+        {
+            field(Description; Rec.Description)
+            {
+                ApplicationArea = all;
+            }
+        }
         addafter(Blocked)
         {
             field("Approval Status"; rec."Approval Status")
