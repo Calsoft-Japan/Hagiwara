@@ -1829,6 +1829,11 @@ codeunit 50109 "Hagiwara Approval Management"
                 exit('&page=6640&filter=''Purchase Header''.''No.'' is ''' + pDataNo + '''');
             Enum::"Hagiwara Approval Data"::"Item Journal":
                 begin
+                    // w/o batch name.
+                    exit('&page=40&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
+
+                    // if batch name is necessary, use the below.
+                    /*
                     recItemJnlLine.SetRange("Document No.", pDataNo);
                     if recItemJnlLine.FindFirst() then begin
                         exit('&page=40&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + ''''
@@ -1836,9 +1841,15 @@ codeunit 50109 "Hagiwara Approval Management"
                                 + ' and ''Item Journal Line''.''Journal Batch Name'' is ''' + recItemJnlLine."Journal Batch Name" + ''''
                         );
                     end;
+                    */
                 end;
             Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
                 begin
+                    // w/o batch name.
+                    exit('&page=393&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + '''');
+
+                    // if batch name is necessary, use the below.
+                    /*
                     recItemJnlLine.SetRange("Document No.", pDataNo);
                     if recItemJnlLine.FindFirst() then begin
                         exit('&page=393&filter=''Item Journal Line''.''Document No.'' is ''' + pDataNo + ''''
@@ -1846,6 +1857,7 @@ codeunit 50109 "Hagiwara Approval Management"
                                 + ' and ''Item Journal Line''.''Journal Batch Name'' is ''' + recItemJnlLine."Journal Batch Name" + ''''
                         );
                     end;
+                    */
                 end;
             Enum::"Hagiwara Approval Data"::"Transfer Order":
                 exit('&page=5740&filter=''Transfer Header''.''No.'' is ''' + pDataNo + '''');
