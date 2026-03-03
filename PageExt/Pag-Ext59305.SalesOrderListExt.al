@@ -343,7 +343,7 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
             action("ExportDeliveryOrderList")
             {
                 ApplicationArea = all;
-                Caption = 'ExportDelivery Order List';
+                Caption = 'Export Delivery Order List';
                 Image = Export;
                 Scope = Repeater;
                 trigger OnAction()
