@@ -240,7 +240,7 @@ report 50045 "DeliveryOrderListTransferOrder"
                 column(Shortage; Shortage)
                 {
                 }
-                column(Transfer_Line__Outstanding_Quantity_; "Outstanding Quantity")
+                column(Transfer_Line__Outstanding_Quantity_; "Transfer Line"."Approved Quantity" - "Transfer Line"."Quantity Shipped")
                 {
                     DecimalPlaces = 0 : 0;
                 }
@@ -306,7 +306,7 @@ report 50045 "DeliveryOrderListTransferOrder"
                 column(Transfer_Line_Line_No_; "Line No.")
                 {
                 }
-                column(Out_qty; "Transfer Line"."Outstanding Quantity")
+                column(Out_qty; "Transfer Line"."Approved Quantity" - "Transfer Line"."Quantity Shipped")
                 {
                 }
 
@@ -529,8 +529,8 @@ report 50045 "DeliveryOrderListTransferOrder"
     trigger OnPreReport()
     begin
         //CustFilter := Customer.GETFILTERS;
-        SalesLineFilter := "Transfer Line".GETFILTERS;
-        PeriodText := "Transfer Line".GETFILTER("Shipment Date");
+        //SalesLineFilter := "Transfer Header".GETFILTERS;
+        //PeriodText := "Transfer Line".GETFILTER("Shipment Date");
         CalcQtyAvailable;
         /* bobby
                 //HG2.00
