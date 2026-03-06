@@ -13,7 +13,7 @@ codeunit 50150 "Hagiwara Send Email"
             exit;
 
         // Find email sender.
-        FromEmailAccount := 'Hagiwara Approval';
+        FromEmailAccount := 'Email Notify';
         CuEmailAccount.GetAllAccounts(TempCuEmailAccount);
         TempCuEmailAccount.Reset;
         TempCuEmailAccount.SetRange(Name, FromEmailAccount);
