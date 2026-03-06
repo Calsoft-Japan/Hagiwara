@@ -234,7 +234,7 @@ report 50077 "Renesas PO Check List"
                     IF rec_PurchLine.FINDSET THEN BEGIN
                         REPEAT
                             g_POQty := g_POQty + rec_PurchLine.Quantity;  //Existing PO
-                        UNTIL rec_RenPOInt.NEXT = 0;
+                        UNTIL rec_PurchLine.NEXT = 0;
                     END;
 
                     IF g_POQty < 0 THEN BEGIN
@@ -248,6 +248,26 @@ report 50077 "Renesas PO Check List"
                             g_UpdWar := g_UpdWar + 1;
                         END;
                     END;
+
+                    rec_ApprSetup.Get();
+                    if rec_ApprSetup."Purchase Order" then begin
+                        rec_PurchLine.RESET;
+                        rec_PurchLine.SETRANGE(rec_PurchLine."CO No.", "CO No.");
+                        rec_PurchLine.SETFILTER(rec_PurchLine."CO No.", '=%1', "CO No.");
+                        IF rec_PurchLine.FINDSET THEN
+                            REPEAT
+                                if rec_PurchHeader.Get(rec_PurchLine."Document Type", rec_PurchLine."Document No.") then begin
+                                    if rec_PurchHeader."Approval Status" in
+                                        [Enum::"Hagiwara Approval Status"::Submitted,
+                                        Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+
+                                        g_DupRec := 'Error';
+                                        ind_Error := '1';
+                                        g_UpdErr := g_UpdErr + 1;
+                                    end;
+                                end;
+                            UNTIL rec_PurchLine.NEXT = 0;
+                    end;
                 END;
                 //CS031 End
 
@@ -484,6 +504,8 @@ report 50077 "Renesas PO Check List"
         g_ItemNo: Code[20];
         rec_Item: Record Item;
         rec_PurchLine: Record "Purchase Line";
+        rec_PurchHeader: Record "Purchase Header";
+        rec_ApprSetup: Record "Hagiwara Approval Setup";
         g_PONo: Code[20];
         g_POQty: Decimal;
         g_PriceMark: Text[1];

@@ -12,20 +12,16 @@ codeunit 50178 "Purch Order Interface (Create)"
 
         //MESSAGE(IN_setup."Supplier Item Source");
 
-        /*
-        IF  rec_PurchPayableSetup."Create Renesas PO Error Code" = '1' THEN
-            BEGIN
-               ERROR(Text002);
-               EXIT;
-            END;*/
-        /*
-    IF  rec_PurchPayableSetup."Create Renesas PO Status" <> '2' THEN
-        BEGIN
+        IF rec_PurchPayableSetup."Create Renesas PO Error Code" = '1' THEN BEGIN
+            ERROR(Text002);
+            EXIT;
+        END;
+
+        IF rec_PurchPayableSetup."Create Renesas PO Status" <> '2' THEN BEGIN
             ERROR(Text001);
             EXIT;
-        END;*/
+        END;
         g_Error := 0;
-
 
         //MESSAGE('PO Data interface Start');
         rec_PurchSetup.GET;
