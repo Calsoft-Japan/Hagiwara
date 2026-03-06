@@ -21,7 +21,8 @@ codeunit 50116 "PO Import"
         ExcelColNoError: Label 'The column number is not matching.';
         EntryNoNotValid: Label 'The Entry No. is not valid.';
         EntryNoDuplicated: Label 'The Entry No. is duplicated.';
-        GroupKeyNotValid: Label 'Group Key is not valid.';
+        GroupKeyNotValid: Label 'Grouping Key is not valid.';
+        GroupKeyRequested: Label 'Grouping Key is requested.';
         VendorNoRequested: Label 'Vendor No. is requested, can''t be empty.';
         OrderDateNotValid: Label 'Order Date is not valid.';
         RequestedReceiptDateNotValid: Label 'Requested Receipt Date is not valid.';
@@ -124,6 +125,14 @@ codeunit 50116 "PO Import"
             if ((EntryNoStr = '') or (not Evaluate(EntryNo, EntryNoStr))) then begin
                 Error(EntryNoNotValid);
             end;
+
+            if (GroupKeyStr = '') then
+                Error(GroupKeyRequested);
+
+            if (not Evaluate(GroupKey, GroupKeyStr)) then begin
+                Error(GroupKeyNotValid);
+            end;
+
             RecPOImportCheck.Reset();
             RecPOImportCheck.SetRange("Entry No.", EntryNo);
             if not RecPOImportCheck.IsEmpty() then begin
@@ -139,9 +148,7 @@ codeunit 50116 "PO Import"
                 end;
             end
             else begin
-                if ((GroupKeyStr = '') or (not Evaluate(GroupKey, GroupKeyStr))) then begin
-                    Error(GroupKeyNotValid);
-                end;
+
 
                 if (VendorNoStr = '') then begin
                     Error(VendorNoRequested);
@@ -254,7 +261,8 @@ codeunit 50116 "PO Import"
                             RecPurchaseLine."Approval History Exists" := true;
                             RecPurchaseLine.Modify();
                         end;
-                        RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;
+                        //RecPurchaseHeader."Approval Status" := tmpHeaderAppSta;
+                        RecPurchaseHeader."Approval Status" := RecPurchaseHeader."Approval Status"::"Auto Approved";
                         RecPurchaseHeader.Modify();
 
                         RecPOImportInsert.Status := RecPOImportInsert.Status::Completed;

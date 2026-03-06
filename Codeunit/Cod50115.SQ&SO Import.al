@@ -330,7 +330,8 @@ codeunit 50115 "SQ&SO Import"
                     /*2025/1/15 Channing.Zhou changed based on FDDV1.1 set the sales header back to released if the status is reopened on udate case end*/
                     RecSalesHeader.Reset();
                     RecSalesHeader.Get(RecSalesLine."Document Type", RecSalesLine."Document No.");
-                    RecSalesHeader."Approval Status" := tmpHeaderAppSta;
+                    //RecSalesHeader."Approval Status" := tmpHeaderAppSta;
+                    RecSalesHeader."Approval Status" := RecSalesHeader."Approval Status"::"Auto Approved";
                     RecSalesHeader.Modify();
                     //Commit();
                     RecSQSOImport.Status := RecSQSOImport.Status::Completed;
