@@ -190,6 +190,8 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
 
         EmailTo := ICPartner."IC Transaction Partner Email";
 
+        // Insert the email data to Email Queue, instead of sending email directly.
+        /*
         FromEmailAccount := 'IC Approval';
         EmailToList := EmailTo.Split(';');
         EmailCCList := EmailCC.Split(';');
@@ -216,6 +218,17 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         end else begin
             Error('There is no email account ''%1''', FromEmailAccount);
         end;
+        */
+
+        InsertEmailQueue(
+            pICOutboxTransaction."Transaction No.",
+            EmailTo,
+            EmailCC,
+            subject,
+            body,
+            Enum::"HW Email IC Doc Type"::"Purchase Order",
+            pPurchHeader."No."
+        );
 
     end;
 
@@ -268,6 +281,8 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         if userinfo.FindFirst() then
             EmailTo := userinfo."Contact Email";
 
+        // Insert the email data to Email Queue, instead of sending email directly.
+        /*
         FromEmailAccount := 'IC Approval';
         EmailToList := EmailTo.Split(';');
         EmailCCList := EmailCC.Split(';');
@@ -284,9 +299,45 @@ codeunit 50427 "ICInboxOutboxMgt Subscriber"
         end else begin
             Message('The action is processed while Email Account seems not setup right.');
         end;
+        */
+
+        InsertEmailQueue(
+            pICInboxTransaction."Transaction No.",
+            EmailTo,
+            EmailCC,
+            subject,
+            body,
+            Enum::"HW Email IC Doc Type"::Rejected,
+            pICInboxTransaction."Document No."
+        );
 
     end;
 
+    local procedure InsertEmailQueue(
+        pTransNo: Integer;
+        pEmailTo: Text;
+        pEmailCC: Text;
+        pEmailSubject: Text;
+        pEmailBody: Text;
+        pICDocType: Enum "HW Email IC Doc Type";
+        pICDocNo: Code[20])
+    var
+        EmailQueue: Record "Email Queue Entry";
+    begin
 
+        EmailQueue.Init();
+        EmailQueue."Entry No." := EmailQueue.GetNextNo();
+        EmailQueue.Type := EmailQueue.Type::"IC Trade";
+        EmailQueue."App. Entry No. / Trans. No." := pTransNo;
+        EmailQueue."IC Doc. Type" := pICDocType;
+        EmailQueue."IC Doc. No." := pICDocNo;
+        EmailQueue."Send From" := UserId;
+        EmailQueue."Send To" := pEmailTo;
+        EmailQueue."Email Subject" := pEmailSubject;
+        EmailQueue."Email Body" := pEmailBody;
+        EmailQueue.Status := Enum::"HW Email Status"::"Ready to Send";
+        EmailQueue.Insert();
+
+    end;
 
 }

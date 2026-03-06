@@ -2003,7 +2003,37 @@ codeunit 50109 "Hagiwara Approval Management"
         if userinfo.FindFirst() then
             EmailCC := userinfo."Contact Email";
 
-        SendEmail(EmailTo, EmailCC, subject, body);
+        // Insert the email data to Email Queue, instead of sending email directly.
+        //SendEmail(EmailTo, EmailCC, subject, body);
+        InsertEmailQueue(
+            pApprEntry."Entry No.",
+            EmailTo,
+            EmailCC,
+            subject,
+            body);
+
+    end;
+
+    local procedure InsertEmailQueue(
+        pApprEntryNo: Integer;
+        pEmailTo: Text;
+        pEmailCC: Text;
+        pEmailSubject: Text;
+        pEmailBody: Text)
+    var
+        EmailQueue: Record "Email Queue Entry";
+    begin
+
+        EmailQueue.Init();
+        EmailQueue."Entry No." := EmailQueue.GetNextNo();
+        EmailQueue.Type := enum::"HW Email Type"::"Approval Management";
+        EmailQueue."App. Entry No. / Trans. No." := pApprEntryNo;
+        EmailQueue."Send From" := UserId;
+        EmailQueue."Send To" := pEmailTo;
+        EmailQueue."Email Subject" := pEmailSubject;
+        EmailQueue."Email Body" := pEmailBody;
+        EmailQueue.Status := Enum::"HW Email Status"::"Ready to Send";
+        EmailQueue.Insert();
 
     end;
 
