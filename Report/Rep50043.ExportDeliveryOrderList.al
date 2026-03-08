@@ -161,7 +161,14 @@ report 50043 "Export Delivery Order List "
                     //CSVBuffer.InsertEntry(LineNo, 31, '"' + Format("Sales Line"."Unit Price") + '"');
                     CSVBuffer.InsertEntry(LineNo, 31, '"' + Format("Sales Line"."Approved Unit Price") + '"');
                     //N005
-                    CSVBuffer.InsertEntry(LineNo, 32, "Sales Line"."Currency Code");
+                    //BC Upgrade Begin
+                    //CSVBuffer.InsertEntry(LineNo, 32, "Sales Line"."Currency Code");
+                    if "Sales Line"."Currency Code" <> '' then begin
+                        CSVBuffer.InsertEntry(LineNo, 32, "Sales Line"."Currency Code");
+                    end else begin
+                        CSVBuffer.InsertEntry(LineNo, 32, recGLSetup."LCY Code");
+                    end;
+                    //BC Upgrade End
                     //N005 begin
                     //CSVBuffer.InsertEntry(LineNo, 33, '"' + Format("Sales Line"."Outstanding Quantity") + '"');
                     CSVBuffer.InsertEntry(LineNo, 33, '"' + Format("Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped") + '"');
@@ -216,6 +223,7 @@ report 50043 "Export Delivery Order List "
         CompanyInfo.CALCFIELDS(Picture);
         LineNo := 1;
         CSVBuffer.DeleteAll();
+        recGLSetup.Get(); //BC Upgrade
     end;
 
 
@@ -226,6 +234,7 @@ report 50043 "Export Delivery Order List "
         SalesLineFilter := "Sales Line".GETFILTERS;
         PeriodText := "Sales Line".GETFILTER("Shipment Date");
         AddCSVHeader(CSVBuffer, LineNo);
+
     end;
 
 
@@ -241,6 +250,7 @@ report 50043 "Export Delivery Order List "
         fileName: text;
         SalesLineFilter: Text[250];
         PeriodText: Text[30];
+        recGLSetup: Record "General Ledger Setup";
 
     procedure SetCustomer(CustNo: Text)
     begin

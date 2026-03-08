@@ -772,7 +772,10 @@ report 50044 "Delivery Order List"
                     WorkRec."Shipment Date" := "Sales Line"."Shipment Date";
                     WorkRec."Document No." := "Sales Line"."Document No.";
                     WorkRec."Line No." := "Sales Line"."Line No.";
-                    WorkRec.Quantity := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                    //N005 Begin
+                    //WorkRec.Quantity := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                    WorkRec.Quantity := "Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped";
+                    //N005 End
                     WorkRec.Location := "Sales Line"."Location Code";
                     //v20210126 Start
                     RsvQty := 0;
