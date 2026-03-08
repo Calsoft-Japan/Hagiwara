@@ -43,6 +43,13 @@ codeunit 50179 "Renesas PO Interface (Update)"
                     //CS062 End
                     rec_PurchLine.VALIDATE(Quantity, g_Qty);
                     rec_PurchLine."Previous Document Date" := rec_POInt."Document Date";
+
+                    //BC upgrade N005 Begin
+                    recApprSetup.Get();
+                    if recApprSetup."Purchase Order" then begin
+                        rec_PurchLine."Approved Quantity" := g_Qty;
+                        rec_PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
+                    end;
                     rec_PurchLine.MODIFY;
 
                     //CS062 Begin
@@ -70,6 +77,7 @@ codeunit 50179 "Renesas PO Interface (Update)"
 
     var
         rec_PurchPayableSetup: Record "Purchases & Payables Setup";
+        recApprSetup: Record "Hagiwara Approval Setup";
         rec_POInt: Record "Renesas PO Interface";
         LastFieldNo: Integer;
         FooterPrinted: Boolean;
