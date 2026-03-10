@@ -1194,6 +1194,10 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"Item Journal":
                 begin
                     ItemJourLine.SetRange("Document No.", pApprEntry."No.");
+                    if ItemJourLine.FindFirst() then begin
+                        ItemJourLine.SetRange("Journal Template Name", ItemJourLine."Journal Template Name");
+                        ItemJourLine.SetRange("Journal Batch Name", ItemJourLine."Journal Batch Name");
+                    end;
                     if not ItemJourLine.IsEmpty() then begin
                         DocFound := true;
                         Page.RunModal(Page::"Item Journal", ItemJourLine);
@@ -1202,6 +1206,10 @@ codeunit 50109 "Hagiwara Approval Management"
             Enum::"Hagiwara Approval Data"::"Item Reclass Journal":
                 begin
                     ItemJourLine.SetRange("Document No.", pApprEntry."No.");
+                    if ItemJourLine.FindFirst() then begin
+                        ItemJourLine.SetRange("Journal Template Name", ItemJourLine."Journal Template Name");
+                        ItemJourLine.SetRange("Journal Batch Name", ItemJourLine."Journal Batch Name");
+                    end;
                     if not ItemJourLine.IsEmpty() then begin
                         DocFound := true;
                         Page.RunModal(Page::"Item Reclass. Journal", ItemJourLine);
