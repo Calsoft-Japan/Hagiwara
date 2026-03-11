@@ -56,17 +56,21 @@ tableextension 55740 "Transfer Header Ext" extends "Transfer Header"
         recLocation: Record Location;
     begin
 
-        //check if location is approval target.
-        if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") or (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
-            if (recLocation.Get(Rec."Transfer-from Code")) and (not recLocation."Approval Target")
-            and (recLocation.Get(Rec."Transfer-to Code")) and (not recLocation."Approval Target") then begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."Transfer Order") then begin
+            //check if location is approval target.
+            if (xRec."Transfer-from Code" <> Rec."Transfer-from Code") or (xRec."Transfer-to Code" <> Rec."Transfer-to Code") then begin
+                if (recLocation.Get(Rec."Transfer-from Code")) and (not recLocation."Approval Target")
+                and (recLocation.Get(Rec."Transfer-to Code")) and (not recLocation."Approval Target") then begin
 
-                //cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
-                rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
-                rec.Modify();
-            end else begin
-                rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
-                rec.Modify();
+                    //cuApprMgt.AutoApprove(enum::"Hagiwara Approval Data"::"Transfer Order", Rec."No.", UserId);
+                    rec."Approval Status" := Enum::"Hagiwara Approval Status"::"Not Applicable";
+                    rec.Modify();
+                end else begin
+                    rec."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+                    rec.Modify();
+                end;
             end;
         end;
     end;
