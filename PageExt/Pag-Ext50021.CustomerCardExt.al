@@ -62,16 +62,12 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             {
                 ApplicationArea = all;
             }
-        }
-
-        addafter(County)
-        {
-
             field("ORE State/Province"; Rec."ORE State/Province")
             {
                 ApplicationArea = all;
             }
         }
+
         addafter("Country/Region Code")
         {
 
