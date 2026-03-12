@@ -420,6 +420,7 @@ codeunit 50109 "Hagiwara Approval Management"
     var
         recApprHrcy: Record "Hagiwara Approval Hierarchy";
         recApprEntry: Record "Hagiwara Approval Entry";
+        recNextApprEntry: Record "Hagiwara Approval Entry";
         pagComment: page "Hagiwara Approval Comment";
         SalesHeader: Record "Sales Header";
         PurchHeader: Record "Purchase Header";
@@ -463,7 +464,7 @@ codeunit 50109 "Hagiwara Approval Management"
                 nextApprover := recApprHrcy."Approver User Name";
                 nextApprover := GetSubstitution(nextApprover);
 
-                InsertApprEntry(
+                recNextApprEntry := InsertApprEntry(
                     pData,
                     pDataNo,
                     recApprEntry.Requester,
@@ -587,6 +588,8 @@ codeunit 50109 "Hagiwara Approval Management"
                             PriceListImportBatch.Modify();
                         end;
                 end;
+
+                SendNotificationEmail(pData, pDataNo, pUsername, nextApprover, '', Enum::"Hagiwara Approval Action"::Submit, recNextApprEntry);
 
             end else begin
                 //if final approver, change the status of the data to Approved, and count "Approval Cycle No.".
