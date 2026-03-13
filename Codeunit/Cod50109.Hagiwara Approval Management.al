@@ -762,6 +762,9 @@ codeunit 50109 "Hagiwara Approval Management"
 
                         end;
                 end;
+
+                SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, '', Enum::"Hagiwara Approval Action"::Approve, recApprEntry);
+
             end;
 
             // update the current approval entry data.
@@ -769,8 +772,6 @@ codeunit 50109 "Hagiwara Approval Management"
             recApprEntry.Open := false;
             recApprEntry."Close Date" := CurrentDateTime;
             recApprEntry.Modify();
-
-            SendNotificationEmail(pData, pDataNo, pUsername, recApprEntry.Requester, nextApprover, Enum::"Hagiwara Approval Action"::Approve, recApprEntry);
 
             Message('Approval Request approved.\\The following approval request was sent if the furthermore approval is necessary.');
         end;
