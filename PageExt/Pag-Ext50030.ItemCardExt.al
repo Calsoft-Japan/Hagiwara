@@ -460,6 +460,19 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
         {
             Visible = false;
         }
+
+        addlast(PurchPricesandDiscounts)
+        {
+            action("Set Markups & Added Values")
+            {
+
+                ApplicationArea = all;
+                Image = SendApprovalRequest;
+                RunObject = Page "Markup & Added Value";
+                RunPageLink = "Item No." = field("No.");
+
+            }
+        }
     }
 
 

@@ -250,12 +250,15 @@ tableextension 50038 "Purchase Header Ext" extends "Purchase Header"
         {
             trigger OnBeforeValidate()
             begin
+                //BC Upgrade
+                /*
                 // YUKA for Hagiwara 20030228
                 IF ("Expected Receipt Date" < WORKDATE) AND ("Expected Receipt Date" <> 0D) THEN
                     ERROR(Text111);
                 IF "Expected Receipt Date" > CALCDATE('+6M', WORKDATE) THEN
                     ERROR(Text112);
                 // YUKA for Hagiwara 20030228 - END
+                */
             end;
 
         }

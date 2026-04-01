@@ -189,6 +189,19 @@ pageextension 50031 ItemListExt extends "Item List"
         {
             Visible = false;
         }
+
+        addlast(PurchPricesandDiscounts)
+        {
+            action("Set Markups & Added Values")
+            {
+
+                ApplicationArea = all;
+                Image = SendApprovalRequest;
+                RunObject = Page "Markup & Added Value";
+                RunPageLink = "Item No." = field("No.");
+
+            }
+        }
     }
 
     trigger OnAfterGetRecord()

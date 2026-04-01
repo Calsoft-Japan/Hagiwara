@@ -420,6 +420,8 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
                 Text101: Label 'Shipment Date is before workdate';
                 Text102: Label 'Shipment Date is more than 6 month later';
             begin
+                //BC Upgrade
+                /*
                 // YUKA for Hagiwara 20030228
                 IF "Shipment Date" < WORKDATE THEN
                     ERROR(Text101);
@@ -429,6 +431,7 @@ tableextension 50036 "Sales Header Ext" extends "Sales Header"
                         ERROR(Text102);
                 END;
                 // YUKA for Hagiwara 20030228 - END
+                */
             end;
         }
 
