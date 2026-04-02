@@ -17,10 +17,19 @@ page 50085 "Markup & Added Value"
                 {
                     ApplicationArea = All;
                     TableRelation = Item."No.";
+
+                    trigger OnValidate()
+                    begin
+                        SetRecFilters();
+                    end;
                 }
                 field(StartingDateFilter; StartingDateFilter)
                 {
                     ApplicationArea = All;
+                    trigger OnValidate()
+                    begin
+                        SetRecFilters();
+                    end;
                 }
 
             }
@@ -56,6 +65,12 @@ page 50085 "Markup & Added Value"
         StartingDateFilter: Date;
         NoDataWithinFilterErr: Label 'There is no %1 within the filter %2.';
 
+
+    trigger OnOpenPage()
+    begin
+        ItemNoFilter := Rec.GETFILTER("Item No.");
+
+    end;
 
     local procedure SetRecFilters()
     begin
