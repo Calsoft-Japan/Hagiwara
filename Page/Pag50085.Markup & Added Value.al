@@ -1,7 +1,7 @@
 page 50085 "Markup & Added Value"
 {
     ApplicationArea = All;
-    Caption = 'Markup & Added Value';
+    Caption = 'Markups & Added Values';
     UsageCategory = Lists;
     PageType = List;
     SourceTable = "Markup & Added Value";
@@ -11,11 +11,12 @@ page 50085 "Markup & Added Value"
     {
         area(content)
         {
-            group(filter)
+            group(General)
             {
                 field(ItemNoFilter; ItemNoFilter)
                 {
                     ApplicationArea = All;
+                    Caption = 'Item No. Filter';
                     TableRelation = Item."No.";
 
                     trigger OnValidate()
@@ -26,6 +27,7 @@ page 50085 "Markup & Added Value"
                 field(StartingDateFilter; StartingDateFilter)
                 {
                     ApplicationArea = All;
+                    Caption = 'Starting Date Filter';
                     trigger OnValidate()
                     begin
                         SetRecFilters();
