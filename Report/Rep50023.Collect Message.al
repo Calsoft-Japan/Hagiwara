@@ -545,6 +545,7 @@ report 50023 "Collect Message"
                 rec_SalesLine.SETFILTER("Message Status", '=%1', rec_SalesLine."Message Status"::"Ready to Collect");
                 //Siak Hui 20110426 - END
                 rec_SalesLine.SETFILTER(Blocked, '=%1', FALSE);
+                rec_SalesLine.SETFILTER("Approved Quantity", '<>%1', 0); //BC Upgrade v1.2
                 IF rec_SalesLine.FINDSET THEN
                     REPEAT
                         window.UPDATE(1, CONST_JA);
@@ -599,7 +600,10 @@ report 50023 "Collect Message"
                                 "Booking No." := rec_SalesLine."Booking No.";
                             //Siak Hui - 02112011 End
                             "Pos/Neg Class" := CONST_Class;
-                            Quantity := rec_SalesLine.Quantity;
+                            //BC Upgrade Start
+                            //Quantity := rec_SalesLine.Quantity;
+                            Quantity := rec_SalesLine."Approved Quantity";
+                            //BC Upgrade End
                             //sh 20110426
                             "SO Document Category" := 'A';
                             "SCM Process Code" := '01';
@@ -639,7 +643,10 @@ report 50023 "Collect Message"
                             INSERT;
                             g_Monthly := g_Monthly + 1;
                             DataExist := TRUE;
-                            Collect_ControlMaster(1, rec_SalesLine.Quantity, 0)
+                            //BC Upgrade Start
+                            //Collect_ControlMaster(1, rec_SalesLine.Quantity, 0)
+                            Collect_ControlMaster(1, rec_SalesLine."Approved Quantity", 0);
+                            //BC Upgrade End
                         END;
 
                         //>> need to modify below fields under SH
@@ -913,125 +920,133 @@ report 50023 "Collect Message"
         rec_SalesLine.SETFILTER("Document Type", '=%1', rec_SalesLine."Document Type"::Order);
         rec_SalesLine.SETFILTER(Type, '=%1', rec_SalesLine.Type::Item);
         rec_SalesLine.SETFILTER("No.", '<>%1', '');
-        rec_SalesLine.SETFILTER("Outstanding Quantity (Actual)", '<>%1', 0);
+        //rec_SalesLine.SETFILTER("Outstanding Quantity (Actual)", '<>%1', 0); //BC Upgrade v1.2
         rec_SalesLine.SETFILTER("Item Supplier Source", '=%1', rec_SalesLine."Item Supplier Source"::Renesas);
         rec_SalesLine.SETFILTER("JC Collection Date", '<>%1', TODAY);
         rec_SalesLine.SETFILTER(Blocked, '=%1', FALSE);
         IF rec_SalesLine.FINDSET THEN
             REPEAT
-                window.UPDATE(1, CONST_JC);
-                window.UPDATE(2, rec_SalesLine."Document No.");
-                window.UPDATE(3, rec_SalesLine."No.");
-                //Siak 20140807
-                s_CollectPSI := TRUE;
-                //Siak End
-                WITH rec_MessageCollection DO BEGIN
-                    INIT;
-                    "Entry No." := Get_LastEntryNo(0) + 1;
-                    "File ID" := CONST_JC;
-                    "Department Gr Code" := '';               //Not in use
-                    rec_SalesHdr.GET(rec_SalesLine."Document Type", rec_SalesLine."Document No.");
-                    //Siak - Start 06022012
-                    //IF  rec_Customer.GET(rec_SalesHdr."OEM No.") THEN BEGIN
-                    //    "SCM Customer Code" := rec_Customer."Vendor Cust. Code";
-                    //END ELSE BEGIN
-                    //     IF   rec_Customer.GET(rec_SalesHdr."Sell-to Customer No.") THEN BEGIN
-                    //         "SCM Customer Code" := rec_Customer."Vendor Cust. Code";
-                    //     END;
-                    //END;
-                    "SCM Customer Code" := Get_SCMCustCode(rec_SalesLine."No.");
-                    //Siak - End
-                    "End User Code" := '';                    //Not in use
-                    "Purpose Code" := '';                     //Not in use
-                    "Supplier Code" := '';                    //Not in use
-                    "Parts Number" := Get_PartsNo(rec_SalesLine."No.");
-                    "Item Description" := Get_ItemDes2(rec_SalesLine."No.");  //CS009
-                    "Item No." := rec_SalesLine."No.";
-                    "Order Entry Date" := rec_SalesHdr."Order Date";
-                    "Demand Date" := rec_SalesLine."Shipment Date";
-                    "Order No" := FORMAT(COPYSTR(rec_SalesLine."Customer Order No.", 1, 20));
-                    //      "Booking No." := rec_SalesLine."Booking No.";
-                    IF rec_SalesLine."Original Booking No." <> '' THEN
-                        "Booking No." := rec_SalesLine."Original Booking No."
-                    ELSE
-                        "Booking No." := rec_SalesLine."Booking No.";
-                    "Pos/Neg Class" := CONST_Class;
-                    Quantity := rec_SalesLine."Outstanding Quantity (Actual)";
-                    "Update Date" := rec_SalesLine."Update Date";
-                    "Update Time" := rec_SalesLine."Update Time";
-                    "SO Document Category" := 'A';
-                    "SCM Process Code" := '01';
-                    g_DocNo_Len := STRLEN(rec_SalesLine."Document No.");
-                    g_ItemNo_Len := STRLEN(rec_SalesLine."No.");
-                    "Agent Internal Key" := PADSTR(rec_SalesLine."Document No.", g_DocNo_Len) + ' / '
-                                          + PADSTR(rec_SalesLine."No.", g_ItemNo_Len);
+                if rec_SalesLine."Approved Quantity" - rec_SalesLine."Quantity Shipped" > 0 then begin // BC Upgrade v1.2
+                    window.UPDATE(1, CONST_JC);
+                    window.UPDATE(2, rec_SalesLine."Document No.");
+                    window.UPDATE(3, rec_SalesLine."No.");
+                    //Siak 20140807
+                    s_CollectPSI := TRUE;
+                    //Siak End
+                    WITH rec_MessageCollection DO BEGIN
+                        INIT;
+                        "Entry No." := Get_LastEntryNo(0) + 1;
+                        "File ID" := CONST_JC;
+                        "Department Gr Code" := '';               //Not in use
+                        rec_SalesHdr.GET(rec_SalesLine."Document Type", rec_SalesLine."Document No.");
+                        //Siak - Start 06022012
+                        //IF  rec_Customer.GET(rec_SalesHdr."OEM No.") THEN BEGIN
+                        //    "SCM Customer Code" := rec_Customer."Vendor Cust. Code";
+                        //END ELSE BEGIN
+                        //     IF   rec_Customer.GET(rec_SalesHdr."Sell-to Customer No.") THEN BEGIN
+                        //         "SCM Customer Code" := rec_Customer."Vendor Cust. Code";
+                        //     END;
+                        //END;
+                        "SCM Customer Code" := Get_SCMCustCode(rec_SalesLine."No.");
+                        //Siak - End
+                        "End User Code" := '';                    //Not in use
+                        "Purpose Code" := '';                     //Not in use
+                        "Supplier Code" := '';                    //Not in use
+                        "Parts Number" := Get_PartsNo(rec_SalesLine."No.");
+                        "Item Description" := Get_ItemDes2(rec_SalesLine."No.");  //CS009
+                        "Item No." := rec_SalesLine."No.";
+                        "Order Entry Date" := rec_SalesHdr."Order Date";
+                        "Demand Date" := rec_SalesLine."Shipment Date";
+                        "Order No" := FORMAT(COPYSTR(rec_SalesLine."Customer Order No.", 1, 20));
+                        //      "Booking No." := rec_SalesLine."Booking No.";
+                        IF rec_SalesLine."Original Booking No." <> '' THEN
+                            "Booking No." := rec_SalesLine."Original Booking No."
+                        ELSE
+                            "Booking No." := rec_SalesLine."Booking No.";
+                        "Pos/Neg Class" := CONST_Class;
+                        //BC Upgrade v1.2 
+                        //Quantity := rec_SalesLine."Outstanding Quantity (Actual)";
+                        Quantity := rec_SalesLine."Approved Quantity" - rec_SalesLine."Quantity Shipped";
+                        //BC Upgrade v1.2 
+                        "Update Date" := rec_SalesLine."Update Date";
+                        "Update Time" := rec_SalesLine."Update Time";
+                        "SO Document Category" := 'A';
+                        "SCM Process Code" := '01';
+                        g_DocNo_Len := STRLEN(rec_SalesLine."Document No.");
+                        g_ItemNo_Len := STRLEN(rec_SalesLine."No.");
+                        "Agent Internal Key" := PADSTR(rec_SalesLine."Document No.", g_DocNo_Len) + ' / '
+                                              + PADSTR(rec_SalesLine."No.", g_ItemNo_Len);
 
-                    //Now use Sanjeev Begin 12/03/2020
-                    "Currency Code" := Get_CurrCode_BC(rec_SalesHdr."Currency Code");
-                    // "Sales Price" := rec_SalesLine."Unit Price";  //v20201112.
-                    // "Sales Price" := 0;                       //Not in use
-                    //Now use Sanjeev END 12/03/2020
+                        //Now use Sanjeev Begin 12/03/2020
+                        "Currency Code" := Get_CurrCode_BC(rec_SalesHdr."Currency Code");
+                        // "Sales Price" := rec_SalesLine."Unit Price";  //v20201112.
+                        // "Sales Price" := 0;                       //Not in use
+                        //Now use Sanjeev END 12/03/2020
 
-                    "Sales Amount" := 0;                      //Not in use
-                    "Backlog Collection Day" := TODAY;
-                    "Allocated Inv. Class" := '';
-                    "SOLDTO Customer" := '';                  //Not in use
-                    "SOLDTO Customer2" := '';                 //Not in use
-                    Comment := '';                            //Not in use
-                    Preliminaries := '';
-                    "Message Status" := "Message Status"::Ready;
-                    "Source Document No." := rec_SalesLine."Document No.";
-                    "Source Document Line No." := rec_SalesLine."Line No.";
-                    "Collected By" := USERID;
-                    "Collected On" := TODAY;
-                    "Message Control No." := g_CtrlNo_JC;
+                        "Sales Amount" := 0;                      //Not in use
+                        "Backlog Collection Day" := TODAY;
+                        "Allocated Inv. Class" := '';
+                        "SOLDTO Customer" := '';                  //Not in use
+                        "SOLDTO Customer2" := '';                 //Not in use
+                        Comment := '';                            //Not in use
+                        Preliminaries := '';
+                        "Message Status" := "Message Status"::Ready;
+                        "Source Document No." := rec_SalesLine."Document No.";
+                        "Source Document Line No." := rec_SalesLine."Line No.";
+                        "Collected By" := USERID;
+                        "Collected On" := TODAY;
+                        "Message Control No." := g_CtrlNo_JC;
 
-                    //====Start v20201112.
-                    rec_MessageCollection."Unit Price" := rec_SalesLine."Unit Price";
+                        //====Start v20201112.
+                        rec_MessageCollection."Unit Price" := rec_SalesLine."Unit Price";
 
-                    l_MAV.RESET;
-                    l_MAV.SETRANGE("Item No.", rec_SalesLine."No.");
-                    l_MAV.SETFILTER("Starting Date", '<=' + FORMAT(WORKDATE));
-                    l_MAV.SETCURRENTKEY("Starting Date");
-                    l_MAV.SETASCENDING("Starting Date", FALSE);
-                    IF l_MAV.FINDFIRST THEN BEGIN
-                        rec_MessageCollection."Added Value" := l_MAV."Added Value";
-                        rec_MessageCollection."Markup %" := l_MAV."Markup %";
-                        rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price" / (1 + l_MAV."Markup %" / 100) - l_MAV."Added Value";
-                    END
-                    ELSE BEGIN
-                        rec_MessageCollection."Added Value" := 0;
-                        rec_MessageCollection."Markup %" := 0;
-                        rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price";
+                        l_MAV.RESET;
+                        l_MAV.SETRANGE("Item No.", rec_SalesLine."No.");
+                        l_MAV.SETFILTER("Starting Date", '<=' + FORMAT(WORKDATE));
+                        l_MAV.SETCURRENTKEY("Starting Date");
+                        l_MAV.SETASCENDING("Starting Date", FALSE);
+                        IF l_MAV.FINDFIRST THEN BEGIN
+                            rec_MessageCollection."Added Value" := l_MAV."Added Value";
+                            rec_MessageCollection."Markup %" := l_MAV."Markup %";
+                            rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price" / (1 + l_MAV."Markup %" / 100) - l_MAV."Added Value";
+                        END
+                        ELSE BEGIN
+                            rec_MessageCollection."Added Value" := 0;
+                            rec_MessageCollection."Markup %" := 0;
+                            rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price";
+                        END;
+
+                        IF rec_MessageCollection."Sales Price" < 0 THEN BEGIN
+                            g_SalesPriceError_Daily := TRUE;
+                        END;
+                        //====End v20201112.
+
+                        //sh 20121116
+                        rec_SalesLine."Message Status (JC)" := rec_SalesLine."Message Status (JC)"::Collected;
+                        //Sh 05 Nov 2012
+                        rec_SalesLine."JC Collection Date" := TODAY;
+                        rec_SalesLine.MODIFY;
+                        //        IF  Quantity > 0 THEN BEGIN
+                        INSERT;
+                        g_Daily := g_Daily + 1;
+                        DataExist := TRUE;
+
+                        //BC Upgrade v1.2
+                        //Collect_ControlMaster(3, rec_SalesLine."Outstanding Quantity (Actual)", 0)
+                        Collect_ControlMaster(3, rec_SalesLine."Approved Quantity" - rec_SalesLine."Quantity Shipped", 0);
+                        //BC Upgrade v1.2
+                        //        END;
                     END;
 
-                    IF rec_MessageCollection."Sales Price" < 0 THEN BEGIN
-                        g_SalesPriceError_Daily := TRUE;
-                    END;
-                    //====End v20201112.
-
-                    //sh 20121116
-                    rec_SalesLine."Message Status (JC)" := rec_SalesLine."Message Status (JC)"::Collected;
-                    //Sh 05 Nov 2012
-                    rec_SalesLine."JC Collection Date" := TODAY;
-                    rec_SalesLine.MODIFY;
-                    //        IF  Quantity > 0 THEN BEGIN
-                    INSERT;
-                    g_Daily := g_Daily + 1;
-                    DataExist := TRUE;
-                    Collect_ControlMaster(3, rec_SalesLine."Outstanding Quantity (Actual)", 0)
-                    //        END;
-                END;
-
-                //>> need to modify below fields under SH
-                rec_SalesHdr."Message Collected By(Backlog)" := USERID;
-                //  IF   rec_SalesHdr."Message Collected On(Backlog)" = 0D THEN //so that Re-Collect can work
-                rec_SalesHdr."Message Collected On(Backlog)" := TODAY;
-                //sh  END;
-                rec_SalesHdr."Message Status(Backlog)" := rec_SalesHdr."Message Status(Backlog)"::Collected;
-                rec_SalesHdr.MODIFY;
-            //<<
-
+                    //>> need to modify below fields under SH
+                    rec_SalesHdr."Message Collected By(Backlog)" := USERID;
+                    //  IF   rec_SalesHdr."Message Collected On(Backlog)" = 0D THEN //so that Re-Collect can work
+                    rec_SalesHdr."Message Collected On(Backlog)" := TODAY;
+                    //sh  END;
+                    rec_SalesHdr."Message Status(Backlog)" := rec_SalesHdr."Message Status(Backlog)"::Collected;
+                    rec_SalesHdr.MODIFY;
+                    //<<
+                end; // BC Upgrade v1.2
             UNTIL rec_SalesLine.NEXT = 0;
 
         EXIT(DataExist);
@@ -1060,49 +1075,57 @@ report 50023 "Collect Message"
                 rec_PurchLine.SETRANGE("Document No.", rec_PurchHdr."No.");
                 rec_PurchLine.SETFILTER(Type, '=%1', rec_PurchLine.Type::Item);
                 rec_PurchLine.SETFILTER("No.", '<>%1', '');
-                rec_PurchLine.SETFILTER("Outstanding Quantity", '<>%1', 0);
+                //rec_PurchLine.SETFILTER("Outstanding Quantity", '<>%1', 0);//BC Upgrade v1.2
                 rec_PurchLine.SETFILTER("Item Supplier Source", '=%1', rec_PurchLine."Item Supplier Source"::Renesas);
                 IF rec_PurchLine.FINDSET THEN
                     REPEAT
-                        window.UPDATE(1, CONST_JC);
-                        window.UPDATE(2, rec_PurchLine."Document No.");
-                        window.UPDATE(3, rec_PurchLine."No.");
-                        WITH rec_MessageCollection DO BEGIN
-                            INIT;
-                            "Entry No." := Get_LastEntryNo(0) + 1;
-                            "File ID" := CONST_JC;
-                            "Department Gr Code" := '';                //Not in use
-                            "SCM Customer Code" := rec_PurchHdr."Vendor Cust. Code";
-                            "End User Code" := '';                    //Not in use
-                            "Purpose Code" := '';                     //Not in use
-                            "Supplier Code" := '';                    //Not in use
-                            "Parts Number" := rec_PurchLine."Parts No.";
-                            "Item No." := rec_PurchLine."No.";
-                            //sh    "Order Entry Date" := rec_PurchHdr."Posting Date";
-                            "Order Entry Date" := rec_PurchHdr."Order Date";
-                            "Demand Date" := rec_PurchLine."Requested Receipt Date";
-                            "Order No" := FORMAT(COPYSTR(rec_PurchLine."CO No.", 1, 20));
-                            "Pos/Neg Class" := CONST_Class;
-                            Quantity := rec_PurchLine."Outstanding Quantity";
-                            "Currency Code" := Get_CurrCode_BC(rec_PurchHdr."Currency Code");
-                            "Sales Price" := 0;                       //Not in use
-                            "Sales Amount" := 0;                      //Not in use
-                            "Backlog Collection Day" := TODAY;
-                            //sh    "Allocated Inv. Class" := 0;
-                            "Allocated Inv. Class" := '';
-                            "SOLDTO Customer" := '';                  //Not in use
-                            "SOLDTO Customer2" := '';                 //Not in use
-                            Comment := '';                            //Not in use
-                            Preliminaries := '';
-                            "Message Status" := "Message Status"::Ready;
-                            "Source Document No." := rec_PurchLine."Document No.";
-                            "Source Document Line No." := rec_PurchLine."Line No.";
-                            "Collected By" := USERID;
-                            "Collected On" := TODAY;
-                            INSERT;
-                            DataExist := TRUE;
-                            Collect_ControlMaster(3, rec_PurchLine."Outstanding Quantity", 0)
-                        END;
+                        if rec_PurchLine."Approved Quantity" - rec_PurchLine."Quantity Received" > 0 then begin //BC Upgrade v1.2
+                            window.UPDATE(1, CONST_JC);
+                            window.UPDATE(2, rec_PurchLine."Document No.");
+                            window.UPDATE(3, rec_PurchLine."No.");
+                            WITH rec_MessageCollection DO BEGIN
+                                INIT;
+                                "Entry No." := Get_LastEntryNo(0) + 1;
+                                "File ID" := CONST_JC;
+                                "Department Gr Code" := '';                //Not in use
+                                "SCM Customer Code" := rec_PurchHdr."Vendor Cust. Code";
+                                "End User Code" := '';                    //Not in use
+                                "Purpose Code" := '';                     //Not in use
+                                "Supplier Code" := '';                    //Not in use
+                                "Parts Number" := rec_PurchLine."Parts No.";
+                                "Item No." := rec_PurchLine."No.";
+                                //sh    "Order Entry Date" := rec_PurchHdr."Posting Date";
+                                "Order Entry Date" := rec_PurchHdr."Order Date";
+                                "Demand Date" := rec_PurchLine."Requested Receipt Date";
+                                "Order No" := FORMAT(COPYSTR(rec_PurchLine."CO No.", 1, 20));
+                                "Pos/Neg Class" := CONST_Class;
+                                //BC Upgrade v1.2
+                                //Quantity := rec_PurchLine."Outstanding Quantity";
+                                Quantity := rec_PurchLine."Approved Quantity" - rec_PurchLine."Quantity Received";
+                                //BC Upgrade v1.2
+                                "Currency Code" := Get_CurrCode_BC(rec_PurchHdr."Currency Code");
+                                "Sales Price" := 0;                       //Not in use
+                                "Sales Amount" := 0;                      //Not in use
+                                "Backlog Collection Day" := TODAY;
+                                //sh    "Allocated Inv. Class" := 0;
+                                "Allocated Inv. Class" := '';
+                                "SOLDTO Customer" := '';                  //Not in use
+                                "SOLDTO Customer2" := '';                 //Not in use
+                                Comment := '';                            //Not in use
+                                Preliminaries := '';
+                                "Message Status" := "Message Status"::Ready;
+                                "Source Document No." := rec_PurchLine."Document No.";
+                                "Source Document Line No." := rec_PurchLine."Line No.";
+                                "Collected By" := USERID;
+                                "Collected On" := TODAY;
+                                INSERT;
+                                DataExist := TRUE;
+                                //BC Upgrade v1.2
+                                //Collect_ControlMaster(3, rec_PurchLine."Outstanding Quantity", 0)
+                                Collect_ControlMaster(3, rec_PurchLine."Approved Quantity" - rec_PurchLine."Quantity Received", 0);
+                                //BC Upgrade v1.2
+                            END;
+                        end; //BC Upgrade v1.2
                     UNTIL rec_PurchLine.NEXT = 0;
 
                 //>> need to modify below fields under SH
@@ -1133,185 +1156,192 @@ report 50023 "Collect Message"
         rec_Item.SETFILTER("Message Collected On", '<>%1', TODAY);
         rec_Item.SETFILTER("Date Filter", '..%1', TODAY);
         rec_Item.SETFILTER(Blocked, '=%1', FALSE);
-        // BC Upgrade
         //rec_Item.SETFILTER("Assembly BOM", '=%1', FALSE); //CS009
-        rec_Item.SetRange("Written Product", false);
-        // BC Upgrade
         IF rec_Item.FINDSET THEN
             REPEAT
-                //Siak 20140807
-                s_CollectPSI := TRUE;
-                //Siak End
-                WITH rec_MessageCollection DO BEGIN
-                    window.UPDATE(1, CONST_JD);
-                    window.UPDATE(2, '');
-                    window.UPDATE(3, rec_Item."No.");
-                    INIT;
-                    "Entry No." := Get_LastEntryNo(0) + 1;
-                    "File ID" := CONST_JD;
-                    "Department Gr Code" := '';         //Not in use
-                    "Warehouse Code" := '';             //Not in use
-                    "SCM Customer Code" := Get_SCMCustCode(rec_Item."No.");
-                    "End User Code" := '';              //Not in use
-                    "Purpose Code" := '';               //Not in use
-                    "Supplier Code" := '';              //Not in use
-                    "Parts Number" := rec_Item."Parts No.";
-                    // BC upgrade
-                    /*
-                    //sh 21112011 Start
-                    "Item Description" := rec_Item.Description;
-                    //sh 21112011 End
-                    */
-                    "Item Description" := Get_ItemDes3(rec_Item."No.");
-                    // BC upgrade end
+                rec_Item.CalcFields("Assembly BOM");
+                //BC Upgrade Begin
+                if (not rec_Item."Written Product")
+                    or (rec_Item."Written Product" and (not rec_Item."Assembly BOM")) then begin
+                    //BC Upgrade End
 
-                    "Item No." := rec_Item."No.";
-                    "Inventory Class" := CONST_InvClass;
-                    "Pos/Neg Class" := CONST_Class;
-                    //sh 20111021
-                    rec_Item.SETRANGE("Date Filter", 0D, TODAY);
-                    //sh 20111102 - Not to include advance shipment or receipt in Inventory
-                    //      rec_Item.CALCFIELDS(Inventory,"Cost Amount (Actual)");
-                    //      Quantity := rec_Item.Inventory;
-                    rec_Item.CALCFIELDS("Net Change", "Cost Amount (Actual)", "Cost Amount (Expected)", "Cost Posted to G/L", Hold);//sanjeev 010719
-                    EVALUATE("Cost Amount (Expected)", FORMAT(rec_Item."Cost Amount (Expected)", 0, '<Precision,4><Standard Format,1>'));
-                    EVALUATE("Cost Posted to G/L", FORMAT(rec_Item."Cost Posted to G/L", 0, '<Precision,4><Standard Format,1>'));
-                    EVALUATE("Cost Amount (Actual)", FORMAT(rec_Item."Cost Amount (Actual)", 0, '<Precision,4><Standard Format,1>'));
-                    //      "Cost Amount (Actual)" := rec_Item."Cost Amount (Actual)";
-                    //      "Cost Posted to G/L" := rec_Item."Cost Posted to G/L";
-                    //      "Cost Amount (Expected)" := rec_Item."Cost Amount (Expected)";
-                    dec_InvAmt := "Cost Posted to G/L" + "Cost Amount (Expected)";
-                    //      EVALUATE("Computed Inventory Amount",FORMAT(dec_InvAmt,0,'<Precision,4><Standard Format,1>'));
-                    Quantity := rec_Item."Net Change" - rec_Item.Hold;//sanjeev 010719
-                    IF Quantity > 0 THEN BEGIN
-                        "Cost Amount (Expected)" := rec_Item."Cost Amount (Expected)";
-                        dec_UnitCost := ("Cost Amount (Expected)" + "Cost Posted to G/L") / Quantity;
-                        EVALUATE("Unit Cost", FORMAT(dec_UnitCost, 0, '<Precision,4><Standard Format,1>'));
-                        "Computed Inventory Amount" := Quantity * "Unit Cost";
-                    END
-                    ELSE BEGIN
-                        "Unit Cost" := 0;
-                    END;
-                    //sh 20111021 END
+                    //Siak 20140807
+                    s_CollectPSI := TRUE;
+                    //Siak End
+                    WITH rec_MessageCollection DO BEGIN
+                        window.UPDATE(1, CONST_JD);
+                        window.UPDATE(2, '');
+                        window.UPDATE(3, rec_Item."No.");
+                        INIT;
+                        "Entry No." := Get_LastEntryNo(0) + 1;
+                        "File ID" := CONST_JD;
+                        "Department Gr Code" := '';         //Not in use
+                        "Warehouse Code" := '';             //Not in use
+                        "SCM Customer Code" := Get_SCMCustCode(rec_Item."No.");
+                        "End User Code" := '';              //Not in use
+                        "Purpose Code" := '';               //Not in use
+                        "Supplier Code" := '';              //Not in use
+                        "Parts Number" := rec_Item."Parts No.";
+                        // BC upgrade
+                        /*
+                        //sh 21112011 Start
+                        "Item Description" := rec_Item.Description;
+                        //sh 21112011 End
+                        */
+                        //v1.3 begin
+                        //"Item Description" := Get_ItemDes3(rec_Item."No.");
+                        "Item Description" := rec_Item.Description;
+                        //v1.3 end
+                        // BC upgrade end
 
-                    //sh 20111108 Start
-                    rec_Item.SETRANGE("Date Filter", 0D, TODAY);
-                    rec_Item.CALCFIELDS("Inventory Shipped", "Inventory Receipt");
-                    dec_UpToTodayShipQty := rec_Item."Inventory Shipped";
-                    dec_UpToTodayRecQty := rec_Item."Inventory Receipt";
-                    dt_EndDay := 99991231D;
-                    rec_Item.SETRANGE("Date Filter", 0D, dt_EndDay);
-                    rec_Item.CALCFIELDS("Inventory Shipped", "Inventory Receipt");
-                    dec_TotShipQty := rec_Item."Inventory Shipped";
-                    dec_TotRecQty := rec_Item."Inventory Receipt";
-                    "Advance Shipped Qty" := (dec_TotShipQty - dec_UpToTodayShipQty) * -1;
-                    "Advance Receipt Qty" := dec_TotRecQty - dec_UpToTodayRecQty;
-                    //Sh 20111108 END
-
-                    //sh 20110427
-                    IF rec_Item."Update Date" = 0D THEN BEGIN
-                        "Update Date" := rec_Item."Last Date Modified";
-                        "Update Time" := rec_Item."Last Time Modified";
-                    END
-                    ELSE BEGIN
-                        "Update Date" := rec_Item."Update Date";
-                        "Update Time" := rec_Item."Update Time";
-                    END;
-                    //sh20110427 END
-
-                    //CS109 Begin
-                    "Currency Code" := Get_CurrCode_BC('');
-                    /*
-                    //CS106 Begin
-                    //"Currency Code" := Get_CurrCode('');
-                    "Currency Code" := Get_CurrCode_JD();
-                    //CS106 End
-                    */
-                    //CS109 End
-
-                    //      EVALUATE("Purchase Price",FORMAT(rec_PurchRcptLine."Unit Cost",0,'<Precision,3><Standard Format,1>'));
-                    CLEAR(dec_InvPrice);
-                    //      IF rec_Item.Inventory <> 0 THEN
-                    //         dec_InvPrice := rec_Item."Cost Amount (Actual)" / rec_Item.Inventory;
-                    //EVALUATE("Inventory Price",FORMAT(dec_InvPrice,0,'<Precision,3><Standard Format,1>'));
-                    EVALUATE("Inventory Price", FORMAT(rec_Item."Unit Cost", 0, '<Precision,4><Standard Format,1>'));
-                    //      "Inventory Amount" := (rec_Item.Inventory * "Inventory Price");
-                    IF Quantity = 0 THEN
-                        "Inventory Price" := 0;
-                    "Inventory Amount" := (Quantity * "Inventory Price");
-
-                    //CS009 Start
-                    rec_AssemblyBOM.RESET;
-                    rec_AssemblyBOM.SETCURRENTKEY("Parent Item No.", "Line No.");
-                    rec_AssemblyBOM.SETRANGE("No.", rec_Item."No.");
-                    rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
-                    IF rec_AssemblyBOM.FINDSET THEN BEGIN
-                        REPEAT
-                            rec_ParentItem.GET(rec_AssemblyBOM."Parent Item No.");
-                            if rec_ParentItem."Written Product" then begin
-                                rec_ParentItem.CALCFIELDS("Net Change", Hold);
-                                tmp_Quantity := rec_ParentItem."Net Change" - rec_ParentItem.Hold;
-                                Quantity += tmp_Quantity;
-                            end;
-                        UNTIL rec_AssemblyBOM.NEXT = 0;
-                        "Inventory Amount" := (Quantity * "Inventory Price");
-                    END;
-                    //CS009 End
-
-                    //Siak Hui - 09052011 (Invntory Confirmation Date = Collection Date)
-                    //      "Inventory Confirmation Date" := 0D;   //Not in use
-                    "Inventory Confirmation Date" := TODAY;
-                    g_ItemNo_Len := STRLEN(rec_Item."No.");
-                    "Agent Internal Key" := PADSTR(rec_Item."No.", g_ItemNo_Len);
-                    //Siak Hui - END
-                    Comment := '';                      //Not in use
-                    Preliminaries := '';
-
-                    //CS101 Begin
-                    RecPurchasePrice.RESET();
-                    RecPurchasePrice.SETCURRENTKEY("Starting Date");
-                    RecPurchasePrice.ASCENDING(FALSE);
-                    RecPurchasePrice.SetRange("Price Type", RecPurchasePrice."Price Type"::Purchase);
-                    RecPurchasePrice.SetRange(Status, RecPurchasePrice.Status::Active);
-                    RecPurchasePrice.SETRANGE("Asset No.", rec_Item."No.");
-                    RecPurchasePrice.SETFILTER("Starting Date", '<=%1', TODAY);
-                    IF RecPurchasePrice.FINDFIRST() THEN BEGIN
-                        rec_MessageCollection."PC. Currency Code" := RecPurchasePrice."PC. Currency Code";
-                        rec_MessageCollection."PC. Unit Cost" := RecPurchasePrice."PC. Direct Unit Cost";
-                    END;
-                    "PC. Inventory Amount" := Quantity * "PC. Unit Cost";
-                    //CS101 End
-
-                    "Message Status" := "Message Status"::Ready;
-                    "Source Document No." := 'ITEM';
-                    "Source Document Line No." := 0;
-                    "Collected By" := USERID;
-                    "Collected On" := TODAY;
-                    "Message Control No." := g_CtrlNo_JD;
-                    INSERT;
-                    g_Daily := g_Daily + 1;
-
-                    DataExist := TRUE;
-                    //Collect_ControlMaster(4,Quantity,"Inventory Amount"); //CS101
-
-                    //>>
-                    //sh 20110428 - START
-                    rec_Item."Message Collected On" := TODAY;
-                    rec_Item."Message Collected By" := USERID;
-                    "Agent Internal Key" := '';                           //Not in used
-                    rec_Item.MODIFY;
-                    //sh 20110428 - END
-
-                    //CS101 Begin
-                    IF (NOT GRec_GLSetup."Exclude Zero Balance (JD)") OR (Quantity <> 0) THEN BEGIN
-                        IF (GRec_GLSetup."Get Purch. Price (JD)") AND ("PC. Currency Code" <> '') AND ("PC. Unit Cost" > 0) THEN BEGIN
-                            Collect_ControlMaster(4, Quantity, "PC. Inventory Amount");
-                        END ELSE BEGIN
-                            Collect_ControlMaster(4, Quantity, "Inventory Amount");
+                        "Item No." := rec_Item."No.";
+                        "Inventory Class" := CONST_InvClass;
+                        "Pos/Neg Class" := CONST_Class;
+                        //sh 20111021
+                        rec_Item.SETRANGE("Date Filter", 0D, TODAY);
+                        //sh 20111102 - Not to include advance shipment or receipt in Inventory
+                        //      rec_Item.CALCFIELDS(Inventory,"Cost Amount (Actual)");
+                        //      Quantity := rec_Item.Inventory;
+                        rec_Item.CALCFIELDS("Net Change", "Cost Amount (Actual)", "Cost Amount (Expected)", "Cost Posted to G/L", Hold);//sanjeev 010719
+                        EVALUATE("Cost Amount (Expected)", FORMAT(rec_Item."Cost Amount (Expected)", 0, '<Precision,4><Standard Format,1>'));
+                        EVALUATE("Cost Posted to G/L", FORMAT(rec_Item."Cost Posted to G/L", 0, '<Precision,4><Standard Format,1>'));
+                        EVALUATE("Cost Amount (Actual)", FORMAT(rec_Item."Cost Amount (Actual)", 0, '<Precision,4><Standard Format,1>'));
+                        //      "Cost Amount (Actual)" := rec_Item."Cost Amount (Actual)";
+                        //      "Cost Posted to G/L" := rec_Item."Cost Posted to G/L";
+                        //      "Cost Amount (Expected)" := rec_Item."Cost Amount (Expected)";
+                        dec_InvAmt := "Cost Posted to G/L" + "Cost Amount (Expected)";
+                        //      EVALUATE("Computed Inventory Amount",FORMAT(dec_InvAmt,0,'<Precision,4><Standard Format,1>'));
+                        Quantity := rec_Item."Net Change" - rec_Item.Hold;//sanjeev 010719
+                        IF Quantity > 0 THEN BEGIN
+                            "Cost Amount (Expected)" := rec_Item."Cost Amount (Expected)";
+                            dec_UnitCost := ("Cost Amount (Expected)" + "Cost Posted to G/L") / Quantity;
+                            EVALUATE("Unit Cost", FORMAT(dec_UnitCost, 0, '<Precision,4><Standard Format,1>'));
+                            "Computed Inventory Amount" := Quantity * "Unit Cost";
+                        END
+                        ELSE BEGIN
+                            "Unit Cost" := 0;
                         END;
+                        //sh 20111021 END
+
+                        //sh 20111108 Start
+                        rec_Item.SETRANGE("Date Filter", 0D, TODAY);
+                        rec_Item.CALCFIELDS("Inventory Shipped", "Inventory Receipt");
+                        dec_UpToTodayShipQty := rec_Item."Inventory Shipped";
+                        dec_UpToTodayRecQty := rec_Item."Inventory Receipt";
+                        dt_EndDay := 99991231D;
+                        rec_Item.SETRANGE("Date Filter", 0D, dt_EndDay);
+                        rec_Item.CALCFIELDS("Inventory Shipped", "Inventory Receipt");
+                        dec_TotShipQty := rec_Item."Inventory Shipped";
+                        dec_TotRecQty := rec_Item."Inventory Receipt";
+                        "Advance Shipped Qty" := (dec_TotShipQty - dec_UpToTodayShipQty) * -1;
+                        "Advance Receipt Qty" := dec_TotRecQty - dec_UpToTodayRecQty;
+                        //Sh 20111108 END
+
+                        //sh 20110427
+                        IF rec_Item."Update Date" = 0D THEN BEGIN
+                            "Update Date" := rec_Item."Last Date Modified";
+                            "Update Time" := rec_Item."Last Time Modified";
+                        END
+                        ELSE BEGIN
+                            "Update Date" := rec_Item."Update Date";
+                            "Update Time" := rec_Item."Update Time";
+                        END;
+                        //sh20110427 END
+
+                        //CS109 Begin
+                        "Currency Code" := Get_CurrCode_BC('');
+                        /*
+                        //CS106 Begin
+                        //"Currency Code" := Get_CurrCode('');
+                        "Currency Code" := Get_CurrCode_JD();
+                        //CS106 End
+                        */
+                        //CS109 End
+
+                        //      EVALUATE("Purchase Price",FORMAT(rec_PurchRcptLine."Unit Cost",0,'<Precision,3><Standard Format,1>'));
+                        CLEAR(dec_InvPrice);
+                        //      IF rec_Item.Inventory <> 0 THEN
+                        //         dec_InvPrice := rec_Item."Cost Amount (Actual)" / rec_Item.Inventory;
+                        //EVALUATE("Inventory Price",FORMAT(dec_InvPrice,0,'<Precision,3><Standard Format,1>'));
+                        EVALUATE("Inventory Price", FORMAT(rec_Item."Unit Cost", 0, '<Precision,4><Standard Format,1>'));
+                        //      "Inventory Amount" := (rec_Item.Inventory * "Inventory Price");
+                        IF Quantity = 0 THEN
+                            "Inventory Price" := 0;
+                        "Inventory Amount" := (Quantity * "Inventory Price");
+
+                        //CS009 Start
+                        rec_AssemblyBOM.RESET;
+                        rec_AssemblyBOM.SETCURRENTKEY("Parent Item No.", "Line No.");
+                        rec_AssemblyBOM.SETRANGE("No.", rec_Item."No.");
+                        rec_AssemblyBOM.SETFILTER(Type, '%1', rec_AssemblyBOM.Type::Item);
+                        IF rec_AssemblyBOM.FINDSET THEN BEGIN
+                            REPEAT
+                                rec_ParentItem.GET(rec_AssemblyBOM."Parent Item No.");
+                                if rec_ParentItem."Written Product" then begin
+                                    rec_ParentItem.CALCFIELDS("Net Change", Hold);
+                                    tmp_Quantity := rec_ParentItem."Net Change" - rec_ParentItem.Hold;
+                                    Quantity += tmp_Quantity;
+                                end;
+                            UNTIL rec_AssemblyBOM.NEXT = 0;
+                            "Inventory Amount" := (Quantity * "Inventory Price");
+                        END;
+                        //CS009 End
+
+                        //Siak Hui - 09052011 (Invntory Confirmation Date = Collection Date)
+                        //      "Inventory Confirmation Date" := 0D;   //Not in use
+                        "Inventory Confirmation Date" := TODAY;
+                        g_ItemNo_Len := STRLEN(rec_Item."No.");
+                        "Agent Internal Key" := PADSTR(rec_Item."No.", g_ItemNo_Len);
+                        //Siak Hui - END
+                        Comment := '';                      //Not in use
+                        Preliminaries := '';
+
+                        //CS101 Begin
+                        RecPurchasePrice.RESET();
+                        RecPurchasePrice.SETCURRENTKEY("Starting Date");
+                        RecPurchasePrice.ASCENDING(FALSE);
+                        RecPurchasePrice.SetRange("Price Type", RecPurchasePrice."Price Type"::Purchase);
+                        RecPurchasePrice.SetRange(Status, RecPurchasePrice.Status::Active);
+                        RecPurchasePrice.SETRANGE("Asset No.", rec_Item."No.");
+                        RecPurchasePrice.SETFILTER("Starting Date", '<=%1', TODAY);
+                        IF RecPurchasePrice.FINDFIRST() THEN BEGIN
+                            rec_MessageCollection."PC. Currency Code" := RecPurchasePrice."PC. Currency Code";
+                            rec_MessageCollection."PC. Unit Cost" := RecPurchasePrice."PC. Direct Unit Cost";
+                        END;
+                        "PC. Inventory Amount" := Quantity * "PC. Unit Cost";
+                        //CS101 End
+
+                        "Message Status" := "Message Status"::Ready;
+                        "Source Document No." := 'ITEM';
+                        "Source Document Line No." := 0;
+                        "Collected By" := USERID;
+                        "Collected On" := TODAY;
+                        "Message Control No." := g_CtrlNo_JD;
+                        INSERT;
+                        g_Daily := g_Daily + 1;
+
+                        DataExist := TRUE;
+                        //Collect_ControlMaster(4,Quantity,"Inventory Amount"); //CS101
+
+                        //>>
+                        //sh 20110428 - START
+                        rec_Item."Message Collected On" := TODAY;
+                        rec_Item."Message Collected By" := USERID;
+                        "Agent Internal Key" := '';                           //Not in used
+                        rec_Item.MODIFY;
+                        //sh 20110428 - END
+
+                        //CS101 Begin
+                        IF (NOT GRec_GLSetup."Exclude Zero Balance (JD)") OR (Quantity <> 0) THEN BEGIN
+                            IF (GRec_GLSetup."Get Purch. Price (JD)") AND ("PC. Currency Code" <> '') AND ("PC. Unit Cost" > 0) THEN BEGIN
+                                Collect_ControlMaster(4, Quantity, "PC. Inventory Amount");
+                            END ELSE BEGIN
+                                Collect_ControlMaster(4, Quantity, "Inventory Amount");
+                            END;
+                        END;
+                        //CS101 End
                     END;
-                    //CS101 End
-                END;
+                end; //if (not rec_Item."Written Product")
             UNTIL rec_Item.NEXT = 0;
 
         EXIT(DataExist);
