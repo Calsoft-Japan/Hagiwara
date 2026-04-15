@@ -456,6 +456,8 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
     }
 
     trigger OnBeforeInsert()
+    var
+        recItem: Record Item;
     begin
 
         //SH 04 Nov 12 - Improve PSI Data Mantenance
@@ -496,6 +498,34 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
             END;
         END;
         */
+
+        // The customized part of InitFromSalesLine in table "Sales Shipment Line" is moved here.
+        //sh..Start 20110427
+        IF (Type = Type::Item)
+        THEN BEGIN
+            "Message Status" := "Message Status"::"Ready to Collect";
+            "Update Date" := TODAY;
+            "Update Time" := TIME;
+            "Update By" := USERID;
+            IF recItem.GET("No.") THEN BEGIN
+                recItem."Update Date" := TODAY;
+                recItem."Update Time" := TIME;
+                recItem."Update By" := USERID;
+                recItem."Update Doc. No." := SalesShptHeader."No.";
+                recItem.MODIFY;
+            END ELSE BEGIN
+            END;
+        END ELSE BEGIN
+            "Update Date" := 0D;
+            "Update Time" := 0T;
+        END;
+        //sh..End 20110427
+
+        //sh 04Nov2012 - Improve PSI DAta Maikntenanced
+        IF Quantity = 0 THEN BEGIN
+            "Message Status" := "Message Status"::" ";
+        END;
+        //sh 04Nov2012 End
 
     end;
 
