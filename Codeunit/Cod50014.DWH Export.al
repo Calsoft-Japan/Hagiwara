@@ -396,9 +396,11 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec.Inventory - ItemRec.Hold);
                     //BC Update End
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Purch. Order");
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Purch. Order"); //BC Upgrade
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on P. O. (Approved)"); //BC Upgrade
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Sales Quote");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Sales Order");
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Sales Order"); //BC Upgrade
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on S. O. (Approved)"); //BC Upgrade
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Customer Item No.");
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Vendor No.");
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Last Unit Cost Calc. Date", 0, '<Year4>/<Month,2>/<Day,2>');
@@ -786,7 +788,7 @@ codeunit 50014 "DWH Export"
         OutstandingSalesOrderRec.RESET();
         OutstandingSalesOrderRec.SETRANGE("Document Type", OutstandingSalesOrderRec."Document Type"::Order);
         OutstandingSalesOrderRec.SETFILTER(Type, '<>0');
-        OutstandingSalesOrderRec.SETFILTER("Outstanding Quantity", '>0');
+        //OutstandingSalesOrderRec.SETFILTER("Outstanding Quantity", '>0'); // BC Upgrade
         //IF OutstandingSalesOrderRec.FIND('-') THEN
         BEGIN
 
@@ -840,80 +842,99 @@ codeunit 50014 "DWH Export"
             InsertDataInBuffer();
             IF OutstandingSalesOrderRec.FIND('-') THEN//CS059
                 REPEAT
-                    SalesHeaderRec.GET(OutstandingSalesOrderRec."Document Type", OutstandingSalesOrderRec."Document No.");
-                    SaveString := curCountryRegionCode;
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Promised Delivery Date", 0, '<Year4>/<Month,2>/<Day,2>');
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Shipment Date", 0, '<Year4>/<Month,2>/<Day,2>'); //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(SalesHeaderRec."Order Date", 0, '<Year4>/<Month,2>/<Day,2>');
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Document No.";//Order No.
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Order Line No.
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Line No.");//Order Line No. 2
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Order Line No. 3
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Organization Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//Person in Charge //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode + ';' + OutstandingSalesOrderRec."Sell-to Customer No." + ';' + OutstandingSalesOrderRec."OEM No.";//Customer Inventory Group //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."No.";//Item Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec.Description;//Item Name
+                    //BC Upgrade
+                    if OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped" > 0 then begin
+                        SalesHeaderRec.GET(OutstandingSalesOrderRec."Document Type", OutstandingSalesOrderRec."Document No.");
+                        SaveString := curCountryRegionCode;
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Promised Delivery Date", 0, '<Year4>/<Month,2>/<Day,2>');
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Shipment Date", 0, '<Year4>/<Month,2>/<Day,2>'); //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(SalesHeaderRec."Order Date", 0, '<Year4>/<Month,2>/<Day,2>');
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Document No.";//Order No.
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Order Line No.
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Line No.");//Order Line No. 2
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Order Line No. 3
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Organization Code
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode;//Person in Charge //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode + ';' + OutstandingSalesOrderRec."Sell-to Customer No." + ';' + OutstandingSalesOrderRec."OEM No.";//Customer Inventory Group //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."No.";//Item Code
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec.Description;//Item Name
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Sell-to Customer No.";//Customer Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."OEM No.";//End Customer Code
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Sell-to Customer No.";//Customer Code
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."OEM No.";//End Customer Code
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Outstanding Quantity");//Quantity
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Price");//Sales Price
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Line Amount");//Sales Amount
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Outstanding Quantity");//Quantity
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Price");//Sales Price
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Line Amount");//Sales Amount
+                        */
 
-                    IF SalesHeaderRec."Currency Code" = '' THEN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + GeneralLedgerSetupRec."LCY Code"//Sales Currency
-                    ELSE
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Currency Code";
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped");//Quantity
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Unit Price");//Sales Price
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity" * OutstandingSalesOrderRec."Approved Unit Price");//Sales Amount
+                        //BC Upgrade end
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Price
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Amount
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Currency
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Type
+                        IF SalesHeaderRec."Currency Code" = '' THEN
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + GeneralLedgerSetupRec."LCY Code"//Sales Currency
+                        ELSE
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Currency Code";
 
-                    IF OutstandingSalesOrderRec.Type = OutstandingSalesOrderRec.Type::Item THEN BEGIN
-                        ItemRec.GET(OutstandingSalesOrderRec."No.");
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Customer Item No.";//Customer Item No.
-                    END ELSE
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Item No.
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Price
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Amount
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Cost Currency
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Type
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Document Type");
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Customer Item No.";
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Customer Order No.";
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Description 2";
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Item Supplier Source");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Location Code";
+                        IF OutstandingSalesOrderRec.Type = OutstandingSalesOrderRec.Type::Item THEN BEGIN
+                            ItemRec.GET(OutstandingSalesOrderRec."No.");
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Customer Item No.";//Customer Item No.
+                        END ELSE
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Item No.
 
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Manufacturer Code";
-                    IF OutstandingSalesOrderRec.Type = OutstandingSalesOrderRec.Type::Item THEN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Manufacturer Code"
-                    ELSE
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Document Type");
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Customer Item No.";
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Customer Order No.";
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Description 2";
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Item Supplier Source");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Location Code";
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."OEM Name"; //OEM Name
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."Manufacturer Code";
+                        IF OutstandingSalesOrderRec.Type = OutstandingSalesOrderRec.Type::Item THEN
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Manufacturer Code"
+                        ELSE
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Outstanding Amount");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec.Quantity);
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Quantity Invoiced");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Quantity Shipped");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Sell-to Customer Name";//Name in Sales Header, Customer Name
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Requested Delivery Date", 0, '<Year4>/<Month,2>/<Day,2>'); //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Cost");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Cost (LCY)");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec.Type);
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + OutstandingSalesOrderRec."OEM Name"; //OEM Name
 
-                    SaveString := ReplaceString(SaveString, tabChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar2, '');
-                    SaveString := ReplaceString(SaveString, tabPlaceholder, tabChar);
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Outstanding Amount");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec.Quantity);
+                        */
 
-                    InsertDataInBuffer();
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT((OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped") * OutstandingSalesOrderRec."Approved Unit Price");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity");
+                        //BC Upgrade end
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Quantity Invoiced");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Quantity Shipped");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + SalesHeaderRec."Sell-to Customer Name";//Name in Sales Header, Customer Name
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Requested Delivery Date", 0, '<Year4>/<Month,2>/<Day,2>'); //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Cost");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Unit Cost (LCY)");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec.Type);
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+
+                        SaveString := ReplaceString(SaveString, tabChar, '');
+                        SaveString := ReplaceString(SaveString, lineChar, '');
+                        SaveString := ReplaceString(SaveString, lineChar2, '');
+                        SaveString := ReplaceString(SaveString, tabPlaceholder, tabChar);
+
+                        InsertDataInBuffer();
+                    end; //BC Upgrade
                 UNTIL OutstandingSalesOrderRec.NEXT() = 0;
 
 
@@ -1140,7 +1161,7 @@ codeunit 50014 "DWH Export"
         PurchaseLineRec.RESET();
         PurchaseLineRec.SETRANGE("Document Type", PurchaseLineRec."Document Type"::Order);
         PurchaseLineRec.SETFILTER(Type, '<>0');
-        PurchaseLineRec.SETFILTER("Outstanding Quantity", '>0');
+        //PurchaseLineRec.SETFILTER("Outstanding Quantity", '>0'); //BC Upgrade
         //IF PurchaseLineRec.FIND('-') THEN CS059
         BEGIN
 
@@ -1193,119 +1214,166 @@ codeunit 50014 "DWH Export"
             InsertDataInBuffer();
             IF PurchaseLineRec.FIND('-') THEN//CS059
                 REPEAT
-                    SaveString := curCountryRegionCode;
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Expected Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//ESD
+                    //BC Upgrade
+                    if PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received" > 0 then begin
+                        SaveString := curCountryRegionCode;
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Expected Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//ESD
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Requested Receipt Date_1", 0, '<Year4>/<Month,2>/<Day,2>');//CRD(Set blank for Purchase Invoice Line)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Expected Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//RSD
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Order Date", 0, '<Year4>/<Month,2>/<Day,2>');//Order Date
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Requested Receipt Date_1", 0, '<Year4>/<Month,2>/<Day,2>');//CRD(Set blank for Purchase Invoice Line)
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Expected Receipt Date", 0, '<Year4>/<Month,2>/<Day,2>');//RSD
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Order Date", 0, '<Year4>/<Month,2>/<Day,2>');//Order Date
 
-                    PurchaseHeaderRec.GET(PurchaseLineRec."Document Type", PurchaseLineRec."Document No.");
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor No.";//Buy-from Vendor
+                        PurchaseHeaderRec.GET(PurchaseLineRec."Document Type", PurchaseLineRec."Document No.");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor No.";//Buy-from Vendor
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Organization Code
-                                                                           //CS051 Begin
-                    IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
-                        ItemRec.GET(PurchaseLineRec."No.");
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode + ';' + ItemRec."Customer No." + ';' + ItemRec."OEM No.";//Customer Inventory Group
-                    END
-                    ELSE BEGIN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Inventory Group
-                    END;
-                    //CS051 End
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."No.";//Item Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.Description;//Item Name
-                    //CS093
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity"); //Outstanding Quantity
-                    //CS093
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, "Line Amount (Excl. VAT)"
-
-                    IF PurchaseHeaderRec."Currency Code" = '' THEN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + GeneralLedgerSetupRec."LCY Code"//Sales Currency
-                    ELSE
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Currency Code";//Order Currency
-
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Currency Code";//Order Currency, Currency Code in Purchase Header/Purchase Rcpt. Header
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Document No.";//Order No.
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//PurchaseLineRec."Order No. 2" //CS059
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No. //CS059
-
-                    IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
-                        //ItemRec.GET(PurchaseLineRec."No."); //CS051
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Customer No.";//Customer Code
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."OEM No.";//End Customer Code
-                    END
-                    ELSE BEGIN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Code
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//End Customer Code
-                    END;
-
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor Name";//Vendor Name
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
-
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No.
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Amount);//Amount
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Amount Including VAT");//Amount Including VAT
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."CO No.";//CO No.
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Customer Item No.";//Customer Item No.
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Item Supplier Source");//Item Supplier Source
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Location Code";//Location Code
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity" * PurchaseLineRec."Direct Unit Cost");//Outstanding Amount(Set blank for Purchase Invoice Line)
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
-                    //CS093
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity");//Outstanding Quantity(Set blank for Purchase Invoice Line)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity); //Quantity
-                    //CS093
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Invoiced");//Quantity Invoiced(Set blank for Purchase Invoice Line)
-                    //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Quantity Invoiced(Set blank for Purchase Invoice Line)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Received");//Quantity Received(Set Quantity for Purchase Invoice Line)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost");//Unit Cost
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost (LCY)");//Unit Cost (LCY)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Price (LCY)");//Unit Price (LCY)
-
-                    IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
-                        //ItemRec.Get(PurchaseLineRec."Item No");
-                        IF ItemRec."Customer No." <> '' THEN BEGIN
-                            CustomerRec.GET(ItemRec."Customer No.");
-                            SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec.Name;//Customer Name
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Organization Code
+                                                                               //CS051 Begin
+                        IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
+                            ItemRec.GET(PurchaseLineRec."No.");
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + curCountryRegionCode + ';' + ItemRec."Customer No." + ';' + ItemRec."OEM No.";//Customer Inventory Group
                         END
+                        ELSE BEGIN
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Inventory Group
+                        END;
+                        //CS051 End
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."No.";//Item Code
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.Description;//Item Name
+
+                        //CS093
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity 
+
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity"); //Outstanding Quantity
+                                                                                                                            //CS093
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, "Line Amount (Excl. VAT)"
+                        */
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received"); //Outstanding Quantity
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Order Amount, "Line Amount (Excl. VAT)"
+                        //BC Upgrade begin
+
+                        IF PurchaseHeaderRec."Currency Code" = '' THEN
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + GeneralLedgerSetupRec."LCY Code"//Sales Currency
                         ELSE
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Currency Code";//Order Currency
+
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Currency Code";//Order Currency, Currency Code in Purchase Header/Purchase Rcpt. Header
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Document No.";//Order No.
+                                                                                                           //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//PurchaseLineRec."Order No. 2" //CS059
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No. //CS059
+
+                        IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
+                            //ItemRec.GET(PurchaseLineRec."No."); //CS051
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Customer No.";//Customer Code
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."OEM No.";//End Customer Code
+                        END
+                        ELSE BEGIN
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Code
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//End Customer Code
+                        END;
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor Name";//Vendor Name
+
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No.
+
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Amount);//Amount
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Amount Including VAT");//Amount Including VAT
+                        */
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Amount
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
+                                                                                + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100);//Amount Including VAT
+
+                        //BC Upgrade end
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."CO No.";//CO No.
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Customer Item No.";//Customer Item No.
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Item Supplier Source");//Item Supplier Source
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Location Code";//Location Code
+
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Outstanding Quantity" * PurchaseLineRec."Direct Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity");//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                        */
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND((PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received") * PurchaseLineRec."Approved Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
+
+                        //BC Upgrade end
+
+                        //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Invoiced");//Quantity Invoiced(Set blank for Purchase Invoice Line)
+                                                                                                                        //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Quantity Invoiced(Set blank for Purchase Invoice Line)
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Received");//Quantity Received(Set Quantity for Purchase Invoice Line)
+
+                        //BC Upgrade begin
+                        /*
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost");//Unit Cost
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost (LCY)");//Unit Cost (LCY)
+                        */
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost
+                        if PurchaseLineRec."Currency Code" = '' then begin
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost (LCY)
+                        end else begin
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor");//Unit Cost (LCY)
+                        end;
+                        //BC Upgrade end
+
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Price (LCY)");//Unit Price (LCY)
+
+                        IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
+                            //ItemRec.Get(PurchaseLineRec."Item No");
+                            IF ItemRec."Customer No." <> '' THEN BEGIN
+                                CustomerRec.GET(ItemRec."Customer No.");
+                                SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec.Name;//Customer Name
+                            END
+                            ELSE
+                                SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Name
+
+                            IF ItemRec."OEM No." <> '' THEN BEGIN
+                                CustomerRec.RESET();
+                                CustomerRec.GET(ItemRec."OEM No.");
+                                SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec.Name;//OEM Name
+                            END
+                            ELSE
+                                SaveString := SaveString + FORMAT(tabPlaceholder) + '';//OEM Name
+
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Description 2";//Description 2
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Manufacturer Code";//Manufacturer Code
+                        END
+                        ELSE BEGIN
                             SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Name
-
-                        IF ItemRec."OEM No." <> '' THEN BEGIN
-                            CustomerRec.RESET();
-                            CustomerRec.GET(ItemRec."OEM No.");
-                            SaveString := SaveString + FORMAT(tabPlaceholder) + CustomerRec.Name;//OEM Name
-                        END
-                        ELSE
                             SaveString := SaveString + FORMAT(tabPlaceholder) + '';//OEM Name
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Description 2
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Manufacturer Code
+                        END;
 
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Description 2";//Description 2
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + ItemRec."Manufacturer Code";//Manufacturer Code
-                    END
-                    ELSE BEGIN
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Customer Name
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//OEM Name
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Description 2
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Manufacturer Code
-                    END;
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Type);//Type
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Type);//Type
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + ''; //CS051
+                        SaveString := ReplaceString(SaveString, tabChar, '');
+                        SaveString := ReplaceString(SaveString, lineChar, '');
+                        SaveString := ReplaceString(SaveString, lineChar2, '');
+                        SaveString := ReplaceString(SaveString, tabPlaceholder, tabChar);
 
-                    SaveString := ReplaceString(SaveString, tabChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar, '');
-                    SaveString := ReplaceString(SaveString, lineChar2, '');
-                    SaveString := ReplaceString(SaveString, tabPlaceholder, tabChar);
-
-                    InsertDataInBuffer();
+                        InsertDataInBuffer();
+                    end; //BC Upgrade
                 UNTIL PurchaseLineRec.NEXT() = 0;
 
 
@@ -1333,7 +1401,8 @@ codeunit 50014 "DWH Export"
         PurchaseLineRec.RESET();
         PurchaseLineRec.SETRANGE("Document Type", PurchaseLineRec."Document Type"::Order);
         PurchaseLineRec.SETFILTER(Type, '<>0');
-        PurchaseLineRec.SETFILTER(Quantity, '>0');
+        //PurchaseLineRec.SETFILTER(Quantity, '>0'); //BC Upgrade
+        PurchaseLineRec.SETFILTER("Approved Quantity", '>0'); //BC Upgrade
         PurchaseLineRec.SETFILTER("Order Date", '>=%1', BaseDate);
         //IF PurchaseLineRec.FIND('-') THEN CS059
         BEGIN
@@ -1403,9 +1472,18 @@ codeunit 50014 "DWH Export"
                     //CS051 End
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."No.";//Item Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.Description;//Item Name
+                    //BC Upgrade begin
+                    /*
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, Line Amount (Excl. VAT)
+                    */
+
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity");//Quantity
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Order Amount, Line Amount (Excl. VAT)
+
+                    //BC Upgrade end
 
                     IF PurchaseHeaderRec."Currency Code" = '' THEN
                         SaveString := SaveString + FORMAT(tabPlaceholder) + GeneralLedgerSetupRec."LCY Code"
@@ -1427,28 +1505,61 @@ codeunit 50014 "DWH Export"
                     END;
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseHeaderRec."Buy-from Vendor Name";//Vendor Name
-                                                                                                                 //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
+
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseRcptHeaderRec."Buy-from Vendor Name";//Vendor Name
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line No.");//Line No.
+                    //BC Upgrade begin
+                    /*
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Amount);//Amount
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Amount Including VAT");//Amount Including VAT
+                    */
+
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Amount
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
+                                                                            + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100);//Amount Including VAT
+
+                    //BC Upgrade end
+
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."CO No.";//CO No.
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Customer Item No.";//Customer Item No.
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Item Supplier Source");//Item Supplier Source
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Location Code";//Location Code
                                                                                                         //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity" * PurchaseLineRec."Direct Unit Cost");//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
+
+                    //BC Upgrade begin
+                    /*
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Outstanding Quantity" * PurchaseLineRec."Direct Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
-                                                                                                                                                                            //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Amount(Set blank for Purchase Invoice Line)
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Outstanding Quantity");//Outstanding Quantity(Set blank for Purchase Invoice Line)
-                                                                                                                       //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                    */
+
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND((PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received") * PurchaseLineRec."Approved Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
+
+                    //BC Upgrade end
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Invoiced");//Quantity Invoiced(Set blank for Purchase Invoice Line)
                                                                                                                     //SaveString := SaveString + FORMAT(tabPlaceholder) + '';//Quantity Invoiced(Set blank for Purchase Invoice Line)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Received");//Quantity Received(Set Quantity for Purchase Invoice Line)
                                                                                                                     //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."Quantity";//Quantity Received(Set Quantity for Purchase Invoice Line)
+
+                    //BC Upgrade begin
+                    /*
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost");//Unit Cost
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Cost (LCY)");//Unit Cost (LCY)
+                    */
+
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost
+                    if PurchaseLineRec."Currency Code" = '' then begin
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost (LCY)
+                    end else begin
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor");//Unit Cost (LCY)
+                    end;
+                    //BC Upgrade end
+
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Unit Price (LCY)");//Unit Price (LCY)
 
                     IF PurchaseLineRec.Type = PurchaseLineRec.Type::Item THEN BEGIN
