@@ -396,6 +396,7 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec.Inventory - ItemRec.Hold);
                     //BC Update End
 
+                    ItemRec.CALCFIELDS("Qty. on S. O. (Approved)", "Qty. on P. O. (Approved)"); //BC Upgrade
                     //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Purch. Order"); //BC Upgrade
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on P. O. (Approved)"); //BC Upgrade
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ItemRec."Qty. on Sales Quote");
@@ -1250,7 +1251,7 @@ codeunit 50014 "DWH Export"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, "Line Amount (Excl. VAT)"
                         */
 
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received"); //Outstanding Quantity
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity"); //Outstanding Quantity
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Order Amount, "Line Amount (Excl. VAT)"
                         //BC Upgrade begin
