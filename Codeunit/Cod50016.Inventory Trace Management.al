@@ -1,5 +1,8 @@
 codeunit 50016 "Inventory Trace Management"
 {
+
+    // CS116 Shawn 2025/12/29 One Renesas EDI V2
+
     //Important! TODO!
     //"Item Description" is a standard field for latest BC,
     //but currently, the runtime version is not latest of BC, so this field can't be refenced.
@@ -313,6 +316,18 @@ codeunit 50016 "Inventory Trace Management"
                         QtyApplied := QtyApplied + RecInventoryTraceEntry.Quantity * -1;
 
                         RecInventoryTraceEntry."Sales Amount" := RecInventoryTraceEntry.Quantity * RecInventoryTraceEntry."Sales Price" * -1;
+
+                        //CS116 Begin
+                        RecInventoryTraceEntry."Sub Line No." := GetSubLineNo(RecInventoryTraceEntry);
+                        IF RecInventoryTraceEntry."Document Type" = RecInventoryTraceEntry."Document Type"::"Sales Return Receipt" THEN BEGIN
+                            RecInventoryTraceEntry."Original Sub Line No." := SpecPtnITE_TempRec."Original Sub Line No.";
+                        END ELSE BEGIN
+                            RecInventoryTraceEntry."Original Sub Line No." := 0;
+                        END;
+                        RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                        RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                        //CS116 End
+
                         RecInventoryTraceEntry.Note := COPYSTR(SpecPtnIAENo, 1, 250);
                         RecInventoryTraceEntry.Pattern := 'B';
                         ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
@@ -723,6 +738,18 @@ codeunit 50016 "Inventory Trace Management"
 
                                 RecInventoryTraceEntry."Sales Amount" := RecInventoryTraceEntry.Quantity * RecInventoryTraceEntry."Sales Price";
                                 RecInventoryTraceEntry."Incoming Item Ledger Entry No." := SpecPtnITE_TempRec."Incoming Item Ledger Entry No.";
+
+                                //CS116 Begin
+                                RecInventoryTraceEntry."Sub Line No." := GetSubLineNo(RecInventoryTraceEntry);
+                                IF RecInventoryTraceEntry."Document Type" IN [RecInventoryTraceEntry."Document Type"::"Sales Shipment", RecInventoryTraceEntry."Document Type"::"Sales Return Receipt"] THEN BEGIN
+                                    RecInventoryTraceEntry."Original Sub Line No." := SpecPtnITE_TempRec."Sub Line No.";
+                                END ELSE BEGIN
+                                    RecInventoryTraceEntry."Original Sub Line No." := 0;
+                                END;
+                                RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                                RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                                //CS116 End
+
                                 RecInventoryTraceEntry.Pattern := 'C';
                                 ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
                                 RecInventoryTraceEntry.INSERT();
@@ -845,6 +872,11 @@ codeunit 50016 "Inventory Trace Management"
                                 RecInventoryTraceEntry."Cost Currency" := GRecGeneralLedgerSetup."LCY Code";
                             END;
 
+                            //CS116 Begin
+                            RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                            RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                            //CS116 End
+
                             RecInventoryTraceEntry.Pattern := 'A1';
                             ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
                             RecInventoryTraceEntry.INSERT();
@@ -947,6 +979,11 @@ codeunit 50016 "Inventory Trace Management"
                                         IsBreak := TRUE;
                                     END;
                                     QtyApplied := QtyApplied + TempInventoryTraceEntry.Quantity;
+
+                                    //CS116 Begin
+                                    RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                                    RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                                    //CS116 End
 
                                     RecInventoryTraceEntry."Incoming Item Ledger Entry No." := TempInventoryTraceEntry."Incoming Item Ledger Entry No.";
                                     RecInventoryTraceEntry.Pattern := 'A2';
@@ -1241,6 +1278,18 @@ codeunit 50016 "Inventory Trace Management"
 
                                 RecInventoryTraceEntry."Sales Amount" := RecInventoryTraceEntry.Quantity * RecInventoryTraceEntry."Sales Price";
                                 RecInventoryTraceEntry."Incoming Item Ledger Entry No." := TempInventoryTraceEntry."Incoming Item Ledger Entry No.";
+
+                                //CS116 Begin
+                                RecInventoryTraceEntry."Sub Line No." := GetSubLineNo(RecInventoryTraceEntry);
+                                IF RecInventoryTraceEntry."Document Type" IN [RecInventoryTraceEntry."Document Type"::"Sales Shipment", RecInventoryTraceEntry."Document Type"::"Sales Return Receipt"] THEN BEGIN
+                                    RecInventoryTraceEntry."Original Sub Line No." := SpecPtnITE_TempRec."Sub Line No.";
+                                END ELSE BEGIN
+                                    RecInventoryTraceEntry."Original Sub Line No." := 0;
+                                END;
+                                RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                                RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                                //CS116 End
+
                                 RecInventoryTraceEntry.Pattern := 'C';
                                 ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
                                 RecInventoryTraceEntry.INSERT();
@@ -1449,6 +1498,14 @@ codeunit 50016 "Inventory Trace Management"
 
                     RecInventoryTraceEntry."Sales Amount" := RecInventoryTraceEntry.Quantity * RecInventoryTraceEntry."Sales Price" * -1;
                     RecInventoryTraceEntry."Incoming Item Ledger Entry No." := RecItemLedgerEntry."Entry No.";
+
+                    //CS116 Begin
+                    RecInventoryTraceEntry."Sub Line No." := GetSubLineNo(RecInventoryTraceEntry);
+                    RecInventoryTraceEntry."Original Sub Line No." := 0;
+                    RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                    RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                    //CS116 End
+
                     RecInventoryTraceEntry.Pattern := 'D';
                     ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
                     RecInventoryTraceEntry.INSERT();
@@ -1618,6 +1675,14 @@ codeunit 50016 "Inventory Trace Management"
 
             RecInventoryTraceEntry."Sales Amount" := RecInventoryTraceEntry.Quantity * RecInventoryTraceEntry."Sales Price" * -1;
             RecInventoryTraceEntry."Incoming Item Ledger Entry No." := RecItemLedgerEntry."Entry No.";
+
+            //CS116 Begin
+            RecInventoryTraceEntry."Sub Line No." := GetSubLineNo(RecInventoryTraceEntry);
+            RecInventoryTraceEntry."Original Sub Line No." := 0;
+            RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+            RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+            //CS116 End
+
             RecInventoryTraceEntry.Pattern := 'D';
             ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
             RecInventoryTraceEntry.INSERT();
@@ -1930,6 +1995,60 @@ codeunit 50016 "Inventory Trace Management"
                     END;
                 END;
             UNTIL RecInventoryTraceEntry.NEXT() = 0;
+    end;
+
+    local procedure GetSubLineNo(pITE: Record "Inventory Trace Entry") rtnSubLineNo: Integer
+    var
+        L_ITE: Record "Inventory Trace Entry";
+    begin
+        rtnSubLineNo := 0;
+        IF pITE."Document Type" IN [pITE."Document Type"::"Sales Shipment", pITE."Document Type"::"Sales Return Receipt"] THEN BEGIN
+            rtnSubLineNo := 1;
+            L_ITE.SETCURRENTKEY("Document Type", "Document No.", "Document Line No.");
+            L_ITE.SETRANGE("Document Type", pITE."Document Type");
+            L_ITE.SETRANGE("Document No.", pITE."Document No.");
+            L_ITE.SETRANGE("Document Line No.", pITE."Document Line No.");
+            IF L_ITE.FINDLAST THEN BEGIN
+                rtnSubLineNo := L_ITE."Sub Line No." + 1;
+            END;
+        END;
+
+        EXIT(rtnSubLineNo);
+    end;
+
+    local procedure GetRENItemNo(pItemNo: Code[20]) rtnItemNo: Code[20]
+    var
+        recItem: Record "Item";
+        recBom: Record "BOM Component";
+    begin
+        //CS116 Begin
+        rtnItemNo := pItemNo;
+        IF recItem.GET(pItemNo) THEN BEGIN
+            recItem.CALCFIELDS("Assembly BOM");
+            IF recItem."Assembly BOM" AND recItem."Written Product" THEN BEGIN
+                recBom.SETRANGE("Parent Item No.", pItemNo);
+                IF recBom.FINDFIRST THEN BEGIN
+                    rtnItemNo := recBom."No.";
+                END;
+            END;
+        END;
+
+        EXIT(rtnItemNo);
+
+        //CS116 End
+    end;
+
+    local procedure GetRENItemDesc(pItemNo: Code[20]): Text[50]
+    var
+        recItem: Record "Item";
+    begin
+        //CS116 Begin
+        IF recItem.GET(pItemNo) THEN BEGIN
+            EXIT(recItem.Description);
+        END;
+
+        EXIT('');
+        //CS116 End
     end;
 }
 

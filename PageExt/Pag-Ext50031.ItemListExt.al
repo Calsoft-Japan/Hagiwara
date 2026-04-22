@@ -1,5 +1,8 @@
 pageextension 50031 ItemListExt extends "Item List"
 {
+    // CS116 Shawn 2025/12/29 - One Renesas EDI V2
+    // CS116 Shawn 2026/04/05 - One Renesas EDI V2 (ORE CPN added.)
+
     layout
     {
         // N002: Add stored shortcut dimension fields to Item List
@@ -88,6 +91,14 @@ pageextension 50031 ItemListExt extends "Item List"
             }
             field(Memo; Rec.Memo) { ApplicationArea = All; }
             field("One Renesas EDI"; Rec."One Renesas EDI") { ApplicationArea = All; }
+            field("Renesas Category Code"; Rec."Renesas Category Code")
+            {
+                ApplicationArea = All;
+            }
+            field("ORE CPN"; Rec."ORE CPN")
+            {
+                ApplicationArea = All;
+            }
             field("Excluded in Inventory Report"; Rec."Excluded in Inventory Report") { ApplicationArea = All; }
             field("Order Multiple"; Rec."Order Multiple") { ApplicationArea = All; }
         }

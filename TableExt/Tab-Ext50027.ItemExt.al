@@ -1,5 +1,8 @@
 tableextension 50027 "Item Ext" extends "Item"
 {
+    // CS116 Shawn 2025/12/29 - One Renesas EDI V2
+    // CS116 Shawn 2026/04/05 - One Renesas EDI V2 (ORE CPN added.)
+
     fields
     {
         field(50000; "Inventory L1"; Decimal)
@@ -346,8 +349,19 @@ tableextension 50027 "Item Ext" extends "Item"
         {
             Description = 'CS098';
         }
+        field(50142; "Renesas Category Code"; Code[20])
+        {
+            Description = 'CS116';
+            TableRelation = "ORE Renesas Category".Code;
+        }
         field(50143; "Written Product"; Boolean)
         {
+            Description = 'CS116';
+        }
+        field(50144; "ORE CPN"; Code[20])
+        {
+            Description = 'CS116';
+            TableRelation = "ORE CPN Setup".Code;
         }
         field(50150; "Customer Item No.(Plain)"; Code[20])
         {

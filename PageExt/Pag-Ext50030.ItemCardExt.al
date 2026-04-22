@@ -1,5 +1,8 @@
 pageextension 50030 ItemCardExtextends extends "Item Card"
 {
+    // CS116 Shawn 2025/12/29 - One Renesas EDI V2
+    // CS116 Shawn 2026/04/05 - One Renesas EDI V2 (ORE CPN added.)
+
     layout
     {
         //N002: Add fields to Item Card page
@@ -359,6 +362,14 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
             field("One Renesas EDI"; Rec."One Renesas EDI")
             {
                 ApplicationArea = all;
+            }
+            field("Renesas Category Code"; Rec."Renesas Category Code")
+            {
+                ApplicationArea = All;
+            }
+            field("ORE CPN"; Rec."ORE CPN")
+            {
+                ApplicationArea = All;
             }
             field("Excluded in Inventory Report"; Rec."Excluded in Inventory Report")
             {

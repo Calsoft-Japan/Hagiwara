@@ -1,5 +1,7 @@
 page 50063 "Inventory Trace Entries"
 {
+    // CS116 Shawn 2025/12/29 One Renesas EDI V2
+
     ApplicationArea = All;
     UsageCategory = Lists;
     DeleteAllowed = true;

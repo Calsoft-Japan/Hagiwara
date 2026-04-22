@@ -27,14 +27,6 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
                 ApplicationArea = all;
                 Visible = false;
             }
-            field("ORE Reverse Routing Address"; Rec."ORE Reverse Routing Address")
-            {
-                ApplicationArea = all;
-            }
-            field("ORE Reverse Routing Address SD"; Rec."ORE Reverse Routing Address SD")
-            {
-                ApplicationArea = all;
-            }
             field("Excluded in ORE Collection"; Rec."Excluded in ORE Collection")
             {
                 ApplicationArea = all;

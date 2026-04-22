@@ -1,5 +1,7 @@
 table 50063 "Inventory Trace Entry"
 {
+    // CS116 Shawn 2025/12/29 One Renesas EDI V2
+
     DrillDownPageID = "Inventory Trace Entries";
     LookupPageID = "Inventory Trace Entries";
 
