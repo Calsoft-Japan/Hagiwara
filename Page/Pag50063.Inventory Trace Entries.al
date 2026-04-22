@@ -203,6 +203,18 @@ page 50063 "Inventory Trace Entries"
                 field("Calc. Rem. Qty."; Rec."Calc. Rem. Qty.")
                 {
                 }
+                field("Sub Line No."; Rec."Sub Line No.")
+                {
+                }
+                field("Original Sub Line No."; Rec."Original Sub Line No.")
+                {
+                }
+                field("REN. Item No."; Rec."REN. Item No.")
+                {
+                }
+                field("REN. Item Description"; Rec."REN. Item Description")
+                {
+                }
             }
         }
     }

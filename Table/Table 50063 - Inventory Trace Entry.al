@@ -242,6 +242,22 @@ table 50063 "Inventory Trace Entry"
         {
             InitValue = false;
         }
+        field(62; "Sub Line No."; Integer)
+        {
+            Description = 'CS116';
+        }
+        field(63; "Original Sub Line No."; Integer)
+        {
+            Description = 'CS116';
+        }
+        field(64; "REN. Item No."; Code[20])
+        {
+            Description = 'CS116';
+        }
+        field(65; "REN. Item Description"; Text[50])
+        {
+            Description = 'CS116';
+        }
         field(97; "Manually Updated"; Boolean)
         {
             // cleaned
