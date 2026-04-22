@@ -123,6 +123,15 @@ tableextension 50122 "Purch. Inv. Header Ext" extends "Purch. Inv. Header"
         field(50071; "GST Rate"; Decimal)
         {
         }
+        field(50072; "GST Exchange Rate"; Decimal)
+        {
+        }
+        field(50073; "GST Amount"; Decimal)
+        {
+        }
+        field(50074; "Base Amount (GST)"; Decimal)
+        {
+        }
         field(50091; "Approval Status"; Enum "Hagiwara Approval Status")
         {
             Editable = false;

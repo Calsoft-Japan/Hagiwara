@@ -154,6 +154,15 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
         field(50036; "From"; Text[30])
         {
         }
+        field(50037; "GST Exchange Rate"; Decimal)
+        {
+        }
+        field(50038; "GST Amount"; Decimal)
+        {
+        }
+        field(50039; "Base Amount (GST)"; Decimal)
+        {
+        }
     }
     trigger OnInsert()
     var

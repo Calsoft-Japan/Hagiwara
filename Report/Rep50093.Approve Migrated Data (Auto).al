@@ -56,6 +56,7 @@ report 50093 "Approve Migrated Data (Auto)"
                     repeat
                         SalesLine."Approved Quantity" := SalesLine.Quantity;
                         SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                        SalesLine."Price Target Update" := true;
                         SalesLine.Modify();
                     until SalesLine.Next() = 0;
                 end;
@@ -81,6 +82,7 @@ report 50093 "Approve Migrated Data (Auto)"
                     repeat
                         PurchaseLine."Approved Quantity" := PurchaseLine.Quantity;
                         PurchaseLine."Approved Unit Cost" := PurchaseLine."Direct Unit Cost";
+                        PurchaseLine."Price Target Update" := true;
                         PurchaseLine.Modify();
                     until PurchaseLine.Next() = 0;
                 end;
