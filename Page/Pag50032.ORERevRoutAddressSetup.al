@@ -2,6 +2,8 @@ page 50032 "ORE Rev. Rout. Address Setup"
 {
     // CS116 Shawn 2025/12/29 One Renesas EDI V2
 
+    ApplicationArea = All;
+    UsageCategory = Lists;
     PageType = List;
     SourceTable = "ORE Rev. Rout. Address Setup";
 

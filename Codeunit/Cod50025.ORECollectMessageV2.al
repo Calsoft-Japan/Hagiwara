@@ -1,6 +1,7 @@
 codeunit 50025 "ORE Collect Message V2"
 {
     // CS116 Shawn 2025/12/29 - One Renesas EDI V2
+    // BCUpd Shawn 2026/04/25 - Hagiwara Approval.
 
 
     trigger OnRun()
@@ -47,6 +48,10 @@ codeunit 50025 "ORE Collect Message V2"
         PurchaseLine.RESET;
         PurchaseLine.SETRANGE("ORE Message Status", PurchaseLine."ORE Message Status"::"Ready to Collect");
         PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
+        PurchaseLine.SetFilter("Approval Status", '%1|%2|%3',
+                                Enum::"Hagiwara Approval Status"::"Not Applicable",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"); //BC Upgrade
         IF PurchaseLine.FINDSET THEN
             REPEAT
                 //Create history data on first time.
@@ -78,8 +83,14 @@ codeunit 50025 "ORE Collect Message V2"
                 OREMessageCollectionORDERS."Line No." := PurchaseLine."Line No.";
                 OREMessageCollectionORDERS."Item No." := PurchaseLine."No.";
                 OREMessageCollectionORDERS.Description := PurchaseLine.Description;
+                //BC Upgrade begin
+                /*
                 OREMessageCollectionORDERS.Quantity := PurchaseLine.Quantity;
                 OREMessageCollectionORDERS."Direct Unit Cost" := PurchaseLine."Direct Unit Cost";
+                */
+                OREMessageCollectionORDERS.Quantity := PurchaseLine."Approved Quantity";
+                OREMessageCollectionORDERS."Direct Unit Cost" := PurchaseLine."Approved Unit Cost";
+                //BC Upgrade end
                 Item.RESET;
                 Item.GET(PurchaseLine."No.");
                 Customer.RESET;
@@ -131,6 +142,10 @@ codeunit 50025 "ORE Collect Message V2"
         PurchaseLine.RESET;
         PurchaseLine.SETRANGE("ORE Change Status", PurchaseLine."ORE Change Status"::Changed);
         PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
+        PurchaseLine.SetFilter("Approval Status", '%1|%2|%3',
+                                Enum::"Hagiwara Approval Status"::"Not Applicable",
+                                Enum::"Hagiwara Approval Status"::"Approved",
+                                Enum::"Hagiwara Approval Status"::"Auto Approved"); //BC Upgrade
         IF PurchaseLine.FINDSET THEN
             REPEAT
                 //Create history data on first time.
@@ -177,7 +192,8 @@ codeunit 50025 "ORE Collect Message V2"
                 OREMessageCollectionORDCHG."Line No." := PurchaseLine."Line No.";
                 OREMessageCollectionORDCHG."Item No." := PurchaseLine."No.";
                 OREMessageCollectionORDCHG.Description := PurchaseLine.Description;
-                OREMessageCollectionORDCHG.Quantity := PurchaseLine.Quantity;
+                //OREMessageCollectionORDCHG.Quantity := PurchaseLine.Quantity; //BC Upgrade
+                OREMessageCollectionORDCHG.Quantity := PurchaseLine."Approved Quantity"; //BC Upgrade
                 OREMessageCollectionORDCHG."Requested Receipt Date" := PurchaseLine."Requested Receipt Date_1";
                 OREMessageCollectionORDCHG."ORE Line No." := PurchaseLine."ORE Line No.";
 
@@ -288,6 +304,7 @@ codeunit 50025 "ORE Collect Message V2"
                     l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase); //BC Upgrade
                     l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active); //BC Upgrade
                     l_recPurchPrice.SETRANGE("Asset No.", RENItemNo); //BC Upgrade
+                    l_recPurchPrice.SetRange("Assign-to No.", l_recRENItem."Vendor No."); //BC Upgrade
                     l_recPurchPrice.SETFILTER("Starting Date", '..%1', DueDate);
                     IF l_recPurchPrice.FINDFIRST THEN BEGIN
                         IF l_recPurchPrice."Ship&Debit Flag" THEN BEGIN
@@ -536,6 +553,7 @@ codeunit 50025 "ORE Collect Message V2"
                         l_recPurchPrice.SetRange("Price Type", l_recPurchPrice."Price Type"::Purchase); //BC Upgrade
                         l_recPurchPrice.SetRange(Status, l_recPurchPrice.Status::Active); //BC Upgrade
                         l_recPurchPrice.SETRANGE("Asset No.", ITE."REN. Item No."); //BC Upgrade
+                        l_recPurchPrice.SetRange("Assign-to No.", l_recRENItem."Vendor No."); //BC Upgrade
                         l_recPurchPrice.SETFILTER("Starting Date", '..%1', ITE."Posting Date");
                         IF l_recPurchPrice.FINDFIRST THEN BEGIN
                             IF l_recPurchPrice."Ship&Debit Flag" THEN BEGIN

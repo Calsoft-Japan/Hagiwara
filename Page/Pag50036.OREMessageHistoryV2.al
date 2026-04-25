@@ -2,6 +2,8 @@ page 50036 "ORE Message History V2"
 {
     // CS116 Shawn 2025/12/29 - One Renesas EDI V2
 
+    ApplicationArea = All;
+    UsageCategory = Lists;
     DeleteAllowed = false;
     Editable = false;
     InsertAllowed = false;
@@ -68,7 +70,9 @@ page 50036 "ORE Message History V2"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Collect Message';
                     Image = "Report";
-                    Promoted = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = "Report";
                     //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
@@ -136,7 +140,9 @@ page 50036 "ORE Message History V2"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Send Message';
                     Image = "Report";
-                    Promoted = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = "Report";
                     //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
@@ -177,7 +183,9 @@ page 50036 "ORE Message History V2"
                     ApplicationArea = Basic, Suite;
                     Caption = 'Cancel Message';
                     Image = "Report";
-                    Promoted = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = "Report";
                     //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'
@@ -276,8 +284,9 @@ page 50036 "ORE Message History V2"
                 {
                     ApplicationArea = Basic, Suite;
                     Caption = 'Open Message Collection';
-                    Image = "Report";
-                    Promoted = false;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
                     //The property 'PromotedCategory' can only be set if the property 'Promoted' is set to 'true'
                     //PromotedCategory = "Report";
                     //The property 'PromotedIsBig' can only be set if the property 'Promoted' is set to 'true'

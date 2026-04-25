@@ -17,6 +17,8 @@ codeunit 50026 "ORE Send Message V2"
         lineTab: Char;
         lineTab2: Text;
         HistoryEntryNo: Integer; //BC Upgrade
+        RevRoutingAddr: Code[40]; //BC Upgrade
+        RevRoutingAddrSD: Code[40]; //BC Upgrade
         FileName: Text[250]; //BC Upgrade
         MessageName: Code[10]; //BC Upgrade
         Const_MN_ORDERS: Label 'ORDERS'; //BC Upgrade
@@ -27,7 +29,7 @@ codeunit 50026 "ORE Send Message V2"
     //BC Upgrade
     procedure DeleteDataInBuffer()
     var
-        OREMessageBuffer: Record "ORE Msg Collection Buffer V2";
+        OREMessageBuffer: Record "ORE Message Collection Buffer";
     begin
         OREMessageBuffer.Reset();
         OREMessageBuffer.SetRange("Message Name", MessageName);
@@ -36,13 +38,13 @@ codeunit 50026 "ORE Send Message V2"
 
     procedure InsertDataInBuffer()
     var
-        OREMessageBuffer: Record "ORE Msg Collection Buffer V2";
+        OREMessageBuffer: Record "ORE Message Collection Buffer";
     begin
         OREMessageBuffer.INIT;
         OREMessageBuffer."ORE Msg Hist Entry No." := HistoryEntryNo;
         OREMessageBuffer."Message Name" := MessageName;
-        //OREMessageBuffer."Reverse Routing Address" := RevRoutingAddr;
-        //OREMessageBuffer."Reverse Routing Address (SD)" := RevRoutingAddrSD;
+        OREMessageBuffer."Reverse Routing Address" := RevRoutingAddr;
+        OREMessageBuffer."Reverse Routing Address (SD)" := RevRoutingAddrSD;
         OREMessageBuffer."File Name" := FileName;
         OREMessageBuffer.INSERT;
         //OREMessageBuffer.SetData(SaveString); //BC Upgrade
@@ -59,7 +61,7 @@ codeunit 50026 "ORE Send Message V2"
         TempMsgOutputKeys: Record "ORE Msg Collection ORDERS V2" temporary;
         OREMsgFinder: Record "ORE Msg Collection ORDERS V2";
         OREMessageCollectionORDERS: Record "ORE Msg Collection ORDERS V2";
-        FileName: Text;
+
         MessageReferenceNumb: Integer;
         LineNumber: Integer;
         CountLine: Integer;
@@ -99,7 +101,7 @@ codeunit 50026 "ORE Send Message V2"
                     //TempMsgOutputKeys."Ship-to Code" := OREMsgFinder."Ship-to Code";
                     TempMsgOutputKeys.INSERT();
 
-                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
+                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + '_' + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
 
                     //header line
                     SaveString := 'ORE Country Qualifier' + lineTab2;
@@ -157,7 +159,9 @@ codeunit 50026 "ORE Send Message V2"
                     CountLine := OREMessageCollectionORDERS.COUNT;
 
                     //BC Upgrade
-                    HistoryEntryNo := OREMessageHistory."Entry No.";
+                    HistoryEntryNo := OREMsgFinder."History Entry No.";
+                    RevRoutingAddr := OREMsgFinder."Reverse Routing Address";
+                    RevRoutingAddrSD := '';
                     InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
@@ -267,7 +271,7 @@ codeunit 50026 "ORE Send Message V2"
         TempMsgOutputKeys: Record "ORE Msg Collection ORDCHG V2" temporary;
         OREMsgFinder: Record "ORE Msg Collection ORDCHG V2";
         OREMessageCollectionORDCHG: Record "ORE Msg Collection ORDCHG V2";
-        FileName: Text;
+
         MessageReferenceNumb: Integer;
         LineNumber: Integer;
         CountLine: Integer;
@@ -307,7 +311,7 @@ codeunit 50026 "ORE Send Message V2"
                     //TempMsgOutputKeys."Ship-to Code" := OREMsgFinder."Ship-to Code";
                     TempMsgOutputKeys.INSERT();
 
-                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
+                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + '_' + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
 
                     //header line
                     SaveString := 'ORE Country Qualifier' + lineTab2;
@@ -362,7 +366,9 @@ codeunit 50026 "ORE Send Message V2"
                     CountLine := OREMessageCollectionORDCHG.COUNT;
 
                     //BC Upgrade
-                    HistoryEntryNo := OREMessageHistory."Entry No.";
+                    HistoryEntryNo := OREMsgFinder."History Entry No.";
+                    RevRoutingAddr := OREMsgFinder."Reverse Routing Address";
+                    RevRoutingAddrSD := '';
                     InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
@@ -465,7 +471,7 @@ codeunit 50026 "ORE Send Message V2"
         TempMsgOutputKeys: Record "ORE Msg Collection INVRPT V2" temporary;
         OREMsgFinder: Record "ORE Msg Collection INVRPT V2";
         OREMessageCollectionINVRPT: Record "ORE Msg Collection INVRPT V2";
-        FileName: Text;
+
         MessageReferenceNumb: Integer;
         LineNumber: Integer;
         CountLine: Integer;
@@ -500,7 +506,7 @@ codeunit 50026 "ORE Send Message V2"
                     TempMsgOutputKeys."Reverse Routing Address" := OREMsgFinder."Reverse Routing Address";
                     TempMsgOutputKeys.INSERT();
 
-                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
+                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + '_' + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
 
                     //header line
                     SaveString := 'ORE Country Qualifier' + lineTab2;
@@ -560,7 +566,9 @@ codeunit 50026 "ORE Send Message V2"
                     CountLine := OREMessageCollectionINVRPT.COUNT;
 
                     //BC Upgrade
-                    HistoryEntryNo := OREMessageHistory."Entry No.";
+                    HistoryEntryNo := OREMsgFinder."History Entry No.";
+                    RevRoutingAddr := OREMsgFinder."Reverse Routing Address";
+                    RevRoutingAddrSD := '';
                     InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
@@ -660,7 +668,7 @@ codeunit 50026 "ORE Send Message V2"
         TempMsgOutputKeys: Record "ORE Msg Collection SLSRPT V2" temporary;
         OREMsgFinder: Record "ORE Msg Collection SLSRPT V2";
         OREMessageCollectionSLSRPT: Record "ORE Msg Collection SLSRPT V2";
-        FileName: Text;
+
         MessageReferenceNumb: Integer;
         LineNumber: Integer;
         CountLine: Integer;
@@ -695,7 +703,7 @@ codeunit 50026 "ORE Send Message V2"
                     TempMsgOutputKeys."Reverse Routing Address" := OREMsgFinder."Reverse Routing Address";
                     TempMsgOutputKeys.INSERT();
 
-                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
+                    FileName := MessageName + '_' + GeneralLedgerSetup."ORE Country Qualifier" + '_' + OREMsgFinder."Reverse Routing Address"; //BC Upgrade
 
                     //header line
                     SaveString := 'ORE Country Qualifier' + lineTab2;
@@ -769,7 +777,9 @@ codeunit 50026 "ORE Send Message V2"
                     CountLine := OREMessageCollectionSLSRPT.COUNT;
 
                     //BC Upgrade
-                    HistoryEntryNo := OREMessageHistory."Entry No.";
+                    HistoryEntryNo := OREMsgFinder."History Entry No.";
+                    RevRoutingAddr := OREMsgFinder."Reverse Routing Address";
+                    RevRoutingAddrSD := '';
                     InsertDataInBuffer(); //File Header
                     //BC Upgrade
 
@@ -909,7 +919,7 @@ codeunit 50026 "ORE Send Message V2"
 
     //BC Upgrade
     /*
-    local procedure CreateFile(FileName: Text; SaveString: Text)
+    local procedure CreateFile( SaveString: Text)
     begin
         IF SaveString <> '' THEN BEGIN
 

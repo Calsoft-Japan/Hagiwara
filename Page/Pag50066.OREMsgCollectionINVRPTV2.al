@@ -2,6 +2,8 @@ page 50066 "ORE Msg Collection INVRPT V2"
 {
     // CS116 Shawn 2025/12/29 - One Renesas EDI V2
 
+    ApplicationArea = All;
+    UsageCategory = Lists;
     DeleteAllowed = false;
     Editable = false;
     InsertAllowed = false;
