@@ -106,6 +106,39 @@ page 50117 "Item Import Batch"
                         Pag_ItemImportline.RunModal();
                     end;
                 }
+                action("Item Export")
+                {
+                    ApplicationArea = all;
+                    Image = EntriesList;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        ItemExport: Report "Item Export";
+                        TempBlob: Codeunit "Temp Blob";
+                        OutStream: OutStream;
+                        InStream: InStream;
+                        FileName: Text;
+                        XmlParameters: text;
+                    begin
+                        ItemExport.UseRequestPage(true);
+                        XmlParameters := ItemExport.RunRequestPage();
+                        Clear(ItemExport);
+                        FileName := StrSubstNo('ItemList_%1.xlsx',
+                                Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
+
+                        // Save the report dataset + RDLC layout as XLSX into a TempBlob
+                        TempBlob.CreateOutStream(OutStream);
+                        ItemExport.SetBatchNameIntFilter(Rec.Name);
+                        ItemExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
+
+                        // Stream the file to the user's browser for download
+                        TempBlob.CreateInStream(InStream);
+                        DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
+                    end;
+                }
             }
             group("Hagiwara Approval")
             {

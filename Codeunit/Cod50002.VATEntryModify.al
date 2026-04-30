@@ -5,6 +5,9 @@ codeunit 50002 VATEntryModify
     local procedure "VAT Entry - Edit_OnBeforeVATEntryModify"(var VATEntry: Record "VAT Entry"; FromVATEntry: Record "VAT Entry")
     begin
         VATEntry."GST Rate" := FromVATEntry."GST Rate";
+        VATEntry."GST Exchange Rate" := FromVATEntry."GST Exchange Rate";
+        VATEntry."GST Amount" := FromVATEntry."GST Amount";
+        VATEntry."Base Amount (GST)" := FromVATEntry."Base Amount (GST)";
         VATEntry.From := FromVATEntry.From;
     end;
 
@@ -12,6 +15,9 @@ codeunit 50002 VATEntryModify
     local procedure "Gen. Jnl.-Post Line_OnInsertVATOnAfterAssignVATEntryFields"(GenJnlLine: Record "Gen. Journal Line"; var VATEntry: Record "VAT Entry"; CurrExchRate: Record "Currency Exchange Rate")
     begin
         VATEntry."GST Rate" := GenJnlLine."GST Rate";
+        VATEntry."GST Exchange Rate" := GenJnlLine."GST Exchange Rate";
+        VATEntry."GST Amount" := GenJnlLine."GST Amount";
+        VATEntry."Base Amount (GST)" := GenJnlLine."Base Amount (GST)";
     end;
 
 
