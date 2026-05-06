@@ -4733,6 +4733,9 @@
                 </TablixMember>
                 <TablixMember>
                   <Group Name="Details" />
+                  <Visibility>
+                    <Hidden>=iif(Fields!Entry_No_.Value&lt;&gt;0,false,true)</Hidden>
+                  </Visibility>
                 </TablixMember>
               </TablixMembers>
             </TablixRowHierarchy>
