@@ -207,6 +207,9 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
                                 PurchInvHeader.SetRange("Posting Date", Rec."Posting Date");
                                 if PurchInvHeader.FindFirst() then begin
                                     Rec."GST Rate" := PurchInvHeader."GST Rate";
+                                    Rec."GST Exchange Rate" := PurchInvHeader."GST Exchange Rate";
+                                    Rec."GST Amount" := PurchInvHeader."GST Amount";
+                                    Rec."Base Amount (GST)" := PurchInvHeader."Base Amount (GST)";
                                 end;
                             end;
                         Rec."Document Type"::"Credit Memo":
@@ -216,6 +219,9 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
                                 PurchCrMemoHdr.SetRange("Posting Date", Rec."Posting Date");
                                 if PurchCrMemoHdr.FindFirst() then begin
                                     Rec."GST Rate" := PurchCrMemoHdr."GST Rate";
+                                    Rec."GST Exchange Rate" := PurchCrMemoHdr."GST Exchange Rate";
+                                    Rec."GST Amount" := PurchCrMemoHdr."GST Amount";
+                                    Rec."Base Amount (GST)" := PurchCrMemoHdr."Base Amount (GST)";
                                 end;
                             end;
                     end;
