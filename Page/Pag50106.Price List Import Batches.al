@@ -70,6 +70,21 @@ page 50106 "Price List Import Batches"
                         Pag_PriceListImportline.RunModal();
                     end;
                 }
+                action("Price List Export")
+                {
+                    ApplicationArea = all;
+                    Image = EntriesList;
+                    Promoted = true;
+                    PromotedIsBig = true;
+                    PromotedCategory = Process;
+
+                    trigger OnAction()
+                    var
+                        PriceListExport: Report "Price List Export";
+                    begin
+                        PriceListExport.Run();
+                    end;
+                }
             }
             group("Hagiwara Approval")
             {
