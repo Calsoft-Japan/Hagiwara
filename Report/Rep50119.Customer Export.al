@@ -124,6 +124,7 @@ report 50119 "Customer Export"
                     field(FormatOnly; FormatOnly)
                     {
                         Caption = 'Format Only';
+                        ApplicationArea = All;
                         ToolTip = 'When checked, only the template format will be exported with no data included.';
                     }
                 }

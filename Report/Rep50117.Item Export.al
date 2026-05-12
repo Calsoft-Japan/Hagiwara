@@ -89,6 +89,7 @@ report 50117 "Item Export"
                     field(FormatOnly; FormatOnly)
                     {
                         Caption = 'Format Only';
+                        ApplicationArea = All;
                         ToolTip = 'When checked, only the template format will be exported with no data included.';
                     }
                 }
