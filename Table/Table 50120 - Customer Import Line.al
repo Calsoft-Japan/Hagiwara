@@ -11,6 +11,7 @@ table 50120 "Customer Import Line"
         }
         field(3; "No."; Code[20])
         {
+            TableRelation = Customer."No.";
         }
         field(4; Name; Text[100])
         {

@@ -126,18 +126,20 @@ page 50119 "Customer Import Batches"
                     begin
                         CustomerExport.UseRequestPage(true);
                         XmlParameters := CustomerExport.RunRequestPage();
-                        Clear(CustomerExport);
-                        FileName := StrSubstNo('CustomerList_%1.xlsx',
-                                Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
+                        if XmlParameters <> '' then begin
+                            Clear(CustomerExport);
+                            FileName := StrSubstNo('CustomerList_%1.xlsx',
+                                    Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
 
-                        // Save the report dataset + RDLC layout as XLSX into a TempBlob
-                        TempBlob.CreateOutStream(OutStream);
-                        CustomerExport.SetBatchNameIntFilter(Rec.Name);
-                        CustomerExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
+                            // Save the report dataset + RDLC layout as XLSX into a TempBlob
+                            TempBlob.CreateOutStream(OutStream);
+                            CustomerExport.SetBatchNameIntFilter(Rec.Name);
+                            CustomerExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
 
-                        // Stream the file to the user's browser for download
-                        TempBlob.CreateInStream(InStream);
-                        DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
+                            // Stream the file to the user's browser for download
+                            TempBlob.CreateInStream(InStream);
+                            DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
+                        end;
                     end;
                 }
             }

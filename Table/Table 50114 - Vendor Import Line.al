@@ -12,6 +12,7 @@ table 50114 "Vendor Import Line"
         }
         field(3; "No."; Code[20])
         {
+            TableRelation = Vendor."No.";
         }
         field(4; "Name"; Text[100])
         {

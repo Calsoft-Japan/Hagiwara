@@ -125,18 +125,21 @@ page 50117 "Item Import Batch"
                     begin
                         ItemExport.UseRequestPage(true);
                         XmlParameters := ItemExport.RunRequestPage();
-                        Clear(ItemExport);
-                        FileName := StrSubstNo('ItemList_%1.xlsx',
-                                Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
+                        if XmlParameters <> '' then begin
+                            Clear(ItemExport);
+                            FileName := StrSubstNo('ItemList_%1.xlsx',
+                                    Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
 
-                        // Save the report dataset + RDLC layout as XLSX into a TempBlob
-                        TempBlob.CreateOutStream(OutStream);
-                        ItemExport.SetBatchNameIntFilter(Rec.Name);
-                        ItemExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
-
-                        // Stream the file to the user's browser for download
-                        TempBlob.CreateInStream(InStream);
-                        DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
+                            // Save the report dataset + RDLC layout as XLSX into a TempBlob
+                            TempBlob.CreateOutStream(OutStream);
+                            ItemExport.SetBatchNameIntFilter(Rec.Name);
+                            //ItemExport.SetFiltersFromXml(XmlParameters);
+                            if ItemExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream) then begin
+                                // Stream the file to the user's browser for download
+                                TempBlob.CreateInStream(InStream);
+                                DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
+                            end;
+                        end;
                     end;
                 }
             }

@@ -10,10 +10,36 @@ report 50118 "Vendor Export"
     ApplicationArea = All;
     dataset
     {
-        dataitem("Vendor Import Line"; "Vendor Import Line")
+        dataitem("Real Vendor Import Line"; "Vendor Import Line")
         {
             UseTemporary = true;
             RequestFilterFields = "No.", "Name", Blocked;
+            trigger OnAfterGetRecord()
+            begin
+                Message("Real Vendor Import Line".GetFilters());
+                if FormatOnly then
+                    exit;
+                if "Real Vendor Import Line"."Batch Name" = BatchNameIntFilter then begin
+                    "Vendor Import Line".Init();
+                    "Vendor Import Line".TransferFields("Real Vendor Import Line");
+                    "Vendor Import Line".Insert();
+                end;
+            end;
+
+            // After all real records processed, check if buffer is empty
+            trigger OnPostDataItem()
+            begin
+                if "Vendor Import Line".IsEmpty() then begin
+                    "Vendor Import Line".Init();
+                    "Vendor Import Line".Insert();
+                end;
+            end;
+        }
+        dataitem("Vendor Import Line"; "Vendor Import Line")
+        {
+            UseTemporary = true;
+            //RequestFilterFields = "No.", "Name", Blocked;
+            DataItemTableView = sorting("Entry No.");
             column(Entry_No_; "Entry No.") { }
             column(No_; "No.") { }
             column(Name; "Name") { }
@@ -117,7 +143,7 @@ report 50118 "Vendor Export"
     var
         recItemImpLn: Record "Vendor Import Line";
     begin
-        if FormatOnly then begin
+        /*if FormatOnly then begin
             "Vendor Import Line".Init();
             "Vendor Import Line".Insert();
         end else begin
@@ -136,17 +162,16 @@ report 50118 "Vendor Export"
                 "Vendor Import Line".Init();
                 "Vendor Import Line".Insert();
             end;
-        end;
-
+        end;*/
     end;
 
     var
         FormatOnly: Boolean;
-        ItemNoFilter: Code[20];
+        /*ItemNoFilter: Code[20];
         CustomerNoFilter: Code[20];
         VendorNoFilter: Code[20];
         ItemSupplierSourceFilter: Option;
-        BlockedFilter: Boolean;
+        BlockedFilter: Boolean;*/
         BatchNameIntFilter: Code[20];
 
     procedure SetBatchNameIntFilter(BtNmIntFilter: Code[20])

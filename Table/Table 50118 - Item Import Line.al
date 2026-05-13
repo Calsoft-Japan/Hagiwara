@@ -17,7 +17,7 @@ table 50118 "Item Import Line"
         }
         field(4; "Item No."; Code[20])
         {
-
+            TableRelation = item."No.";
         }
         field(5; "Familiar Name"; Code[20])
         {
@@ -157,7 +157,7 @@ table 50118 "Item Import Line"
         }
         field(39; "Customer No."; Code[20])
         {
-
+            TableRelation = customer."No.";
         }
         field(40; "Customer Item No."; Code[20])
         {
@@ -173,7 +173,7 @@ table 50118 "Item Import Line"
         }
         field(43; "Vendor No."; Code[20])
         {
-
+            TableRelation = vendor."No.";
         }
         field(44; "Item Supplier Source"; Option)
         {

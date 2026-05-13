@@ -10,10 +10,37 @@ report 50119 "Customer Export"
     ApplicationArea = All;
     dataset
     {
+        dataitem("Real Customer Import Line"; "Customer Import Line")
+        {
+            //UseTemporary = true;
+            RequestFilterFields = "No.", "Name", "Item Supplier Source", "Vendor Cust. Code", Blocked;
+
+            trigger OnAfterGetRecord()
+            begin
+                Message("Real Customer Import Line".GetFilters());
+                if FormatOnly then
+                    exit;
+                if "Real Customer Import Line"."Batch Name" = BatchNameIntFilter then begin
+                    "Customer Import Line".Init();
+                    "Customer Import Line".TransferFields("Real Customer Import Line");
+                    "Customer Import Line".Insert();
+                end;
+            end;
+
+            // After all real records processed, check if buffer is empty
+            trigger OnPostDataItem()
+            begin
+                if "Customer Import Line".IsEmpty() then begin
+                    "Customer Import Line".Init();
+                    "Customer Import Line".Insert();
+                end;
+            end;
+        }
         dataitem("Customer Import Line"; "Customer Import Line")
         {
             UseTemporary = true;
-            RequestFilterFields = "No.", "Name", "Item Supplier Source", "Vendor Cust. Code", Blocked;
+            //RequestFilterFields = "No.", "Name", "Item Supplier Source", "Vendor Cust. Code", Blocked;
+            DataItemTableView = sorting("Entry No.");
             column(Entry_No_; "Entry No.") { }
             column(No_; "No.") { }
             column(Name; Name) { }
