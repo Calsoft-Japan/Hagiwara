@@ -88,6 +88,11 @@ report 50106 "Price List Export"
                             TempExcelBuffer.AddColumn(PriceLineCombi."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi."Unit of Measure Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                        end else begin
+                            TempExcelBuffer.AddColumn(0, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                         end;
 
                         TempExcelBuffer.AddColumn(PriceList."Renesas Report Unit Price Cur.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -100,7 +105,13 @@ report 50106 "Price List Export"
                             TempExcelBuffer.AddColumn(PriceLineCombi."PC. Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                             TempExcelBuffer.AddColumn(PriceLineCombi."PC. Update Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi.Status, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-
+                        end else begin
+                            TempExcelBuffer.AddColumn(0, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn(0, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                         end;
 
                     end else if PriceTypeFilter = G_PriceType_Purch then begin
@@ -121,6 +132,10 @@ report 50106 "Price List Export"
                             TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi."Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                        end else begin
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn(0, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                         end;
 
                         TempExcelBuffer.AddColumn(PriceList."Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
@@ -131,6 +146,9 @@ report 50106 "Price List Export"
                         if CombiFound then begin
                             TempExcelBuffer.AddColumn(PriceLineCombi."Renesas Report Unit Price Cur.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                             TempExcelBuffer.AddColumn(PriceLineCombi."Renesas Report Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                        end else begin
+                            TempExcelBuffer.AddColumn('', false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                            TempExcelBuffer.AddColumn(0, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                         end;
 
                         TempExcelBuffer.AddColumn(PriceList."ORE Debit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
