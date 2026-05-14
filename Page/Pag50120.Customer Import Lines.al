@@ -996,7 +996,7 @@ page 50120 "Customer Import Lines"
         end;
         //Salesperson Code
         if p_CustomerImportline."Salesperson Code" <> '' then begin
-            if not FinChargeTermsCode.get(p_CustomerImportline."Salesperson Code") then begin
+            if not SalespersonCode.get(p_CustomerImportline."Salesperson Code") then begin
                 ErrDesc += 'Salesperson Code is not found. ';
             end;
         end;
