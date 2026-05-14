@@ -117,28 +117,8 @@ page 50113 "Vendor Import Batches"
                     trigger OnAction()
                     var
                         VendorExport: Report "Vendor Export";
-                        TempBlob: Codeunit "Temp Blob";
-                        OutStream: OutStream;
-                        InStream: InStream;
-                        FileName: Text;
-                        XmlParameters: text;
                     begin
-                        VendorExport.UseRequestPage(true);
-                        XmlParameters := VendorExport.RunRequestPage();
-                        if XmlParameters <> '' then begin
-                            Clear(VendorExport);
-                            FileName := StrSubstNo('VendorList_%1.xlsx',
-                                    Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
-
-                            // Save the report dataset + RDLC layout as XLSX into a TempBlob
-                            TempBlob.CreateOutStream(OutStream);
-                            VendorExport.SetBatchNameIntFilter(Rec.Name);
-                            VendorExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
-
-                            // Stream the file to the user's browser for download
-                            TempBlob.CreateInStream(InStream);
-                            DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
-                        end;
+                        VendorExport.Run();
                     end;
                 }
             }

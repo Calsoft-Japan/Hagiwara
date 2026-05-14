@@ -118,28 +118,8 @@ page 50119 "Customer Import Batches"
                     trigger OnAction()
                     var
                         CustomerExport: Report "Customer Export";
-                        TempBlob: Codeunit "Temp Blob";
-                        OutStream: OutStream;
-                        InStream: InStream;
-                        FileName: Text;
-                        XmlParameters: text;
                     begin
-                        CustomerExport.UseRequestPage(true);
-                        XmlParameters := CustomerExport.RunRequestPage();
-                        if XmlParameters <> '' then begin
-                            Clear(CustomerExport);
-                            FileName := StrSubstNo('CustomerList_%1.xlsx',
-                                    Format(CurrentDateTime, 0, '<Year4><Month,2><Day,2>_<Hours24,2><Minutes,2><Seconds,2>'));
-
-                            // Save the report dataset + RDLC layout as XLSX into a TempBlob
-                            TempBlob.CreateOutStream(OutStream);
-                            CustomerExport.SetBatchNameIntFilter(Rec.Name);
-                            CustomerExport.SaveAs(XmlParameters, ReportFormat::Excel, OutStream);
-
-                            // Stream the file to the user's browser for download
-                            TempBlob.CreateInStream(InStream);
-                            DownloadFromStream(InStream, 'Export', '', 'Excel Files (*.xlsx)|*.xlsx', FileName);
-                        end;
+                        CustomerExport.Run();
                     end;
                 }
             }
