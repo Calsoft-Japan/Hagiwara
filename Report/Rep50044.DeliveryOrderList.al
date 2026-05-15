@@ -188,7 +188,7 @@ report 50044 "Delivery Order List"
             }
             dataitem("Sales Line"; "Sales Line")
             {
-                DataItemLink = "Bill-to Customer No." = FIELD("No."),
+                DataItemLink = "Sell-to Customer No." = FIELD("No."),
                                "Shortcut Dimension 1 Code" = FIELD("Global Dimension 1 Filter"),
                                "Shortcut Dimension 2 Code" = FIELD("Global Dimension 2 Filter");
                 DataItemTableView = SORTING("Document Type", "Sell-to Customer No.", "Parts No.", "Shipment Date", "Customer Order No.")
