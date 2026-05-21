@@ -816,97 +816,184 @@ page 50120 "Customer Import Lines"
     begin
         CustomerRecord.SetRange("No.", p_CustomerImportline."No.");
         if CustomerRecord.FindFirst() then begin
-            CustomerRecord.Validate("Name", p_CustomerImportline."Name");
-            CustomerRecord.Validate("Search Name", p_CustomerImportline."Search Name");
-            CustomerRecord.Validate("Name 2", p_CustomerImportline."Name 2");
-            CustomerRecord.Validate("Address", p_CustomerImportline."Address");
-            CustomerRecord.Validate("Address 2", p_CustomerImportline."Address 2");
-            CustomerRecord.Validate("City", p_CustomerImportline."City");
-            CustomerRecord.Validate("Contact", p_CustomerImportline."Contact");
-            CustomerRecord.Validate("Phone No.", p_CustomerImportline."Phone No.");
-            CustomerRecord.Validate("Global Dimension 1 Code", p_CustomerImportline."Global Dimension 1 Code");
-            CustomerRecord.Validate("Global Dimension 2 Code", p_CustomerImportline."Global Dimension 2 Code");
-            CustomerRecord.Validate("Customer Posting Group", p_CustomerImportline."Customer Posting Group");
-            CustomerRecord.Validate("Currency Code", p_CustomerImportline."Currency Code");
-            CustomerRecord.Validate("Customer Price Group", p_CustomerImportline."Customer Price Group");
-            CustomerRecord.Validate("Language Code", p_CustomerImportline."Language Code");
-            CustomerRecord.Validate("Payment Terms Code", p_CustomerImportline."Payment Terms Code");
-            CustomerRecord.Validate("Fin. Charge Terms Code", p_CustomerImportline."Fin. Charge Terms Code");
-            CustomerRecord.Validate("Salesperson Code", p_CustomerImportline."Salesperson Code");
-            CustomerRecord.Validate("Shipment Method Code", p_CustomerImportline."Shipment Method Code");
-            CustomerRecord.Validate("Shipping Agent Code", p_CustomerImportline."Shipping Agent Code");
-            CustomerRecord.Validate("Invoice Disc. Code", p_CustomerImportline."Invoice Disc. Code");
-            CustomerRecord.Validate("Country/Region Code", p_CustomerImportline."Country/Region Code");
-            CustomerRecord.Validate("Collection Method", p_CustomerImportline."Collection Method");
-            CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
-            //CustomerRecord.Validate("Bill-to Customer No.", p_CustomerImportline."Bill-to Customer No.");
-            CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
-            CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
-            CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
-            CustomerRecord.Validate("Location Code", p_CustomerImportline."Location Code");
-            CustomerRecord.Validate("Fax No.", p_CustomerImportline."Fax No.");
-            CustomerRecord.Validate("VAT Registration No.", p_CustomerImportline."VAT Registration No.");
-            CustomerRecord.Validate("Gen. Bus. Posting Group", p_CustomerImportline."Gen. Bus. Posting Group");
-            CustomerRecord.Validate("GLN", p_CustomerImportline."GLN");
-            CustomerRecord.Validate("Post Code", p_CustomerImportline."Post Code");
-            CustomerRecord.Validate("County", p_CustomerImportline."County");
-            CustomerRecord.Validate("E-Mail", p_CustomerImportline."E-Mail");
-            CustomerRecord.Validate("Home Page", p_CustomerImportline."Home Page");
-            CustomerRecord.Validate("Reminder Terms Code", p_CustomerImportline."Reminder Terms Code");
-            CustomerRecord.Validate("No. Series", p_CustomerImportline."No. Series");
-            CustomerRecord.Validate("Tax Area Code", p_CustomerImportline."Tax Area Code");
-            CustomerRecord.Validate("Tax Liable", p_CustomerImportline."Tax Liable");
-            CustomerRecord.Validate("VAT Bus. Posting Group", p_CustomerImportline."VAT Bus. Posting Group");
-            CustomerRecord.Validate("Reserve", p_CustomerImportline."Reserve");
-            CustomerRecord.Validate("Block Payment Tolerance", p_CustomerImportline."Block Payment Tolerance");
-            CustomerRecord.Validate("IC Partner Code", p_CustomerImportline."IC Partner Code");
-            CustomerRecord.Validate("Prepayment %", p_CustomerImportline."Prepayment %");
-            CustomerRecord.Validate("Partner Type", p_CustomerImportline."Partner Type");
-            //CustomerRecord.Validate("Preferred Bank Account Code", p_CustomerImportline."Preferred Bank Account Code");// Comment the code as required on 02/12/2026
-            CustomerRecord.Validate("Cash Flow Payment Terms Code", p_CustomerImportline."Cash Flow Payment Terms Code");
-            CustomerRecord.Validate("Primary Contact No.", p_CustomerImportline."Primary Contact No.");
-            CustomerRecord.Validate("Responsibility Center", p_CustomerImportline."Responsibility Center");
-            CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice");
-            CustomerRecord.Validate("Shipping Time", p_CustomerImportline."Shipping Time");
-            CustomerRecord.Validate("Shipping Agent Service Code", p_CustomerImportline."Shipping Agent Service Code");
-            CustomerRecord.Validate("Service Zone Code", p_CustomerImportline."Service Zone Code");
-            CustomerRecord.Validate("Contract Gain/Loss Amount", p_CustomerImportline."Contract Gain/Loss Amount");
-            CustomerRecord.Validate("Allow Line Disc.", p_CustomerImportline."Allow Line Disc.");
-            CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From");
-            CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type");
-            CustomerRecord.Validate("NEC OEM Code", p_CustomerImportline."NEC OEM Code");
-            CustomerRecord.Validate("NEC OEM Name", p_CustomerImportline."NEC OEM Name");
-            CustomerRecord.Validate("Shipping Mark1", p_CustomerImportline."Shipping Mark1");
-            CustomerRecord.Validate("Shipping Mark2", p_CustomerImportline."Shipping Mark2");
-            CustomerRecord.Validate("Shipping Mark3", p_CustomerImportline."Shipping Mark3");
-            CustomerRecord.Validate("Shipping Mark4", p_CustomerImportline."Shipping Mark4");
-            CustomerRecord.Validate("Shipping Mark5", p_CustomerImportline."Shipping Mark5");
-            CustomerRecord.Validate("Remarks1", p_CustomerImportline."Remarks1");
-            CustomerRecord.Validate("Remarks2", p_CustomerImportline."Remarks2");
-            CustomerRecord.Validate("Remarks3", p_CustomerImportline."Remarks3");
-            CustomerRecord.Validate("Remarks4", p_CustomerImportline."Remarks4");
-            CustomerRecord.Validate("Remarks5", p_CustomerImportline."Remarks5");
-            CustomerRecord.Validate("Item Supplier Source", p_CustomerImportline."Item Supplier Source");
-            CustomerRecord.Validate("Vendor Cust. Code", p_CustomerImportline."Vendor Cust. Code");
-            CustomerRecord.Validate("Ship From Name", p_CustomerImportline."Ship From Name");
-            CustomerRecord.Validate("Ship From Address", p_CustomerImportline."Ship From Address");
-            CustomerRecord.Validate("HQType", p_CustomerImportline."HQType");
-            CustomerRecord.Validate("Default Country/Region of Org", p_CustomerImportline."Default Country/Region of Org");
-            CustomerRecord.Validate("Update SO Price Target Date", p_CustomerImportline."Price Update Target Date");
-            CustomerRecord.Validate("ORE Customer Name", p_CustomerImportline."ORE Customer Name");
-            CustomerRecord.Validate("ORE Address", p_CustomerImportline."ORE Address");
-            CustomerRecord.Validate("ORE Address 2", p_CustomerImportline."ORE Address 2");
-            CustomerRecord.Validate("ORE City", p_CustomerImportline."ORE City");
-            CustomerRecord.Validate("ORE State/Province", p_CustomerImportline."ORE State/Province");
-            CustomerRecord.Validate("Excluded in ORE Collection", p_CustomerImportline."Excluded in ORE Collection");
-            CustomerRecord.Validate("ORE Country", p_CustomerImportline."ORE Country");
-            CustomerRecord.Validate("ORE Post Code", p_CustomerImportline."ORE Post Code");
-            CustomerRecord.Validate("Customer Group", p_CustomerImportline."Customer Group");
-            CustomerRecord.Validate("Familiar Name", p_CustomerImportline."Familiar Name");
-            CustomerRecord.Validate("Import File Ship To", p_CustomerImportline."Import File Ship To");
-            CustomerRecord.Validate("Receiving Location", p_CustomerImportline."Receiving Location");
-            CustomerRecord.Validate("Days for Auto Inv. Reservation", p_CustomerImportline."Days for Auto Inv. Reservation");
-            CustomerRecord.Validate("Blocked", p_CustomerImportline."Blocked");
+            if CustomerRecord."Name" <> p_CustomerImportline."Name" then
+                CustomerRecord.Validate("Name", p_CustomerImportline."Name");
+            if CustomerRecord."Search Name" <> p_CustomerImportline."Search Name" then
+                CustomerRecord.Validate("Search Name", p_CustomerImportline."Search Name");
+            if CustomerRecord."Name 2" <> p_CustomerImportline."Name 2" then
+                CustomerRecord.Validate("Name 2", p_CustomerImportline."Name 2");
+            if CustomerRecord."Address" <> p_CustomerImportline."Address" then
+                CustomerRecord.Validate("Address", p_CustomerImportline."Address");
+            if CustomerRecord."Address 2" <> p_CustomerImportline."Address 2" then
+                CustomerRecord.Validate("Address 2", p_CustomerImportline."Address 2");
+            if CustomerRecord."City" <> p_CustomerImportline."City" then
+                CustomerRecord.Validate("City", p_CustomerImportline."City");
+            if CustomerRecord."Contact" <> p_CustomerImportline."Contact" then
+                CustomerRecord.Validate("Contact", p_CustomerImportline."Contact");
+            if CustomerRecord."Phone No." <> p_CustomerImportline."Phone No." then
+                CustomerRecord.Validate("Phone No.", p_CustomerImportline."Phone No.");
+            if CustomerRecord."Global Dimension 1 Code" <> p_CustomerImportline."Global Dimension 1 Code" then
+                CustomerRecord.Validate("Global Dimension 1 Code", p_CustomerImportline."Global Dimension 1 Code");
+            if CustomerRecord."Global Dimension 2 Code" <> p_CustomerImportline."Global Dimension 2 Code" then
+                CustomerRecord.Validate("Global Dimension 2 Code", p_CustomerImportline."Global Dimension 2 Code");
+            if CustomerRecord."Customer Posting Group" <> p_CustomerImportline."Customer Posting Group" then
+                CustomerRecord.Validate("Customer Posting Group", p_CustomerImportline."Customer Posting Group");
+            if CustomerRecord."Currency Code" <> p_CustomerImportline."Currency Code" then
+                CustomerRecord.Validate("Currency Code", p_CustomerImportline."Currency Code");
+            if CustomerRecord."Customer Price Group" <> p_CustomerImportline."Customer Price Group" then
+                CustomerRecord.Validate("Customer Price Group", p_CustomerImportline."Customer Price Group");
+            if CustomerRecord."Language Code" <> p_CustomerImportline."Language Code" then
+                CustomerRecord.Validate("Language Code", p_CustomerImportline."Language Code");
+            if CustomerRecord."Payment Terms Code" <> p_CustomerImportline."Payment Terms Code" then
+                CustomerRecord.Validate("Payment Terms Code", p_CustomerImportline."Payment Terms Code");
+            if CustomerRecord."Fin. Charge Terms Code" <> p_CustomerImportline."Fin. Charge Terms Code" then
+                CustomerRecord.Validate("Fin. Charge Terms Code", p_CustomerImportline."Fin. Charge Terms Code");
+            if CustomerRecord."Salesperson Code" <> p_CustomerImportline."Salesperson Code" then
+                CustomerRecord.Validate("Salesperson Code", p_CustomerImportline."Salesperson Code");
+            if CustomerRecord."Shipment Method Code" <> p_CustomerImportline."Shipment Method Code" then
+                CustomerRecord.Validate("Shipment Method Code", p_CustomerImportline."Shipment Method Code");
+            if CustomerRecord."Shipping Agent Code" <> p_CustomerImportline."Shipping Agent Code" then
+                CustomerRecord.Validate("Shipping Agent Code", p_CustomerImportline."Shipping Agent Code");
+            if CustomerRecord."Invoice Disc. Code" <> p_CustomerImportline."Invoice Disc. Code" then
+                CustomerRecord.Validate("Invoice Disc. Code", p_CustomerImportline."Invoice Disc. Code");
+            if CustomerRecord."Country/Region Code" <> p_CustomerImportline."Country/Region Code" then
+                CustomerRecord.Validate("Country/Region Code", p_CustomerImportline."Country/Region Code");
+            if CustomerRecord."Collection Method" <> p_CustomerImportline."Collection Method" then
+                CustomerRecord.Validate("Collection Method", p_CustomerImportline."Collection Method");
+            if CustomerRecord."Print Statements" <> p_CustomerImportline."Print Statements" then
+                CustomerRecord.Validate("Print Statements", p_CustomerImportline."Print Statements");
+            if CustomerRecord."Payment Method Code" <> p_CustomerImportline."Payment Method Code" then
+                CustomerRecord.Validate("Payment Method Code", p_CustomerImportline."Payment Method Code");
+            if CustomerRecord."Application Method".AsInteger() <> p_CustomerImportline."Application Method" then
+                CustomerRecord.Validate("Application Method", p_CustomerImportline."Application Method");
+            if CustomerRecord."Prices Including VAT" <> p_CustomerImportline."Prices Including VAT" then
+                CustomerRecord.Validate("Prices Including VAT", p_CustomerImportline."Prices Including VAT");
+            if CustomerRecord."Location Code" <> p_CustomerImportline."Location Code" then
+                CustomerRecord.Validate("Location Code", p_CustomerImportline."Location Code");
+            if CustomerRecord."Fax No." <> p_CustomerImportline."Fax No." then
+                CustomerRecord.Validate("Fax No.", p_CustomerImportline."Fax No.");
+            if CustomerRecord."VAT Registration No." <> p_CustomerImportline."VAT Registration No." then
+                CustomerRecord.Validate("VAT Registration No.", p_CustomerImportline."VAT Registration No.");
+            if CustomerRecord."Gen. Bus. Posting Group" <> p_CustomerImportline."Gen. Bus. Posting Group" then
+                CustomerRecord.Validate("Gen. Bus. Posting Group", p_CustomerImportline."Gen. Bus. Posting Group");
+            if CustomerRecord."GLN" <> p_CustomerImportline."GLN" then
+                CustomerRecord.Validate("GLN", p_CustomerImportline."GLN");
+            if CustomerRecord."Post Code" <> p_CustomerImportline."Post Code" then
+                CustomerRecord.Validate("Post Code", p_CustomerImportline."Post Code");
+            if CustomerRecord."County" <> p_CustomerImportline."County" then
+                CustomerRecord.Validate("County", p_CustomerImportline."County");
+            if CustomerRecord."E-Mail" <> p_CustomerImportline."E-Mail" then
+                CustomerRecord.Validate("E-Mail", p_CustomerImportline."E-Mail");
+            if CustomerRecord."Home Page" <> p_CustomerImportline."Home Page" then
+                CustomerRecord.Validate("Home Page", p_CustomerImportline."Home Page");
+            if CustomerRecord."Reminder Terms Code" <> p_CustomerImportline."Reminder Terms Code" then
+                CustomerRecord.Validate("Reminder Terms Code", p_CustomerImportline."Reminder Terms Code");
+            if CustomerRecord."No. Series" <> p_CustomerImportline."No. Series" then
+                CustomerRecord.Validate("No. Series", p_CustomerImportline."No. Series");
+            if CustomerRecord."Tax Area Code" <> p_CustomerImportline."Tax Area Code" then
+                CustomerRecord.Validate("Tax Area Code", p_CustomerImportline."Tax Area Code");
+            if CustomerRecord."Tax Liable" <> p_CustomerImportline."Tax Liable" then
+                CustomerRecord.Validate("Tax Liable", p_CustomerImportline."Tax Liable");
+            if CustomerRecord."VAT Bus. Posting Group" <> p_CustomerImportline."VAT Bus. Posting Group" then
+                CustomerRecord.Validate("VAT Bus. Posting Group", p_CustomerImportline."VAT Bus. Posting Group");
+            if CustomerRecord."Reserve".AsInteger() <> p_CustomerImportline."Reserve" then
+                CustomerRecord.Validate("Reserve", p_CustomerImportline."Reserve");
+            if CustomerRecord."Block Payment Tolerance" <> p_CustomerImportline."Block Payment Tolerance" then
+                CustomerRecord.Validate("Block Payment Tolerance", p_CustomerImportline."Block Payment Tolerance");
+            if CustomerRecord."IC Partner Code" <> p_CustomerImportline."IC Partner Code" then
+                CustomerRecord.Validate("IC Partner Code", p_CustomerImportline."IC Partner Code");
+            if CustomerRecord."Prepayment %" <> p_CustomerImportline."Prepayment %" then
+                CustomerRecord.Validate("Prepayment %", p_CustomerImportline."Prepayment %");
+            if CustomerRecord."Partner Type" <> p_CustomerImportline."Partner Type" then
+                CustomerRecord.Validate("Partner Type", p_CustomerImportline."Partner Type");
+            if CustomerRecord."Cash Flow Payment Terms Code" <> p_CustomerImportline."Cash Flow Payment Terms Code" then
+                CustomerRecord.Validate("Cash Flow Payment Terms Code", p_CustomerImportline."Cash Flow Payment Terms Code");
+            if CustomerRecord."Primary Contact No." <> p_CustomerImportline."Primary Contact No." then
+                CustomerRecord.Validate("Primary Contact No.", p_CustomerImportline."Primary Contact No.");
+            if CustomerRecord."Responsibility Center" <> p_CustomerImportline."Responsibility Center" then
+                CustomerRecord.Validate("Responsibility Center", p_CustomerImportline."Responsibility Center");
+            if CustomerRecord."Shipping Advice".AsInteger() <> p_CustomerImportline."Shipping Advice" then
+                CustomerRecord.Validate("Shipping Advice", p_CustomerImportline."Shipping Advice");
+            if CustomerRecord."Shipping Time" <> p_CustomerImportline."Shipping Time" then
+                CustomerRecord.Validate("Shipping Time", p_CustomerImportline."Shipping Time");
+            if CustomerRecord."Shipping Agent Service Code" <> p_CustomerImportline."Shipping Agent Service Code" then
+                CustomerRecord.Validate("Shipping Agent Service Code", p_CustomerImportline."Shipping Agent Service Code");
+            if CustomerRecord."Service Zone Code" <> p_CustomerImportline."Service Zone Code" then
+                CustomerRecord.Validate("Service Zone Code", p_CustomerImportline."Service Zone Code");
+            if CustomerRecord."Contract Gain/Loss Amount" <> p_CustomerImportline."Contract Gain/Loss Amount" then
+                CustomerRecord.Validate("Contract Gain/Loss Amount", p_CustomerImportline."Contract Gain/Loss Amount");
+            if CustomerRecord."Allow Line Disc." <> p_CustomerImportline."Allow Line Disc." then
+                CustomerRecord.Validate("Allow Line Disc.", p_CustomerImportline."Allow Line Disc.");
+            if CustomerRecord."Copy Sell-to Addr. to Qte From".AsInteger() <> p_CustomerImportline."Copy Sell-to Addr. to Qte From" then
+                CustomerRecord.Validate("Copy Sell-to Addr. to Qte From", p_CustomerImportline."Copy Sell-to Addr. to Qte From");
+            if CustomerRecord."Customer Type" <> p_CustomerImportline."Customer Type" then
+                CustomerRecord.Validate("Customer Type", p_CustomerImportline."Customer Type");
+            if CustomerRecord."NEC OEM Code" <> p_CustomerImportline."NEC OEM Code" then
+                CustomerRecord.Validate("NEC OEM Code", p_CustomerImportline."NEC OEM Code");
+            if CustomerRecord."NEC OEM Name" <> p_CustomerImportline."NEC OEM Name" then
+                CustomerRecord.Validate("NEC OEM Name", p_CustomerImportline."NEC OEM Name");
+            if CustomerRecord."Shipping Mark1" <> p_CustomerImportline."Shipping Mark1" then
+                CustomerRecord.Validate("Shipping Mark1", p_CustomerImportline."Shipping Mark1");
+            if CustomerRecord."Shipping Mark2" <> p_CustomerImportline."Shipping Mark2" then
+                CustomerRecord.Validate("Shipping Mark2", p_CustomerImportline."Shipping Mark2");
+            if CustomerRecord."Shipping Mark3" <> p_CustomerImportline."Shipping Mark3" then
+                CustomerRecord.Validate("Shipping Mark3", p_CustomerImportline."Shipping Mark3");
+            if CustomerRecord."Shipping Mark4" <> p_CustomerImportline."Shipping Mark4" then
+                CustomerRecord.Validate("Shipping Mark4", p_CustomerImportline."Shipping Mark4");
+            if CustomerRecord."Shipping Mark5" <> p_CustomerImportline."Shipping Mark5" then
+                CustomerRecord.Validate("Shipping Mark5", p_CustomerImportline."Shipping Mark5");
+            if CustomerRecord."Remarks1" <> p_CustomerImportline."Remarks1" then
+                CustomerRecord.Validate("Remarks1", p_CustomerImportline."Remarks1");
+            if CustomerRecord."Remarks2" <> p_CustomerImportline."Remarks2" then
+                CustomerRecord.Validate("Remarks2", p_CustomerImportline."Remarks2");
+            if CustomerRecord."Remarks3" <> p_CustomerImportline."Remarks3" then
+                CustomerRecord.Validate("Remarks3", p_CustomerImportline."Remarks3");
+            if CustomerRecord."Remarks4" <> p_CustomerImportline."Remarks4" then
+                CustomerRecord.Validate("Remarks4", p_CustomerImportline."Remarks4");
+            if CustomerRecord."Remarks5" <> p_CustomerImportline."Remarks5" then
+                CustomerRecord.Validate("Remarks5", p_CustomerImportline."Remarks5");
+            if CustomerRecord."Item Supplier Source" <> p_CustomerImportline."Item Supplier Source" then
+                CustomerRecord.Validate("Item Supplier Source", p_CustomerImportline."Item Supplier Source");
+            if CustomerRecord."Vendor Cust. Code" <> p_CustomerImportline."Vendor Cust. Code" then
+                CustomerRecord.Validate("Vendor Cust. Code", p_CustomerImportline."Vendor Cust. Code");
+            if CustomerRecord."Ship From Name" <> p_CustomerImportline."Ship From Name" then
+                CustomerRecord.Validate("Ship From Name", p_CustomerImportline."Ship From Name");
+            if CustomerRecord."Ship From Address" <> p_CustomerImportline."Ship From Address" then
+                CustomerRecord.Validate("Ship From Address", p_CustomerImportline."Ship From Address");
+            if CustomerRecord."HQType" <> p_CustomerImportline."HQType" then
+                CustomerRecord.Validate("HQType", p_CustomerImportline."HQType");
+            if CustomerRecord."Default Country/Region of Org" <> p_CustomerImportline."Default Country/Region of Org" then
+                CustomerRecord.Validate("Default Country/Region of Org", p_CustomerImportline."Default Country/Region of Org");
+            if CustomerRecord."Update SO Price Target Date" <> p_CustomerImportline."Price Update Target Date" then
+                CustomerRecord.Validate("Update SO Price Target Date", p_CustomerImportline."Price Update Target Date");
+            if CustomerRecord."ORE Customer Name" <> p_CustomerImportline."ORE Customer Name" then
+                CustomerRecord.Validate("ORE Customer Name", p_CustomerImportline."ORE Customer Name");
+            if CustomerRecord."ORE Address" <> p_CustomerImportline."ORE Address" then
+                CustomerRecord.Validate("ORE Address", p_CustomerImportline."ORE Address");
+            if CustomerRecord."ORE Address 2" <> p_CustomerImportline."ORE Address 2" then
+                CustomerRecord.Validate("ORE Address 2", p_CustomerImportline."ORE Address 2");
+            if CustomerRecord."ORE City" <> p_CustomerImportline."ORE City" then
+                CustomerRecord.Validate("ORE City", p_CustomerImportline."ORE City");
+            if CustomerRecord."ORE State/Province" <> p_CustomerImportline."ORE State/Province" then
+                CustomerRecord.Validate("ORE State/Province", p_CustomerImportline."ORE State/Province");
+            if CustomerRecord."Excluded in ORE Collection" <> p_CustomerImportline."Excluded in ORE Collection" then
+                CustomerRecord.Validate("Excluded in ORE Collection", p_CustomerImportline."Excluded in ORE Collection");
+            if CustomerRecord."ORE Country" <> p_CustomerImportline."ORE Country" then
+                CustomerRecord.Validate("ORE Country", p_CustomerImportline."ORE Country");
+            if CustomerRecord."ORE Post Code" <> p_CustomerImportline."ORE Post Code" then
+                CustomerRecord.Validate("ORE Post Code", p_CustomerImportline."ORE Post Code");
+            if CustomerRecord."Customer Group" <> p_CustomerImportline."Customer Group" then
+                CustomerRecord.Validate("Customer Group", p_CustomerImportline."Customer Group");
+            if CustomerRecord."Familiar Name" <> p_CustomerImportline."Familiar Name" then
+                CustomerRecord.Validate("Familiar Name", p_CustomerImportline."Familiar Name");
+            if CustomerRecord."Import File Ship To" <> p_CustomerImportline."Import File Ship To" then
+                CustomerRecord.Validate("Import File Ship To", p_CustomerImportline."Import File Ship To");
+            if CustomerRecord."Receiving Location" <> p_CustomerImportline."Receiving Location" then
+                CustomerRecord.Validate("Receiving Location", p_CustomerImportline."Receiving Location");
+            if CustomerRecord."Days for Auto Inv. Reservation" <> p_CustomerImportline."Days for Auto Inv. Reservation" then
+                CustomerRecord.Validate("Days for Auto Inv. Reservation", p_CustomerImportline."Days for Auto Inv. Reservation");
+            if CustomerRecord."Blocked".AsInteger() <> p_CustomerImportline."Blocked" then
+                CustomerRecord.Validate("Blocked", p_CustomerImportline."Blocked");
 
             CustomerRecord.Modify(true);
         end;

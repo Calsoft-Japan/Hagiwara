@@ -679,75 +679,140 @@ page 50114 "Vendor Import Lines"
     begin
         VendorRecord.SetRange("No.", p_VendorImportline."No.");
         if VendorRecord.FindFirst() then begin
-            VendorRecord.Validate("Name", p_VendorImportline."Name");
-            VendorRecord.Validate("Search Name", p_VendorImportline."Search Name");
-            VendorRecord.Validate("Name 2", p_VendorImportline."Name 2");
-            VendorRecord.Validate("Address", p_VendorImportline."Address");
-            VendorRecord.Validate("Address 2", p_VendorImportline."Address 2");
-            VendorRecord.Validate("City", p_VendorImportline."City");
-            VendorRecord.Validate("Contact", p_VendorImportline."Contact");
-            VendorRecord.Validate("Phone No.", p_VendorImportline."Phone No.");
-            VendorRecord.Validate("Our Account No.", p_VendorImportline."Our Account No.");
-            VendorRecord.Validate("Global Dimension 1 Code", p_VendorImportline."Global Dimension 1 Code");
-            VendorRecord.Validate("Global Dimension 2 Code", p_VendorImportline."Global Dimension 2 Code");
-            VendorRecord.Validate("Vendor Posting Group", p_VendorImportline."Vendor Posting Group");
-            VendorRecord.Validate("Currency Code", p_VendorImportline."Currency Code");
-            VendorRecord.Validate("Language Code", p_VendorImportline."Language Code");
-            VendorRecord.Validate("Statistics Group", p_VendorImportline."Statistics Group");
-            VendorRecord.Validate("Payment Terms Code", p_VendorImportline."Payment Terms Code");
-            VendorRecord.Validate("Fin. Charge Terms Code", p_VendorImportline."Fin. Charge Terms Code");
-            VendorRecord.Validate("Purchaser Code", p_VendorImportline."Purchaser Code");
-            VendorRecord.Validate("Shipment Method Code", p_VendorImportline."Shipment Method Code");
-            VendorRecord.Validate("Shipping Agent Code", p_VendorImportline."Shipping Agent Code");
-            VendorRecord.Validate("Invoice Disc. Code", p_VendorImportline."Invoice Disc. Code");
-            VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
-            //VendorRecord.Validate("Pay-to Vendor No.", p_VendorImportline."Pay-to Vendor No.");
-            VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
-            VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
-            VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
-            VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
-            VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
-            VendorRecord.Validate("Gen. Bus. Posting Group", p_VendorImportline."Gen. Bus. Posting Group");
-            VendorRecord.Validate("GLN", p_VendorImportline."GLN");
-            VendorRecord.Validate("Post Code", p_VendorImportline."Post Code");
-            VendorRecord.Validate("County", p_VendorImportline."County");
-            VendorRecord.Validate("E-Mail", p_VendorImportline."E-Mail");
-            VendorRecord.Validate("Home Page", p_VendorImportline."Home Page");
-            VendorRecord.Validate("No. Series", p_VendorImportline."No. Series");
-            VendorRecord.Validate("Tax Area Code", p_VendorImportline."Tax Area Code");
-            VendorRecord.Validate("Tax Liable", p_VendorImportline."Tax Liable");
-            VendorRecord.Validate("VAT Bus. Posting Group", p_VendorImportline."VAT Bus. Posting Group");
-            VendorRecord.Validate("Block Payment Tolerance", p_VendorImportline."Block Payment Tolerance");
-            VendorRecord.Validate("IC Partner Code", p_VendorImportline."IC Partner Code");
-            VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
-            VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
-            VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
-            VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
-            VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
-            VendorRecord.Validate("Responsibility Center", p_VendorImportline."Responsibility Center");
-            VendorRecord.Validate("Location Code", p_VendorImportline."Location Code");
-            VendorRecord.Validate("Lead Time Calculation", p_VendorImportline."Lead Time Calculation");
-            VendorRecord.Validate("ID No. KR", p_VendorImportline."ID No.");
-            VendorRecord.Validate("Shipping Terms", p_VendorImportline."Shipping Terms");
-            VendorRecord.Validate("Incoterm Code", p_VendorImportline."Incoterm Code");
-            VendorRecord.Validate("Incoterm Location", p_VendorImportline."Incoterm Location");
-            VendorRecord.Validate("Manufacturer Code", p_VendorImportline."Manufacturer Code");
-            VendorRecord.Validate("ORE Reverse Routing Address", p_VendorImportline."ORE Reverse Routing Address");
-            VendorRecord.Validate("Excluded in ORE Collection", p_VendorImportline."Excluded in ORE Collection");
-            VendorRecord.Validate("ORE Reverse Routing Address SD", p_VendorImportline."ORE Reverse Routing Address SD");
-            VendorRecord.Validate("Hagiwara Group", p_VendorImportline."Hagiwara Group");
-            VendorRecord.Validate("Familiar Name", p_VendorImportline."Familiar Name");
-            VendorRecord.Validate("Pay-to Address", p_VendorImportline."Pay-to Address");
-            VendorRecord.Validate("Pay-to Address 2", p_VendorImportline."Pay-to Address 2");
-            VendorRecord.Validate("Pay-to City", p_VendorImportline."Pay-to City");
-            VendorRecord.Validate("Pay-to Post Code", p_VendorImportline."Pay-to Post Code");
-            VendorRecord.Validate("Pay-to County", p_VendorImportline."Pay-to County");
-            VendorRecord.Validate("Pay-to Country/Region Code", p_VendorImportline."Pay-to Country/Region Code");
-            VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
-            VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
-            VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
-            //VendorRecord.Validate("Blocked", p_VendorImportline."Blocked");
-            VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
+            if VendorRecord."Name" <> p_VendorImportline."Name" then
+                VendorRecord.Validate("Name", p_VendorImportline."Name");
+            if VendorRecord."Search Name" <> p_VendorImportline."Search Name" then
+                VendorRecord.Validate("Search Name", p_VendorImportline."Search Name");
+            if VendorRecord."Name 2" <> p_VendorImportline."Name 2" then
+                VendorRecord.Validate("Name 2", p_VendorImportline."Name 2");
+            if VendorRecord."Address" <> p_VendorImportline."Address" then
+                VendorRecord.Validate("Address", p_VendorImportline."Address");
+            if VendorRecord."Address 2" <> p_VendorImportline."Address 2" then
+                VendorRecord.Validate("Address 2", p_VendorImportline."Address 2");
+            if VendorRecord."City" <> p_VendorImportline."City" then
+                VendorRecord.Validate("City", p_VendorImportline."City");
+            if VendorRecord."Contact" <> p_VendorImportline."Contact" then
+                VendorRecord.Validate("Contact", p_VendorImportline."Contact");
+            if VendorRecord."Phone No." <> p_VendorImportline."Phone No." then
+                VendorRecord.Validate("Phone No.", p_VendorImportline."Phone No.");
+            if VendorRecord."Our Account No." <> p_VendorImportline."Our Account No." then
+                VendorRecord.Validate("Our Account No.", p_VendorImportline."Our Account No.");
+            if VendorRecord."Global Dimension 1 Code" <> p_VendorImportline."Global Dimension 1 Code" then
+                VendorRecord.Validate("Global Dimension 1 Code", p_VendorImportline."Global Dimension 1 Code");
+            if VendorRecord."Global Dimension 2 Code" <> p_VendorImportline."Global Dimension 2 Code" then
+                VendorRecord.Validate("Global Dimension 2 Code", p_VendorImportline."Global Dimension 2 Code");
+            if VendorRecord."Vendor Posting Group" <> p_VendorImportline."Vendor Posting Group" then
+                VendorRecord.Validate("Vendor Posting Group", p_VendorImportline."Vendor Posting Group");
+            if VendorRecord."Currency Code" <> p_VendorImportline."Currency Code" then
+                VendorRecord.Validate("Currency Code", p_VendorImportline."Currency Code");
+            if VendorRecord."Language Code" <> p_VendorImportline."Language Code" then
+                VendorRecord.Validate("Language Code", p_VendorImportline."Language Code");
+            if VendorRecord."Statistics Group" <> p_VendorImportline."Statistics Group" then
+                VendorRecord.Validate("Statistics Group", p_VendorImportline."Statistics Group");
+            if VendorRecord."Payment Terms Code" <> p_VendorImportline."Payment Terms Code" then
+                VendorRecord.Validate("Payment Terms Code", p_VendorImportline."Payment Terms Code");
+            if VendorRecord."Fin. Charge Terms Code" <> p_VendorImportline."Fin. Charge Terms Code" then
+                VendorRecord.Validate("Fin. Charge Terms Code", p_VendorImportline."Fin. Charge Terms Code");
+            if VendorRecord."Purchaser Code" <> p_VendorImportline."Purchaser Code" then
+                VendorRecord.Validate("Purchaser Code", p_VendorImportline."Purchaser Code");
+            if VendorRecord."Shipment Method Code" <> p_VendorImportline."Shipment Method Code" then
+                VendorRecord.Validate("Shipment Method Code", p_VendorImportline."Shipment Method Code");
+            if VendorRecord."Shipping Agent Code" <> p_VendorImportline."Shipping Agent Code" then
+                VendorRecord.Validate("Shipping Agent Code", p_VendorImportline."Shipping Agent Code");
+            if VendorRecord."Invoice Disc. Code" <> p_VendorImportline."Invoice Disc. Code" then
+                VendorRecord.Validate("Invoice Disc. Code", p_VendorImportline."Invoice Disc. Code");
+            if VendorRecord."Country/Region Code" <> p_VendorImportline."Country/Region Code" then
+                VendorRecord.Validate("Country/Region Code", p_VendorImportline."Country/Region Code");
+            if VendorRecord."Payment Method Code" <> p_VendorImportline."Payment Method Code" then
+                VendorRecord.Validate("Payment Method Code", p_VendorImportline."Payment Method Code");
+            if VendorRecord."Application Method" <> p_VendorImportline."Application Method" then
+                VendorRecord.Validate("Application Method", p_VendorImportline."Application Method");
+            if VendorRecord."Prices Including VAT" <> p_VendorImportline."Prices Including VAT" then
+                VendorRecord.Validate("Prices Including VAT", p_VendorImportline."Prices Including VAT");
+            if VendorRecord."Fax No." <> p_VendorImportline."Fax No." then
+                VendorRecord.Validate("Fax No.", p_VendorImportline."Fax No.");
+            if VendorRecord."VAT Registration No." <> p_VendorImportline."VAT Registration No." then
+                VendorRecord.Validate("VAT Registration No.", p_VendorImportline."VAT Registration No.");
+            if VendorRecord."Gen. Bus. Posting Group" <> p_VendorImportline."Gen. Bus. Posting Group" then
+                VendorRecord.Validate("Gen. Bus. Posting Group", p_VendorImportline."Gen. Bus. Posting Group");
+            if VendorRecord."GLN" <> p_VendorImportline."GLN" then
+                VendorRecord.Validate("GLN", p_VendorImportline."GLN");
+            if VendorRecord."Post Code" <> p_VendorImportline."Post Code" then
+                VendorRecord.Validate("Post Code", p_VendorImportline."Post Code");
+            if VendorRecord."County" <> p_VendorImportline."County" then
+                VendorRecord.Validate("County", p_VendorImportline."County");
+            if VendorRecord."E-Mail" <> p_VendorImportline."E-Mail" then
+                VendorRecord.Validate("E-Mail", p_VendorImportline."E-Mail");
+            if VendorRecord."Home Page" <> p_VendorImportline."Home Page" then
+                VendorRecord.Validate("Home Page", p_VendorImportline."Home Page");
+            if VendorRecord."No. Series" <> p_VendorImportline."No. Series" then
+                VendorRecord.Validate("No. Series", p_VendorImportline."No. Series");
+            if VendorRecord."Tax Area Code" <> p_VendorImportline."Tax Area Code" then
+                VendorRecord.Validate("Tax Area Code", p_VendorImportline."Tax Area Code");
+            if VendorRecord."Tax Liable" <> p_VendorImportline."Tax Liable" then
+                VendorRecord.Validate("Tax Liable", p_VendorImportline."Tax Liable");
+            if VendorRecord."VAT Bus. Posting Group" <> p_VendorImportline."VAT Bus. Posting Group" then
+                VendorRecord.Validate("VAT Bus. Posting Group", p_VendorImportline."VAT Bus. Posting Group");
+            if VendorRecord."Block Payment Tolerance" <> p_VendorImportline."Block Payment Tolerance" then
+                VendorRecord.Validate("Block Payment Tolerance", p_VendorImportline."Block Payment Tolerance");
+            if VendorRecord."IC Partner Code" <> p_VendorImportline."IC Partner Code" then
+                VendorRecord.Validate("IC Partner Code", p_VendorImportline."IC Partner Code");
+            if VendorRecord."Prepayment %" <> p_VendorImportline."Prepayment %" then
+                VendorRecord.Validate("Prepayment %", p_VendorImportline."Prepayment %");
+            if VendorRecord."Partner Type" <> p_VendorImportline."Partner Type" then
+                VendorRecord.Validate("Partner Type", p_VendorImportline."Partner Type");
+            if VendorRecord."Creditor No." <> p_VendorImportline."Creditor No." then
+                VendorRecord.Validate("Creditor No.", p_VendorImportline."Creditor No.");
+            if VendorRecord."Cash Flow Payment Terms Code" <> p_VendorImportline."Cash Flow Payment Terms Code" then
+                VendorRecord.Validate("Cash Flow Payment Terms Code", p_VendorImportline."Cash Flow Payment Terms Code");
+            if VendorRecord."Primary Contact No." <> p_VendorImportline."Primary Contact No." then
+                VendorRecord.Validate("Primary Contact No.", p_VendorImportline."Primary Contact No.");
+            if VendorRecord."Responsibility Center" <> p_VendorImportline."Responsibility Center" then
+                VendorRecord.Validate("Responsibility Center", p_VendorImportline."Responsibility Center");
+            if VendorRecord."Location Code" <> p_VendorImportline."Location Code" then
+                VendorRecord.Validate("Location Code", p_VendorImportline."Location Code");
+            if VendorRecord."Lead Time Calculation" <> p_VendorImportline."Lead Time Calculation" then
+                VendorRecord.Validate("Lead Time Calculation", p_VendorImportline."Lead Time Calculation");
+            if VendorRecord."ID No. KR" <> p_VendorImportline."ID No." then
+                VendorRecord.Validate("ID No. KR", p_VendorImportline."ID No.");
+            if VendorRecord."Shipping Terms" <> p_VendorImportline."Shipping Terms" then
+                VendorRecord.Validate("Shipping Terms", p_VendorImportline."Shipping Terms");
+            if VendorRecord."Incoterm Code" <> p_VendorImportline."Incoterm Code" then
+                VendorRecord.Validate("Incoterm Code", p_VendorImportline."Incoterm Code");
+            if VendorRecord."Incoterm Location" <> p_VendorImportline."Incoterm Location" then
+                VendorRecord.Validate("Incoterm Location", p_VendorImportline."Incoterm Location");
+            if VendorRecord."Manufacturer Code" <> p_VendorImportline."Manufacturer Code" then
+                VendorRecord.Validate("Manufacturer Code", p_VendorImportline."Manufacturer Code");
+            if VendorRecord."ORE Reverse Routing Address" <> p_VendorImportline."ORE Reverse Routing Address" then
+                VendorRecord.Validate("ORE Reverse Routing Address", p_VendorImportline."ORE Reverse Routing Address");
+            if VendorRecord."Excluded in ORE Collection" <> p_VendorImportline."Excluded in ORE Collection" then
+                VendorRecord.Validate("Excluded in ORE Collection", p_VendorImportline."Excluded in ORE Collection");
+            if VendorRecord."ORE Reverse Routing Address SD" <> p_VendorImportline."ORE Reverse Routing Address SD" then
+                VendorRecord.Validate("ORE Reverse Routing Address SD", p_VendorImportline."ORE Reverse Routing Address SD");
+            if VendorRecord."Hagiwara Group" <> p_VendorImportline."Hagiwara Group" then
+                VendorRecord.Validate("Hagiwara Group", p_VendorImportline."Hagiwara Group");
+            if VendorRecord."Familiar Name" <> p_VendorImportline."Familiar Name" then
+                VendorRecord.Validate("Familiar Name", p_VendorImportline."Familiar Name");
+            if VendorRecord."Pay-to Address" <> p_VendorImportline."Pay-to Address" then
+                VendorRecord.Validate("Pay-to Address", p_VendorImportline."Pay-to Address");
+            if VendorRecord."Pay-to Address 2" <> p_VendorImportline."Pay-to Address 2" then
+                VendorRecord.Validate("Pay-to Address 2", p_VendorImportline."Pay-to Address 2");
+            if VendorRecord."Pay-to City" <> p_VendorImportline."Pay-to City" then
+                VendorRecord.Validate("Pay-to City", p_VendorImportline."Pay-to City");
+            if VendorRecord."Pay-to Post Code" <> p_VendorImportline."Pay-to Post Code" then
+                VendorRecord.Validate("Pay-to Post Code", p_VendorImportline."Pay-to Post Code");
+            if VendorRecord."Pay-to County" <> p_VendorImportline."Pay-to County" then
+                VendorRecord.Validate("Pay-to County", p_VendorImportline."Pay-to County");
+            if VendorRecord."Pay-to Country/Region Code" <> p_VendorImportline."Pay-to Country/Region Code" then
+                VendorRecord.Validate("Pay-to Country/Region Code", p_VendorImportline."Pay-to Country/Region Code");
+            if VendorRecord."Exclude Check" <> p_VendorImportline."Exclude Check" then
+                VendorRecord.Validate("Exclude Check", p_VendorImportline."Exclude Check");
+            if VendorRecord."Update PO Price Target Date" <> p_VendorImportline."Update PO Price Target Date" then
+                VendorRecord.Validate("Update PO Price Target Date", p_VendorImportline."Update PO Price Target Date");
+            if VendorRecord."IRS 1099 Code" <> p_VendorImportline."IRS 1099 Code" then
+                VendorRecord.Validate("IRS 1099 Code", p_VendorImportline."IRS 1099 Code");
+            if VendorRecord.Blocked <> p_VendorImportline.Blocked then
+                VendorRecord.Blocked := p_VendorImportline.Blocked; // To avoid approval of each vendor.
 
             VendorRecord.Modify(true);
         end;

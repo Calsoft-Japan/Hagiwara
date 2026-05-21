@@ -737,63 +737,120 @@ page 50118 "Item Import Lines"
         Item: Record "Item";
     begin
         if Item.GET(p_ItemImportline."Item No.") then begin
-            item.Validate(Type, p_ItemImportline.Type);
-            item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
-            item.Validate(Description, p_ItemImportline."Description");
-            item.Validate("Description 2", p_ItemImportline."Description 2");
-            item.Validate("Base Unit of Measure", p_ItemImportline."Base Unit of Measure");
-            item.Validate("Sales Unit of Measure", p_ItemImportline."Sales Unit of Measure");
-            item.Validate("Purch. Unit of Measure", p_ItemImportline."Purchase Unit of Measure");
-            item.Validate("Price/Profit Calculation", p_ItemImportline."Price/Profit Calculation");
-            item.Validate("Lead Time Calculation", p_ItemImportline."Lead Time Calculation");
-            item.Validate("Tariff No.", p_ItemImportline."Tariff No.");
-            item.Validate(Reserve, p_ItemImportline."Reserve");
-            item.Validate("Stockout Warning", p_ItemImportline."Stockout Warning");
-            item.Validate("Prevent Negative Inventory", p_ItemImportline."Prevent Negative Inventory");
-            item.Validate("Replenishment System", p_ItemImportline."Replenishment System");
-            item.Validate("Item Tracking Code", p_ItemImportline."Item Tracking Code");
-            item.Validate("Manufacturer Code", p_ItemImportline."Manufacture Code");
-            item.Validate("Item Category Code", p_ItemImportline."Item Category Code");
-            item.Validate("Original Item No.", p_ItemImportline."Original Item No.");
-            item.Validate("Country/Region of Origin Code", p_ItemImportline."Country/Region of Origin Code");
-            item.Validate("Country/Region of Org Cd (FE)", p_ItemImportline."Country/Region of Org Cd (FE)");
-            item.Validate("Item Group Code", p_ItemImportline."Product Group Code");
-            item.Validate(Products, p_ItemImportline."Products");
-            item.Validate("Parts No.", p_ItemImportline."Parts No.");
-            item.Validate(PKG, p_ItemImportline."PKG");
-            item.Validate(Rank, p_ItemImportline."Rank");
-            item.Validate(SBU, p_ItemImportline."SBU");
-            item.Validate("Car Model", p_ItemImportline."Car Model");
-            item.Validate(SOP, p_ItemImportline."SOP");
-            item.Validate("MP-Volume(pcs/M)", p_ItemImportline."MP-Volume(pcs/M)");
-            item.Validate(Apl, p_ItemImportline."Apl");
-            item.Validate("Service Parts", p_ItemImportline."Service Parts");
-            item.Validate("Order Deadline Date", p_ItemImportline."Order Deadline Date");
-            item.Validate(EOL, p_ItemImportline."EOL");
-            item.Validate(Memo, p_ItemImportline."Memo");
-            item.Validate(EDI, p_ItemImportline."EDI");
-            item.Validate("Customer No.", p_ItemImportline."Customer No.");
-            item.Validate("Customer Item No.", p_ItemImportline."Customer Item No.");
-            item.Validate("Customer Item No.(Plain)", p_ItemImportline."Customer Item No. (Plain)");
-            item.Validate("OEM No.", p_ItemImportline."OEM No.");
-            item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
-            item.Validate("Item Supplier Source", p_ItemImportline."Item Supplier Source");
-            item.Validate("Vendor Item No.", p_ItemImportline."Vendor Item No.");
-            item.Validate("Lot Size", p_ItemImportline."Lot Size");
-            item.Validate("Minimum Order Quantity", p_ItemImportline."Minimum Order Quantity");
-            item.Validate("Order Multiple", p_ItemImportline."Order Multiple");
-            item.Validate("Maximum Order Quantity", p_ItemImportline."Maximum Order Quantity");
-            item.Validate("Markup%", p_ItemImportline."Markup%");
-            item.Validate("Markup%(Sales Price)", p_ItemImportline."Markup%(Sales Price)");
-            item.Validate("Markup%(Purchase Price)", p_ItemImportline."Markup%(Purchase Price)");
-            item.Validate("One Renesas EDI", p_ItemImportline."One Renesas EDI");
-            item.Validate("Excluded in Inventory Report", p_ItemImportline."Excluded in Inventory Report");
-            item.Validate("Gen. Prod. Posting Group", p_ItemImportline."Gen. Prod. Posting Group");
-            item.Validate("Inventory Posting Group", p_ItemImportline."Inventory Posting Group");
-            item.Validate("VAT Prod. Posting Group", p_ItemImportline."VAT Prod. Posting Group");
-            item.Validate("Global Dimension 1 Code", p_ItemImportline."Customer Group Code");
-            item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
-            item.Validate(Blocked, p_ItemImportline."Blocked");
+            if Item.Type.AsInteger() <> p_ItemImportline.Type then
+                item.Validate(Type, p_ItemImportline.Type);
+            if Item."Familiar Name" <> p_ItemImportline."Familiar Name" then
+                item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
+            if Item.Description <> p_ItemImportline."Description" then
+                item.Validate(Description, p_ItemImportline."Description");
+            if Item."Description 2" <> p_ItemImportline."Description 2" then
+                item.Validate("Description 2", p_ItemImportline."Description 2");
+            if Item."Base Unit of Measure" <> p_ItemImportline."Base Unit of Measure" then
+                item.Validate("Base Unit of Measure", p_ItemImportline."Base Unit of Measure");
+            if Item."Sales Unit of Measure" <> p_ItemImportline."Sales Unit of Measure" then
+                item.Validate("Sales Unit of Measure", p_ItemImportline."Sales Unit of Measure");
+            if Item."Purch. Unit of Measure" <> p_ItemImportline."Purchase Unit of Measure" then
+                item.Validate("Purch. Unit of Measure", p_ItemImportline."Purchase Unit of Measure");
+            if Item."Price/Profit Calculation" <> p_ItemImportline."Price/Profit Calculation" then
+                item.Validate("Price/Profit Calculation", p_ItemImportline."Price/Profit Calculation");
+            if Item."Lead Time Calculation" <> p_ItemImportline."Lead Time Calculation" then
+                item.Validate("Lead Time Calculation", p_ItemImportline."Lead Time Calculation");
+            if Item."Tariff No." <> p_ItemImportline."Tariff No." then
+                item.Validate("Tariff No.", p_ItemImportline."Tariff No.");
+            if Item.Reserve <> p_ItemImportline."Reserve" then
+                item.Validate(Reserve, p_ItemImportline."Reserve");
+            if Item."Stockout Warning" <> p_ItemImportline."Stockout Warning" then
+                item.Validate("Stockout Warning", p_ItemImportline."Stockout Warning");
+            if Item."Prevent Negative Inventory" <> p_ItemImportline."Prevent Negative Inventory" then
+                item.Validate("Prevent Negative Inventory", p_ItemImportline."Prevent Negative Inventory");
+            if Item."Replenishment System" <> p_ItemImportline."Replenishment System" then
+                item.Validate("Replenishment System", p_ItemImportline."Replenishment System");
+            if Item."Item Tracking Code" <> p_ItemImportline."Item Tracking Code" then
+                item.Validate("Item Tracking Code", p_ItemImportline."Item Tracking Code");
+            if Item."Manufacturer Code" <> p_ItemImportline."Manufacture Code" then
+                item.Validate("Manufacturer Code", p_ItemImportline."Manufacture Code");
+            if Item."Item Category Code" <> p_ItemImportline."Item Category Code" then
+                item.Validate("Item Category Code", p_ItemImportline."Item Category Code");
+            if Item."Original Item No." <> p_ItemImportline."Original Item No." then
+                item.Validate("Original Item No.", p_ItemImportline."Original Item No.");
+            if Item."Country/Region of Origin Code" <> p_ItemImportline."Country/Region of Origin Code" then
+                item.Validate("Country/Region of Origin Code", p_ItemImportline."Country/Region of Origin Code");
+            if Item."Country/Region of Org Cd (FE)" <> p_ItemImportline."Country/Region of Org Cd (FE)" then
+                item.Validate("Country/Region of Org Cd (FE)", p_ItemImportline."Country/Region of Org Cd (FE)");
+            if Item."Item Group Code" <> p_ItemImportline."Product Group Code" then
+                item.Validate("Item Group Code", p_ItemImportline."Product Group Code");
+            if Item.Products <> p_ItemImportline."Products" then
+                item.Validate(Products, p_ItemImportline."Products");
+            if Item."Parts No." <> p_ItemImportline."Parts No." then
+                item.Validate("Parts No.", p_ItemImportline."Parts No.");
+            if Item.PKG <> p_ItemImportline."PKG" then
+                item.Validate(PKG, p_ItemImportline."PKG");
+            if Item.Rank <> p_ItemImportline."Rank" then
+                item.Validate(Rank, p_ItemImportline."Rank");
+            if Item.SBU <> p_ItemImportline."SBU" then
+                item.Validate(SBU, p_ItemImportline."SBU");
+            if Item."Car Model" <> p_ItemImportline."Car Model" then
+                item.Validate("Car Model", p_ItemImportline."Car Model");
+            if Item.SOP <> p_ItemImportline."SOP" then
+                item.Validate(SOP, p_ItemImportline."SOP");
+            if Item."MP-Volume(pcs/M)" <> p_ItemImportline."MP-Volume(pcs/M)" then
+                item.Validate("MP-Volume(pcs/M)", p_ItemImportline."MP-Volume(pcs/M)");
+            if Item.Apl <> p_ItemImportline."Apl" then
+                item.Validate(Apl, p_ItemImportline."Apl");
+            if Item."Service Parts" <> p_ItemImportline."Service Parts" then
+                item.Validate("Service Parts", p_ItemImportline."Service Parts");
+            if Item."Order Deadline Date" <> p_ItemImportline."Order Deadline Date" then
+                item.Validate("Order Deadline Date", p_ItemImportline."Order Deadline Date");
+            if Item.EOL <> p_ItemImportline."EOL" then
+                item.Validate(EOL, p_ItemImportline."EOL");
+            if Item.Memo <> p_ItemImportline."Memo" then
+                item.Validate(Memo, p_ItemImportline."Memo");
+            if Item.EDI <> p_ItemImportline."EDI" then
+                item.Validate(EDI, p_ItemImportline."EDI");
+            if Item."Customer No." <> p_ItemImportline."Customer No." then
+                item.Validate("Customer No.", p_ItemImportline."Customer No.");
+            if Item."Customer Item No." <> p_ItemImportline."Customer Item No." then
+                item.Validate("Customer Item No.", p_ItemImportline."Customer Item No.");
+            if Item."Customer Item No.(Plain)" <> p_ItemImportline."Customer Item No. (Plain)" then
+                item.Validate("Customer Item No.(Plain)", p_ItemImportline."Customer Item No. (Plain)");
+            if Item."OEM No." <> p_ItemImportline."OEM No." then
+                item.Validate("OEM No.", p_ItemImportline."OEM No.");
+            if Item."Vendor No." <> p_ItemImportline."Vendor No." then
+                item.Validate("Vendor No.", p_ItemImportline."Vendor No.");
+            if Item."Item Supplier Source" <> p_ItemImportline."Item Supplier Source" then
+                item.Validate("Item Supplier Source", p_ItemImportline."Item Supplier Source");
+            if Item."Vendor Item No." <> p_ItemImportline."Vendor Item No." then
+                item.Validate("Vendor Item No.", p_ItemImportline."Vendor Item No.");
+            if Item."Lot Size" <> p_ItemImportline."Lot Size" then
+                item.Validate("Lot Size", p_ItemImportline."Lot Size");
+            if Item."Minimum Order Quantity" <> p_ItemImportline."Minimum Order Quantity" then
+                item.Validate("Minimum Order Quantity", p_ItemImportline."Minimum Order Quantity");
+            if Item."Order Multiple" <> p_ItemImportline."Order Multiple" then
+                item.Validate("Order Multiple", p_ItemImportline."Order Multiple");
+            if Item."Maximum Order Quantity" <> p_ItemImportline."Maximum Order Quantity" then
+                item.Validate("Maximum Order Quantity", p_ItemImportline."Maximum Order Quantity");
+            if Item."Markup%" <> p_ItemImportline."Markup%" then
+                item.Validate("Markup%", p_ItemImportline."Markup%");
+            if Item."Markup%(Sales Price)" <> p_ItemImportline."Markup%(Sales Price)" then
+                item.Validate("Markup%(Sales Price)", p_ItemImportline."Markup%(Sales Price)");
+            if Item."Markup%(Purchase Price)" <> p_ItemImportline."Markup%(Purchase Price)" then
+                item.Validate("Markup%(Purchase Price)", p_ItemImportline."Markup%(Purchase Price)");
+            if Item."One Renesas EDI" <> p_ItemImportline."One Renesas EDI" then
+                item.Validate("One Renesas EDI", p_ItemImportline."One Renesas EDI");
+            if Item."Excluded in Inventory Report" <> p_ItemImportline."Excluded in Inventory Report" then
+                item.Validate("Excluded in Inventory Report", p_ItemImportline."Excluded in Inventory Report");
+            if Item."Gen. Prod. Posting Group" <> p_ItemImportline."Gen. Prod. Posting Group" then
+                item.Validate("Gen. Prod. Posting Group", p_ItemImportline."Gen. Prod. Posting Group");
+            if Item."Inventory Posting Group" <> p_ItemImportline."Inventory Posting Group" then
+                item.Validate("Inventory Posting Group", p_ItemImportline."Inventory Posting Group");
+            if Item."VAT Prod. Posting Group" <> p_ItemImportline."VAT Prod. Posting Group" then
+                item.Validate("VAT Prod. Posting Group", p_ItemImportline."VAT Prod. Posting Group");
+            if Item."Global Dimension 1 Code" <> p_ItemImportline."Customer Group Code" then
+                item.Validate("Global Dimension 1 Code", p_ItemImportline."Customer Group Code");
+            if Item."Global Dimension 2 Code" <> p_ItemImportline."Base Currency Code" then
+                item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
+            if Item.Blocked <> p_ItemImportline."Blocked" then
+                item.Validate(Blocked, p_ItemImportline."Blocked");
 
             Item.Modify(true);
         end;
