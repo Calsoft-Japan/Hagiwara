@@ -2,6 +2,8 @@ pageextension 50315 VATEntriesExt extends "VAT Entries"
 {
     layout
     {
+        //BC v28
+        /*
         addafter("Type")
         {
             field("External Document No."; Rec."External Document No.")
@@ -11,6 +13,7 @@ pageextension 50315 VATEntriesExt extends "VAT Entries"
 
 
         }
+        */
         addafter("Base")
         {
             field("GST Rate"; Rec."GST Rate")

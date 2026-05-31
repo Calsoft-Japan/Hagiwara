@@ -28,6 +28,45 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
 
     actions
     {
+        //BC V28 Begin
+        modify(SendApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(CancelApprovalRequest)
+        {
+            Visible = false;
+        }
+        modify(Approve)
+        {
+            Visible = false;
+        }
+        modify(Reject)
+        {
+            Visible = false;
+        }
+        modify(Delegate)
+        {
+            Visible = false;
+        }
+        modify(Comments)
+        {
+            Visible = false;
+        }
+        modify(Approvals)
+        {
+            Visible = false;
+        }
+        modify(Approval)
+        {
+            Visible = false;
+        }
+        modify("Request Approval")
+        {
+            Visible = false;
+        }
+        //BC V28 End
+
         modify("Post")
         {
             trigger OnBeforeAction()
@@ -167,11 +206,12 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
                         cuApprMgt.Cancel(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
                     end;
                 }
-                action("Approve")
+                action("Hagi Approve")
                 {
 
                     ApplicationArea = all;
                     Image = Approve;
+                    Caption = 'Approve'; //BC V28
 
                     trigger OnAction()
                     var
@@ -202,11 +242,12 @@ pageextension 50040 ItemJournalExt extends "Item Journal"
                         cuApprMgt.Approve(enum::"Hagiwara Approval Data"::"Item Journal", Rec."Document No.", UserId);
                     end;
                 }
-                action("Reject")
+                action("Hagi Reject")
                 {
 
                     ApplicationArea = all;
                     Image = Reject;
+                    Caption = 'Reject'; //BC V28
 
                     trigger OnAction()
                     var

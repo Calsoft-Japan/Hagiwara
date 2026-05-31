@@ -2373,7 +2373,7 @@ report 50056 "Inventory Availability List"
                           "Qty. on Sales Quote",
                           //"Sales (Qty.)",
                           "Scheduled Receipt (Qty.)",
-                          "Scheduled Need (Qty.)",
+                          //"Scheduled Need (Qty.)", //BC V28. this field is not invovled, so comment only.
                           "Planned Order Receipt (Qty.)",
                           "FP Order Receipt (Qty.)",
                           "Rel. Order Receipt (Qty.)",
@@ -2461,7 +2461,7 @@ report 50056 "Inventory Availability List"
                           "Qty. on Sales Quote",
                           "Sales (Qty.)",
                           "Scheduled Receipt (Qty.)",
-                          "Scheduled Need (Qty.)",
+                          //"Scheduled Need (Qty.)", //BC V28. this field is not invovled, so comment only.
                           "Planning Issues (Qty.)",
                           "Planning Receipt (Qty.)",
                           "Planned Order Receipt (Qty.)",

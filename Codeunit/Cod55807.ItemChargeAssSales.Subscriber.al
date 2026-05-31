@@ -10,7 +10,7 @@ codeunit 55807 "ItemChargeAssSales Subscriber"
             ItemChargeAssgntSales."Applies-to Doc. Type"::Shipment:
                 begin
                     if SalesShipLine.Get(ItemChargeAssgntSales."Applies-to Doc. No.", ItemChargeAssgntSales."Applies-to Doc. Line No.") then begin
-                        SalesShipLine.CalcFields("External Document No.");
+                        //SalesShipLine.CalcFields("External Document No."); //BC v28
                         ItemChargeAssgntSales."External Document No." := SalesShipLine."External Document No.";
                         ItemChargeAssgntSales."Posting Date" := SalesShipLine."Posting Date";
                         ItemChargeAssgntSales."Item Ledger Entry No." := SalesShipLine."Item Shpt. Entry No.";

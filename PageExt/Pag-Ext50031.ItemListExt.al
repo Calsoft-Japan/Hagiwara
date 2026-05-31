@@ -79,7 +79,7 @@ pageextension 50031 ItemListExt extends "Item List"
                 Caption = 'Latest Purchase Price';
                 DecimalPlaces = 2 : 5;
             }
-            field("No. 2"; Rec."No. 2") { ApplicationArea = All; }
+            //field("No. 2"; Rec."No. 2") { ApplicationArea = All; } //BC v28
             field("OEM No."; Rec."OEM No.") { ApplicationArea = All; }
             field("Customer No."; Rec."Customer No.") { ApplicationArea = All; }
             field("Customer Item No."; Rec."Customer Item No.") { ApplicationArea = All; }
@@ -179,6 +179,11 @@ pageextension 50031 ItemListExt extends "Item List"
             {
                 ApplicationArea = all;
             }
+        }
+        //BC V28
+        modify("No. 2")
+        {
+            Visible = true;
         }
     }
 

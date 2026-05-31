@@ -20,7 +20,7 @@ codeunit 55805 "ItemChargeAssPurch Subscriber"
             ItemChargeAssgntPurch."Applies-to Doc. Type"::"Sales Shipment":
                 begin
                     if SalesShipLine.Get(ItemChargeAssgntPurch."Applies-to Doc. No.", ItemChargeAssgntPurch."Applies-to Doc. Line No.") then begin
-                        SalesShipLine.CalcFields("External Document No.");
+                        //SalesShipLine.CalcFields("External Document No."); //BC v28
                         ItemChargeAssgntPurch."External Document No." := SalesShipLine."External Document No.";
                         ItemChargeAssgntPurch."Posting Date" := SalesShipLine."Posting Date";
                         ItemChargeAssgntPurch."Item Ledger Entry No." := SalesShipLine."Item Shpt. Entry No.";

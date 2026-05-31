@@ -312,6 +312,8 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
         {
             // cleaned
         }
+        //BC v28
+        /*
         field(50544; "External Document No."; Code[35])
         {
             FieldClass = FlowField;
@@ -320,6 +322,7 @@ tableextension 50111 "Sales Shipment Line Ext" extends "Sales Shipment Line"
                                                                           Adjustment = CONST(FALSE)));
             Description = '//CS077';
         }
+        */
         field(50565; "2nd Unit of Measure Code"; Code[10])
         {
             Caption = '2nd Unit of Measure';
