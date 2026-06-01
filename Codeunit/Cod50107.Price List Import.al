@@ -37,6 +37,7 @@ codeunit 50107 "Price List Import"
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         TempExcelBuffer.OpenBookStream(IStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;
@@ -65,6 +66,7 @@ codeunit 50107 "Price List Import"
         MaxRowNo := 0;
         rec_POInt.Reset();
         TempExcelBuffer.Reset();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         if TempExcelBuffer.FindLast() then begin
             MaxRowNo := TempExcelBuffer."Row No.";
         end;
@@ -174,6 +176,7 @@ codeunit 50107 "Price List Import"
     begin
 
         TempExcelBuffer.Reset();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         If TempExcelBuffer.Get(RowNo, ColNo) then
             exit(TempExcelBuffer."Cell Value as Text")
         else

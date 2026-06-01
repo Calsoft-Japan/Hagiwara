@@ -979,8 +979,6 @@ report 50023 "Collect Message"
 
                         //Now use Sanjeev Begin 12/03/2020
                         "Currency Code" := Get_CurrCode_BC(rec_SalesHdr."Currency Code");
-                        // "Sales Price" := rec_SalesLine."Unit Price";  //v20201112.
-                        // "Sales Price" := 0;                       //Not in use
                         //Now use Sanjeev END 12/03/2020
 
                         "Sales Amount" := 0;                      //Not in use
@@ -998,7 +996,8 @@ report 50023 "Collect Message"
                         "Message Control No." := g_CtrlNo_JC;
 
                         //====Start v20201112.
-                        rec_MessageCollection."Unit Price" := rec_SalesLine."Unit Price";
+                        //rec_MessageCollection."Unit Price" := rec_SalesLine."Unit Price"; //BC Upgrade
+                        rec_MessageCollection."Unit Price" := rec_SalesLine."Approved Unit Price"; //BC Upgrade
 
                         l_MAV.RESET;
                         l_MAV.SETRANGE("Item No.", rec_SalesLine."No.");
@@ -1008,12 +1007,14 @@ report 50023 "Collect Message"
                         IF l_MAV.FINDFIRST THEN BEGIN
                             rec_MessageCollection."Added Value" := l_MAV."Added Value";
                             rec_MessageCollection."Markup %" := l_MAV."Markup %";
-                            rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price" / (1 + l_MAV."Markup %" / 100) - l_MAV."Added Value";
+                            //rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price" / (1 + l_MAV."Markup %" / 100) - l_MAV."Added Value"; //BC Upgrade
+                            rec_MessageCollection."Sales Price" := rec_SalesLine."Approved Unit Price" / (1 + l_MAV."Markup %" / 100) - l_MAV."Added Value"; //BC Upgrade
                         END
                         ELSE BEGIN
                             rec_MessageCollection."Added Value" := 0;
                             rec_MessageCollection."Markup %" := 0;
-                            rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price";
+                            //rec_MessageCollection."Sales Price" := rec_SalesLine."Unit Price"; //BC Upgrade
+                            rec_MessageCollection."Sales Price" := rec_SalesLine."Approved Unit Price"; //BC Upgrade
                         END;
 
                         IF rec_MessageCollection."Sales Price" < 0 THEN BEGIN

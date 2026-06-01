@@ -48,7 +48,7 @@ report 50106 "Price List Export"
                 TempExcelBuffer.AddColumn(PCCurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PCDirectUnitCost_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PCUpdatePrice_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(PriceLineStatus_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(DeleteFlag_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
             end;
 
@@ -122,7 +122,7 @@ report 50106 "Price List Export"
                     TempExcelBuffer.AddColumn(PriceList."PC. Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."PC. Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(PriceList."PC. Update Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceList.Status, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Format(false), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 end else begin
 
@@ -143,7 +143,7 @@ report 50106 "Price List Export"
                     TempExcelBuffer.AddColumn(PriceLineCombi."PC. Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."PC. Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(PriceLineCombi."PC. Update Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceLineCombi.Status, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Format(false), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 end;
 
@@ -247,7 +247,7 @@ report 50106 "Price List Export"
         PCCurrencyCode_Lbl: Label 'PC. Currency Code';
         PCDirectUnitCost_Lbl: Label 'PC. Direct Unit Cost';
         PCUpdatePrice_Lbl: Label 'PC. Update Price';
-        PriceLineStatus_Lbl: Label 'Price Line Status';
+        DeleteFlag_Lbl: Label 'Delete Flag';
 
 
 }
