@@ -395,6 +395,10 @@ page 50120 "Customer Import Lines"
                 {
                     ApplicationArea = all;
                 }
+                field("Bank Account"; Rec."Bank Account")
+                {
+                    ApplicationArea = all;
+                }
                 field("Status"; Rec."Status")
                 {
                     ApplicationArea = all;
@@ -777,6 +781,7 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Receiving Location", p_CustomerImportline."Receiving Location");
         CustomerRecord.Validate("Days for Auto Inv. Reservation", p_CustomerImportline."Days for Auto Inv. Reservation");
         CustomerRecord.Validate("Blocked", p_CustomerImportline."Blocked");
+        CustomerRecord.Validate("Bank Account", p_CustomerImportline."Bank Account");
 
         /* Comment the code as required on 02/12/2026
         //Create new records on the Customer Bank Account table.
@@ -994,6 +999,8 @@ page 50120 "Customer Import Lines"
                 CustomerRecord.Validate("Days for Auto Inv. Reservation", p_CustomerImportline."Days for Auto Inv. Reservation");
             if CustomerRecord."Blocked".AsInteger() <> p_CustomerImportline."Blocked" then
                 CustomerRecord.Validate("Blocked", p_CustomerImportline."Blocked");
+            if CustomerRecord."Bank Account" <> p_CustomerImportline."Bank Account" then
+                CustomerRecord.Validate("Bank Account", p_CustomerImportline."Bank Account");
 
             CustomerRecord.Modify(true);
         end;
@@ -1031,6 +1038,7 @@ page 50120 "Customer Import Lines"
         ShippingAgentServiceCode: Record "Shipping Agent Services";
         ServiceZoneCode: Record "Service Zone";
         ReceivingLocation: Record "Location";
+        BankAccount: Record "Bank Account";
     begin
         // -------Existence Check (See table relation info.)-------
         //Global Dimension 1 Code
@@ -1198,6 +1206,12 @@ page 50120 "Customer Import Lines"
         if p_CustomerImportline."Receiving Location" <> '' then begin
             if not ReceivingLocation.get(p_CustomerImportline."Receiving Location") then begin
                 ErrDesc += 'Receiving Location is not found. ';
+            end;
+        end;
+        //Bank Account
+        if p_CustomerImportline."Bank Account" <> '' then begin
+            if not BankAccount.get(p_CustomerImportline."Bank Account") then begin
+                ErrDesc += 'Bank Account is not found. ';
             end;
         end;
         // -------Option Value Check-------//TODO 確認必要

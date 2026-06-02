@@ -75,10 +75,10 @@ report 50119 "Customer Export"
                 TempExcelBuffer.AddColumn(ShippingAgentServiceCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ServiceZoneCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ContractGainLossAmount_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(AllowLineDisc_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(AllowLineDisc_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CopySelltoAddrtoQteFrom_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CustomerType_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(NECOEMCode_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(NECOEMCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(NECOEMName_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ShippingMark1_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ShippingMark2_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -102,15 +102,16 @@ report 50119 "Customer Export"
                 TempExcelBuffer.AddColumn(OREAddress2_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ORECity_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(OREStateProvince_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ExcludedInORECollection_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ORECountry_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ExcludedInORECollection_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ORECountry_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(OREPostCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CustomerGroup_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(FamiliarName_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ImportFileShipTo_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(FamiliarName_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ImportFileShipTo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ReceivingLocation_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(DaysForAutoInvReservation_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(Blocked_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(BankAccount_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
             end;
 
             trigger OnAfterGetRecord()
@@ -145,7 +146,7 @@ report 50119 "Customer Export"
                     TempExcelBuffer.AddColumn(Customer."Invoice Disc. Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Country/Region Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Collection Method", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Print Statements", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Print Statements", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Bill-to Customer No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Payment Method Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Application Method", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -178,10 +179,10 @@ report 50119 "Customer Export"
                     TempExcelBuffer.AddColumn(Customer."Shipping Agent Service Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Service Zone Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Contract Gain/Loss Amount", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
-                    TempExcelBuffer.AddColumn(Customer."Allow Line Disc.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Allow Line Disc.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Copy Sell-to Addr. to Qte From", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Customer Type", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."NEC OEM Code", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."NEC OEM Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."NEC OEM Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Shipping Mark1", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Shipping Mark2", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -205,15 +206,16 @@ report 50119 "Customer Export"
                     TempExcelBuffer.AddColumn(Customer."ORE Address 2", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."ORE City", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."ORE State/Province", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Excluded in ORE Collection", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Excluded in ORE Collection", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."ORE Country", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."ORE Post Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Customer Group", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Familiar Name", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Familiar Name", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Import File Ship To", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Receiving Location", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Days for Auto Inv. Reservation", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(Customer.Blocked, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Bank Account", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 end;
             end;
 
@@ -315,10 +317,10 @@ report 50119 "Customer Export"
         ShippingAgentServiceCode_Lbl: Label 'Shipping Agent Service Code';
         ServiceZoneCode_Lbl: Label 'Service Zone Code';
         ContractGainLossAmount_Lbl: Label 'Contract Gain/Loss Amount';
-        AllowLineDisc_Lbl: Label 'Allow Line Disc.';
+        AllowLineDisc_Lbl: Label '*Allow Line Disc.';
         CopySelltoAddrtoQteFrom_Lbl: Label '*Copy Sell-to Addr. to Qte From';
         CustomerType_Lbl: Label '*Customer Type';
-        NECOEMCode_Lbl: Label '*NEC OEM Code';
+        NECOEMCode_Lbl: Label 'NEC OEM Code';
         NECOEMName_Lbl: Label 'NEC OEM Name';
         ShippingMark1_Lbl: Label 'Shipping Mark1';
         ShippingMark2_Lbl: Label 'Shipping Mark2';
@@ -342,14 +344,15 @@ report 50119 "Customer Export"
         OREAddress2_Lbl: Label 'ORE Address 2';
         ORECity_Lbl: Label 'ORE City';
         OREStateProvince_Lbl: Label 'ORE State/Province';
-        ExcludedInORECollection_Lbl: Label 'Excluded in ORE Collection';
-        ORECountry_Lbl: Label '*ORE Country';
+        ExcludedInORECollection_Lbl: Label '*Excluded in ORE Collection';
+        ORECountry_Lbl: Label 'ORE Country';
         OREPostCode_Lbl: Label 'ORE Post Code';
         CustomerGroup_Lbl: Label 'Customer Group';
-        FamiliarName_Lbl: Label 'Familiar Name';
-        ImportFileShipTo_Lbl: Label '*Import File Ship To';
+        FamiliarName_Lbl: Label '*Familiar Name';
+        ImportFileShipTo_Lbl: Label 'Import File Ship To';
         ReceivingLocation_Lbl: Label 'Receiving Location';
         DaysForAutoInvReservation_Lbl: Label 'Days for Auto Inv. Reservation';
         Blocked_Lbl: Label 'Blocked';
+        BankAccount_Lbl: Label 'Bank Account';
 }
 

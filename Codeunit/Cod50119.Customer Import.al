@@ -172,6 +172,7 @@ codeunit 50119 "Customer Import"
         FamiliarNameStr: Text;
         ImportFileShipToStr: Text;
         ReceivingLocationStr: Text;
+        BankAccountStr: Text;
         DaysforAutoInvReservationStr: Text;
         DaysforAutoInvReservation: Integer;
         BlockedStr: Text;
@@ -289,6 +290,7 @@ codeunit 50119 "Customer Import"
             ReceivingLocationStr := GetValueAtCell(RowNo, 91).Trim();
             DaysforAutoInvReservationStr := GetValueAtCell(RowNo, 92).Trim();
             BlockedStr := GetValueAtCell(RowNo, 93).Trim().ToUpper();
+            BankAccountStr := GetValueAtCell(RowNo, 94).Trim().ToUpper();
 
             //-------------------------------Check-------------------------------
             if (EntryNoStr = '') then begin
@@ -483,6 +485,7 @@ codeunit 50119 "Customer Import"
             rec_POInt."Receiving Location" := ReceivingLocationStr;
             rec_POInt."Days for Auto Inv. Reservation" := DaysforAutoInvReservation;
             Evaluate(rec_POInt.Blocked, BlockedStr);
+            rec_POInt."Bank Account" := BankAccountStr;
 
             rec_POInt.Insert();
         end;

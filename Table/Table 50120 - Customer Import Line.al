@@ -308,16 +308,19 @@ table 50120 "Customer Import Line"
             OptionCaption = ' , Ship, Invoice, All';
             OptionMembers = " ",Ship,Invoice,All;
         }
-        field(96; Status; Option)
+        field(96; "Bank Account"; Code[20])
+        {
+        }
+        field(97; Status; Option)
         {
             OptionCaption = 'Pending, Error, Validated, Completed';
             OptionMembers = Pending,Error,Validated,Completed;
         }
-        field(97; "Error Description"; Text[250])
+        field(98; "Error Description"; Text[250])
         {
 
         }
-        field(98; "Action"; Option)
+        field(99; "Action"; Option)
         {
             OptionCaption = ' , Create, Update';
             OptionMembers = " ",Create,Update;

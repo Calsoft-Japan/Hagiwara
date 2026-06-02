@@ -222,6 +222,14 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             }
         }
 
+        addafter("Bill-to Customer No.")
+        {
+            field("Bank Account"; Rec."Bank Account")
+            {
+                ApplicationArea = all;
+            }
+        }
+
     }
 
     actions

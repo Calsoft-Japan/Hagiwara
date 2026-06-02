@@ -83,6 +83,11 @@ tableextension 50018 "Customer Ext" extends "Customer"
             Description = 'CS016';
             OptionMembers = " ","Front-end","Back-end";
         }
+        field(50036; "Bank Account"; Code[20])
+        {
+            TableRelation = "Bank Account"."No.";
+            Description = 'CS117';
+        }
         field(50049; "Update SO Price Target Date"; Option)
         {
             Caption = 'Price Update Target Date';
