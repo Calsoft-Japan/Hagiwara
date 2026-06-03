@@ -2957,6 +2957,7 @@ codeunit 50014 "DWH Export"
         SaveString := '';
         PurchasePriceRec.RESET();
         PurchasePriceRec.SETRANGE("One Renesas EDI", TRUE);  //CS085
+        PurchasePriceRec.SETRANGE("Price Type", Enum::"Price Type"::Purchase);
         ItemRec.RESET();
         BEGIN
 

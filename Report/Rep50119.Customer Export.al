@@ -70,8 +70,8 @@ report 50119 "Customer Export"
                 TempExcelBuffer.AddColumn(CashFlowPaymentTermsCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PrimaryContactNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ResponsibilityCenter_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ShippingAdvice_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ShippingTime_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ShippingAdvice_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ShippingTime_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ShippingAgentServiceCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ServiceZoneCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(ContractGainLossAmount_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -174,8 +174,8 @@ report 50119 "Customer Export"
                     TempExcelBuffer.AddColumn(Customer."Cash Flow Payment Terms Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Primary Contact No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Responsibility Center", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Shipping Advice", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Shipping Time", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                    TempExcelBuffer.AddColumn(Customer."Shipping Advice", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Shipping Time", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(Customer."Shipping Agent Service Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Service Zone Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Contract Gain/Loss Amount", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
@@ -312,8 +312,8 @@ report 50119 "Customer Export"
         CashFlowPaymentTermsCode_Lbl: Label 'Cash Flow Payment Terms Code';
         PrimaryContactNo_Lbl: Label 'Primary Contact No.';
         ResponsibilityCenter_Lbl: Label 'Responsibility Center';
-        ShippingAdvice_Lbl: Label 'Shipping Advice';
-        ShippingTime_Lbl: Label '*Shipping Time';
+        ShippingAdvice_Lbl: Label '*Shipping Advice';
+        ShippingTime_Lbl: Label 'Shipping Time';
         ShippingAgentServiceCode_Lbl: Label 'Shipping Agent Service Code';
         ServiceZoneCode_Lbl: Label 'Service Zone Code';
         ContractGainLossAmount_Lbl: Label 'Contract Gain/Loss Amount';
