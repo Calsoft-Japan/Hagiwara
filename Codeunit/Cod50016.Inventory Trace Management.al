@@ -224,6 +224,7 @@ codeunit 50016 "Inventory Trace Management"
 
                         RecPurchasePrice.RESET();
                         RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                        RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                         RecPurchasePrice.SETCURRENTKEY("Starting Date");
                         RecPurchasePrice.ASCENDING(FALSE);
                         RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -391,6 +392,7 @@ codeunit 50016 "Inventory Trace Management"
             //
             //          RecPurchasePrice.RESET();
             //          RecPurchasePrice.SETRANGE("Asset No.",RecInventoryTraceEntry."Item No");
+            //          RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
             //          RecPurchasePrice.SETCURRENTKEY("Starting Date");
             //          RecPurchasePrice.ASCENDING(FALSE);
             //          RecPurchasePrice.SETFILTER("Starting Date",'<=%1',RecInventoryTraceEntry."Posting Date");
@@ -633,6 +635,7 @@ codeunit 50016 "Inventory Trace Management"
 
                                 RecPurchasePrice.RESET();
                                 RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                                RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                 RecPurchasePrice.ASCENDING(FALSE);
                                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -810,6 +813,7 @@ codeunit 50016 "Inventory Trace Management"
 
                             RecPurchasePrice.RESET();
                             RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                            RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                             RecPurchasePrice.SETCURRENTKEY("Starting Date");
                             RecPurchasePrice.ASCENDING(FALSE);
                             RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -930,6 +934,7 @@ codeunit 50016 "Inventory Trace Management"
 
                                     RecPurchasePrice.RESET();
                                     RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                                    RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                                     RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                     RecPurchasePrice.ASCENDING(FALSE);
                                     RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1033,6 +1038,7 @@ codeunit 50016 "Inventory Trace Management"
 
                             RecPurchasePrice.RESET();
                             RecPurchasePrice.SETRANGE("Asset No.",RecInventoryTraceEntry."Item No");
+                            RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                             RecPurchasePrice.SETCURRENTKEY("Starting Date");
                             RecPurchasePrice.ASCENDING(FALSE);
                             RecPurchasePrice.SETFILTER("Starting Date",'<=%1',RecInventoryTraceEntry."Posting Date");
@@ -1180,6 +1186,7 @@ codeunit 50016 "Inventory Trace Management"
 
                                 RecPurchasePrice.RESET();
                                 RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                                RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                                 RecPurchasePrice.ASCENDING(FALSE);
                                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1372,6 +1379,7 @@ codeunit 50016 "Inventory Trace Management"
 
                     RecPurchasePrice.RESET();
                     RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                    RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                     RecPurchasePrice.SETCURRENTKEY("Starting Date");
                     RecPurchasePrice.ASCENDING(FALSE);
                     RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1550,6 +1558,7 @@ codeunit 50016 "Inventory Trace Management"
 
             RecPurchasePrice.RESET();
             RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+            RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
             RecPurchasePrice.SETCURRENTKEY("Starting Date");
             RecPurchasePrice.ASCENDING(FALSE);
             RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
@@ -1870,6 +1879,7 @@ codeunit 50016 "Inventory Trace Management"
 
                 RecPurchasePrice.RESET();
                 RecPurchasePrice.SETRANGE("Asset No.", RecInventoryTraceEntry."Item No");
+                RecPurchasePrice.SetRange("Price Type", Enum::"Price Type"::Purchase);
                 RecPurchasePrice.SETCURRENTKEY("Starting Date");
                 RecPurchasePrice.ASCENDING(FALSE);
                 RecPurchasePrice.SETFILTER("Starting Date", '<=%1', RecInventoryTraceEntry."Posting Date");
