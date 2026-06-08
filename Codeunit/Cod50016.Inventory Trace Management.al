@@ -1758,7 +1758,7 @@ codeunit 50016 "Inventory Trace Management"
               OR
               (("Document Type" = "Document Type"::"Transfer Shipment") AND ("Entry Type" = "Entry Type"::Transfer) AND (Quantity > 0))
               OR
-              (("Document Type" = "Document Type"::"Posted Assembly") AND ("Entry Type" = "Entry Type"::"Assembly Output"))
+              (("Document Type" = "Document Type"::"Posted Assembly") AND ("Entry Type" = "Entry Type"::"Assembly Output") AND (Quantity > 0))
               OR
               (("Document Type" = "Document Type"::" ") AND ("Entry Type" = "Entry Type"::Transfer) AND (Quantity > 0))
               OR

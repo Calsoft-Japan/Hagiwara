@@ -99,7 +99,8 @@ table 50063 "Inventory Trace Entry"
             FieldClass = FlowField;
             CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Incoming Item Ledger Entry No." = FIELD("Incoming Item Ledger Entry No."),
                                                                      "Item No" = FIELD("Item No"),
-                                                                     "Location Code" = FIELD("Location Code")));
+                                                                     "Location Code" = FIELD("Location Code"),
+                                                                     "PC. Entry No." = FIELD("PC. Entry No.")));
             DecimalPlaces = 0 : 5;
         }
         field(23; "Sales Returned Quantity"; Decimal)
@@ -110,16 +111,14 @@ table 50063 "Inventory Trace Entry"
                                                                      "Original Document No." = FIELD("Document No."),
                                                                      "Original Document Line No." = FIELD("Document Line No."),
                                                                      "Item No" = FIELD("Item No"),
-                                                                     "Location Code" = FIELD("Location Code")));
+                                                                     "Location Code" = FIELD("Location Code"),
+                                                                     "PC. Entry No." = FIELD("PC. Entry No.")));
             DecimalPlaces = 0 : 5;
         }
         field(24; "Sales Quantity"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Incoming Item Ledger Entry No." = FIELD("Incoming Item Ledger Entry No."),
-                                                                     "Document Type" = CONST("Sales Shipment"),
-                                                                     "Item No" = FIELD("Item No"),
-                                                                     "Location Code" = FIELD("Location Code")));
+            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("PC. Entry No." = FIELD("PC. Entry No.")));
             DecimalPlaces = 0 : 5;
         }
         field(31; "Purchase Order No."; Code[20])
