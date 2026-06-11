@@ -3,6 +3,7 @@ report 50015 "Sales - Invoice (Item/CustPN)"
     // HG1.00 - Upgrade from Nav 3.60 to Nav Dynamics 5.00 (SG)
     // CS036 Leon 2022/01/26 - PO,SI Report Header Modification
     // CS092 FDD R007 Bobby.Ji 2025/6/25 - Upgade to the BC version
+    // CS117 Shawn 2026/06/09 - new field: "Bank Account" on request page, and use it instead of Company info.
 
     //DefaultLayout = RDLC;
     //RDLCLayout = './RDLC/Sales - Invoice (ItemCustPN).rdlc';
@@ -10,6 +11,7 @@ report 50015 "Sales - Invoice (Item/CustPN)"
     Caption = 'Sales - Invoice (Item No + Customer P/N)';
     Permissions = TableData 7190 = rimd;
     DefaultRenderingLayout = "Sales - Invoice (ItemCustPN).rdlc";
+    AllowScheduling = false; //CS117 Without this property, the BankNo can't be transferred to Dataset via OnQueryClostPage.
 
     dataset
     {
@@ -149,19 +151,19 @@ report 50015 "Sales - Invoice (Item/CustPN)"
                     column(PaymentTermsDesc; PaymentTerms.Description)
                     {
                     }
-                    column(CompInfoBankName; CompanyInfo."Bank Name")
+                    column(CompInfoBankName; BankAccount.Name)
                     {
                     }
-                    column(CompInfoBankBranchNo; CompanyInfo."Bank Branch No.")
+                    column(CompInfoBankBranchNo; BankAccount."Bank Branch No.")
                     {
                     }
-                    column(CompInfoBankAccNo; CompanyInfo."Bank Account No.")
+                    column(CompInfoBankAccNo; BankAccount."Bank Account No.")
                     {
                     }
                     column(CompInfoBranchCode; CompanyInfo."Giro No.")
                     {
                     }
-                    column(CompInfoSwiftCode; CompanyInfo."SWIFT Code")
+                    column(CompInfoSwiftCode; BankAccount."SWIFT Code")
                     {
                     }
                     column(CompInfoSwiftCodeCaption; SwiftCodeCaptionLbl)
@@ -917,6 +919,18 @@ report 50015 "Sales - Invoice (Item/CustPN)"
                         ApplicationArea = All;
                         Caption = 'Show GST';
                     }
+                    field(BankNo; BankNo)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Bank Account';
+                        TableRelation = "Bank Account"."No.";
+
+                        trigger OnValidate()
+                        begin
+                            if BankNo = '' then
+                                ERROR('Bank Account can''t be blank!');
+                        end;
+                    }
                 }
             }
         }
@@ -936,7 +950,39 @@ report 50015 "Sales - Invoice (Item/CustPN)"
             LogInteractionEnable := LogInteraction;
             // YUKA
             "Show GST" := "Show GST"::DEFAULT;
+
+            //CS117 Begin
+            IF "Sales Invoice Header".COUNT > 1 THEN
+                ERROR('Only a single invoice can be printed at one time.');
+
+            IF "Sales Invoice Header".FINDFIRST THEN BEGIN
+                IF Cust.GET("Sales Invoice Header"."Sell-to Customer No.") THEN BEGIN
+                    BankNo := Cust."Bank Account";
+                END;
+            END;
+            //CS117 End
         end;
+
+        //CS117 Begin
+        trigger OnQueryClosePage(CloseAction: Action): Boolean
+        begin
+            if not (CloseAction in [Action::Cancel, action::LookupCancel]) then begin
+                IF BankNo = '' THEN
+                    ERROR('Bank Account can''t be blank!');
+
+                IF NOT BankAccount.GET(BankNo) THEN
+                    ERROR('Bank Account is not found!');
+
+                IF "Sales Invoice Header".COUNT > 1 THEN
+                    ERROR('Only a single invoice can be printed at one time.');
+            end;
+        end;
+
+        var
+            BankNo: Code[20];
+
+        //CS117 End
+
     }
     rendering
     {
@@ -1131,6 +1177,7 @@ report 50015 "Sales - Invoice (Item/CustPN)"
         //[InDataSet]
         Footer5Visible: Boolean;
         ESignTenantMedia: Record "Tenant Media"; //N005
+        BankAccount: Record "Bank Account"; //CS117
 
 
     procedure InitLogInteraction()
