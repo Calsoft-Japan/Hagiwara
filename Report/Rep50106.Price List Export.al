@@ -30,25 +30,25 @@ report 50106 "Price List Export"
 
                 // prepare header
                 TempExcelBuffer.NewRow();
-                TempExcelBuffer.AddColumn(StartingDate_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(StartingDate_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(EndingDate_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ProductType_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ProductNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(CustomerNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ProductType_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ProductNo_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(CustomerNo_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(SalesCurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(UnitPrice_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(DirectUnitCost_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(UnitPrice_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(DirectUnitCost_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PurchaseCurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(VendorNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(VendorNo_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(UnitofMeasureCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(RenesasReportUnitPriceCur_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(RenesasReportUnitPrice_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(OREDebitCost_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(ShipDebitFlag_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ShipDebitFlag_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PCCurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(PCDirectUnitCost_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(PCUpdatePrice_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(DeleteFlag_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(PCUpdatePrice_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(DeleteFlag_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
             end;
 
@@ -96,54 +96,52 @@ report 50106 "Price List Export"
                 end;
 
                 TempExcelBuffer.NewRow();
-                TempExcelBuffer.AddColumn(PriceList."Starting Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
+                TempExcelBuffer.AddColumn(PriceList."Starting Date", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Date);
                 TempExcelBuffer.AddColumn(PriceList."Ending Date", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Date);
-                TempExcelBuffer.AddColumn(PriceList."Asset Type", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(PriceList."Asset No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(PriceList."Asset Type", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(PriceList."Asset No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 if PurchFirst then begin
 
-                    TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceLineCombi."Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."Unit Price", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
 
-
-                    TempExcelBuffer.AddColumn(PriceList."Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                    TempExcelBuffer.AddColumn(PriceList."Direct Unit Cost", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(PriceList."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceList."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceList."Assign-to No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."Unit of Measure Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                     TempExcelBuffer.AddColumn(PriceLineCombi."Renesas Report Unit Price Cur.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."Renesas Report Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
 
-
                     TempExcelBuffer.AddColumn(PriceList."ORE Debit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
-                    TempExcelBuffer.AddColumn(PriceList."Ship&Debit Flag", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceList."Ship&Debit Flag", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."PC. Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."PC. Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
-                    TempExcelBuffer.AddColumn(PriceList."PC. Update Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Format(false), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceList."PC. Update Price", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Format(false), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 end else begin
 
-                    TempExcelBuffer.AddColumn(PriceList."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceList."Assign-to No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceList."Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                    TempExcelBuffer.AddColumn(PriceList."Unit Price", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
 
-                    TempExcelBuffer.AddColumn(PriceLineCombi."Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."Direct Unit Cost", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Number);
                     TempExcelBuffer.AddColumn(PriceLineCombi."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."Assign-to No.", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."Unit of Measure Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                     TempExcelBuffer.AddColumn(PriceList."Renesas Report Unit Price Cur.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceList."Renesas Report Unit Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
 
                     TempExcelBuffer.AddColumn(PriceLineCombi."ORE Debit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
-                    TempExcelBuffer.AddColumn(PriceLineCombi."Ship&Debit Flag", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."Ship&Debit Flag", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."PC. Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(PriceLineCombi."PC. Direct Unit Cost", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Number);
-                    TempExcelBuffer.AddColumn(PriceLineCombi."PC. Update Price", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Format(false), false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(PriceLineCombi."PC. Update Price", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Format(false), false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 end;
 
@@ -229,25 +227,25 @@ report 50106 "Price List Export"
         SheetName: Text[50];
         ExcelFileName: Text[50];
 
-        StartingDate_Lbl: Label 'Starting Date';
+        StartingDate_Lbl: Label '*Starting Date';
         EndingDate_Lbl: Label 'Ending Date';
-        ProductType_Lbl: Label 'Product Type';
-        ProductNo_Lbl: Label 'Product No.';
-        CustomerNo_Lbl: Label 'Customer No.';
+        ProductType_Lbl: Label '*Product Type';
+        ProductNo_Lbl: Label '*Product No.';
+        CustomerNo_Lbl: Label '*Customer No.';
         SalesCurrencyCode_Lbl: Label 'Sales Currency Code';
-        UnitPrice_Lbl: Label 'Unit Price';
-        DirectUnitCost_Lbl: Label 'Direct Unit Cost';
+        UnitPrice_Lbl: Label '*Unit Price';
+        DirectUnitCost_Lbl: Label '*Direct Unit Cost';
         PurchaseCurrencyCode_Lbl: Label 'Purchase Currency Code';
-        VendorNo_Lbl: Label 'Vendor No.';
+        VendorNo_Lbl: Label '*Vendor No.';
         UnitofMeasureCode_Lbl: Label 'Unit of Measure Code';
         RenesasReportUnitPriceCur_Lbl: Label 'Renesas Report Unit Price Cur.';
         RenesasReportUnitPrice_Lbl: Label 'Renesas Report Unit Price';
         OREDebitCost_Lbl: Label 'ORE Debit Cost';
-        ShipDebitFlag_Lbl: Label 'Ship&Debit Flag';
+        ShipDebitFlag_Lbl: Label '*Ship&Debit Flag';
         PCCurrencyCode_Lbl: Label 'PC. Currency Code';
         PCDirectUnitCost_Lbl: Label 'PC. Direct Unit Cost';
-        PCUpdatePrice_Lbl: Label 'PC. Update Price';
-        DeleteFlag_Lbl: Label 'Delete Flag';
+        PCUpdatePrice_Lbl: Label '*PC. Update Price';
+        DeleteFlag_Lbl: Label '*Delete Flag';
 
 
 }

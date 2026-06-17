@@ -341,6 +341,10 @@ page 50107 "Price List Import Lines"
                         PriceListImportline.DELETEALL;
                         */
 
+                        //commit the import result.
+                        //because during ActivateDraftLines may cause duplicate line popup screen, this screen must after commit transaction.
+                        Commit();
+
                         //vefiry lines.
                         recPriceListHeader.Get(G_PurchPriceCode);
                         PriceListManagement.ActivateDraftLines(recPriceListHeader, true);
@@ -450,7 +454,7 @@ page 50107 "Price List Import Lines"
         recPriceListLine.Modify(true);
     end;
 
-    //Create new records on the PriceList table.
+    //Update the PriceList table.
     procedure UpdatePurchPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
 
@@ -461,16 +465,36 @@ page 50107 "Price List Import Lines"
         end else begin
             recPriceListLine."Status" := recPriceListLine.Status::Draft;
 
-            recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
-            recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
-            recPriceListLine.Validate("Currency Code", p_PriceListImportline."Purchase Currency Code");
-            recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
-            recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
-            recPriceListLine.Validate("ORE Debit Cost", p_PriceListImportline."ORE Debit Cost");
-            recPriceListLine.Validate("Ship&Debit Flag", p_PriceListImportline."Ship&Debit Flag");
-            recPriceListLine.Validate("PC. Currency Code", p_PriceListImportline."PC. Currency Code");
-            recPriceListLine.Validate("PC. Direct Unit Cost", p_PriceListImportline."PC. Direct Unit Cost");
-            recPriceListLine.Validate("PC. Update Price", p_PriceListImportline."PC. Update Price");
+            if recPriceListLine."Ending Date" <> p_PriceListImportline."Ending Date" then begin
+                recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+            end;
+            if recPriceListLine."Direct Unit Cost" <> p_PriceListImportline."Direct Unit Cost" then begin
+                recPriceListLine.Validate("Direct Unit Cost", p_PriceListImportline."Direct Unit Cost");
+            end;
+            if recPriceListLine."Currency Code" <> p_PriceListImportline."Purchase Currency Code" then begin
+                recPriceListLine.Validate("Currency Code", p_PriceListImportline."Purchase Currency Code");
+            end;
+            if recPriceListLine."Unit of Measure Code" <> p_PriceListImportline."Unit of Measure Code" then begin
+                recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+            end;
+            if recPriceListLine."Renesas Report Unit Price" <> p_PriceListImportline."Renesas Report Unit Price" then begin
+                recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+            end;
+            if recPriceListLine."ORE Debit Cost" <> p_PriceListImportline."ORE Debit Cost" then begin
+                recPriceListLine.Validate("ORE Debit Cost", p_PriceListImportline."ORE Debit Cost");
+            end;
+            if recPriceListLine."Ship&Debit Flag" <> p_PriceListImportline."Ship&Debit Flag" then begin
+                recPriceListLine.Validate("Ship&Debit Flag", p_PriceListImportline."Ship&Debit Flag");
+            end;
+            if recPriceListLine."PC. Currency Code" <> p_PriceListImportline."PC. Currency Code" then begin
+                recPriceListLine.Validate("PC. Currency Code", p_PriceListImportline."PC. Currency Code");
+            end;
+            if recPriceListLine."PC. Direct Unit Cost" <> p_PriceListImportline."PC. Direct Unit Cost" then begin
+                recPriceListLine.Validate("PC. Direct Unit Cost", p_PriceListImportline."PC. Direct Unit Cost");
+            end;
+            if recPriceListLine."PC. Update Price" <> p_PriceListImportline."PC. Update Price" then begin
+                recPriceListLine.Validate("PC. Update Price", p_PriceListImportline."PC. Update Price");
+            end;
 
             recPriceListLine.Modify(true);
         end;
@@ -505,6 +529,7 @@ page 50107 "Price List Import Lines"
         recPriceListLine.Modify(true);
     end;
 
+    //Update the PriceList table.
     procedure UpdateSalesPriceListLines(var p_PriceListImportline: Record "Price List Import Line"; var recPriceListLine: Record "Price List Line")
     begin
 
@@ -514,12 +539,24 @@ page 50107 "Price List Import Lines"
         end else begin
             recPriceListLine."Status" := recPriceListLine.Status::Draft;
 
-            recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
-            recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");
-            recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
-            recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
-            recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
-            recPriceListLine.Validate("Renesas Report Unit Price Cur.", p_PriceListImportline."Renesas Report Unit Price Cur.");
+            if recPriceListLine."Unit Price" <> p_PriceListImportline."Unit Price" then begin
+                recPriceListLine.Validate("Unit Price", p_PriceListImportline."Unit Price");
+            end;
+            if recPriceListLine."Currency Code" <> p_PriceListImportline."Sales Currency Code" then begin
+                recPriceListLine.Validate("Currency Code", p_PriceListImportline."Sales Currency Code");
+            end;
+            if recPriceListLine."Ending Date" <> p_PriceListImportline."Ending Date" then begin
+                recPriceListLine.Validate("Ending Date", p_PriceListImportline."Ending Date");
+            end;
+            if recPriceListLine."Unit of Measure Code" <> p_PriceListImportline."Unit of Measure Code" then begin
+                recPriceListLine.Validate("Unit of Measure Code", p_PriceListImportline."Unit of Measure Code");
+            end;
+            if recPriceListLine."Renesas Report Unit Price" <> p_PriceListImportline."Renesas Report Unit Price" then begin
+                recPriceListLine.Validate("Renesas Report Unit Price", p_PriceListImportline."Renesas Report Unit Price");
+            end;
+            if recPriceListLine."Renesas Report Unit Price Cur." <> p_PriceListImportline."Renesas Report Unit Price Cur." then begin
+                recPriceListLine.Validate("Renesas Report Unit Price Cur.", p_PriceListImportline."Renesas Report Unit Price Cur.");
+            end;
 
             recPriceListLine.Modify(true);
         end;

@@ -57,9 +57,9 @@ codeunit 50107 "Price List Import"
         UnitPriceStr: Text;
         DirectUnitCostStr: Text;
         VendorNoStr: Text;
-        UOMStr: Text;
         ShipDebitFlagStr: Text;
         PCUpdatePriceStr: Text;
+        DeleteFlagStr: Text;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -95,9 +95,9 @@ codeunit 50107 "Price List Import"
             UnitPriceStr := GetValueAtCell(RowNo, 7).Trim();
             DirectUnitCostStr := GetValueAtCell(RowNo, 8).Trim();
             VendorNoStr := GetValueAtCell(RowNo, 10).Trim();
-            UOMStr := GetValueAtCell(RowNo, 11).Trim();
             ShipDebitFlagStr := GetValueAtCell(RowNo, 15).Trim();
             PCUpdatePriceStr := GetValueAtCell(RowNo, 18).Trim();
+            DeleteFlagStr := GetValueAtCell(RowNo, 19).Trim();
 
             //Mandatory Check
             if StartDateStr = '' then begin
@@ -121,14 +121,14 @@ codeunit 50107 "Price List Import"
             if VendorNoStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("Vendor No."));
             end;
-            if UOMStr = '' then begin
-                Error(MandatoryMsg, rec_POInt.FieldCaption("Unit of Measure Code"));
-            end;
             if ShipDebitFlagStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("Ship&Debit Flag"));
             end;
             if PCUpdatePriceStr = '' then begin
                 Error(MandatoryMsg, rec_POInt.FieldCaption("PC. Update Price"));
+            end;
+            if DeleteFlagStr = '' then begin
+                Error(MandatoryMsg, rec_POInt.FieldCaption("Delete Flag"));
             end;
 
             //Option Value Check
