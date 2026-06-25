@@ -118,7 +118,7 @@ table 50063 "Inventory Trace Entry"
         field(24; "Sales Quantity"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("PC. Entry No." = FIELD("PC. Entry No.")));
+            CalcFormula = Sum("Inventory Trace Entry".Quantity WHERE("Entry No." = FIELD("Entry No.")));
             DecimalPlaces = 0 : 5;
         }
         field(31; "Purchase Order No."; Code[20])
