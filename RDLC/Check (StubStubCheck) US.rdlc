@@ -54,7 +54,7 @@
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>0.16654in</Height>
+                  <Height>0.13625in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -320,7 +320,7 @@
                   </TablixCells>
                 </TablixRow>
                 <TablixRow>
-                  <Height>0.03125in</Height>
+                  <Height>0.03375in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -722,18 +722,18 @@
                 </FilterValues>
               </Filter>
             </Filters>
-            <Height>0.19779in</Height>
+            <Height>0.17in</Height>
             <Width>7.88584in</Width>
             <Style />
           </Tablix>
         </ReportItems>
-        <Height>0.50239cm</Height>
+        <Height>0.17in</Height>
         <Style />
       </Body>
       <Width>21cm</Width>
       <Page>
         <PageHeader>
-          <Height>1.19033cm</Height>
+          <Height>1cm</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -848,7 +848,7 @@
           <Style />
         </PageHeader>
         <PageFooter>
-          <Height>17.01917cm</Height>
+          <Height>6.70046in</Height>
           <PrintOnFirstPage>true</PrintOnFirstPage>
           <PrintOnLastPage>true</PrintOnLastPage>
           <ReportItems>
@@ -867,7 +867,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>5.66222in</Top>
+              <Top>5.82222in</Top>
               <Left>13.021cm</Left>
               <Height>0.16654in</Height>
               <Width>3.57cm</Width>
@@ -889,7 +889,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>5.66222in</Top>
+              <Top>5.82222in</Top>
               <Left>16.933cm</Left>
               <Height>0.16654in</Height>
               <Width>3.312cm</Width>
@@ -961,7 +961,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>5.7457in</Top>
+              <Top>5.82222in</Top>
               <Left>1.05cm</Left>
               <Height>0.16654in</Height>
               <Width>9.39611cm</Width>
@@ -984,7 +984,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>5.91224in</Top>
+              <Top>6.01074in</Top>
               <Left>0.41339in</Left>
               <Height>0.16654in</Height>
               <Width>3.69925in</Width>
@@ -1007,7 +1007,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>6.07879in</Top>
+              <Top>6.20379in</Top>
               <Left>0.41339in</Left>
               <Height>0.16654in</Height>
               <Width>3.69925in</Width>
@@ -1030,7 +1030,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>6.24535in</Top>
+              <Top>6.37035in</Top>
               <Left>0.41339in</Left>
               <Height>0.16654in</Height>
               <Width>3.69925in</Width>
@@ -1053,7 +1053,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>6.41191in</Top>
+              <Top>6.53691in</Top>
               <Left>0.41339in</Left>
               <Height>0.16353in</Height>
               <Width>3.69925in</Width>
@@ -1685,7 +1685,7 @@
                   </Style>
                 </Paragraph>
               </Paragraphs>
-              <Top>3.20747in</Top>
+              <Top>3.53747in</Top>
               <Left>6.34096in</Left>
               <Height>0.16654in</Height>
               <Width>1.54487in</Width>
@@ -3459,10 +3459,10 @@
         </PageFooter>
         <PageHeight>27.94cm</PageHeight>
         <PageWidth>21.59cm</PageWidth>
-        <LeftMargin>0.5cm</LeftMargin>
+        <LeftMargin>0.1cm</LeftMargin>
         <RightMargin>0cm</RightMargin>
-        <TopMargin>1.2cm</TopMargin>
-        <BottomMargin>1.2cm</BottomMargin>
+        <TopMargin>0.7cm</TopMargin>
+        <BottomMargin>1.5cm</BottomMargin>
         <ColumnSpacing>1.27cm</ColumnSpacing>
         <Style />
       </Page>

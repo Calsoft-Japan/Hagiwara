@@ -32,6 +32,22 @@ codeunit 50090 "Purch-Post Subscriber"
 
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Purch.-Post", OnPostItemJnlLineOnAfterPrepareItemJnlLine, '', false, false)]
+    local procedure DoOnPostItemJnlLineOnAfterPrepareItemJnlLine(
+        var ItemJournalLine: Record "Item Journal Line";
+        PurchaseLine: Record "Purchase Line";
+        PurchaseHeader: Record "Purchase Header";
+        PreviewMode: Boolean;
+        var GenJnlLineDocNo: code[20];
+        TrackingSpecification: Record "Tracking Specification";
+        QtyToBeReceived: Decimal;
+        QtyToBeInvoiced: Decimal)
+
+    var
+    begin
+        ItemJournalLine."Purchase Order No." := PurchaseLine."Document No."; //HG10.00.02 NJ 01/06/2017
+    end;
+
     local procedure CheckICPost(var pPurchHeader: Record "Purchase Header")
     var
         ICSetup: Record "IC Setup";

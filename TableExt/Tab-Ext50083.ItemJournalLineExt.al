@@ -57,6 +57,25 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
         {
             Editable = false;
         }
+
+        modify("Item No.")
+        {
+
+            trigger OnAfterValidate()
+            var
+                Item: Record Item;
+            begin
+                // YUKA for Hagiwara 20030312
+                if Item.Get("Item No.") then begin
+                    "Customer Item No." := Item."Customer Item No.";
+                    "Parts No." := Item."Parts No.";
+                    Rank := Item.Rank;
+                end;
+                // YUKA for Hagiwara 20030312 - END
+
+            end;
+
+        }
     }
 
 
@@ -315,7 +334,5 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
         //N005 End
 
     end;
-
-
 
 }

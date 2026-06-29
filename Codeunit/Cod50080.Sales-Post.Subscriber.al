@@ -26,4 +26,24 @@ codeunit 50080 "Sales-Post Subscriber"
 
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnPostItemJnlLineOnAfterPrepareItemJnlLine, '', false, false)]
+    local procedure DoOnPostItemJnlLineOnAfterPrepareItemJnlLine(
+        var ItemJournalLine: Record "Item Journal Line";
+        SalesLine: Record "Sales Line";
+        SalesHeader: Record "Sales Header";
+        WhseShip: Boolean;
+        var ItemJnlPostLine: Codeunit "Item Jnl.-Post Line";
+        var QtyToBeShipped: Decimal;
+        TrackingSpecification: Record "Tracking Specification";
+        var QtyToBeInvoiced: Decimal;
+        var QtyToBeInvoicedBase: Decimal;
+        var QtyToBeShippedBase: Decimal;
+        var RemAmt: Decimal;
+        var RemDiscAmt: Decimal)
+
+    var
+    begin
+        ItemJournalLine."Sales Order No." := SalesLine."Document No."; //HG10.00.02 NJ 01/06/2017
+    end;
+
 }
