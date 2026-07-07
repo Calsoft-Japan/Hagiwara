@@ -85,7 +85,7 @@ table 50121 "Hagiwara Approval Setup"
         }
         field(30; "Environment URL"; Text[200])
         {
-            ToolTip = 'The Environment URL for On-Premise server. Format: http://servername:portname/BCInstanceName/. e.g. http://52.175.19.235:8080/HSUpgrade/';
+            ToolTip = 'The Environment URL for On-Premise server. Format: https://servername:portname/BCInstanceName/. e.g. https://hagiwaranav.eastasia.cloudapp.azure.com/Live/';
         }
 
         field(51; "Inprogress Item"; Boolean)
