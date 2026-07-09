@@ -1947,6 +1947,11 @@ codeunit 50016 "Inventory Trace Management"
                 END;
                 QtyApplied := QtyApplied + PC_TempInventoryTraceEntry.Quantity;
 
+                //CS116 Begin
+                RecInventoryTraceEntry."REN. Item No." := GetRENItemNo(RecInventoryTraceEntry."Item No");
+                RecInventoryTraceEntry."REN. Item Description" := GetRENItemDesc(RecInventoryTraceEntry."REN. Item No.");
+                //CS116 End
+
                 RecInventoryTraceEntry.Pattern := 'M';
                 ReadyToInsertInvTraceEntry(RecInventoryTraceEntry);
                 RecInventoryTraceEntry.INSERT();
