@@ -872,7 +872,7 @@ codeunit 50014 "DWH Export"
 
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped");//Quantity
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Unit Price");//Sales Price
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity" * OutstandingSalesOrderRec."Approved Unit Price");//Sales Amount
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(OutstandingSalesOrderRec."Approved Quantity" * OutstandingSalesOrderRec."Approved Unit Price", 0.00001));//Sales Amount
                         //BC Upgrade end
 
                         IF SalesHeaderRec."Currency Code" = '' THEN
@@ -912,7 +912,7 @@ codeunit 50014 "DWH Export"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec.Quantity);
                         */
 
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT((OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped") * OutstandingSalesOrderRec."Approved Unit Price");
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND((OutstandingSalesOrderRec."Approved Quantity" - OutstandingSalesOrderRec."Quantity Shipped") * OutstandingSalesOrderRec."Approved Unit Price", 0.00001));
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(OutstandingSalesOrderRec."Approved Quantity");
                         //BC Upgrade end
 
@@ -1253,7 +1253,7 @@ codeunit 50014 "DWH Export"
 
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity"); //Outstanding Quantity
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Order Amount, "Line Amount (Excl. VAT)"
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Order Amount, "Line Amount (Excl. VAT)"
                         //BC Upgrade begin
 
                         IF PurchaseHeaderRec."Currency Code" = '' THEN
@@ -1288,9 +1288,9 @@ codeunit 50014 "DWH Export"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Amount Including VAT");//Amount Including VAT
                         */
 
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Amount
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
-                                                                                + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100);//Amount Including VAT
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Amount
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
+                                                                                + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100, 0.00001));//Amount Including VAT
 
                         //BC Upgrade end
 
@@ -1328,7 +1328,7 @@ codeunit 50014 "DWH Export"
                         if PurchaseLineRec."Currency Code" = '' then begin
                             SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost (LCY)
                         end else begin
-                            SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor");//Unit Cost (LCY)
+                            SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor", 0.00001));//Unit Cost (LCY)
                         end;
                         //BC Upgrade end
 
@@ -1482,7 +1482,7 @@ codeunit 50014 "DWH Export"
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity");//Quantity
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Order Amount, Line Amount (Excl. VAT)
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Order Amount, Line Amount (Excl. VAT)
 
                     //BC Upgrade end
 
@@ -1516,9 +1516,9 @@ codeunit 50014 "DWH Export"
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Amount Including VAT");//Amount Including VAT
                     */
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost");//Amount
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
-                                                                            + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100);//Amount Including VAT
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Amount
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost"
+                                                                            + PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost" * PurchaseLineRec."VAT %" / 100, 0.00001));//Amount Including VAT
 
                     //BC Upgrade end
 
@@ -1557,7 +1557,7 @@ codeunit 50014 "DWH Export"
                     if PurchaseLineRec."Currency Code" = '' then begin
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Unit Cost (LCY)
                     end else begin
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor");//Unit Cost (LCY)
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Unit Cost" / PurchaseHeaderRec."Currency Factor", 0.00001));//Unit Cost (LCY)
                     end;
                     //BC Upgrade end
 
