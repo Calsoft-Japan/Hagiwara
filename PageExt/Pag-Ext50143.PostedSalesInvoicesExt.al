@@ -20,9 +20,20 @@ pageextension 50143 PostedSalesInvoicesExt extends "Posted Sales Invoices"
 
                 ApplicationArea = All;
             }
+        }
 
-
-
+        addafter("Ship-to Contact")
+        {
+            field("From"; Rec."From")
+            {
+                ApplicationArea = all;
+                Visible = False;
+            }
+            field("To"; Rec."To")
+            {
+                ApplicationArea = all;
+                Visible = False;
+            }
         }
     }
 

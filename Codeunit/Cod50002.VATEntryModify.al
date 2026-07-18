@@ -6,7 +6,7 @@ codeunit 50002 VATEntryModify
     begin
         VATEntry."GST Rate" := FromVATEntry."GST Rate";
         VATEntry."GST Exchange Rate" := FromVATEntry."GST Exchange Rate";
-        VATEntry."GST Amount" := FromVATEntry."GST Amount";
+        VATEntry."GST Amount (SGD)" := FromVATEntry."GST Amount (SGD)";
         VATEntry."Base Amount (GST)" := FromVATEntry."Base Amount (GST)";
         VATEntry.From := FromVATEntry.From;
     end;
@@ -16,7 +16,7 @@ codeunit 50002 VATEntryModify
     begin
         VATEntry."GST Rate" := GenJnlLine."GST Rate";
         VATEntry."GST Exchange Rate" := GenJnlLine."GST Exchange Rate";
-        VATEntry."GST Amount" := GenJnlLine."GST Amount";
+        VATEntry."GST Amount (SGD)" := GenJnlLine."GST Amount (SGD)";
         VATEntry."Base Amount (GST)" := GenJnlLine."Base Amount (GST)";
     end;
 

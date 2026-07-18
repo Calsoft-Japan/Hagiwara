@@ -15,7 +15,7 @@ pageextension 50254 PurchaseJournalExt extends "Purchase Journal"
                 Visible = False;
                 Tooltip = 'For GST reporting purposes, to record the exchange rate used to convert from USD to SGD.';
             }
-            field("GST Amount"; Rec."GST Amount")
+            field("GST Amount (SGD)"; Rec."GST Amount (SGD)")
             {
                 ApplicationArea = all;
                 Visible = False;
@@ -29,7 +29,20 @@ pageextension 50254 PurchaseJournalExt extends "Purchase Journal"
             }
         }
 
-
+        addafter("Currency Code")
+        {
+            field("Currency Factor"; rec."Currency Factor")
+            {
+                ApplicationArea = all;
+            }
+        }
+        addafter("Bal. Account No.")
+        {
+            field(BalAccName_Line; BalAccName)
+            {
+                ApplicationArea = all;
+                Caption = 'Bal. Account Name';
+            }
+        }
     }
-
 }

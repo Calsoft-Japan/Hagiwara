@@ -157,7 +157,7 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
         field(50037; "GST Exchange Rate"; Decimal)
         {
         }
-        field(50038; "GST Amount"; Decimal)
+        field(50038; "GST Amount (SGD)"; Decimal)
         {
         }
         field(50039; "Base Amount (GST)"; Decimal)
@@ -208,7 +208,7 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
                                 if PurchInvHeader.FindFirst() then begin
                                     Rec."GST Rate" := PurchInvHeader."GST Rate";
                                     Rec."GST Exchange Rate" := PurchInvHeader."GST Exchange Rate";
-                                    Rec."GST Amount" := PurchInvHeader."GST Amount";
+                                    Rec."GST Amount (SGD)" := PurchInvHeader."GST Amount (SGD)";
                                     Rec."Base Amount (GST)" := PurchInvHeader."Base Amount (GST)";
                                 end;
                             end;
@@ -220,7 +220,7 @@ tableextension 50254 "VAT Entry Ext" extends "VAT Entry"
                                 if PurchCrMemoHdr.FindFirst() then begin
                                     Rec."GST Rate" := PurchCrMemoHdr."GST Rate";
                                     Rec."GST Exchange Rate" := PurchCrMemoHdr."GST Exchange Rate";
-                                    Rec."GST Amount" := PurchCrMemoHdr."GST Amount";
+                                    Rec."GST Amount (SGD)" := PurchCrMemoHdr."GST Amount (SGD)";
                                     Rec."Base Amount (GST)" := PurchCrMemoHdr."Base Amount (GST)";
                                 end;
                             end;

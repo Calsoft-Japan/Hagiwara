@@ -109,6 +109,7 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
             {
                 ApplicationArea = all;
                 Caption = 'Unit Price';
+                DecimalPlaces = 4 : 4;
             }
             field("Unit Cost"; g_UnitCost)
             {

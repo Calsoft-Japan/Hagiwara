@@ -50,6 +50,10 @@ pageextension 50027 VendorListExt extends "Vendor List"
             {
                 ApplicationArea = all;
             }
+            field("VAT Registration No."; Rec."VAT Registration No.")
+            {
+                ApplicationArea = all;
+            }
             /*
             field("Approval Status"; rec."Approval Status")
             {

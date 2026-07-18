@@ -243,7 +243,7 @@ tableextension 50081 "Gen. Journal Line Ext" extends "Gen. Journal Line"
         field(50043; "GST Exchange Rate"; Decimal)
         {
         }
-        field(50044; "GST Amount"; Decimal)
+        field(50044; "GST Amount (SGD)"; Decimal)
         {
         }
         field(50045; "Base Amount (GST)"; Decimal)

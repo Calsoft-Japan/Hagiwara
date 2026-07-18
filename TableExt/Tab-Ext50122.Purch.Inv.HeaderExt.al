@@ -126,7 +126,7 @@ tableextension 50122 "Purch. Inv. Header Ext" extends "Purch. Inv. Header"
         field(50072; "GST Exchange Rate"; Decimal)
         {
         }
-        field(50073; "GST Amount"; Decimal)
+        field(50073; "GST Amount (SGD)"; Decimal)
         {
         }
         field(50074; "Base Amount (GST)"; Decimal)
