@@ -22,6 +22,13 @@ pageextension 56640 PurchRtnOrdExt extends "Purchase Return Order"
                 ApplicationArea = all;
             }
         }
+        addafter("VAT Reporting Date")
+        {
+            field("Due Date"; Rec."Due Date")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
     actions
     {

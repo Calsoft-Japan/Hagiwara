@@ -17,6 +17,7 @@ codeunit 50114 "Vendor Import"
         EntryNoNotValid: Label 'Entry No. is not valid.';
         EntryNoRequested: Label 'Entry No. is requested, can''t be empty.';
         NameRequested: Label 'Name is requested, can''t be empty.';
+        VendPostingGroupRequested: Label 'Vendor Posting Group is requested, can''t be empty.';
         EntryNoDuplicated: Label 'Entry No. is duplicated.';
         MaximumOrderQuantityNotValid: Label 'Maximum Order Quantity is not valid.';
         ApplicationMethodMsg: Label 'Application Method is not valid.';
@@ -60,6 +61,7 @@ codeunit 50114 "Vendor Import"
         UpdatePOriceTargetDateStr: Text;
         BlockedStr: Text;
         NameStr: Text;
+        VendPostingGroupStr: Text;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -80,6 +82,7 @@ codeunit 50114 "Vendor Import"
             //----------------------Preparing for the check----------------------
             EntryNoStr := GetValueAtCell(RowNo, 1).Trim();
             NameStr := GetValueAtCell(RowNo, 3).Trim();
+            VendPostingGroupStr := GetValueAtCell(RowNo, 14).Trim();
             ApplicationMethodStr := GetValueAtCell(RowNo, 27).Trim();
             PartnerTypeStr := GetValueAtCell(RowNo, 44).Trim();
             UpdatePOriceTargetDateStr := GetValueAtCell(RowNo, 68).Trim();
@@ -99,6 +102,11 @@ codeunit 50114 "Vendor Import"
             if (NameStr = '') then begin
                 Error(NameRequested);
             end;
+
+            if (VendPostingGroupStr = '') then begin
+                Error(VendPostingGroupRequested);
+            end;
+
             //Option Value Check
             //Application Method
             /* if (not Evaluate(rec_POInt."Application Method", ApplicationMethodStr)) then begin

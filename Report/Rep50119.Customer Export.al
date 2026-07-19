@@ -30,7 +30,7 @@ report 50119 "Customer Export"
                 TempExcelBuffer.AddColumn(PhoneNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(GlobalDimension1Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(GlobalDimension2Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(CustomerPostingGroup_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(CustomerPostingGroup_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CustomerPriceGroup_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(LanguageCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -134,7 +134,7 @@ report 50119 "Customer Export"
                     TempExcelBuffer.AddColumn(Customer."Phone No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Global Dimension 1 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Global Dimension 2 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Customer."Customer Posting Group", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Customer."Customer Posting Group", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Customer Price Group", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Customer."Language Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -272,7 +272,7 @@ report 50119 "Customer Export"
         PhoneNo_Lbl: Label 'Phone No.';
         GlobalDimension1Code_Lbl: Label 'Global Dimension 1 Code';
         GlobalDimension2Code_Lbl: Label 'Global Dimension 2 Code';
-        CustomerPostingGroup_Lbl: Label 'Customer Posting Group';
+        CustomerPostingGroup_Lbl: Label '*Customer Posting Group';
         CurrencyCode_Lbl: Label 'Currency Code';
         CustomerPriceGroup_Lbl: Label 'Customer Price Group';
         LanguageCode_Lbl: Label 'Language Code';

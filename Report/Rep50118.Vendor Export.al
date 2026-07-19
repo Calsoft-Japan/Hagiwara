@@ -30,7 +30,7 @@ report 50118 "Vendor Export"
                 TempExcelBuffer.AddColumn(OurAccountNo_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(GlobalDimension1Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(GlobalDimension2Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                TempExcelBuffer.AddColumn(VendorPostingGroup_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(VendorPostingGroup_Lbl, false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(CurrencyCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(LanguageCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(StatisticsGroup_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -110,7 +110,7 @@ report 50118 "Vendor Export"
                     TempExcelBuffer.AddColumn(Vendor."Our Account No.", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Vendor."Global Dimension 1 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Vendor."Global Dimension 2 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
-                    TempExcelBuffer.AddColumn(Vendor."Vendor Posting Group", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Vendor."Vendor Posting Group", false, '', true, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Vendor."Currency Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Vendor."Language Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Vendor."Statistics Group", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
@@ -224,7 +224,7 @@ report 50118 "Vendor Export"
         OurAccountNo_Lbl: Label 'Our Account No.';
         GlobalDimension1Code_Lbl: Label 'Global Dimension 1 Code';
         GlobalDimension2Code_Lbl: Label 'Global Dimension 2 Code';
-        VendorPostingGroup_Lbl: Label 'Vendor Posting Group';
+        VendorPostingGroup_Lbl: Label '*Vendor Posting Group';
         CurrencyCode_Lbl: Label 'Currency Code';
         LanguageCode_Lbl: Label 'Language Code';
         StatisticsGroup_Lbl: Label 'Statistics Group';

@@ -16,6 +16,7 @@ codeunit 50119 "Customer Import"
         ExcelImportSucess: Label 'Import finished.';
         EntryNoNotValid: Label 'Entry No. is not valid.';
         EntryNoRequested: Label 'Entry No. is requested, can''t be empty.';
+        CustPostingGroupRequested: Label 'Customer Posting Group is requested, can''t be empty.';
         EntryNoDuplicated: Label 'Entry No. is duplicated.';
         NameNotValid: Label 'Name is not valid.';
         PrintStatementsNotValid: Label 'Print Statements is not valid.';
@@ -304,6 +305,9 @@ codeunit 50119 "Customer Import"
             end;
             if (not Evaluate(rec_POInt.Name, NameStr)) then begin
                 Error(NameNotValid);
+            end;
+            if (CustomerPostingGroupStr = '') then begin
+                Error(CustPostingGroupRequested);
             end;
 
             if ((PrintStatementsStr <> '') and (not Evaluate(PrintStatements, PrintStatementsStr))) then begin
