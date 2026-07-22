@@ -9,5 +9,21 @@ pageextension 50459 SalesReceivableSetupExt extends "Sales & Receivables Setup"
                 ApplicationArea = all;
             }
         }
+
+        addafter("Invoice Nos.")
+        {
+            field("Invoice Nos. (DS)"; Rec."Invoice Nos. (DS)")
+            {
+                ApplicationArea = all;
+            }
+        }
+
+        addafter("Posted Invoice Nos.")
+        {
+            field("Posted Invoice Nos. (DS)"; Rec."Posted Invoice Nos. (DS)")
+            {
+                ApplicationArea = all;
+            }
+        }
     }
 }

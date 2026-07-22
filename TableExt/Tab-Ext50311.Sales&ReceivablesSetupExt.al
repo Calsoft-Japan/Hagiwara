@@ -12,5 +12,15 @@ tableextension 50311 "Sales & Receivables Setup Ext" extends "Sales & Receivable
         {
             TableRelation = "User Setup"."User ID";
         }
+
+        field(50003; "Invoice Nos. (DS)"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
+
+        field(50004; "Posted Invoice Nos. (DS)"; Code[20])
+        {
+            TableRelation = "No. Series";
+        }
     }
 }
