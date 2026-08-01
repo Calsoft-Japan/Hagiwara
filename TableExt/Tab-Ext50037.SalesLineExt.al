@@ -468,6 +468,14 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
 
                             SalesHeader := GetSalesHeader();
                             Item := GetItem();
+
+                            //Check this Item is for this Customer.
+                            if "Sell-to Customer No." <> '' then begin
+                                if (Item."Customer No." <> '') and (Item."Customer No." <> "Sell-to Customer No.") then begin
+                                    Error('This Item isn''t for this Customer. Customer No.: ' + "Sell-to Customer No." + ', Item No.: ' + "No.");
+                                end;
+                            end;
+
                             // Siak Hui for Hagiwara 20110426
                             "Message Status" := "Message Status"::"Ready to Collect";
                             SalesHeader."Message Status(Booking)" := SalesHeader."Message Status(Booking)"::"Ready to Collect";

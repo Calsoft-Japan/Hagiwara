@@ -232,6 +232,14 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
                 if type = type::Item then begin
 
                     item.get("No.");
+
+                    //Check this Item is for this Vendor.
+                    if "Buy-from Vendor No." <> '' then begin
+                        if (Item."Vendor No." <> '') and (Item."Vendor No." <> "Buy-from Vendor No.") then begin
+                            Error('This Item isn''t for this Vendor. Vendor No.: ' + "Buy-from Vendor No." + ', Item No.: ' + "No.");
+                        end;
+                    end;
+
                     //Item.TESTFIELD("Item Supplier Source",PurchHeader."Item Supplier Source"); //20101010
                     "Item Supplier Source" := Item."Item Supplier Source";
                     "Receipt Seq. No." := 1; //>>
