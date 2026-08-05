@@ -26,6 +26,7 @@ pageextension 50132 PostedSalesInvoiceExt extends "Posted Sales Invoice"
             {
                 Caption = 'Invoice Details List.';
                 ApplicationArea = all;
+                PromotedCategory = Process;
                 Image = ListPage;
                 Promoted = true;
                 PromotedIsBig = true;
