@@ -16,7 +16,22 @@ pageextension 50132 PostedSalesInvoiceExt extends "Posted Sales Invoice"
             }
         }
 
-
     }
 
+    actions
+    {
+        addbefore(Dimensions)
+        {
+            action("Invoice Details List.")
+            {
+                Caption = 'Invoice Details List.';
+                ApplicationArea = all;
+                Image = ListPage;
+                Promoted = true;
+                PromotedIsBig = true;
+                RunObject = Page "Posted Sales Invoice Lines";
+            }
+        }
+
+    }
 }
