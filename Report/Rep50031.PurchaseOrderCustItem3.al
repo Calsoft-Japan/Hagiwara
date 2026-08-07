@@ -292,6 +292,9 @@ report 50031 "PO Hagiwara-Cust Item3"
                         column(ItemNoCaption; ItemNoCaptionLbl)
                         {
                         }
+                        column(RankCaption; RankCaptionLbl)
+                        {
+                        }
                         column(QtyCaption; QtyCaptionLbl)
                         {
                         }
@@ -806,6 +809,12 @@ report 50031 "PO Hagiwara-Cust Item3"
             LayoutFile = './RDLC/Purchase Order Cust Item3.rdlc';
             Caption = 'Purchase Order Cust Item3';
         }
+        layout("Purchase Order Cust Item4.rdlc")
+        {
+            Type = RDLC;
+            LayoutFile = './RDLC/Purchase Order Cust Item4.rdlc';
+            Caption = 'Purchase Order Cust Item4';
+        }
     }
     labels
     {
@@ -921,6 +930,7 @@ report 50031 "PO Hagiwara-Cust Item3"
         AttnCaptionLbl: Label 'Attn';
         FaxCaptionLbl: Label 'Fax';
         ItemNoCaptionLbl: Label 'Item No.';
+        RankCaptionLbl: Label 'Rank';
         QtyCaptionLbl: Label 'Quantity';
         DeliveryCaptionLbl: Label 'Delivery';
         ColonCaptionLbl: Label ':';

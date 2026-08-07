@@ -5227,6 +5227,9 @@ End Function
         <Field Name="ItemNoCaption">
           <DataField>ItemNoCaption</DataField>
         </Field>
+        <Field Name="RankCaption">
+          <DataField>RankCaption</DataField>
+        </Field>
         <Field Name="QtyCaption">
           <DataField>QtyCaption</DataField>
         </Field>

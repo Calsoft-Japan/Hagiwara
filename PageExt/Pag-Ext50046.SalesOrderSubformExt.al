@@ -231,7 +231,11 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 
                 ApplicationArea = all;
             }
+            field(Remarks; Rec.Remarks)
+            {
 
+                ApplicationArea = all;
+            }
         }
 
         addafter("Unit Price")
