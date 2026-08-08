@@ -398,7 +398,7 @@ tableextension 50027 "Item Ext" extends "Item"
         field(50180; "Qty. on P. O. (Approved)"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Purchase Line"."Approved Quantity" where("Document Type" = const(Order),
+            CalcFormula = sum("Purchase Line"."Outstanding Qty. (Approved)" where("Document Type" = const(Order),
                                                                         Type = const(Item),
                                                                         "No." = field("No."),
                                                                         "Shortcut Dimension 1 Code" = field("Global Dimension 1 Filter"),
@@ -415,7 +415,7 @@ tableextension 50027 "Item Ext" extends "Item"
         field(50181; "Qty. on S. O. (Approved)"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum("Sales Line"."Approved Quantity" where("Document Type" = const(Order),
+            CalcFormula = sum("Sales Line"."Outstanding Qty. (Approved)" where("Document Type" = const(Order),
                                                                     Type = const(Item),
                                                                     "No." = field("No."),
                                                                     "Shortcut Dimension 1 Code" = field("Global Dimension 1 Filter"),

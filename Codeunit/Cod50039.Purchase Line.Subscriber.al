@@ -31,7 +31,17 @@ codeunit 50039 "Purchase Line Subscriber"
         IsHandled := true; // because all the logic of this field is commented.
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"Purchase Line", OnAfterInitOutstandingQty, '', false, false)]
+    local procedure DoOnAfterInitOutstandingQty(var PurchaseLine: Record "Purchase Line"; xPurchaseLine: Record "Purchase Line")
+    begin
 
+        //BC Upgrade: CR#5
+        if PurchaseLine.IsCreditDocType() then begin
+            PurchaseLine."Outstanding Qty. (Approved)" := PurchaseLine."Approved Quantity" - PurchaseLine."Return Qty. Shipped";
+        end else begin
+            PurchaseLine."Outstanding Qty. (Approved)" := PurchaseLine."Approved Quantity" - PurchaseLine."Quantity Received";
+        end;
+    end;
 
     var
         myInt: Integer;

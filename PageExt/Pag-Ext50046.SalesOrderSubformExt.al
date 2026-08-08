@@ -105,6 +105,11 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
 
                 ApplicationArea = all;
             }
+            field("Outstanding Qty. (Approved)"; Rec."Outstanding Qty. (Approved)")
+            {
+
+                ApplicationArea = all;
+            }
             field("Outstanding Quantity (Actual)"; rec."Outstanding Quantity (Actual)")
             {
 

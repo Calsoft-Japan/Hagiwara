@@ -491,8 +491,8 @@ xmlport 50016 "Denso Group Sales File Import"
         END;
 
         if recApprSetup."Sales Order" then begin
-            RecSalesLine."Approved Quantity" := RecTEMPSalesFileImportBuffer."Qty Due";
-            RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
+            RecSalesLine.Validate("Approved Quantity", RecTEMPSalesFileImportBuffer."Qty Due");
+            RecSalesLine.Validate("Approved Unit Price", RecSalesLine."Unit Price");
             RecSalesLine.Modify();
         end;
 

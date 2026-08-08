@@ -20,17 +20,22 @@ pageextension 50132 PostedSalesInvoiceExt extends "Posted Sales Invoice"
 
     actions
     {
-        addbefore(Dimensions)
+        addafter(ChangePaymentService)
         {
             action("Invoice Details List.")
             {
                 Caption = 'Invoice Details List.';
                 ApplicationArea = all;
-                PromotedCategory = Process;
+
                 Image = ListPage;
-                Promoted = true;
-                PromotedIsBig = true;
                 RunObject = Page "Posted Sales Invoice Lines";
+            }
+        }
+
+        addafter(ChangePaymentService_Promoted)
+        {
+            actionref("Invoice Details List._Promoted"; "Invoice Details List.")
+            {
             }
         }
 

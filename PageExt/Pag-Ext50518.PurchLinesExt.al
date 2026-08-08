@@ -23,6 +23,11 @@ pageextension 50518 PurchLinesExt extends "Purchase Lines"
             {
                 ApplicationArea = all;
             }
+            field("Outstanding Qty. (Approved)"; Rec."Outstanding Qty. (Approved)")
+            {
+
+                ApplicationArea = all;
+            }
         }
     }
 }

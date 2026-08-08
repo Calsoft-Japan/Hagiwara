@@ -54,8 +54,8 @@ report 50093 "Approve Migrated Data (Auto)"
                 SalesLine.SetRange("Document No.", SalesHeader."No.");
                 if SalesLine.FindSet() then begin
                     repeat
-                        SalesLine."Approved Quantity" := SalesLine.Quantity;
-                        SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                        SalesLine.Validate("Approved Quantity", SalesLine.Quantity);
+                        SalesLine.Validate("Approved Unit Price", SalesLine."Unit Price");
                         SalesLine."Price Target Update" := true;
                         SalesLine.Modify();
                     until SalesLine.Next() = 0;
@@ -80,8 +80,8 @@ report 50093 "Approve Migrated Data (Auto)"
                 PurchaseLine.SetRange("Document No.", PurchaseHeader."No.");
                 if PurchaseLine.FindSet() then begin
                     repeat
-                        PurchaseLine."Approved Quantity" := PurchaseLine.Quantity;
-                        PurchaseLine."Approved Unit Cost" := PurchaseLine."Direct Unit Cost";
+                        PurchaseLine.Validate("Approved Quantity", PurchaseLine.Quantity);
+                        PurchaseLine.Validate("Approved Unit Cost", PurchaseLine."Direct Unit Cost");
                         PurchaseLine."Price Target Update" := true;
                         PurchaseLine.Modify();
                     until PurchaseLine.Next() = 0;
@@ -113,7 +113,7 @@ report 50093 "Approve Migrated Data (Auto)"
                 TransferLine.SetRange("Document No.", TransferHeader."No.");
                 if TransferLine.FindSet() then begin
                     repeat
-                        TransferLine."Approved Quantity" := TransferLine.Quantity;
+                        TransferLine.Validate("Approved Quantity", TransferLine.Quantity);
                         TransferLine.Modify();
                     until TransferLine.Next() = 0;
                 end;
@@ -137,11 +137,11 @@ report 50093 "Approve Migrated Data (Auto)"
                 AssemblyLine.SetRange("Document No.", AssemblyHeader."No.");
                 if AssemblyLine.FindSet() then
                     repeat
-                        AssemblyLine."Approved Quantity" := AssemblyLine.Quantity;
+                        AssemblyLine.Validate("Approved Quantity", AssemblyLine.Quantity);
                         AssemblyLine.Modify();
                     until AssemblyLine.Next() = 0;
 
-                AssemblyHeader."Approved Quantity" := AssemblyHeader.Quantity;
+                AssemblyHeader.Validate("Approved Quantity", AssemblyHeader.Quantity);
                 AssemblyHeader."Approval Status" := AssemblyHeader."Approval Status"::"Auto Approved";
                 AssemblyHeader.Modify();
             until AssemblyHeader.Next() = 0;

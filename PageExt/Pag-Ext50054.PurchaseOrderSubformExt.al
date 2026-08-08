@@ -90,6 +90,11 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
 
                 ApplicationArea = all;
             }
+            field("Outstanding Qty. (Approved)"; Rec."Outstanding Qty. (Approved)")
+            {
+
+                ApplicationArea = all;
+            }
 
         }
 

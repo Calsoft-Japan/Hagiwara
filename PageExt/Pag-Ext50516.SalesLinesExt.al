@@ -122,6 +122,11 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
             {
                 ApplicationArea = all;
             }
+            field("Outstanding Qty. (Approved)"; Rec."Outstanding Qty. (Approved)")
+            {
+
+                ApplicationArea = all;
+            }
             field("Outstanding Qty. (Base)"; rec."Outstanding Qty. (Base)")
             {
 

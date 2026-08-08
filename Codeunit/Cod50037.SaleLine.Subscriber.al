@@ -7,6 +7,13 @@ codeunit 50037 "Sales Line Subscriber"
         //SH 10Nov2012
         SalesLine."Outstanding Quantity (Actual)" := SalesLine."Outstanding Quantity";
         //SH END
+
+        //BC Upgrade: CR#5
+        if SalesLine.IsCreditDocType() then begin
+            SalesLine."Outstanding Qty. (Approved)" := SalesLine."Approved Quantity" - SalesLine."Return Qty. Received";
+        end else begin
+            SalesLine."Outstanding Qty. (Approved)" := SalesLine."Approved Quantity" - SalesLine."Quantity Shipped";
+        end;
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Sales Line", OnAfterInitHeaderDefaults, '', false, false)]

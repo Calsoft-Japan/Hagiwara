@@ -315,8 +315,8 @@ codeunit 50115 "SQ&SO Import"
                             RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                         end;
                         if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
-                            RecSalesLine."Approved Quantity" := RecSalesLine.Quantity;
-                            RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
+                            RecSalesLine.Validate("Approved Quantity", RecSalesLine.Quantity);
+                            RecSalesLine.Validate("Approved Unit Price", RecSalesLine."Unit Price");
                             RecSalesLine."Approval History Exists" := true;
                         end;
                         RecSalesLine.Modify();
@@ -432,8 +432,8 @@ codeunit 50115 "SQ&SO Import"
                 end;
                 if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
                     RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
-                    RecSalesLine."Approved Quantity" := RecSalesLine.Quantity;
-                    RecSalesLine."Approved Unit Price" := RecSalesLine."Unit Price";
+                    RecSalesLine.Validate("Approved Quantity", RecSalesLine.Quantity);
+                    RecSalesLine.Validate("Approved Unit Price", RecSalesLine."Unit Price");
                     RecSalesLine."Approval History Exists" := true;
                 end;
                 RecSalesLine.Insert(true);

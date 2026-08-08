@@ -51,6 +51,17 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
             DecimalPlaces = 0 : 5;
             Editable = false;
 
+            trigger OnValidate()
+            begin
+
+                //BC Upgrade: CR#5
+                if Rec.IsCreditDocType() then begin
+                    Rec."Outstanding Qty. (Approved)" := Rec."Approved Quantity" - Rec."Return Qty. Shipped";
+                end else begin
+                    Rec."Outstanding Qty. (Approved)" := Rec."Approved Quantity" - Rec."Quantity Received";
+                end;
+            end;
+
         }
         field(50092; "Approved Unit Cost"; Decimal)
         {
@@ -62,6 +73,12 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         field(50093; "Approval History Exists"; Boolean)
         {
             //N005
+            Editable = false;
+        }
+        field(50094; "Outstanding Qty. (Approved)"; Decimal)
+        {
+            //BC Upgrade: CR#5
+            DecimalPlaces = 0 : 5;
             Editable = false;
         }
         field(50100; "ORE Message Status"; Option)

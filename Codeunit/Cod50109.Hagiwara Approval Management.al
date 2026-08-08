@@ -611,10 +611,10 @@ codeunit 50109 "Hagiwara Approval Management"
                             if SalesLine.FindSet() then
                                 repeat
                                     if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
-                                        SalesLine."Approved Quantity" := SalesLine.Quantity;
+                                        SalesLine.Validate("Approved Quantity", SalesLine.Quantity);
                                     end;
                                     if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
-                                        SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                                        SalesLine.Validate("Approved Unit Price", SalesLine."Unit Price");
                                     end;
 
                                     SalesLine."Approval History Exists" := true;
@@ -642,10 +642,10 @@ codeunit 50109 "Hagiwara Approval Management"
                             if PurchLine.FindSet() then
                                 repeat
                                     if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
-                                        PurchLine."Approved Quantity" := PurchLine.Quantity;
+                                        PurchLine.Validate("Approved Quantity", PurchLine.Quantity);
                                     end;
                                     if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
-                                        PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
+                                        PurchLine.Validate("Approved Unit Cost", PurchLine."Unit Cost");
                                     end;
 
                                     PurchLine."Approval History Exists" := true;
@@ -664,7 +664,7 @@ codeunit 50109 "Hagiwara Approval Management"
                             if TransLine.FindSet() then
                                 repeat
                                     if TransLine."Approved Quantity" <> TransLine.Quantity then begin
-                                        TransLine."Approved Quantity" := TransLine.Quantity;
+                                        TransLine.Validate("Approved Quantity", TransLine.Quantity);
                                     end;
 
                                     TransLine."Approval History Exists" := true;
@@ -684,7 +684,7 @@ codeunit 50109 "Hagiwara Approval Management"
                             if AssemLine.FindSet() then
                                 repeat
                                     if AssemLine."Approved Quantity" <> AssemLine.Quantity then begin
-                                        AssemLine."Approved Quantity" := AssemLine.Quantity;
+                                        AssemLine.Validate("Approved Quantity", AssemLine.Quantity);
                                     end;
 
                                     AssemLine."Approval History Exists" := true;
@@ -692,7 +692,7 @@ codeunit 50109 "Hagiwara Approval Management"
                                 until AssemLine.next() = 0;
 
                             if AssemblyHeader."Approved Quantity" <> AssemblyHeader.Quantity then begin
-                                AssemblyHeader."Approved Quantity" := AssemblyHeader.Quantity;
+                                AssemblyHeader.Validate("Approved Quantity", AssemblyHeader.Quantity);
                             end;
                             AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Approved";
                             AssemblyHeader."Approval Cycle No." += 1;
@@ -1355,10 +1355,10 @@ codeunit 50109 "Hagiwara Approval Management"
                     if SalesLine.FindSet() then
                         repeat
                             if SalesLine."Approved Quantity" <> SalesLine.Quantity then begin
-                                SalesLine."Approved Quantity" := SalesLine.Quantity;
+                                SalesLine.Validate("Approved Quantity", SalesLine.Quantity);
                             end;
                             if SalesLine."Approved Unit Price" <> SalesLine."Unit Price" then begin
-                                SalesLine."Approved Unit Price" := SalesLine."Unit Price";
+                                SalesLine.Validate("Approved Unit Price", SalesLine."Unit Price");
                             end;
 
                             SalesLine."Approval History Exists" := true;
@@ -1386,10 +1386,10 @@ codeunit 50109 "Hagiwara Approval Management"
                     if PurchLine.FindSet() then
                         repeat
                             if PurchLine."Approved Quantity" <> PurchLine.Quantity then begin
-                                PurchLine."Approved Quantity" := PurchLine.Quantity;
+                                PurchLine.Validate("Approved Quantity", PurchLine.Quantity);
                             end;
                             if PurchLine."Approved Unit Cost" <> PurchLine."Unit Cost" then begin
-                                PurchLine."Approved Unit Cost" := PurchLine."Unit Cost";
+                                PurchLine.Validate("Approved Unit Cost", PurchLine."Unit Cost");
                             end;
 
                             PurchLine."Approval History Exists" := true;
@@ -1408,7 +1408,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     if TransLine.FindSet() then
                         repeat
                             if TransLine."Approved Quantity" <> TransLine.Quantity then begin
-                                TransLine."Approved Quantity" := TransLine.Quantity;
+                                TransLine.Validate("Approved Quantity", TransLine.Quantity);
                             end;
 
                             TransLine."Approval History Exists" := true;
@@ -1428,7 +1428,7 @@ codeunit 50109 "Hagiwara Approval Management"
                     if AssemLine.FindSet() then
                         repeat
                             if AssemLine."Approved Quantity" <> AssemLine.Quantity then begin
-                                AssemLine."Approved Quantity" := AssemLine.Quantity;
+                                AssemLine.Validate("Approved Quantity", AssemLine.Quantity);
                             end;
 
                             AssemLine."Approval History Exists" := true;
@@ -1436,7 +1436,7 @@ codeunit 50109 "Hagiwara Approval Management"
                         until AssemLine.next() = 0;
 
                     if AssemblyHeader."Approved Quantity" <> AssemblyHeader.Quantity then begin
-                        AssemblyHeader."Approved Quantity" := AssemblyHeader.Quantity;
+                        AssemblyHeader.Validate("Approved Quantity", AssemblyHeader.Quantity);
                     end;
                     AssemblyHeader."Approval Status" := "Hagiwara Approval Status"::"Auto Approved";
                     AssemblyHeader."Approval Cycle No." += 1;

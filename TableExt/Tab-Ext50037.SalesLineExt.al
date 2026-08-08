@@ -60,6 +60,16 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
             //N005
             DecimalPlaces = 0 : 5;
             Editable = false;
+
+            trigger OnValidate()
+            begin
+                //BC Upgrade: CR#5
+                if Rec.IsCreditDocType() then begin
+                    Rec."Outstanding Qty. (Approved)" := Rec."Approved Quantity" - Rec."Return Qty. Received";
+                end else begin
+                    Rec."Outstanding Qty. (Approved)" := Rec."Approved Quantity" - Rec."Quantity Shipped";
+                end;
+            end;
         }
         field(50102; "Approved Unit Price"; Decimal)
         {
@@ -71,6 +81,12 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         field(50103; "Approval History Exists"; Boolean)
         {
             //N005
+            Editable = false;
+        }
+        field(50104; "Outstanding Qty. (Approved)"; Decimal)
+        {
+            //BC Upgrade: CR#5
+            DecimalPlaces = 0 : 5;
             Editable = false;
         }
         field(50201; "Price Target Update"; Boolean)

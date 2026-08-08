@@ -256,8 +256,8 @@ codeunit 50116 "PO Import"
                                 RecPurchaseLine.Validate("Requested Receipt Date_1", TmpReqRecDate1);//The data
                             end;
                             RecPurchaseLine."CO No." := TemCoNo;
-                            RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
-                            RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
+                            RecPurchaseLine.Validate("Approved Quantity", RecPurchaseLine.Quantity);//1.1
+                            RecPurchaseLine.Validate("Approved Unit Cost", RecPurchaseLine."Direct Unit Cost");//1.1
                             RecPurchaseLine."Approval History Exists" := true;
                             RecPurchaseLine.Modify();
                         end;
@@ -321,8 +321,8 @@ codeunit 50116 "PO Import"
                     if (RecPOImportInsert."Requested Receipt Date" <> 0D) then begin
                         RecPurchaseLine.Validate("Requested Receipt Date_1", RecPOImportInsert."Requested Receipt Date");
                     end;
-                    RecPurchaseLine."Approved Quantity" := RecPurchaseLine.Quantity;//1.1
-                    RecPurchaseLine."Approved Unit Cost" := RecPurchaseLine."Direct Unit Cost";//1.1
+                    RecPurchaseLine.Validate("Approved Quantity", RecPurchaseLine.Quantity);//1.1
+                    RecPurchaseLine.Validate("Approved Unit Cost", RecPurchaseLine."Direct Unit Cost");//1.1
                     RecPurchaseLine."Approval History Exists" := true;
                     RecPurchaseLine.Insert();
 

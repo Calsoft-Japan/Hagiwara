@@ -179,8 +179,8 @@ codeunit 50178 "Purch Order Interface (Create)"
                         //BC upgrade N005 Begin
                         recApprSetup.Get();
                         if recApprSetup."Purchase Order" then begin
-                            rec_PurchLine."Approved Quantity" := rec_PurchLine.Quantity;
-                            rec_PurchLine."Approved Unit Cost" := rec_PurchLine."Direct Unit Cost";
+                            rec_PurchLine.Validate("Approved Quantity", rec_PurchLine.Quantity);
+                            rec_PurchLine.Validate("Approved Unit Cost", rec_PurchLine."Direct Unit Cost");
                             rec_PurchLine.Modify();
                         end;
                         //BC upgrade N005 End

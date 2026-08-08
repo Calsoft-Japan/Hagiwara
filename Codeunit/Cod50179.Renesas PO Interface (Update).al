@@ -47,7 +47,7 @@ codeunit 50179 "Renesas PO Interface (Update)"
                     //BC upgrade N005 Begin
                     recApprSetup.Get();
                     if recApprSetup."Purchase Order" then begin
-                        rec_PurchLine."Approved Quantity" := g_Qty;
+                        rec_PurchLine.Validate("Approved Quantity", g_Qty);
                         rec_PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::"Auto Approved";
                     end;
                     rec_PurchLine.MODIFY;
