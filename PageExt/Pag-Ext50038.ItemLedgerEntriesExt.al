@@ -115,6 +115,7 @@ pageextension 50038 ItemLedgerEntriesExt extends "Item Ledger Entries"
             {
                 ApplicationArea = all;
                 Caption = 'Unit Cost';
+                DecimalPlaces = 4 : 4;
             }
         }
 
