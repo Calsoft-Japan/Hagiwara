@@ -376,6 +376,30 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
             }
         }
 
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("HagiApprove_Promoted"; "Approve")
+                {
+                }
+                actionref("HagiReject_Promoted"; "Reject")
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
+
         addafter("AttachAsPDF_Promoted")
         {
             actionref("DeliveryOrderList_Promoted"; DeliveryOrderList)
