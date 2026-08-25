@@ -580,9 +580,13 @@ page 50118 "Item Import Lines"
             Item.Validate("No.", NoSeries.GetNextNo(Item."No. Series"));
             Item.ReadIsolation(IsolationLevel::ReadUncommitted);
             Item.SetLoadFields("No.");
-            while Item.Get(Item."No.") do
-                item.Validate("No.", NoSeries.GetNextNo(Item."No. Series"));
-
+            //change by Bobby 08/25/2026 begin
+            while Item.Get(Item."No.") do begin
+                Item."No. Series" := InventorySetup."Item Nos.";
+                Item.Validate("No.", NoSeries.GetNextNo(Item."No. Series"));
+            end;
+            //item.Validate("No.", NoSeries.GetNextNo(Item."No. Series"));
+            //change by Bobby 08/25/2026 end
             p_ItemImportline."Item No." := Item."No.";
         end else begin
             Item.Validate("No.", p_ItemImportline."Item No.");
@@ -650,7 +654,9 @@ page 50118 "Item Import Lines"
         Item.Validate(Blocked, p_ItemImportline."Blocked");
 
         Item.Modify(true);
-
+        //change by Bobby 08/25/2026 begin
+        Commit();
+        //change by Bobby 08/25/2026 end
     end;
 
     //Update existing records on the Item Reference table.
