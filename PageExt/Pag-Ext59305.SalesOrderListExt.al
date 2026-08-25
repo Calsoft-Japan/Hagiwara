@@ -388,10 +388,10 @@ pageextension 59305 SalesOrderListExt extends "Sales Order List"
                 actionref("Cancel_Promoted"; Cancel)
                 {
                 }
-                actionref("HagiApprove_Promoted"; "Approve")
+                actionref("Approve_Promoted"; Approve)
                 {
                 }
-                actionref("HagiReject_Promoted"; "Reject")
+                actionref("Reject_Promoted"; Reject)
                 {
                 }
                 actionref("ApprEntries_Promoted"; "Approval Entries")

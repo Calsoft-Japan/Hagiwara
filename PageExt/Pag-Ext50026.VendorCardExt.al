@@ -148,9 +148,9 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
             Visible = false;
         }
 
+        /*
         addbefore("F&unctions")
         {
-            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -287,8 +287,32 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
                     end;
                 }
             }
-            */
         }
+        
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("HagiApprove_Promoted"; "Hagi Approve")
+                {
+                }
+                actionref("HagiReject_Promoted"; "Hagi Reject")
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
+        */
     }
 
     trigger OnOpenPage()

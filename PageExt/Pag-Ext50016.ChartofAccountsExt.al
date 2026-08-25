@@ -170,6 +170,30 @@ pageextension 50016 ChartofAccountsExt extends "Chart of Accounts"
                 }
             }
         }
+
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("HagiApprove_Promoted"; "Hagi Approve")
+                {
+                }
+                actionref("HagiReject_Promoted"; "Hagi Reject")
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
     }
 
     trigger OnOpenPage()

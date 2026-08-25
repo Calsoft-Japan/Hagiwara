@@ -55,9 +55,6 @@ page 50119 "Customer Import Batches"
                     ApplicationArea = All;
                     Caption = 'Delete';
                     Image = Delete;
-                    Promoted = true;
-                    PromotedCategory = Process;
-                    PromotedIsBig = true;
 
                     trigger OnAction()
                     var
@@ -88,9 +85,6 @@ page 50119 "Customer Import Batches"
                 {
                     ApplicationArea = all;
                     Image = EntriesList;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -111,9 +105,6 @@ page 50119 "Customer Import Batches"
                 {
                     ApplicationArea = all;
                     Image = EntriesList;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -285,6 +276,39 @@ page 50119 "Customer Import Batches"
                         recApprEntry.SetRange("No.", Rec."Name");
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
+                }
+            }
+        }
+
+        area(Promoted)
+        {
+            actionref("Delete_Promoted"; "Delete")
+            {
+            }
+            actionref("Customer Import Lines_Promoted"; "Customer Import Lines")
+            {
+            }
+            actionref("Customer Export_Promoted"; "Customer Export")
+            {
+            }
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("Approve_Promoted"; Approve)
+                {
+                }
+                actionref("Reject_Promoted"; Reject)
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
                 }
             }
         }

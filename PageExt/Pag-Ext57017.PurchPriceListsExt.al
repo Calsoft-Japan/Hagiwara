@@ -26,10 +26,9 @@ pageextension 57017 PurchPriceListsExt extends "Purchase Price Lists"
 
     actions
     {
-
+        /*
         addfirst(Processing)
         {
-            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -166,7 +165,31 @@ pageextension 57017 PurchPriceListsExt extends "Purchase Price Lists"
                     end;
                 }
             }
-            */
         }
+
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("HagiApprove_Promoted"; "Hagi Approve")
+                {
+                }
+                actionref("HagiReject_Promoted"; "Hagi Reject")
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
+        */
     }
 }

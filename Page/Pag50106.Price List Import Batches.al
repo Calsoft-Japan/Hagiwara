@@ -51,9 +51,6 @@ page 50106 "Price List Import Batches"
                 {
                     ApplicationArea = all;
                     Image = EntriesList;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -74,9 +71,6 @@ page 50106 "Price List Import Batches"
                 {
                     ApplicationArea = all;
                     Image = EntriesList;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    PromotedCategory = Process;
 
                     trigger OnAction()
                     var
@@ -252,6 +246,36 @@ page 50106 "Price List Import Batches"
                         recApprEntry.SetRange("No.", Rec."Name");
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
+                }
+            }
+        }
+
+        area(Promoted)
+        {
+            actionref("Price List Import Lines_Promoted"; "Price List Import Lines")
+            {
+            }
+            actionref("Price List Export_Promoted"; "Price List Export")
+            {
+            }
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("Approve_Promoted"; Approve)
+                {
+                }
+                actionref("Reject_Promoted"; Reject)
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
                 }
             }
         }

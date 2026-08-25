@@ -284,9 +284,9 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
             Visible = false;
         }
 
+        /*
         addbefore("F&unctions")
         {
-            /*
             group("Hagiwara Approval")
             {
                 action("Submit")
@@ -422,8 +422,33 @@ pageextension 50021 CustomerCardExt extends "Customer Card"
                         Page.RunModal(Page::"Hagiwara Approval Entries", recApprEntry);
                     end;
                 }
-            }*/
+            }
         }
+
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("HagiApprove_Promoted"; "Hagi Approve")
+                {
+                }
+                actionref("HagiReject_Promoted"; "Hagi Reject")
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
+        */
     }
 
     trigger OnOpenPage()

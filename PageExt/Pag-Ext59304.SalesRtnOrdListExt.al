@@ -200,6 +200,30 @@ pageextension 59304 SalesRtnOrdListExt extends "Sales Return Order List"
             }
         }
 
+        addafter(Category_Category5)
+        {
+            group("Hagiwara Approval_Promoted")
+            {
+                Caption = 'Hagiwara Approval';
+                Image = DefaultFault;
+                actionref("Submit_Promoted"; Submit)
+                {
+                }
+                actionref("Cancel_Promoted"; Cancel)
+                {
+                }
+                actionref("Approve_Promoted"; Approve)
+                {
+                }
+                actionref("Reject_Promoted"; Reject)
+                {
+                }
+                actionref("ApprEntries_Promoted"; "Approval Entries")
+                {
+                }
+            }
+        }
+
     }
 
 }
