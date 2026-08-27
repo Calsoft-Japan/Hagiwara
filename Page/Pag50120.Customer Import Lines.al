@@ -683,8 +683,12 @@ page 50120 "Customer Import Lines"
             CustomerRecord."No." := NoSeries.GetNextNo(CustomerRecord."No. Series");
             CustomerRecord.ReadIsolation(IsolationLevel::ReadUncommitted);
             CustomerRecord.SetLoadFields("No.");
-            while CustomerRecord.Get(CustomerRecord."No.") do
+            //change by Bobby 08/27/2026 begin
+            while CustomerRecord.Get(CustomerRecord."No.") do begin
+                CustomerRecord."No. Series" := SlaesSetup."Customer Nos.";
                 CustomerRecord."No." := NoSeries.GetNextNo(CustomerRecord."No. Series");
+            end;
+            //change by Bobby 08/27/2026 end
         end else begin
             CustomerRecord.Validate("No.", p_CustomerImportline."No.");
         end;
@@ -790,6 +794,9 @@ page 50120 "Customer Import Lines"
         CustomerRecord.Validate("Preferred Bank Account Code", p_CustomerImportline."Preferred Bank Account Code");
         */
         CustomerRecord.Modify();
+        //change by Bobby 08/27/2026 begin
+        Commit();
+        //change by Bobby 08/27/2026 end
     end;
 
     /* Comment the code as required on 02/12/2026
