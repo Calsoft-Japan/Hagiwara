@@ -6,7 +6,7 @@ tableextension 56661 "Return Receipt Line Ext" extends "Return Receipt Line"
         {
             // cleaned
         }
-        field(50012; "Parts No."; Code[40])
+        field(50012; "Parts No."; Code[50])
         {
             // cleaned
         }

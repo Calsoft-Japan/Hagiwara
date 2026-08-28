@@ -17,7 +17,7 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
         {
             // cleaned
         }
-        field(50012; "Parts No."; Code[40])
+        field(50012; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }

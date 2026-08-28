@@ -6,7 +6,7 @@ tableextension 50115 "Sales Cr.Memo Line Ext" extends "Sales Cr.Memo Line"
         {
             // cleaned
         }
-        field(50012; "Parts No."; Code[40])
+        field(50012; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }

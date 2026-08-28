@@ -6,7 +6,7 @@ tableextension 50125 "Purch. Cr. Memo Line Ext" extends "Purch. Cr. Memo Line"
         {
             // cleaned
         }
-        field(50011; "Parts No."; Code[40])
+        field(50011; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }

@@ -168,7 +168,7 @@ table 50026 "PO Interface (OS)"
         {
             // cleaned
         }
-        field(43; "Parts No."; Code[40])
+        field(43; "Parts No."; Code[50])
         {
             // cleaned
         }

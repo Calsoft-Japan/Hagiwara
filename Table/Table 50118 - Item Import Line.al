@@ -103,7 +103,7 @@ table 50118 "Item Import Line"
         {
 
         }
-        field(26; "Parts No."; Code[40])
+        field(26; "Parts No."; Code[50])
         {
 
         }

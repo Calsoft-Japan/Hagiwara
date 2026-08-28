@@ -14,7 +14,7 @@ table 50161 "PurchRcptLine4DataMigration"
         {
             // cleaned
         }
-        field(50011; "Parts No."; Code[40])
+        field(50011; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }

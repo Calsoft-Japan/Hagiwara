@@ -12,7 +12,7 @@ tableextension 50121 "Purch. Rcpt. Line Ext" extends "Purch. Rcpt. Line"
         {
             // cleaned
         }
-        field(50011; "Parts No."; Code[40])
+        field(50011; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }

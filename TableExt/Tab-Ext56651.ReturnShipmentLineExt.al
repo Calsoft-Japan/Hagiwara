@@ -6,7 +6,7 @@ tableextension 56651 "Return Shipment Line Ext" extends "Return Shipment Line"
         {
             // cleaned
         }
-        field(50011; "Parts No."; Code[30])
+        field(50011; "Parts No."; Code[50])
         {
             // cleaned
         }

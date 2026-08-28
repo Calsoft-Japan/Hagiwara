@@ -26,7 +26,7 @@ table 50038 "Temp Item"
         {
             // cleaned
         }
-        field(50015; "Parts No."; Code[40])
+        field(50015; "Parts No."; Code[50])
         {
             // cleaned
         }

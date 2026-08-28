@@ -6,7 +6,7 @@ tableextension 50123 "Purch. Inv. Line Ext" extends "Purch. Inv. Line"
         {
             // cleaned
         }
-        field(50011; "Parts No."; Code[40])
+        field(50011; "Parts No."; Code[50])
         {
             Description = '//20110427';
         }

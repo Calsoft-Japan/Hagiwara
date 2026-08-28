@@ -53,7 +53,7 @@ tableextension 50083 "Item Journal Line Ext" extends "Item Journal Line"
         {
             Editable = false;
         }
-        field(90012; "Parts No."; Code[40])
+        field(90012; "Parts No."; Code[50])
         {
             Editable = false;
         }

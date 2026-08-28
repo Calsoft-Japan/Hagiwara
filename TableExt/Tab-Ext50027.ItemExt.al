@@ -32,7 +32,7 @@ tableextension 50027 "Item Ext" extends "Item"
         {
             // cleaned
         }
-        field(50015; "Parts No."; Code[40])
+        field(50015; "Parts No."; Code[50])
         {
             Description = '//20110427 from X30';
         }
