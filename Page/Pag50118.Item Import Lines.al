@@ -484,9 +484,6 @@ page 50118 "Item Import Lines"
             //Create new records on the Item table.
             CreateRecordForItem(p_ItemImportline);
 
-            //Create new records on the Item Unit of Measure table with the following mappings.
-            //CreateRecordForItemUnitofMeasure(p_ItemImportline); // To create it at the same time as creating an Item by using Validate
-
             //Create new records on the Item Reference table with the following mappings.
             //  For Customer
             CreateRecordForItemRefCusomer(p_ItemImportline);
@@ -498,9 +495,6 @@ page 50118 "Item Import Lines"
         if p_ItemImportline.Action = p_ItemImportline.Action::Update then begin
             //Update existing records on the Item table.
             UpdateRecordForItem(p_ItemImportline);
-
-            //Update existing records on the Item Unit of Measure table.
-            //UpdateRecordForItemUnitofMeasure(p_ItemImportline);// To create it at the same time as creating an Item by using Validate
 
             //Update existing records on the Item Reference table.
             //  For Customer
@@ -555,12 +549,17 @@ page 50118 "Item Import Lines"
     var
         ItemUnitofMeasure: Record "Item Unit of Measure";
     begin
-        ItemUnitofMeasure.INIT;
-        ItemUnitofMeasure.Validate("Item No.", p_ItemImportline."Item No.");
-        ItemUnitofMeasure.Validate(Code, p_ItemImportline."Base Unit of Measure");
-        ItemUnitofMeasure.Validate("Qty. per Unit of Measure", 1);
+        if ItemUnitofMeasure.GET(p_ItemImportline."Item No.", p_ItemImportline."Base Unit of Measure") then begin
+            //Do nothing 
+        end else begin
+            //If Base Unit of Measure Code is different from the existing one, it will be “Create” action. 
+            ItemUnitofMeasure.INIT;
+            ItemUnitofMeasure.Validate("Item No.", p_ItemImportline."Item No.");
+            ItemUnitofMeasure.Validate(Code, p_ItemImportline."Base Unit of Measure");
+            ItemUnitofMeasure.Validate("Qty. per Unit of Measure", 1);
 
-        ItemUnitofMeasure.Insert();
+            ItemUnitofMeasure.Insert();
+        end;
     end;
 
     //Create new records on the Item table.
@@ -594,8 +593,18 @@ page 50118 "Item Import Lines"
 
         Item.Insert();
 
-        Item.Validate(Type, "Item Type"::Inventory);
-        Item.Validate("Costing Method", "Costing Method"::Average);
+        //Create new records on the Item Unit of Measure table with the following mappings.
+        //And call it here for the other UOMs fields validation.
+        CreateRecordForItemUnitofMeasure(p_ItemImportline);
+
+        //Item.Validate(Type, "Item Type"::Inventory);
+        //Item.Validate("Costing Method", "Costing Method"::Average);
+        Item.Validate(Type, p_ItemImportline.Type);
+        //Only Inventory type needs to specify Costing Method as Average.
+        //Also, the other two types can't specfity Costing method.
+        if Item.Type = Item.Type::Inventory then begin
+            Item.Validate("Costing Method", "Costing Method"::Average);
+        end;
         Item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
         Item.Validate(Description, p_ItemImportline."Description");
         Item.Validate("Description 2", p_ItemImportline."Description 2");
@@ -654,9 +663,12 @@ page 50118 "Item Import Lines"
         Item.Validate(Blocked, p_ItemImportline."Blocked");
 
         Item.Modify(true);
+        //Why commit here?
+        /*
         //change by Bobby 08/25/2026 begin
         Commit();
         //change by Bobby 08/25/2026 end
+        */
     end;
 
     //Update existing records on the Item Reference table.
@@ -745,12 +757,26 @@ page 50118 "Item Import Lines"
         if Item.GET(p_ItemImportline."Item No.") then begin
             if Item.Type.AsInteger() <> p_ItemImportline.Type then
                 item.Validate(Type, p_ItemImportline.Type);
+
+            //Only Inventory type needs to specify Costing Method as Average.
+            //Also, the other two types can't specfity Costing method.
+            if Item.Type = Item.Type::Inventory then begin
+                Item.Validate("Costing Method", "Costing Method"::Average);
+            end else begin
+                Item.Validate("Costing Method", "Costing Method"::FIFO);
+            end;
+
             if Item."Familiar Name" <> p_ItemImportline."Familiar Name" then
                 item.Validate("Familiar Name", p_ItemImportline."Familiar Name");
             if Item.Description <> p_ItemImportline."Description" then
                 item.Validate(Description, p_ItemImportline."Description");
             if Item."Description 2" <> p_ItemImportline."Description 2" then
                 item.Validate("Description 2", p_ItemImportline."Description 2");
+
+            //Update existing records on the Item Unit of Measure table.
+            //And call it here for the other UOMs fields validation.
+            UpdateRecordForItemUnitofMeasure(p_ItemImportline);
+
             if Item."Base Unit of Measure" <> p_ItemImportline."Base Unit of Measure" then
                 item.Validate("Base Unit of Measure", p_ItemImportline."Base Unit of Measure");
             if Item."Sales Unit of Measure" <> p_ItemImportline."Sales Unit of Measure" then
