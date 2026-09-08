@@ -1387,6 +1387,7 @@ report 50023 "Collect Message"
                 rec_PurchRcptLine.SETFILTER(Type, '=%1', rec_PurchRcptLine.Type::Item);
                 rec_PurchRcptLine.SETFILTER("No.", '<>%1', '');
                 //  rec_PurchRcptLine.SETFILTER(Quantity,'<>%1',0);
+                rec_PurchRcptLine.SETFILTER(Quantity, '<>%1', 0); //BC Upgrade
                 rec_PurchRcptLine.SETFILTER(Correction, '<>%1', TRUE);
                 rec_PurchRcptLine.SETFILTER("Item Supplier Source", '=%1', rec_PurchRcptLine."Item Supplier Source"::Renesas);
                 //Siak Hui 20110426
