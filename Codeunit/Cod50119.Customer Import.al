@@ -60,6 +60,7 @@ codeunit 50119 "Customer Import"
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         TempExcelBuffer.OpenBookStream(IStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;

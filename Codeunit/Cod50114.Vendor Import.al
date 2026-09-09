@@ -44,6 +44,7 @@ codeunit 50114 "Vendor Import"
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         TempExcelBuffer.OpenBookStream(IStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;

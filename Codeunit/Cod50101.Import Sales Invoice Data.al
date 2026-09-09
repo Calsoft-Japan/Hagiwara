@@ -39,6 +39,7 @@ codeunit 50101 "Import Sales Invoice Data"
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         TempExcelBuffer.OpenBookStream(IStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;

@@ -32,6 +32,7 @@ codeunit 50187 "Renesas PO Importer"
             Error(NoFileFoundMsg);
         TempExcelBuffer.Reset();
         TempExcelBuffer.DeleteAll();
+        TempExcelBuffer.SetReadDateTimeInUtcDate(true);
         TempExcelBuffer.OpenBookStream(IStream, SheetName);
         TempExcelBuffer.ReadSheet();
     end;
