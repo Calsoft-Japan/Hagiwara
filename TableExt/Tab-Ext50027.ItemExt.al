@@ -406,8 +406,7 @@ tableextension 50027 "Item Ext" extends "Item"
                                                                         "Location Code" = field("Location Filter"),
                                                                         "Drop Shipment" = field("Drop Shipment Filter"),
                                                                         "Variant Code" = field("Variant Filter"),
-                                                                        "Expected Receipt Date" = field("Date Filter"),
-                                                                        "Unit of Measure Code" = field("Unit of Measure Filter")));
+                                                                        "Reporting Receipt Date" = FIELD("Date Filter")));
             DecimalPlaces = 0 : 5;
             Editable = false;
             AutoFormatType = 0;

@@ -75,7 +75,6 @@ page 50142 "ORE Update Status V2"
 
     end;
 
-
     procedure UpdateStatus_ORDERS()
     var
         OREMessageCollectionORDERS: Record "ORE Msg Collection ORDERS V2";
@@ -85,8 +84,8 @@ page 50142 "ORE Update Status V2"
     begin
 
         OREMessageCollectionORDERS.RESET;
-        OREMessageCollectionORDERS.SetCurrentKey("Reverse Routing Address");
-        OREMessageCollectionORDERS.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
+        //OREMessageCollectionORDERS.SetCurrentKey("Reverse Routing Address");
+        //OREMessageCollectionORDERS.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
         OREMessageCollectionORDERS.SETRANGE("Message Status", OREMessageCollectionORDERS."Message Status"::Ready);
         if OREMessageCollectionORDERS.FindSet() then
             REPEAT
@@ -103,17 +102,12 @@ page 50142 "ORE Update Status V2"
 
                 end;
 
-                PurchaseLine.RESET;
-                PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDERS."Line No.");
-                PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDERS."Order No.");
-                PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
-                PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                IF PurchaseLine.FindSet THEN BEGIN
-                    REPEAT
-                        PurchaseLine."ORE Message Status" := PurchaseLine."ORE Message Status"::Sent;
-                        PurchaseLine.MODIFY(TRUE);
-                    UNTIL PurchaseLine.NEXT = 0;
-                END;
+                if PurchaseLine.Get(PurchaseLine."Document Type"::Order,
+                                    OREMessageCollectionORDERS."Order No.",
+                                    OREMessageCollectionORDERS."Line No.") then begin
+                    PurchaseLine."ORE Message Status" := PurchaseLine."ORE Message Status"::Sent;
+                    PurchaseLine.MODIFY(TRUE);
+                end;
 
                 OREMessageCollectionORDERS."Message Status" := OREMessageCollectionORDERS."Message Status"::Sent;
                 OREMessageCollectionORDERS.MODIFY(TRUE);
@@ -132,8 +126,8 @@ page 50142 "ORE Update Status V2"
 
 
         OREMessageCollectionORDCHG.RESET;
-        OREMessageCollectionORDCHG.SetCurrentKey("Reverse Routing Address");
-        OREMessageCollectionORDCHG.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
+        //OREMessageCollectionORDCHG.SetCurrentKey("Reverse Routing Address");
+        //OREMessageCollectionORDCHG.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
         OREMessageCollectionORDCHG.SETRANGE("Message Status", OREMessageCollectionORDCHG."Message Status"::Ready);
         if OREMessageCollectionORDCHG.FindSet() then
             REPEAT
@@ -150,17 +144,12 @@ page 50142 "ORE Update Status V2"
 
                 end;
 
-                PurchaseLine.RESET;
-                PurchaseLine.SETRANGE("Line No.", OREMessageCollectionORDCHG."Line No.");
-                PurchaseLine.SETRANGE("Document No.", OREMessageCollectionORDCHG."Order No.");
-                PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
-                PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                IF PurchaseLine.FindSet THEN BEGIN
-                    REPEAT
-                        PurchaseLine."ORE Change Status" := PurchaseLine."ORE Change Status"::Sent;
-                        PurchaseLine.MODIFY(TRUE);
-                    UNTIL PurchaseLine.NEXT = 0;
-                END;
+                if PurchaseLine.Get(PurchaseLine."Document Type"::Order,
+                                    OREMessageCollectionORDCHG."Order No.",
+                                    OREMessageCollectionORDCHG."Line No.") then begin
+                    PurchaseLine."ORE Change Status" := PurchaseLine."ORE Change Status"::Sent;
+                    PurchaseLine.MODIFY(TRUE);
+                end;
 
                 OREMessageCollectionORDCHG."Message Status" := OREMessageCollectionORDCHG."Message Status"::Sent;
                 OREMessageCollectionORDCHG.MODIFY(TRUE);
@@ -177,8 +166,8 @@ page 50142 "ORE Update Status V2"
     begin
 
         OREMessageCollectionINVRPT.RESET;
-        OREMessageCollectionINVRPT.SetCurrentKey("Reverse Routing Address");
-        OREMessageCollectionINVRPT.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
+        //OREMessageCollectionINVRPT.SetCurrentKey("Reverse Routing Address");
+        //OREMessageCollectionINVRPT.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
         OREMessageCollectionINVRPT.SETRANGE("Message Status", OREMessageCollectionINVRPT."Message Status"::Ready);
         if OREMessageCollectionINVRPT.FindSet() then
             REPEAT
@@ -211,8 +200,8 @@ page 50142 "ORE Update Status V2"
 
 
         OREMessageCollectionSLSRPT.RESET;
-        OREMessageCollectionSLSRPT.SetCurrentKey("Reverse Routing Address");
-        OREMessageCollectionSLSRPT.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
+        //OREMessageCollectionSLSRPT.SetCurrentKey("Reverse Routing Address");
+        //OREMessageCollectionSLSRPT.SETRANGE("Reverse Routing Address", Rec."Reverse Routing Address");
         OREMessageCollectionSLSRPT.SETRANGE("Message Status", OREMessageCollectionSLSRPT."Message Status"::Ready);
         if OREMessageCollectionSLSRPT.FindSet() then
             REPEAT
