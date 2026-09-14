@@ -119,6 +119,7 @@ report 50082 "PO Post Invoice"
                         // BC Upgrade
                         PurchReceiptImportStaging.RESET;
                         PurchReceiptImportStaging.SETRANGE("PO No.", "Purch. Receipt Import Staging"."PO No.");
+                        PurchReceiptImportStaging.SETRANGE("Proforma Invoice", "Purch. Receipt Import Staging"."Proforma Invoice");
                         IF PurchReceiptImportStaging.FindSet() THEN
                             REPEAT
                                 IF IsError THEN BEGIN
