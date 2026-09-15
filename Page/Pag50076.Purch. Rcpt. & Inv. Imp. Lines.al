@@ -472,6 +472,10 @@ page 50076 "Purch. Rcpt. & Inv. Imp. Lines"
                                 IF PurchaseLine1."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
                                     ErrorDesc8 := ',Unit cost is wrong.';
                             end;
+
+                            p_Staging."PO No." := PurchaseLine1."Document No.";
+                            p_Staging."Line No." := PurchaseLine1."Line No.";
+                            p_Staging.Modify();
                             //BC Upgrade
 
                             IF (PurchaseLine1."Outstanding Quantity" >= p_Staging."Received Qty.")

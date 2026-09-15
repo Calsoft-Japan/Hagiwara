@@ -566,6 +566,10 @@ page 50077 "Purch. Invoice Import Lines"
                                 IF PurchaseLine."Direct Unit Cost" <> p_Staging."Unit Cost" THEN
                                     ErrorDesc8 := ',Unit cost is wrong.';
                             end;
+
+                            p_Staging."PO No." := PurchaseLine."Document No.";
+                            p_Staging."Line No." := PurchaseLine."Line No.";
+                            p_Staging.Modify();
                             //BC Upgrade
 
                             IF (PurchaseLine."Quantity Received" - PurchaseLine."Quantity Invoiced") >= p_Staging."Qty. To Invoice" THEN
