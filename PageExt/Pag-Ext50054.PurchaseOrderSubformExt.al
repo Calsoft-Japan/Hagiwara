@@ -6,6 +6,10 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
         {
             Visible = true;
         }
+        modify("Order Date")
+        {
+            Visible = true;
+        }
 
         addbefore(Type)
         {
