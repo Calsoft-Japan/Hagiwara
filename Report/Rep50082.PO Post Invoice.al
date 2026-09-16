@@ -71,7 +71,7 @@ report 50082 "PO Post Invoice"
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
                     if PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, "Purch. Receipt Import Staging"."PO No.") then begin
-                        //PurchaseHeader.Receive :=TRUE;
+                        PurchaseHeader.Receive := false; //BC Upgrade
                         PurchaseHeader.Invoice := TRUE;
                         PurchaseHeader."Posting No." := '';//22.05.2020
                         //PurchaseHeader."Posting Date" :=TODAY;

@@ -132,6 +132,14 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
 
                 ApplicationArea = all;
             }
+            field("Outstanding Amount"; Rec."Outstanding Amount")
+            {
+                ApplicationArea = all;
+            }
+            field("Outstanding Amount (LCY)"; Rec."Outstanding Amount (LCY)")
+            {
+                ApplicationArea = all;
+            }
 
         }
 

@@ -494,6 +494,7 @@ page 50120 "Customer Import Lines"
                         */
 
                         // -------check record contents-------
+                        GLSetup.Get();
                         Clear(CustomerNoList);
                         CustomerImportline.SetRange("Batch Name", G_BatchName);
                         if CustomerImportline.FINDFIRST then
@@ -535,6 +536,7 @@ page 50120 "Customer Import Lines"
                             end;
                         end;
                         //Re-validate
+                        GLSetup.Get();
                         if Confirm('Re-validation will be performed. Do you want to continue?') then begin
 
                             // -------check record contents-------
@@ -636,6 +638,7 @@ page 50120 "Customer Import Lines"
     }
 
     var
+        GLSetup: Record "General Ledger Setup";
         G_BatchName: Code[20];
         CustomerNoList: List of [Text];
 
@@ -1050,13 +1053,13 @@ page 50120 "Customer Import Lines"
         // -------Existence Check (See table relation info.)-------
         //Global Dimension 1 Code
         if p_CustomerImportline."Global Dimension 1 Code" <> '' then begin
-            if not GlobalDimension1Code.get(p_CustomerImportline."Global Dimension 1 Code") then begin
+            if not GlobalDimension1Code.get(GLSetup."Global Dimension 1 Code", p_CustomerImportline."Global Dimension 1 Code") then begin
                 ErrDesc := 'Global Dimension 1 Code is not found. ';
             end;
         end;
         //Global Dimension 2 Code
         if p_CustomerImportline."Global Dimension 2 Code" <> '' then begin
-            if not GlobalDimension2Code.get(p_CustomerImportline."Global Dimension 2 Code") then begin
+            if not GlobalDimension2Code.get(GLSetup."Global Dimension 2 Code", p_CustomerImportline."Global Dimension 2 Code") then begin
                 ErrDesc := 'Global Dimension 2 Code is not found. ';
             end;
         end;

@@ -101,6 +101,10 @@ pageextension 50031 ItemListExt extends "Item List"
             }
             field("Excluded in Inventory Report"; Rec."Excluded in Inventory Report") { ApplicationArea = All; }
             field("Order Multiple"; Rec."Order Multiple") { ApplicationArea = All; }
+            field("Net Weight"; Rec."Net Weight")
+            {
+                ApplicationArea = All;
+            }
         }
 
         addafter("Costing Method")
