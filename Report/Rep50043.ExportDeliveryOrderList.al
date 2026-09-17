@@ -233,11 +233,167 @@ report 50043 "Export Delivery Order List "
         CustFilter := Customer.GETFILTERS;
         SalesLineFilter := "Sales Line".GETFILTERS;
         PeriodText := "Sales Line".GETFILTER("Shipment Date");
+        CalcQtyAvailable;
+
         AddCSVHeader(CSVBuffer, LineNo);
 
     end;
 
+    procedure CheckQty(ItemCd: Code[20]; LocCd: Code[10]) OnHandQty: Decimal
+    var
+        ItemLedg: Record "Item Ledger Entry";
+        Qty: Decimal;
+        RsvRec: Record "Reservation Entry";
+        WorkRec3: Record TempDO;
+    begin
+        // YUKA for Hagiwara 20041127
+        IF LocCd <> '' THEN
+            ItemLedg.SETFILTER(ItemLedg."Item No.", ItemCd, ItemCd, ItemLedg."Location Code", LocCd, LocCd)
+        ELSE
+            ItemLedg.SETRANGE(ItemLedg."Item No.", ItemCd, ItemCd);
 
+        ItemLedg.SETFILTER("Location Code", '<>%1&%2', 'HOLD', LocCd); //CS025
+        IF ItemLedg.FIND('-') THEN BEGIN
+            REPEAT
+                Qty := Qty + ItemLedg."Remaining Quantity";
+            UNTIL ItemLedg.NEXT = 0;
+        END;
+
+        QtyRsv := 0;  //v20210126
+        RsvRec.SETFILTER(RsvRec."Item No.", ItemCd, ItemCd);
+        RsvRec.SETFILTER(RsvRec."Location Code", LocCd, LocCd); //CS025
+        IF RsvRec.FIND('-') THEN BEGIN
+            REPEAT
+                //    IF (RsvRec."Source ID" <> DocNo) AND (RsvRec."Source Type" = 37) THEN
+                IF (RsvRec."Source Type" = 37) AND
+                   (RsvRec."Reservation Status" = RsvRec."Reservation Status"::Reservation) THEN  //v20210126
+                                                                                                  //QtyRsv := RsvRec.Quantity;
+                    QtyRsv += RsvRec.Quantity;  //v20210126
+            UNTIL RsvRec.NEXT = 0;
+        END;
+        Qty := Qty + QtyRsv;  //qty rsv is always negative value
+        IF Qty < 0 THEN
+            Qty := 0;
+
+        //v20210126 Start (moved)
+        // Yuka add for checking 20050627
+        WorkRec3.INIT;
+        WorkRec3.SETRANGE(WorkRec3."Item No.", ItemCd, ItemCd);
+        WorkRec3.SETRANGE(WorkRec3.Location, LocCd, LocCd); //CS025
+        IF WorkRec3.FIND('-') THEN BEGIN
+            WorkRec3."Available Qty" := Qty;
+            WorkRec3.MODIFY;
+        END;
+        //v20210126 End (moved)
+
+        OnHandQty := Qty;
+    end;
+
+    procedure CalcQtyAvailable()
+    var
+        WorkRec: Record TempDO;
+        WorkRec2: Record TempDO;
+        pItemCd: Text[20];
+        pLocCd: Text[10];
+        RsvRec: Record "Reservation Entry";
+        RsvQty: Decimal;
+        QtyUnassigned: Decimal;
+    begin
+        WorkRec.DELETEALL;
+        IF "Sales Line".FIND('-') THEN BEGIN
+            REPEAT
+                IF "Sales Line".Type = "Sales Line".Type::Item THEN BEGIN
+                    WorkRec."Item No." := "Sales Line"."No.";
+                    WorkRec."Shipment Date" := "Sales Line"."Shipment Date";
+                    WorkRec."Document No." := "Sales Line"."Document No.";
+                    WorkRec."Line No." := "Sales Line"."Line No.";
+                    //N005 Begin
+                    //WorkRec.Quantity := "Sales Line".Quantity - "Sales Line"."Quantity Shipped";
+                    WorkRec.Quantity := "Sales Line"."Approved Quantity" - "Sales Line"."Quantity Shipped";
+                    //N005 End
+                    WorkRec.Location := "Sales Line"."Location Code";
+                    //v20210126 Start
+                    RsvQty := 0;
+                    RsvRec.SETCURRENTKEY("Source ID", "Source Ref. No.", "Source Type", "Source Subtype");
+                    RsvRec.SETRANGE("Source ID", "Sales Line"."Document No.");
+                    RsvRec.SETRANGE("Source Ref. No.", "Sales Line"."Line No.");
+                    RsvRec.SETRANGE("Source Type", 37);
+                    RsvRec.SETRANGE("Source Subtype", "Sales Line"."Document Type");
+                    RsvRec.SETRANGE("Reservation Status", RsvRec."Reservation Status"::Reservation);
+                    IF RsvRec.FIND('-') THEN BEGIN
+                        REPEAT
+                            RsvQty += RsvRec.Quantity * (-1);
+                        UNTIL RsvRec.NEXT = 0;
+                    END;
+                    //WorkRec."Reserved Qty" := "Sales Line"."Reserved Quantity";
+                    WorkRec."Reserved Qty" := RsvQty;
+                    //IF "Sales Line"."Reserved Quantity" <> 0 THEN BEGIN
+                    IF RsvQty <> 0 THEN BEGIN
+                        //WorkRec."Assigned Qty" := "Sales Line"."Reserved Quantity";
+                        WorkRec."Assigned Qty" := RsvQty;
+                        IF RsvQty = WorkRec.Quantity THEN
+                            WorkRec.ProcFlag := 1
+                        ELSE
+                            WorkRec.ProcFlag := 0;
+                    END
+                    ELSE BEGIN
+                        WorkRec."Assigned Qty" := 0;
+                        WorkRec.ProcFlag := 0;
+                    END;
+                    //v20210126 End
+                    WorkRec.INSERT;
+                    WorkRec.MODIFY;
+                END;
+            UNTIL "Sales Line".NEXT = 0;
+        END;
+        // Yuka 20060329 - Modified
+        WorkRec2.RESET;
+        IF WorkRec2.FIND('-') THEN BEGIN
+            REPEAT
+                IF (pItemCd <> WorkRec2."Item No.") OR (pLocCd <> WorkRec2.Location) THEN BEGIN
+                    pItemCd := WorkRec2."Item No.";
+                    pLocCd := WorkRec2.Location;
+                    QtyAvailable := 0;
+                    QtyAvailable := CheckQty(pItemCd, pLocCd);
+                END;
+            UNTIL WorkRec2.NEXT = 0;
+        END;
+        WorkRec2.RESET;
+        WorkRec2.SETFILTER(WorkRec2."Available Qty", '> 0');
+        IF WorkRec2.FIND('-') THEN BEGIN
+            REPEAT
+                //  IF (pItemCd <>  WorkRec2."Item No.") OR (pLocCd <> WorkRec2.Location) THEN BEGIN
+                pItemCd := WorkRec2."Item No.";
+                pLocCd := WorkRec2.Location;
+                QtyAvailable := WorkRec2."Available Qty";
+                WorkRec.RESET;
+                WorkRec.SETRANGE(WorkRec."Item No.", pItemCd, pItemCd);
+                WorkRec.SETRANGE(WorkRec.Location, pLocCd, pLocCd);
+                IF WorkRec.FIND('-') THEN BEGIN
+                    REPEAT
+                        IF WorkRec.ProcFlag = 0 THEN BEGIN
+                            //v20210126 Start
+                            QtyUnassigned := WorkRec.Quantity - WorkRec."Assigned Qty";
+                            //IF WorkRec.Quantity <= QtyAvailable THEN BEGIN
+                            IF QtyUnassigned <= QtyAvailable THEN BEGIN
+                                WorkRec."Assigned Qty" := WorkRec.Quantity;
+                                //QtyAvailable := QtyAvailable - WorkRec.Quantity;
+                                QtyAvailable := QtyAvailable - QtyUnassigned;
+                            END ELSE BEGIN
+                                //WorkRec."Assigned Qty" := QtyAvailable;
+                                WorkRec."Assigned Qty" += QtyAvailable;
+                                //v20210126 End
+                                QtyAvailable := 0;
+                            END;
+                            WorkRec.ProcFlag := 1;
+                            WorkRec.MODIFY;
+                        END;
+                    UNTIL WorkRec.NEXT = 0;
+                END;
+            //  END;
+            UNTIL WorkRec2.NEXT = 0;
+        END;
+    end;
 
     var
         CustFilter: Text;
@@ -251,6 +407,8 @@ report 50043 "Export Delivery Order List "
         SalesLineFilter: Text[250];
         PeriodText: Text[30];
         recGLSetup: Record "General Ledger Setup";
+        QtyRsv: Decimal;
+        QtyAvailable: Decimal;
 
     procedure SetCustomer(CustNo: Text)
     begin
