@@ -58,6 +58,14 @@ report 50087 "PO Post Receive"
                                     */
                                     //BC Upgrade
                                     PurchaseLine.MODIFY;
+
+                                    // Save post target lines to reset other lines' Quantity.
+                                    TargetPurchLine.Init();
+                                    TargetPurchLine."Document Type" := PurchaseLine."Document Type";
+                                    TargetPurchLine."Document No." := PurchaseLine."Document No.";
+                                    TargetPurchLine."Line No." := PurchaseLine."Line No.";
+                                    TargetPurchLine.Insert();
+
                                     PurchFound := TRUE;
                                 END;
                             UNTIL PurchaseLine.NEXT = 0;
@@ -66,7 +74,26 @@ report 50087 "PO Post Receive"
                 END;
                 //CS054 End
 
+                //Post by each order.
                 if not PostedPONoList.Contains("PO No.") then begin
+
+                    //Reset other lines' Quantity.
+                    PurchaseLine.Reset();
+                    PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+                    PurchaseLine.SetRange("Document No.", "PO No.");
+                    PurchaseLine.SetRange(Type, PurchaseLine.Type::Item);
+                    if PurchaseLine.FindSet() then
+                        repeat
+                            if not TargetPurchLine.Get(PurchaseLine."Document Type",
+                                                        PurchaseLine."Document No.",
+                                                        PurchaseLine."Line No.") then begin
+                                if PurchaseLine."Qty. to Receive" <> 0 then
+                                    PurchaseLine.Validate("Qty. to Receive", 0);
+                                if PurchaseLine."Qty. to Invoice" <> 0 then
+                                    PurchaseLine.Validate("Qty. to Invoice", 0);
+                                PurchaseLine.Modify();
+                            end;
+                        until PurchaseLine.Next() = 0;
 
                     PurchaseHeader.RESET;
                     CLEAR(PurchPost);
@@ -128,6 +155,14 @@ report 50087 "PO Post Receive"
                             UNTIL PurchReceiptImportStaging2.NEXT() = 0;
                         // BC Upgrade
 
+                        //Reset all lines' Quantity.
+                        PurchaseLine.Reset();
+                        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+                        PurchaseLine.SetRange("Document No.", "PO No.");
+                        PurchaseLine.SetRange(Type, PurchaseLine.Type::Item);
+                        PurchaseLine.ModifyAll("Qty. to Receive", 0);
+                        PurchaseLine.ModifyAll("Qty. to Invoice", 0);
+
                     END ELSE
                         EXIT;
                     // END;
@@ -158,6 +193,7 @@ report 50087 "PO Post Receive"
     trigger OnPreReport()
     begin
         Clear(PostedPONoList);
+        TargetPurchLine.DeleteAll();
     end;
 
     trigger OnPostReport()
@@ -177,5 +213,6 @@ report 50087 "PO Post Receive"
         PurchReceiptImportStaging2: Record "Purch. Receipt Import Staging";
         IsError: Boolean;
         PostedPONoList: List of [Code[20]];
+        TargetPurchLine: Record "Purchase Line" temporary;
 }
 

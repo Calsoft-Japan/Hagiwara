@@ -53,6 +53,14 @@ report 50082 "PO Post Invoice"
                                 PurchaseLine."Goods Arrival Date" := "Purch. Receipt Import Staging"."Arrival Date";
                                 PurchaseLine.VALIDATE("Qty. to Invoice", "Purch. Receipt Import Staging"."Qty. To Invoice");//sp
                                 PurchaseLine.MODIFY;
+
+                                // Save post target lines to reset other lines' Quantity.
+                                TargetPurchLine.Init();
+                                TargetPurchLine."Document Type" := PurchaseLine."Document Type";
+                                TargetPurchLine."Document No." := PurchaseLine."Document No.";
+                                TargetPurchLine."Line No." := PurchaseLine."Line No.";
+                                TargetPurchLine.Insert();
+
                                 PurchFound := TRUE;
                             END;
                         UNTIL PurchaseLine.NEXT = 0;
@@ -81,6 +89,23 @@ report 50082 "PO Post Invoice"
                         PurchaseHeader.MODIFY;
                         //110220
 
+                        //Reset other lines' Quantity.
+                        PurchaseLine.Reset();
+                        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+                        PurchaseLine.SetRange("Document No.", "PO No.");
+                        PurchaseLine.SetRange(Type, PurchaseLine.Type::Item);
+                        if PurchaseLine.FindSet() then
+                            repeat
+                                if not TargetPurchLine.Get(PurchaseLine."Document Type",
+                                                            PurchaseLine."Document No.",
+                                                            PurchaseLine."Line No.") then begin
+                                    if PurchaseLine."Qty. to Receive" <> 0 then
+                                        PurchaseLine.Validate("Qty. to Receive", 0);
+                                    if PurchaseLine."Qty. to Invoice" <> 0 then
+                                        PurchaseLine.Validate("Qty. to Invoice", 0);
+                                    PurchaseLine.Modify();
+                                end;
+                            until PurchaseLine.Next() = 0;
 
                         //110220
 
@@ -136,6 +161,14 @@ report 50082 "PO Post Invoice"
                                 PurchReceiptImportStaging.MODIFY();
                             UNTIL PurchReceiptImportStaging.NEXT() = 0;
 
+                        //Reset all lines' Quantity.
+                        PurchaseLine.Reset();
+                        PurchaseLine.SetRange("Document Type", PurchaseLine."Document Type"::Order);
+                        PurchaseLine.SetRange("Document No.", "PO No.");
+                        PurchaseLine.SetRange(Type, PurchaseLine.Type::Item);
+                        PurchaseLine.ModifyAll("Qty. to Receive", 0);
+                        PurchaseLine.ModifyAll("Qty. to Invoice", 0);
+
                         // BC Upgrade
 
                         // MESSAGE('Invoiced Sucessfully');
@@ -165,6 +198,12 @@ report 50082 "PO Post Invoice"
     labels
     {
     }
+
+    trigger OnPreReport()
+    begin
+        TargetPurchLine.DeleteAll();
+    end;
+
     trigger OnPostReport()
     begin
         if IsError then begin
@@ -181,5 +220,6 @@ report 50082 "PO Post Invoice"
         PurchaseHeader2: Record "Purchase Header";
         PurchaseLine: Record "Purchase Line";
         IsError: Boolean;
+        TargetPurchLine: Record "Purchase Line" temporary;
 }
 
