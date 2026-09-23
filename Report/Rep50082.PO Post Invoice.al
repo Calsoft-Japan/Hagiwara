@@ -55,11 +55,15 @@ report 50082 "PO Post Invoice"
                                 PurchaseLine.MODIFY;
 
                                 // Save post target lines to reset other lines' Quantity.
-                                TargetPurchLine.Init();
-                                TargetPurchLine."Document Type" := PurchaseLine."Document Type";
-                                TargetPurchLine."Document No." := PurchaseLine."Document No.";
-                                TargetPurchLine."Line No." := PurchaseLine."Line No.";
-                                TargetPurchLine.Insert();
+                                if not TargetPurchLine.Get(PurchaseLine."Document Type",
+                                                            PurchaseLine."Document No.",
+                                                            PurchaseLine."Line No.") then begin
+                                    TargetPurchLine.Init();
+                                    TargetPurchLine."Document Type" := PurchaseLine."Document Type";
+                                    TargetPurchLine."Document No." := PurchaseLine."Document No.";
+                                    TargetPurchLine."Line No." := PurchaseLine."Line No.";
+                                    TargetPurchLine.Insert();
+                                end;
 
                                 PurchFound := TRUE;
                             END;

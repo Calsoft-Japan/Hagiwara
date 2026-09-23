@@ -27,55 +27,57 @@ report 50087 "PO Post Receive"
                 CLEARLASTERROR;
 
                 //CS054 Begin
-                PurchReceiptImportStaging2.RESET;
-                PurchReceiptImportStaging2.SETRANGE("PO No.", "PO No.");
-                IF PurchReceiptImportStaging2.FINDSET THEN BEGIN
-                    REPEAT
-                        PurchFound := FALSE;
-                        PurchaseLine.RESET;
-                        PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                        PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
-                        //PurchaseLine.SETRANGE("CO No.",PurchReceiptImportStaging2."CO No.");//CS079
-                        //CS079 Begin
-                        IF (PurchReceiptImportStaging2."PO No." <> '') AND (PurchReceiptImportStaging2."Line No." <> 0) THEN BEGIN
-                            PurchaseLine.SETRANGE("Document No.", PurchReceiptImportStaging2."PO No."); //Naoto Fixed
-                            PurchaseLine.SETRANGE("Line No.", PurchReceiptImportStaging2."Line No.");
-                        END ELSE BEGIN
-                            PurchaseLine.SETRANGE("CO No.", PurchReceiptImportStaging2."CO No.");
-                        END;
-                        //CS079 End
-                        PurchaseLine.SETCURRENTKEY("Outstanding Quantity");
-                        PurchaseLine.SETASCENDING("Outstanding Quantity", TRUE);
-                        IF PurchaseLine.FINDSET THEN BEGIN
-                            REPEAT
-                                IF NOT (PurchFound) AND (PurchaseLine."Outstanding Quantity" >= PurchReceiptImportStaging2."Received Qty.") THEN BEGIN
-                                    PurchaseLine."Goods Arrival Date" := PurchReceiptImportStaging2."Arrival Date";
-                                    PurchaseLine.VALIDATE("Qty. to Receive", PurchReceiptImportStaging2."Received Qty.");
-                                    //BC Upgrade
-                                    /*
-                                    IF PurchReceiptImportStaging2."Unit Cost" > 0 THEN //CS095
-                                        PurchaseLine.VALIDATE("Direct Unit Cost", PurchReceiptImportStaging2."Unit Cost"); //CS095
-                                    */
-                                    //BC Upgrade
-                                    PurchaseLine.MODIFY;
-
-                                    // Save post target lines to reset other lines' Quantity.
-                                    TargetPurchLine.Init();
-                                    TargetPurchLine."Document Type" := PurchaseLine."Document Type";
-                                    TargetPurchLine."Document No." := PurchaseLine."Document No.";
-                                    TargetPurchLine."Line No." := PurchaseLine."Line No.";
-                                    TargetPurchLine.Insert();
-
-                                    PurchFound := TRUE;
-                                END;
-                            UNTIL PurchaseLine.NEXT = 0;
-                        END;
-                    UNTIL PurchReceiptImportStaging2.NEXT = 0;
-                END;
-                //CS054 End
-
-                //Post by each order.
                 if not PostedPONoList.Contains("PO No.") then begin
+                    PurchReceiptImportStaging2.RESET;
+                    PurchReceiptImportStaging2.SETRANGE("PO No.", "PO No.");
+                    IF PurchReceiptImportStaging2.FINDSET THEN BEGIN
+                        REPEAT
+                            PurchFound := FALSE;
+                            PurchaseLine.RESET;
+                            PurchaseLine.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
+                            PurchaseLine.SETRANGE(Type, PurchaseLine.Type::Item);
+                            //PurchaseLine.SETRANGE("CO No.",PurchReceiptImportStaging2."CO No.");//CS079
+                            //CS079 Begin
+                            IF (PurchReceiptImportStaging2."PO No." <> '') AND (PurchReceiptImportStaging2."Line No." <> 0) THEN BEGIN
+                                PurchaseLine.SETRANGE("Document No.", PurchReceiptImportStaging2."PO No."); //Naoto Fixed
+                                PurchaseLine.SETRANGE("Line No.", PurchReceiptImportStaging2."Line No.");
+                            END ELSE BEGIN
+                                PurchaseLine.SETRANGE("CO No.", PurchReceiptImportStaging2."CO No.");
+                            END;
+                            //CS079 End
+                            PurchaseLine.SETCURRENTKEY("Outstanding Quantity");
+                            PurchaseLine.SETASCENDING("Outstanding Quantity", TRUE);
+                            IF PurchaseLine.FINDSET THEN BEGIN
+                                REPEAT
+                                    IF NOT (PurchFound) AND (PurchaseLine."Outstanding Quantity" >= PurchReceiptImportStaging2."Received Qty.") THEN BEGIN
+                                        PurchaseLine."Goods Arrival Date" := PurchReceiptImportStaging2."Arrival Date";
+                                        PurchaseLine.VALIDATE("Qty. to Receive", PurchReceiptImportStaging2."Received Qty.");
+                                        //BC Upgrade
+                                        /*
+                                        IF PurchReceiptImportStaging2."Unit Cost" > 0 THEN //CS095
+                                            PurchaseLine.VALIDATE("Direct Unit Cost", PurchReceiptImportStaging2."Unit Cost"); //CS095
+                                        */
+                                        //BC Upgrade
+                                        PurchaseLine.MODIFY;
+
+                                        // Save post target lines to reset other lines' Quantity.
+                                        if not TargetPurchLine.Get(PurchaseLine."Document Type",
+                                                                    PurchaseLine."Document No.",
+                                                                    PurchaseLine."Line No.") then begin
+                                            TargetPurchLine.Init();
+                                            TargetPurchLine."Document Type" := PurchaseLine."Document Type";
+                                            TargetPurchLine."Document No." := PurchaseLine."Document No.";
+                                            TargetPurchLine."Line No." := PurchaseLine."Line No.";
+                                            TargetPurchLine.Insert();
+                                        end;
+
+                                        PurchFound := TRUE;
+                                    END;
+                                UNTIL PurchaseLine.NEXT = 0;
+                            END;
+                        UNTIL PurchReceiptImportStaging2.NEXT = 0;
+                    END;
+                    //CS054 End
 
                     //Reset other lines' Quantity.
                     PurchaseLine.Reset();
