@@ -372,6 +372,38 @@ report 50077 "Renesas PO Check List"
                     END;
                 END;
 
+                //BC Upgrade
+                //---------------------------------------------------------------//
+                //     Compare the Price in the imported file with the Direct Unit Cost in the Price List Line (indicating the price does not match)     //
+                //---------------------------------------------------------------//
+                IF Quantity > 0 THEN BEGIN
+                    rec_PriceListLine.Reset();
+                    rec_PriceListLine.SetCurrentKey("Starting Date");
+                    rec_PriceListLine.Ascending(false);
+                    rec_PriceListLine.SetRange("Price List Code", g_PriceListCode);
+                    rec_PriceListLine.SetRange(Status, Enum::"Price Status"::Active);
+                    rec_PriceListLine.SetRange("Price Type", Enum::"Price Type"::Purchase);
+                    rec_PriceListLine.SetRange("Source Type", Enum::"Price Source Type"::Vendor);
+                    rec_PriceListLine.SetRange("Source No.", IN_setup."Supplier Item Source");
+                    rec_PriceListLine.SetRange("Asset Type", Enum::"Price Asset Type"::Item);
+                    rec_PriceListLine.SetRange("Asset No.", g_ItemNo);
+                    rec_PriceListLine.SetFilter("Starting Date", '..%1', "Document Date");
+                    rec_PriceListLine.SetFilter("Ending Date", '%1|%2..', 0D, "Document Date");
+                    if rec_PriceListLine.FindFirst() then begin
+                        if rec_PriceListLine."Direct Unit Cost" <> Price then begin
+                            g_DupRec := 'ERROR';
+                            ind_Error := '1';
+                            g_CreErr := g_CreErr + 1;
+                        end;
+                    end else begin
+                        // not found is also not match.
+                        g_DupRec := 'ERROR';
+                        ind_Error := '1';
+                        g_CreErr := g_CreErr + 1;
+                    end;
+                END;
+                //BC Upgrade
+
                 IF ind_Error = '0' THEN BEGIN
                     IF Quantity > 0 THEN BEGIN
                         g_CreRec := g_CreRec + 1;
@@ -417,6 +449,8 @@ report 50077 "Renesas PO Check List"
         g_CreErr := 0;
         g_UpdErr := 0;
         g_UpdWar := 0;  //CS031
+        g_PriceListCode := 'P00001';
+        IN_setup.Get();
 
         rec_PurchPayableSetup.GET;
         IF ((rec_PurchPayableSetup."Create Renesas PO Status" = '2') OR
@@ -539,5 +573,8 @@ report 50077 "Renesas PO Check List"
         g_NoCustomer: Text;
         g_UpdWar: Integer;
         g_DupCnt: Integer;
+        g_PriceListCode: Code[20];
+        rec_PriceListLine: Record "Price List Line";
+        IN_setup: Record "Inventory Setup";
 }
 

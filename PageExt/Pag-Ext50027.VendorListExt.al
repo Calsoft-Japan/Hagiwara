@@ -97,7 +97,10 @@ pageextension 50027 VendorListExt extends "Vendor List"
 
         addafter("Balance Due (LCY)")
         {
-
+            field(Balance; Rec.Balance)
+            {
+                ApplicationArea = all;
+            }
             field("Manufacturer Code"; Rec."Manufacturer Code")
             {
                 ApplicationArea = all;

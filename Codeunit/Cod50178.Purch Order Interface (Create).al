@@ -124,10 +124,10 @@ codeunit 50178 "Purch Order Interface (Create)"
                             rec_PurchLine.VALIDATE("No.", rec_Item."No.");
                             rec_PurchLine.VALIDATE("Customer Item No.", rec_Item."Customer Item No.");
                             rec_PurchLine.VALIDATE(Quantity, rec_POInt1.Quantity);
-                            rec_PurchLine.VALIDATE("Line Amount", rec_POInt1.Amount);
-                            rec_PurchLine.VALIDATE("Outstanding Amount", rec_POInt1.Amount);
-                            "OS Amount (LCY)" := rec_PurchLine."Unit Cost (LCY)" * rec_POInt1.Quantity;
-                            rec_PurchLine.VALIDATE("Outstanding Amount (LCY)", "OS Amount (LCY)");
+                            //rec_PurchLine.VALIDATE("Line Amount", rec_POInt1.Amount); //BC Upgrade
+                            //rec_PurchLine.VALIDATE("Outstanding Amount", rec_POInt1.Amount); //BC Upgrade
+                            //"OS Amount (LCY)" := rec_PurchLine."Unit Cost (LCY)" * rec_POInt1.Quantity; //BC Upgrade
+                            //rec_PurchLine.VALIDATE("Outstanding Amount (LCY)", "OS Amount (LCY)"); //BC Upgrade
                             rec_PurchLine.VALIDATE("Qty. to Receive", 0);
                             rec_PurchLine.VALIDATE("Qty. to Invoice", 0);
                             rec_PurchLine.VALIDATE("Item Supplier Source", rec_Item."Item Supplier Source");
@@ -136,8 +136,8 @@ codeunit 50178 "Purch Order Interface (Create)"
                             //rec_PurchLine.VALIDATE("Requested Receipt Date", rec_POInt1."Demand Date");//sanjeev
                             rec_PurchLine.VALIDATE("Requested Receipt Date_1", rec_POInt1."Demand Date");
                             rec_PurchLine.VALIDATE("CO No.", rec_POInt1."CO No.");
-                            rec_PurchLine."Line Discount Amount" := 0;
-                            rec_PurchLine."Line Discount %" := 0;
+                            //rec_PurchLine."Line Discount Amount" := 0; //BC Upgrade
+                            //rec_PurchLine."Line Discount %" := 0; //BC Upgrade
                             //     rec_PurchLine.VALIDATE(Products, rec_POInt1.Product);
                         END ELSE BEGIN
                             rec_PurchLine.VALIDATE(Type, 0);
@@ -156,6 +156,8 @@ codeunit 50178 "Purch Order Interface (Create)"
                             rec_PurchLine.MODIFY;
                         END;
 
+                        //BC Upgrade
+                        /*
                         IF rec_PurchLine."Line Amount" = 0 THEN BEGIN
                             rec_PurchLine."Line Amount" := ROUND(rec_PurchLine.Quantity * rec_PurchLine."Direct Unit Cost");
                             rec_PurchLine.MODIFY;
@@ -169,6 +171,7 @@ codeunit 50178 "Purch Order Interface (Create)"
                                 rec_PurchLine.MODIFY;
                             END;
                         END;
+                        */
 
                         IF rec_PurchLine."VAT Prod. Posting Group" = 'GST7' THEN BEGIN
                             rec_PurchLine."Outstanding Amount" := ROUND(rec_PurchLine."Outstanding Amount" * 1.07);

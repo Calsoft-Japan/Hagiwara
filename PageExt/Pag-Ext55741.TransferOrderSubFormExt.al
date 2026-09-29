@@ -14,6 +14,14 @@ pageextension 55741 TransferOrderSubFormExt extends "Transfer Order Subform"
             }
         }
 
+        addafter("Receipt Date")
+        {
+            field("External Document No."; Rec."External Document No.")
+            {
+                ApplicationArea = all;
+            }
+        }
+
         modify(Quantity)
         {
             StyleExpr = StyleAppr_Qty;
