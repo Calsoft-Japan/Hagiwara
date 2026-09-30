@@ -18,6 +18,15 @@ pageextension 56631 SalesRtnOrdSubformExt extends "Sales Return Order Subform"
             }
         }
 
+        addafter("No.")
+        {
+            field("Customer Item No."; rec."Customer Item No.")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
         modify(Quantity)
         {
             StyleExpr = StyleAppr_Qty;

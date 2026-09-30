@@ -17,8 +17,12 @@ codeunit 50001 "SOPO Line Price Update Message"
     [EventSubscriber(ObjectType::Table, Database::"Purchase Line", OnAfterUpdateDirectUnitCost, '', false, false)]
     local procedure "Purchase Line_OnAfterUpdateDirectUnitCost"(var PurchLine: Record "Purchase Line"; xPurchLine: Record "Purchase Line"; CalledByFieldNo: Integer; CurrFieldNo: Integer)
     var
+        SessionInstance: Codeunit "Session Instance";
         Text000: Label 'The Unit Cost has been updated from %1 to %2.\\Select "Yes" to allow the update, or "No" to revert the Unit Cost to its previous state.\\(Item No:%3 Line No.:%4)';
     begin
+        if SessionInstance.IsRenesasPOIF() then
+            exit;
+
         if (PurchLine."Document Type" = PurchLine."Document Type"::Order) and (xPurchLine."Direct Unit Cost" <> 0) and (PurchLine."Direct Unit Cost" <> xPurchLine."Direct Unit Cost") then begin
             if NOT Confirm(STRSUBSTNO(Text000, xPurchLine."Direct Unit Cost", PurchLine."Direct Unit Cost", PurchLine."No.", PurchLine."Line No."), true) then begin
                 PurchLine.Validate("Direct Unit Cost", xPurchLine."Direct Unit Cost");

@@ -56,6 +56,11 @@ pageextension 50516 SalesLinesExt extends "Sales Lines"
 
                 ApplicationArea = all;
             }
+            field("VAT Prod. Posting Group"; Rec."VAT Prod. Posting Group")
+            {
+
+                ApplicationArea = all;
+            }
         }
 
         addafter(Description)

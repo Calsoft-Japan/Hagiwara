@@ -18,6 +18,7 @@ codeunit 50179 "Renesas PO Interface (Update)"
             EXIT;
         END;
 
+        g_SessionInstance.SetRenesasPOIF();
 
         LastFieldNo := rec_POInt.FIELDNO("Vendor Customer Code");
 
@@ -65,6 +66,8 @@ codeunit 50179 "Renesas PO Interface (Update)"
 
             until rec_POInt.Next() = 0;
 
+        g_SessionInstance.ClearRenesasPOIF();
+
         MESSAGE('Renesas PO Data Update Completed!');
 
         rec_PurchPayableSetup.GET;
@@ -98,5 +101,6 @@ codeunit 50179 "Renesas PO Interface (Update)"
         PO_No_CaptionLbl: Label 'PO No.';
         rec_PurchHeader: Record "Purchase Header";
         g_POStatus_Org: Enum "Purchase Document Status";
+        g_SessionInstance: Codeunit "Session Instance";
 
 }

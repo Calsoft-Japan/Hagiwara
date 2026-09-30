@@ -431,11 +431,11 @@ codeunit 50115 "SQ&SO Import"
                     RecSalesLine.Validate("Shipment Date", RecSQSOImport."Shipment Date");
                 end;
                 if RecSalesLine."Document Type" = RecSalesLine."Document Type"::Order then begin
-                    RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                     RecSalesLine.Validate("Approved Quantity", RecSalesLine.Quantity);
                     RecSalesLine.Validate("Approved Unit Price", RecSalesLine."Unit Price");
                     RecSalesLine."Approval History Exists" := true;
                 end;
+                RecSalesLine.Validate("Customer Order No.", RecSQSOImport."Customer Order No.");
                 RecSalesLine.Insert(true);
                 InsertExtendedText(RecSalesLine, true);
                 RecSalesHeader.Reset();

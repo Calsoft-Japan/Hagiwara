@@ -18,6 +18,15 @@ pageextension 56641 PurchaseRtnOrdSubformExt extends "Purchase Return Order Subf
             }
         }
 
+        addafter("No.")
+        {
+            field("Customer Item No."; rec."Customer Item No.")
+            {
+
+                ApplicationArea = all;
+            }
+        }
+
         modify(Quantity)
         {
             StyleExpr = StyleAppr_Qty;

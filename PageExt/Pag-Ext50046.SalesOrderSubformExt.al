@@ -265,6 +265,11 @@ pageextension 50046 SalesOrderSubformExt extends "Sales Order Subform"
             }
         }
 
+        modify("VAT Prod. Posting Group")
+        {
+            Visible = true;
+        }
+
         modify(Quantity)
         {
             StyleExpr = StyleAppr_Qty;
