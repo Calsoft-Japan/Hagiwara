@@ -13,7 +13,8 @@ report 50087 "PO Post Receive"
         {
             DataItemTableView = SORTING("Batch No.", "Entry No.")
                                 ORDER(Ascending)
-                                WHERE(Received = FILTER(false));
+                                WHERE(Received = FILTER(false),
+                                      Status = FILTER(Processed)); // BC Upgrade
 
             trigger OnAfterGetRecord()
             var
@@ -30,6 +31,7 @@ report 50087 "PO Post Receive"
                 if not PostedPONoList.Contains("PO No.") then begin
                     PurchReceiptImportStaging2.RESET;
                     PurchReceiptImportStaging2.SETRANGE("PO No.", "PO No.");
+                    PurchReceiptImportStaging2.SetRange(Status, PurchReceiptImportStaging2.Status::Processed); //BC Upgrade
                     IF PurchReceiptImportStaging2.FINDSET THEN BEGIN
                         REPEAT
                             PurchFound := FALSE;
