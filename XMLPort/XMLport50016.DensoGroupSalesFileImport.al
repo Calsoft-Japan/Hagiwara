@@ -426,7 +426,7 @@ xmlport 50016 "Denso Group Sales File Import"
         RecSalesHeader.VALIDATE("Posting Date", TODAY);
         RecSalesHeader.VALIDATE("Order Date", TODAY);
         RecSalesHeader.VALIDATE("Sell-to Customer No.", RecCustomer."No.");
-        RecSalesHeader.VALIDATE("Bill-to Customer No.", RecCustomer."No.");
+        //RecSalesHeader.VALIDATE("Bill-to Customer No.", RecCustomer."No."); // BC Upgrade
         IF RecSalesHeader."Document Type" = RecSalesHeader."Document Type"::Order THEN BEGIN
             RecSalesHeader.VALIDATE("External Document No.", RecTEMPSalesFileImportBuffer."Delivery Order");
             RecSalesHeader.VALIDATE("Your Reference", RecTEMPSalesFileImportBuffer."Delivery Order");

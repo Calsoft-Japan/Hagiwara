@@ -252,6 +252,14 @@ page 50118 "Item Import Lines"
                 {
                     ApplicationArea = all;
                 }
+                field("Renesas Category Code"; Rec."Renesas Category Code")
+                {
+                    ApplicationArea = all;
+                }
+                field("ORE CPN"; Rec."ORE CPN")
+                {
+                    ApplicationArea = all;
+                }
                 field("Status"; Rec."Status")
                 {
                     ApplicationArea = all;
@@ -661,6 +669,8 @@ page 50118 "Item Import Lines"
         Item.Validate("Global Dimension 1 Code", p_ItemImportline."Customer Group Code");
         Item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
         Item.Validate(Blocked, p_ItemImportline."Blocked");
+        Item.Validate("Renesas Category Code", p_ItemImportline."Renesas Category Code");
+        Item.Validate("ORE CPN", p_ItemImportline."ORE CPN");
 
         Item.Modify(true);
         //Why commit here?
@@ -883,6 +893,10 @@ page 50118 "Item Import Lines"
                 item.Validate("Global Dimension 2 Code", p_ItemImportline."Base Currency Code");
             if Item.Blocked <> p_ItemImportline."Blocked" then
                 item.Validate(Blocked, p_ItemImportline."Blocked");
+            if Item."Renesas Category Code" <> p_ItemImportline."Renesas Category Code" then
+                item.Validate("Renesas Category Code", p_ItemImportline."Renesas Category Code");
+            if Item."ORE CPN" <> p_ItemImportline."ORE CPN" then
+                item.Validate("ORE CPN", p_ItemImportline."ORE CPN");
 
             Item.Modify(true);
         end;
@@ -906,6 +920,8 @@ page 50118 "Item Import Lines"
         VATProdPostingGroup: Record "VAT Product Posting Group";
         GlobalDimension1Code: Record "Dimension Value";
         GlobalDimension2Code: Record "Dimension Value";
+        RenesasCategory: Record "ORE Renesas Category";
+        ORECPN: Record "ORE CPN Setup";
         GLSetup: Record "General Ledger Setup";
     begin
         // -------Existence Check (See table relation info.)-------
@@ -1018,6 +1034,18 @@ page 50118 "Item Import Lines"
         if p_ItemImportline."Base Currency Code" <> '' then begin
             if not GlobalDimension2Code.get(GLSetup."Global Dimension 2 Code", p_ItemImportline."Base Currency Code") then begin
                 ErrDesc += 'Base Currency Code is not found. ';
+            end;
+        end;
+        //Renesas Category Code
+        if p_ItemImportline."Renesas Category Code" <> '' then begin
+            if not RenesasCategory.get(p_ItemImportline."Renesas Category Code") then begin
+                ErrDesc += 'Renesas Category Code is not found. ';
+            end;
+        end;
+        //ORE CPN
+        if p_ItemImportline."ORE CPN" <> '' then begin
+            if not ORECPN.get(p_ItemImportline."ORE CPN") then begin
+                ErrDesc += 'ORE CPN is not found. ';
             end;
         end;
 

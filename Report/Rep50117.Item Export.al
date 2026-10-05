@@ -78,6 +78,8 @@ report 50117 "Item Export"
                 TempExcelBuffer.AddColumn(GlobalDimension1Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(GlobalDimension2Code_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                 TempExcelBuffer.AddColumn(Blocked_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(RenesasCategoryCode_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                TempExcelBuffer.AddColumn(ORECPN_Lbl, false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
             end;
 
@@ -148,6 +150,8 @@ report 50117 "Item Export"
                     TempExcelBuffer.AddColumn(Item."Global Dimension 1 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Item."Global Dimension 2 Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
                     TempExcelBuffer.AddColumn(Item."Blocked", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Item."Renesas Category Code", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
+                    TempExcelBuffer.AddColumn(Item."ORE CPN", false, '', false, false, false, '', TempExcelBuffer."Cell Type"::Text);
 
                 end;
             end;
@@ -259,8 +263,8 @@ report 50117 "Item Export"
         GlobalDimension1Code_Lbl: Label 'Global Dimension 1 Code';
         GlobalDimension2Code_Lbl: Label 'Global Dimension 2 Code';
         Blocked_Lbl: Label 'Blocked';
-
-
+        RenesasCategoryCode_Lbl: Label 'Renesas Category Code';
+        ORECPN_Lbl: Label 'ORE CPN';
 
 }
 

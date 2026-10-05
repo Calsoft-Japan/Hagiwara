@@ -79,6 +79,8 @@ codeunit 50117 "Item Import"
         CustomerGroupCodeNotValid: Label 'Customer Group Code is not valid.';
         BaseCurrencyCodeNotValid: Label 'Base Currency Code is not valid.';
         BlockedNotValid: Label 'Blocked is not valid.';
+        RenesasCategoryCodeNotValid: Label 'Renesas Category Code is not valid.';
+        ORECPNNotValid: Label 'ORE CPN is not valid.';
 
     procedure SetBatchName(pBatchName: Code[20])
     begin
@@ -171,6 +173,8 @@ codeunit 50117 "Item Import"
         CustomerGroupCodeStr: text;
         BaseCurrencyCodeStr: text;
         BlockedStr: text;
+        RenesasCategoryCodeStr: text;
+        ORECPNStr: text;
     begin
         RowNo := 0;
         ColNo := 0;
@@ -248,6 +252,8 @@ codeunit 50117 "Item Import"
             CustomerGroupCodeStr := GetValueAtCell(RowNo, 57).Trim();
             BaseCurrencyCodeStr := GetValueAtCell(RowNo, 58).Trim();
             BlockedStr := GetValueAtCell(RowNo, 59).Trim();
+            RenesasCategoryCodeStr := GetValueAtCell(RowNo, 60).Trim();
+            ORECPNStr := GetValueAtCell(RowNo, 61).Trim();
 
             //-------------------------------Check-------------------------------
             if (EntryNoStr = '') then begin
@@ -507,6 +513,14 @@ codeunit 50117 "Item Import"
                 Error(BlockedNotValid);
             end;
 
+            if ((RenesasCategoryCodeStr <> '') and (not Evaluate(rec_POInt."Renesas Category Code", RenesasCategoryCodeStr))) then begin
+                Error(RenesasCategoryCodeNotValid);
+            end;
+
+            if ((ORECPNStr <> '') and (not Evaluate(rec_POInt."ORE CPN", ORECPNStr))) then begin
+                Error(ORECPNNotValid);
+            end;
+
             //----------------------Set values for each item----------------------
             rec_POInt."Batch Name" := G_BatchName;
             rec_POInt."Entry No." := EntryNo;
@@ -568,6 +582,8 @@ codeunit 50117 "Item Import"
             if Evaluate(rec_POInt."Customer Group Code", GetValueAtCell(RowNo, 57)) then;
             if Evaluate(rec_POInt."Base Currency Code", GetValueAtCell(RowNo, 58)) then;
             if Evaluate(rec_POInt."Blocked", GetValueAtCell(RowNo, 59)) then;
+            if Evaluate(rec_POInt."Renesas Category Code", GetValueAtCell(RowNo, 60)) then;
+            if Evaluate(rec_POInt."ORE CPN", GetValueAtCell(RowNo, 61)) then;
             rec_POInt.Insert();
         end;
         Message(ExcelImportSucess);

@@ -36,5 +36,10 @@ pageextension 50518 PurchLinesExt extends "Purchase Lines"
                 ApplicationArea = all;
             }
         }
+
+        modify("Unit Price (LCY)")
+        {
+            Visible = true;
+        }
     }
 }

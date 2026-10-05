@@ -258,6 +258,14 @@ table 50118 "Item Import Line"
             OptionCaption = ' , Create, Update';
             OptionMembers = " ",Create,Update;
         }
+        field(64; "Renesas Category Code"; Code[20])
+        {
+            TableRelation = "ORE Renesas Category".Code;
+        }
+        field(65; "ORE CPN"; Code[20])
+        {
+            TableRelation = "ORE CPN Setup".Code;
+        }
     }
 
     keys
