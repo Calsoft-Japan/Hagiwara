@@ -15,8 +15,11 @@ pageextension 50047 SalesInvSubformExt extends "Sales Invoice Subform"
 
                 ApplicationArea = all;
             }
+            field(Rank; Rec.Rank)
+            {
+
+                ApplicationArea = all;
+            }
         }
-
     }
-
 }

@@ -1149,6 +1149,7 @@
                                       <TablixCell>
                                         <CellContents>
                                           <Textbox Name="SalesInvoiceLineNo">
+                                            <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
@@ -1178,6 +1179,7 @@
                                       <TablixCell>
                                         <CellContents>
                                           <Textbox Name="textbox175">
+                                            <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
@@ -1190,11 +1192,16 @@
                                                     </Style>
                                                   </TextRun>
                                                 </TextRuns>
-                                                <Style />
+                                                <Style>
+                                                  <TextAlign>Left</TextAlign>
+                                                </Style>
                                               </Paragraph>
                                             </Paragraphs>
                                             <ZIndex>136</ZIndex>
                                             <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
                                               <VerticalAlign>Top</VerticalAlign>
                                               <PaddingLeft>5pt</PaddingLeft>
                                               <PaddingRight>5pt</PaddingRight>
@@ -1263,6 +1270,7 @@
                                       <TablixCell>
                                         <CellContents>
                                           <Textbox Name="SalesInvoiceLineUnitofMeasure">
+                                            <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
@@ -1280,6 +1288,9 @@
                                             <rd:DefaultName>SalesInvoiceLineUnitofMeasure</rd:DefaultName>
                                             <ZIndex>133</ZIndex>
                                             <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
                                               <VerticalAlign>Top</VerticalAlign>
                                             </Style>
                                           </Textbox>
@@ -1309,6 +1320,9 @@
                                             <rd:DefaultName>SalesInvoiceLineUnitPrice</rd:DefaultName>
                                             <ZIndex>132</ZIndex>
                                             <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
                                               <VerticalAlign>Top</VerticalAlign>
                                               <PaddingLeft>5pt</PaddingLeft>
                                               <PaddingRight>5pt</PaddingRight>
@@ -1340,6 +1354,9 @@
                                             <rd:DefaultName>SalesInvoiceLineLineAmount</rd:DefaultName>
                                             <ZIndex>129</ZIndex>
                                             <Style>
+                                              <Border>
+                                                <Style>None</Style>
+                                              </Border>
                                               <VerticalAlign>Top</VerticalAlign>
                                               <PaddingLeft>5pt</PaddingLeft>
                                             </Style>
