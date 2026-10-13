@@ -18,6 +18,9 @@ report 50003 "ActualOrderAmountOrderBalance"
             column(To; EndDate)
             {
             }
+            column(CustPostGrpFilter; CustPostGrpFilter)
+            {
+            }
         }
 
         // 2.4.2	Remaining Sales Order Sheet
@@ -137,7 +140,6 @@ report 50003 "ActualOrderAmountOrderBalance"
 
             trigger OnAfterGetRecord()
             var
-                myInt: Integer;
                 Cust: Record Customer;
                 SalesHeader: Record "Sales Header";
             begin
@@ -234,14 +236,13 @@ report 50003 "ActualOrderAmountOrderBalance"
             trigger OnPreDataItem()
             begin
                 SalesOrderActual.SETFILTER("Order Date", '%1..%2', StartDate, EndDate);
-                SalesOrderActual.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
+                //SalesOrderActual.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
+                SalesOrderActual.SETFILTER("Customer Posting Group", CustPostGrpFilter);
             end;
 
             trigger OnAfterGetRecord()
             var
-                myInt: Integer;
                 Cust: Record Customer;
-                SalesInvoiceHeader: Record "Sales Invoice Header";
             begin
                 Cust.get(SalesOrderActual."Sell-to Customer No.");
                 CustomerGroupCode := Cust."Customer Group";
@@ -333,8 +334,9 @@ report 50003 "ActualOrderAmountOrderBalance"
             trigger OnPreDataItem()
             begin
                 SalesOrderBalance.SETFILTER("Order Date", '..%1', EndDate);
-                SalesOrderBalance.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
-                SalesOrderBalance.SETFILTER("Posting Date", '%1..', StartDate);
+                //SalesOrderBalance.SETFILTER("Customer Posting Group", '%1|%2', '3RD TRAD', 'GROUP TRAD');
+                SalesOrderBalance.SETFILTER("Customer Posting Group", CustPostGrpFilter);
+                SalesOrderBalance.SETFILTER("Posting Date", '%1..', EndDate + 1);
             end;
 
             trigger OnAfterGetRecord()
@@ -379,6 +381,107 @@ report 50003 "ActualOrderAmountOrderBalance"
             end;
         }
 
+        // 2.4.6	Order Summary by Customer
+        dataitem(OrderSummarybyCustomer; "Customer")
+        {
+            DataItemTableView = SORTING("No.");
+            column(Sum_No; "No.")
+            {
+            }
+            column(Sum_Name; "Name")
+            {
+            }
+            column(Sum_ActOrdAmount; Sum_ActOrdAmount)
+            {
+            }
+            column(Sum_OrdBalance; Sum_OrdBalance)
+            {
+            }
+
+            dataitem(Sum_RemSO; "Sales Line")
+            {
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.");
+
+                trigger OnPreDataItem()
+                begin
+                    Sum_RemSO.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                    Sum_RemSO.SetRange("Document Type", Sum_RemSO."Document Type"::Order);
+                    Sum_RemSO.SetFilter("Outstanding Quantity", '>%1', 0);
+                end;
+
+                trigger OnAfterGetRecord()
+                var
+                    SalesHeader: Record "Sales Header";
+                begin
+                    RemainingSOAmountLCY := CalcRemSOAmountLCY(Sum_RemSO);
+
+                    SalesHeader.get(Sum_RemSO."Document Type", Sum_RemSO."Document No.");
+                    OrderDate := SalesHeader."Order Date";
+                    if (OrderDate >= StartDate) and (OrderDate <= EndDate) then begin
+                        Sum_ActOrdAmount += RemainingSOAmountLCY;
+                    end;
+
+                    if (OrderDate <= EndDate) then begin
+                        Sum_OrdBalance += RemainingSOAmountLCY;
+                    end;
+
+                end;
+
+            }
+
+            dataitem(Sum_SOAct; "Sales Invoice Header")
+            {
+                DataItemTableView = SORTING("No.");
+
+                trigger OnPreDataItem()
+                begin
+                    Sum_SOAct.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                    Sum_SOAct.SETFILTER("Order Date", '%1..%2', StartDate, EndDate);
+                    Sum_SOAct.SETFILTER("Customer Posting Group", CustPostGrpFilter);
+                end;
+
+                trigger OnAfterGetRecord()
+                begin
+
+                    InvoiceAmountLCY := CalcInvoiceAmountLCY(Sum_SOAct);
+                    Sum_ActOrdAmount += InvoiceAmountLCY;
+                end;
+
+            }
+
+            dataitem(Sum_SOBal; "Sales Invoice Header")
+            {
+                DataItemTableView = SORTING("No.");
+
+                trigger OnPreDataItem()
+                begin
+                    Sum_SOBal.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                    Sum_SOBal.SETFILTER("Order Date", '..%1', EndDate);
+                    Sum_SOBal.SETFILTER("Customer Posting Group", CustPostGrpFilter);
+                    Sum_SOBal.SETFILTER("Posting Date", '%1..', EndDate + 1);
+                end;
+
+                trigger OnAfterGetRecord()
+                begin
+                    InvoiceAmountLCY := CalcInvoiceAmountLCY(Sum_SOBal);
+                    Sum_OrdBalance += InvoiceAmountLCY;
+                end;
+
+            }
+
+            trigger OnPreDataItem()
+            begin
+                OrderSummarybyCustomer.SETFILTER(Blocked, '=%1', OrderSummarybyCustomer.Blocked::" ");
+                OrderSummarybyCustomer.SetFilter("Customer Posting Group", CustPostGrpFilter);
+            end;
+
+            trigger OnAfterGetRecord()
+            begin
+                Sum_ActOrdAmount := 0;
+                Sum_OrdBalance := 0;
+            end;
+        }
+
     }
     requestpage
     {
@@ -410,6 +513,13 @@ report 50003 "ActualOrderAmountOrderBalance"
                                 Error('The Start date must be less than or equal to the End date.');
                             end;
                         end;
+                    }
+                    field(CustPostGrpFilter; CustPostGrpFilter)
+                    {
+                        ApplicationArea = All;
+                        Caption = 'Customer Posting Group';
+                        NotBlank = true;
+                        ToolTip = 'Customer Posting Group Filter for the export.';
                     }
                 }
             }
@@ -482,11 +592,14 @@ report 50003 "ActualOrderAmountOrderBalance"
     var
         StartDate: Date;
         EndDate: Date;
+        CustPostGrpFilter: Code[250];
         CustPostingGroup: Code[20];
         CustomerGroupCode: Code[20];
         OrderDate: Date;
         RemainingSOAmountLCY: Decimal;
         InvoiceAmountLCY: Decimal;
         CurrExchRate: Record "Currency Exchange Rate";
+        Sum_ActOrdAmount: Decimal;
+        Sum_OrdBalance: Decimal;
 
 }

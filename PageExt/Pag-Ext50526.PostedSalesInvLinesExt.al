@@ -118,6 +118,11 @@ pageextension 50526 PostedSalesInvLInesExt extends "Posted Sales Invoice Lines"
 
         }
 
+        modify("Order No.")
+        {
+            Visible = true;
+        }
+
         modify("Description 2")
         {
             Visible = true;

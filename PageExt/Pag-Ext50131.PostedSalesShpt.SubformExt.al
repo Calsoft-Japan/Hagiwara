@@ -16,6 +16,10 @@ pageextension 50131 PostedSalesShptSubformExt extends "Posted Sales Shpt. Subfor
             {
                 ApplicationArea = all;
             }
+            field("Order No."; Rec."Order No.")
+            {
+                ApplicationArea = all;
+            }
             field("Line No."; Rec."Line No.")
             {
                 ApplicationArea = all;
