@@ -24,134 +24,145 @@ report 50003 "ActualOrderAmountOrderBalance"
         }
 
         // 2.4.2	Remaining Sales Order Sheet
-        dataitem(RemainingSalesOrder; "Sales Line")
-        {
-            DataItemTableView = SORTING("Document Type", "Document No.", "Line No.");
-            //RequestFilterFields = "Document Type", "Outstanding Quantity";
-            RequestFilterHeading = 'Remaining Sales Orders';
-            column(SO_DocumentType; "Document Type")
-            {
-            }
-            column(SO_DocumentNo; "Document No.")
-            {
-            }
-            column(SO_SelltoCustomerNo; "Sell-to Customer No.")
-            {
-            }
-            column(SO_Type; "Type")
-            {
-            }
-            column(SO_No; "No.")
-            {
-            }
-            column(SO_CustomerItemNo; "Customer Item No.")
-            {
-            }
-            column(SO_PartsNo; "Parts No.")
-            {
-            }
-            column(SO_Rank; Rank)
-            {
-            }
-            column(SO_Products; "Products")
-            {
-            }
-            column(SO_OEMNo; "OEM No.")
-            {
-            }
-            column(SO_OrderDate; OrderDate)
-            {
-            }
-            column(SO_PromisedDeliveryDate1; "Promised Delivery Date_1")
-            {
-            }
-            column(SO_RequestedDeliveryDate1; "Requested Delivery Date_1")
-            {
-            }
-            column(SO_Description; "Description")
-            {
-            }
-            column(SO_CustomerOrderNo; "Customer Order No.")
-            {
-            }
-            column(SO_LocationCode; "Location Code")
-            {
-            }
-            column(SO_Reserve; "Reserve")
-            {
-            }
-            column(SO_Quantity; "Quantity")
-            {
-            }
-            column(SO_ReservedQtyBase; "Reserved Qty. (Base)")
-            {
-            }
-            column(SO_FullyReserved; "Fully Reserved")
-            {
-            }
-            column(SO_UnitofMeasureCode; "Unit of Measure Code")
-            {
-            }
-            column(SO_UnitPriceExcl_VAT; "Unit Price")
-            {
-            }
-            column(SO_UnitCost; "Unit Cost")
-            {
-            }
-            column(SO_UnitCost_LCY; "Unit Cost (LCY)")
-            {
-            }
-            column(SO_LineAmountExclVAT; "Line Amount")
-            {
-            }
-            column(SO_LineAmountExclVATLCY; RemainingSOAmountLCY)
-            {
-            }
-            column(SO_ShipmentDate; "Shipment Date")
-            {
-            }
-            column(SO_OutstandingQuantity; "Outstanding Quantity")
-            {
-            }
-            column(SO_OutstandingQtyBase; "Outstanding Qty. (Base)")
-            {
-            }
-            column(SO_Calculated; "Unit Price" * "Outstanding Quantity")
-            {
-            }
-            column(SO_CustomerPostingGroup; CustPostingGroup)
-            {
-            }
-            column(SO_ApprovedQuantity; "Approved Quantity")
-            {
-            }
-            column(SO_ApprovedUnitPrice; "Approved Unit Price")
-            {
-            }
-            column(SO_ApprovedAmount; "Approved Quantity" * "Approved Unit Price")
-            {
-            }
 
+        dataitem(RemainingSalesOrder; "Sales Header")
+        {
+            dataitem(RemSO_SalesLine; "Sales Line")
+            {
+                DataItemLink = "Document Type" = FIELD("Document Type"),
+                                "Document No." = FIELD("No.");
+                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.");
+                //RequestFilterFields = "Document Type", "Outstanding Quantity";
+                RequestFilterHeading = 'Remaining Sales Orders';
+                column(SO_DocumentType; "Document Type")
+                {
+                }
+                column(SO_DocumentNo; "Document No.")
+                {
+                }
+                column(SO_SelltoCustomerNo; "Sell-to Customer No.")
+                {
+                }
+                column(SO_Type; "Type")
+                {
+                }
+                column(SO_No; "No.")
+                {
+                }
+                column(SO_CustomerItemNo; "Customer Item No.")
+                {
+                }
+                column(SO_PartsNo; "Parts No.")
+                {
+                }
+                column(SO_Rank; Rank)
+                {
+                }
+                column(SO_Products; "Products")
+                {
+                }
+                column(SO_OEMNo; "OEM No.")
+                {
+                }
+                column(SO_OrderDate; OrderDate)
+                {
+                }
+                column(SO_PromisedDeliveryDate1; "Promised Delivery Date_1")
+                {
+                }
+                column(SO_RequestedDeliveryDate1; "Requested Delivery Date_1")
+                {
+                }
+                column(SO_Description; "Description")
+                {
+                }
+                column(SO_CustomerOrderNo; "Customer Order No.")
+                {
+                }
+                column(SO_LocationCode; "Location Code")
+                {
+                }
+                column(SO_Reserve; "Reserve")
+                {
+                }
+                column(SO_Quantity; "Quantity")
+                {
+                }
+                column(SO_ReservedQtyBase; "Reserved Qty. (Base)")
+                {
+                }
+                column(SO_FullyReserved; "Fully Reserved")
+                {
+                }
+                column(SO_UnitofMeasureCode; "Unit of Measure Code")
+                {
+                }
+                column(SO_UnitPriceExcl_VAT; "Unit Price")
+                {
+                }
+                column(SO_UnitCost; "Unit Cost")
+                {
+                }
+                column(SO_UnitCost_LCY; "Unit Cost (LCY)")
+                {
+                }
+                column(SO_LineAmountExclVAT; "Line Amount")
+                {
+                }
+                column(SO_LineAmountExclVATLCY; RemainingSOAmountLCY)
+                {
+                }
+                column(SO_ShipmentDate; "Shipment Date")
+                {
+                }
+                column(SO_OutstandingQuantity; "Outstanding Quantity")
+                {
+                }
+                column(SO_OutstandingQtyBase; "Outstanding Qty. (Base)")
+                {
+                }
+                column(SO_Calculated; "Unit Price" * "Outstanding Quantity")
+                {
+                }
+                column(SO_CustomerPostingGroup; CustPostingGroup)
+                {
+                }
+                column(SO_ApprovedQuantity; "Approved Quantity")
+                {
+                }
+                column(SO_ApprovedUnitPrice; "Approved Unit Price")
+                {
+                }
+                column(SO_ApprovedAmount; "Approved Quantity" * "Approved Unit Price")
+                {
+                }
+
+                trigger OnPreDataItem()
+                begin
+                    RemSO_SalesLine.SetRange("Document Type", RemSO_SalesLine."Document Type"::Order);
+                    RemSO_SalesLine.SetFilter("Outstanding Quantity", '>%1', 0);
+                end;
+
+                trigger OnAfterGetRecord()
+                var
+                    Cust: Record Customer;
+                    SalesHeader: Record "Sales Header";
+                begin
+                    Cust.get(RemSO_SalesLine."Sell-to Customer No.");
+                    CustPostingGroup := Cust."Customer Posting Group";
+
+                    SalesHeader.get(RemSO_SalesLine."Document Type", RemSO_SalesLine."Document No.");
+                    OrderDate := SalesHeader."Order Date";
+
+                    RemainingSOAmountLCY := CalcRemSOAmountLCY(RemSO_SalesLine);
+                end;
+
+            }
             trigger OnPreDataItem()
             begin
                 RemainingSalesOrder.SetRange("Document Type", RemainingSalesOrder."Document Type"::Order);
-                RemainingSalesOrder.SetFilter("Outstanding Quantity", '>%1', 0);
+                RemainingSalesOrder.SetFilter("Customer Posting Group", CustPostGrpFilter);
             end;
-
-            trigger OnAfterGetRecord()
-            var
-                Cust: Record Customer;
-                SalesHeader: Record "Sales Header";
-            begin
-                Cust.get(RemainingSalesOrder."Sell-to Customer No.");
-                CustPostingGroup := Cust."Customer Posting Group";
-
-                SalesHeader.get(RemainingSalesOrder."Document Type", RemainingSalesOrder."Document No.");
-                OrderDate := SalesHeader."Order Date";
-
-                RemainingSOAmountLCY := CalcRemSOAmountLCY(RemainingSalesOrder);
-            end;
-
         }
 
         //2.4.3	Sales Order Actual Sheet
@@ -378,6 +389,7 @@ report 50003 "ActualOrderAmountOrderBalance"
             trigger OnPreDataItem()
             begin
                 CustomerSheet.SETFILTER(Blocked, '=%1', CustomerSheet.Blocked::" ");
+                CustomerSheet.SetFilter("Customer Posting Group", CustPostGrpFilter);
             end;
         }
 
@@ -398,77 +410,6 @@ report 50003 "ActualOrderAmountOrderBalance"
             {
             }
 
-            dataitem(Sum_RemSO; "Sales Line")
-            {
-                DataItemTableView = SORTING("Document Type", "Document No.", "Line No.");
-
-                trigger OnPreDataItem()
-                begin
-                    Sum_RemSO.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
-                    Sum_RemSO.SetRange("Document Type", Sum_RemSO."Document Type"::Order);
-                    Sum_RemSO.SetFilter("Outstanding Quantity", '>%1', 0);
-                end;
-
-                trigger OnAfterGetRecord()
-                var
-                    SalesHeader: Record "Sales Header";
-                begin
-                    RemainingSOAmountLCY := CalcRemSOAmountLCY(Sum_RemSO);
-
-                    SalesHeader.get(Sum_RemSO."Document Type", Sum_RemSO."Document No.");
-                    OrderDate := SalesHeader."Order Date";
-                    if (OrderDate >= StartDate) and (OrderDate <= EndDate) then begin
-                        Sum_ActOrdAmount += RemainingSOAmountLCY;
-                    end;
-
-                    if (OrderDate <= EndDate) then begin
-                        Sum_OrdBalance += RemainingSOAmountLCY;
-                    end;
-
-                end;
-
-            }
-
-            dataitem(Sum_SOAct; "Sales Invoice Header")
-            {
-                DataItemTableView = SORTING("No.");
-
-                trigger OnPreDataItem()
-                begin
-                    Sum_SOAct.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
-                    Sum_SOAct.SETFILTER("Order Date", '%1..%2', StartDate, EndDate);
-                    Sum_SOAct.SETFILTER("Customer Posting Group", CustPostGrpFilter);
-                end;
-
-                trigger OnAfterGetRecord()
-                begin
-
-                    InvoiceAmountLCY := CalcInvoiceAmountLCY(Sum_SOAct);
-                    Sum_ActOrdAmount += InvoiceAmountLCY;
-                end;
-
-            }
-
-            dataitem(Sum_SOBal; "Sales Invoice Header")
-            {
-                DataItemTableView = SORTING("No.");
-
-                trigger OnPreDataItem()
-                begin
-                    Sum_SOBal.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
-                    Sum_SOBal.SETFILTER("Order Date", '..%1', EndDate);
-                    Sum_SOBal.SETFILTER("Customer Posting Group", CustPostGrpFilter);
-                    Sum_SOBal.SETFILTER("Posting Date", '%1..', EndDate + 1);
-                end;
-
-                trigger OnAfterGetRecord()
-                begin
-                    InvoiceAmountLCY := CalcInvoiceAmountLCY(Sum_SOBal);
-                    Sum_OrdBalance += InvoiceAmountLCY;
-                end;
-
-            }
-
             trigger OnPreDataItem()
             begin
                 OrderSummarybyCustomer.SETFILTER(Blocked, '=%1', OrderSummarybyCustomer.Blocked::" ");
@@ -476,9 +417,54 @@ report 50003 "ActualOrderAmountOrderBalance"
             end;
 
             trigger OnAfterGetRecord()
+            var
+                recSalesHdr: Record "Sales Header";
+                recSalesLine: Record "Sales Line";
+                recSalesInvHdr: Record "Sales Invoice Header";
             begin
                 Sum_ActOrdAmount := 0;
                 Sum_OrdBalance := 0;
+
+                recSalesLine.Reset();
+                recSalesLine.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                recSalesLine.SetRange("Document Type", recSalesLine."Document Type"::Order);
+                recSalesLine.SetFilter("Outstanding Quantity", '>%1', 0);
+                if recSalesLine.FindSet() then
+                    repeat
+                        RemainingSOAmountLCY := CalcRemSOAmountLCY(recSalesLine);
+
+                        recSalesHdr.get(recSalesLine."Document Type", recSalesLine."Document No.");
+                        OrderDate := recSalesHdr."Order Date";
+                        if (OrderDate >= StartDate) and (OrderDate <= EndDate) then begin
+                            Sum_ActOrdAmount += RemainingSOAmountLCY;
+                        end;
+
+                        if (OrderDate <= EndDate) then begin
+                            Sum_OrdBalance += RemainingSOAmountLCY;
+                        end;
+                    until recSalesLine.Next() = 0;
+
+                recSalesInvHdr.Reset();
+                recSalesInvHdr.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                recSalesInvHdr.SETFILTER("Order Date", '%1..%2', StartDate, EndDate);
+                recSalesInvHdr.SETFILTER("Customer Posting Group", CustPostGrpFilter);
+                if recSalesInvHdr.FindSet() then
+                    repeat
+                        InvoiceAmountLCY := CalcInvoiceAmountLCY(recSalesInvHdr);
+                        Sum_ActOrdAmount += InvoiceAmountLCY;
+                    until recSalesInvHdr.Next() = 0;
+
+                recSalesInvHdr.Reset();
+                recSalesInvHdr.SetRange("Sell-to Customer No.", OrderSummarybyCustomer."No.");
+                recSalesInvHdr.SETFILTER("Order Date", '..%1', EndDate);
+                recSalesInvHdr.SETFILTER("Customer Posting Group", CustPostGrpFilter);
+                recSalesInvHdr.SETFILTER("Posting Date", '%1..', EndDate + 1);
+                if recSalesInvHdr.FindSet() then
+                    repeat
+                        InvoiceAmountLCY := CalcInvoiceAmountLCY(recSalesInvHdr);
+                        Sum_OrdBalance += InvoiceAmountLCY;
+                    until recSalesInvHdr.Next() = 0;
+
             end;
         }
 
@@ -572,19 +558,24 @@ report 50003 "ActualOrderAmountOrderBalance"
     procedure CalcInvoiceAmountLCY(pSalesInvoiceHeader: Record "Sales Invoice Header"): Decimal
     var
         CurrencyLocal: Record Currency;
+        HdrAmount: Decimal;
         rtnAmountLCY: Decimal;
+
     begin
+        pSalesInvoiceHeader.CalcFields(Amount);
+        HdrAmount := pSalesInvoiceHeader.Amount;
+
         CurrencyLocal.InitRoundingPrecision();
         if pSalesInvoiceHeader."Currency Code" <> '' then
             rtnAmountLCY :=
               Round(
                 CurrExchRate.ExchangeAmtFCYToLCY(
                   pSalesInvoiceHeader."Posting Date", pSalesInvoiceHeader."Currency Code",
-                  pSalesInvoiceHeader.Amount, pSalesInvoiceHeader."Currency Factor"),
+                  HdrAmount, pSalesInvoiceHeader."Currency Factor"),
                 CurrencyLocal."Amount Rounding Precision")
         else
             rtnAmountLCY :=
-              Round(pSalesInvoiceHeader.Amount, CurrencyLocal."Amount Rounding Precision");
+              Round(HdrAmount, CurrencyLocal."Amount Rounding Precision");
 
         exit(rtnAmountLCY);
     end;
