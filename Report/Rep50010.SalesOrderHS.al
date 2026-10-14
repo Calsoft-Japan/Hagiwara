@@ -284,8 +284,8 @@ report 50010 "Sales Order-HS"
                                 "Sales Line"."No." := '';
 
                             PromisedDelDate := '';
-                            IF "Sales Line"."Promised Delivery Date_1" <> 0D THEN
-                                PromisedDelDate := FORMAT("Sales Line"."Promised Delivery Date_1", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
+                            IF "Sales Line"."Requested Delivery Date_1" <> 0D THEN
+                                PromisedDelDate := FORMAT("Sales Line"."Requested Delivery Date_1", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
 
                             NNC_SalesLineLineAmt += SalesLine."Line Amount";
                             NNC_SalesLineInvDiscAmt += SalesLine."Inv. Discount Amount";
