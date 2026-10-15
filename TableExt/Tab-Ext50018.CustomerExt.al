@@ -234,6 +234,21 @@ tableextension 50018 "Customer Ext" extends "Customer"
 
     end;
 
+    trigger OnBeforeRename()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup.Customer) then begin
+            if not recApprSetup."Inprogress Customer" then begin
+                Error('The Approval setup is active.\The process cannot be completed.');
+            end;
+        end;
+        //N005 End
+
+    end;
+
     /*
     trigger OnAfterInsert()
     var

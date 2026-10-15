@@ -106,6 +106,12 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
         }
         //end 2025-08-07
 
+        modify("No.")
+        {
+            Editable = not IsApprovalOn;
+            Enabled = not IsApprovalOn;
+        }
+
     }
 
     actions
@@ -321,17 +327,16 @@ pageextension 50026 VendorCardExt extends "Vendor Card"
     begin
         IncotermVisibility := HagiwaraFunctions.GetIncotermVisibility; //HG10.00.04 NJ 13/02/2018
 
-        /*
         //N005 Begin
         recApprSetup.Get();
         if recApprSetup.Vendor then begin
-            CurrPage.Editable(false);
+            IsApprovalOn := true;
         end;
         //N005 End
-        */
     end;
 
     var
         IncotermVisibility: Boolean;
         HagiwaraFunctions: Codeunit "Hagiwara Functions";
+        IsApprovalOn: Boolean;
 }

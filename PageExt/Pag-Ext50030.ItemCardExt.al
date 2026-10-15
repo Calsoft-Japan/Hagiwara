@@ -451,6 +451,12 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
             }
         }
 
+        modify("No.")
+        {
+            Editable = not IsApprovalOn;
+            Enabled = not IsApprovalOn;
+        }
+
     }
 
     actions
@@ -507,6 +513,7 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
     trigger OnOpenPage() //Testing purpose-> need to change to OnAfterGetCurrRecord
     var
         GLSetup: Record "General Ledger Setup";
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
         GLSetup.Get();
         LoadDimensionData(GLSetup."Shortcut Dimension 1 Code", ShortcutDimValue1);
@@ -527,6 +534,13 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
         ShowDim6 := GLSetup."Shortcut Dimension 6 Code" <> '';
         ShowDim7 := GLSetup."Shortcut Dimension 7 Code" <> '';
         ShowDim8 := GLSetup."Shortcut Dimension 8 Code" <> '';
+
+        //N005 Begin
+        recApprSetup.Get();
+        if recApprSetup.Item then begin
+            IsApprovalOn := true;
+        end;
+        //N005 End
     end;
 
     // N002: Load default dimension data for Item Card
@@ -620,6 +634,8 @@ pageextension 50030 ItemCardExtextends extends "Item Card"
         ShowDim6: Boolean;
         ShowDim7: Boolean;
         ShowDim8: Boolean;
-    //End of N002
+        //End of N002
+
+        IsApprovalOn: Boolean;
 }
 

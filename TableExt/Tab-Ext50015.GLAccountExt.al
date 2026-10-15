@@ -121,4 +121,24 @@ tableextension 50015 "G/L Account Ext" extends "G/L Account"
 
         Modify();
     end;
+
+    trigger OnBeforeRename()
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
+    begin
+        //N005 Begin
+        recApprSetup.Get();
+        if (recApprSetup."G/L Account") then begin
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Submitted, Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
+                Error('Can''t edit this data because of it''s submitted for approval.');
+            end;
+
+            if Rec."Approval Status" in [Enum::"Hagiwara Approval Status"::Approved, Enum::"Hagiwara Approval Status"::"Auto Approved"] then begin
+                Error('Can''t edit this data because of it''s approved.');
+            end;
+
+        end;
+        //N005 End
+
+    end;
 }
