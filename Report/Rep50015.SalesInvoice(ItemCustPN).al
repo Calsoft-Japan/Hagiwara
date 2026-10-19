@@ -1021,6 +1021,13 @@ report 50015 "Sales - Invoice (Item/CustPN)"
             Caption = 'Sales - Invoice (Header)-TH';
             //Summary = 'The Standard Sales Invoice (RDLC) is the most detailed layout and provides most flexible layout options.';
         }
+        layout("Sales - Invoice (itemCustPN)3-NonSig.rdlc")
+        {
+            Type = RDLC;
+            LayoutFile = './RDLC/Sales - Invoice (itemCustPN)3-NonSig.rdlc';
+            Caption = 'Sales - Invoice (itemCustPN)3-NonSig';
+            //Summary = 'The Standard Sales Invoice (RDLC) is the most detailed layout and provides most flexible layout options.';
+        }
     }
     labels
     {
