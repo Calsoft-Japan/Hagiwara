@@ -4,6 +4,7 @@ report 50031 "PO Hagiwara-Cust Item3"
     // CS022 KenChen 2021/07/30 - PO Line Modification to fix Page-break
     // CS064 Kenya 2023/10/03 - Add PO/Line No.
     // CS092 FDD R020 Bobby.Ji 2025/7/7 - Upgade to the BC version
+    // BCUPD Shawn 2026/10/20 - Print "Requested Receipt Date_1" as Delivery(ETD) on "Purchase Order Cust Item" layout.
 
     /*DefaultLayout = RDLC;
     RDLCLayout = './RDLC/Purchase Order Cust Item3.rdlc';
@@ -313,6 +314,9 @@ report 50031 "PO Hagiwara-Cust Item3"
                         column(Delivery_PurchLine; ExpectedReceiptDate)
                         {
                         }
+                        column(ReqDate1_PurchLine; RequestedReceiptDate1)
+                        {
+                        }
                         column(UOM_PurchLine; UOM)
                         {
                         }
@@ -443,6 +447,10 @@ report 50031 "PO Hagiwara-Cust Item3"
                             ExpectedReceiptDate := '';
                             IF "Purchase Line"."Expected Receipt Date" <> 0D THEN
                                 ExpectedReceiptDate := FORMAT("Purchase Line"."Expected Receipt Date", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
+
+                            RequestedReceiptDate1 := '';
+                            IF "Purchase Line"."Requested Receipt Date_1" <> 0D THEN
+                                RequestedReceiptDate1 := FORMAT("Purchase Line"."Requested Receipt Date_1", 0, '<Closing><Day,2>-<Month Text, 3>-<Year>');
 
                             AllowInvDisctxt := FORMAT("Purchase Line"."Allow Invoice Disc.");
                             TotalSubTotal += "Purchase Line"."Line Amount";
@@ -935,6 +943,7 @@ report 50031 "PO Hagiwara-Cust Item3"
         DeliveryCaptionLbl: Label 'Delivery';
         ColonCaptionLbl: Label ':';
         ExpectedReceiptDate: Text[20];
+        RequestedReceiptDate1: Text[20];
         TotalQuantity: Integer;
         Country: Record "Country/Region";
         SecondLineDesc: Text;

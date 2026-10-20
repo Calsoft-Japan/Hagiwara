@@ -5,7 +5,10 @@ pageextension 50143 PostedSalesInvoicesExt extends "Posted Sales Invoices"
 
         addafter("Sell-to Customer Name")
         {
-
+            field("Package Tracking No."; Rec."Package Tracking No.")
+            {
+                ApplicationArea = All;
+            }
             field("OEM No."; Rec."OEM No.")
             {
                 ApplicationArea = All;

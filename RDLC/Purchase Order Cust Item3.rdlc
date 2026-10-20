@@ -5307,6 +5307,9 @@ End Function
         <Field Name="Delivery_PurchLine">
           <DataField>Delivery_PurchLine</DataField>
         </Field>
+        <Field Name="ReqDate1_PurchLine">
+          <DataField>ReqDate1_PurchLine</DataField>
+        </Field>
         <Field Name="UOM_PurchLine">
           <DataField>UOM_PurchLine</DataField>
         </Field>

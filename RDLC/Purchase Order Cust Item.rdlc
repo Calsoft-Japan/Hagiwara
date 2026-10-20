@@ -1025,14 +1025,14 @@
                                       </TablixCell>
                                       <TablixCell>
                                         <CellContents>
-                                          <Textbox Name="Delivery_PurchLine">
+                                          <Textbox Name="ReqDate1_PurchLine">
                                             <CanGrow>true</CanGrow>
                                             <KeepTogether>true</KeepTogether>
                                             <Paragraphs>
                                               <Paragraph>
                                                 <TextRuns>
                                                   <TextRun>
-                                                    <Value>=Fields!Delivery_PurchLine.Value</Value>
+                                                    <Value>=Fields!ReqDate1_PurchLine.Value</Value>
                                                     <Style>
                                                       <FontStyle>Normal</FontStyle>
                                                       <FontFamily>Segoe UI</FontFamily>
@@ -1044,7 +1044,7 @@
                                                 </Style>
                                               </Paragraph>
                                             </Paragraphs>
-                                            <rd:DefaultName>Delivery_PurchLine</rd:DefaultName>
+                                            <rd:DefaultName>ReqDate1_PurchLine</rd:DefaultName>
                                             <Style>
                                               <VerticalAlign>Top</VerticalAlign>
                                               <PaddingLeft>5pt</PaddingLeft>
@@ -5247,6 +5247,9 @@ End Function
         </Field>
         <Field Name="Delivery_PurchLine">
           <DataField>Delivery_PurchLine</DataField>
+        </Field>
+        <Field Name="ReqDate1_PurchLine">
+          <DataField>ReqDate1_PurchLine</DataField>
         </Field>
         <Field Name="UOM_PurchLine">
           <DataField>UOM_PurchLine</DataField>
