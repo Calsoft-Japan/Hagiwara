@@ -693,7 +693,16 @@ page 50118 "Item Import Lines"
         ItemReference.SetRange("Reference Type No.", p_ItemImportline."Customer No.");
         if ItemReference.FindFirst() then begin
             // Update
-            ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+            //ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+
+            //keys: "Item No.", "Variant Code", "Unit of Measure", "Reference Type", "Reference Type No.", "Reference No."
+            ItemReference.Rename(ItemReference."Item No.",
+                                ItemReference."Variant Code",
+                                ItemReference."Unit of Measure",
+                                ItemReference."Reference Type",
+                                ItemReference."Reference Type No.",
+                                p_ItemImportline."Original Item No.");
+
             ItemReference.Validate(Description, p_ItemImportline.Description);
             ItemReference.Modify(true);
         end else begin
@@ -723,7 +732,16 @@ page 50118 "Item Import Lines"
         ItemReference.SetRange("Reference Type No.", p_ItemImportline."Vendor No.");
         if ItemReference.FindFirst() then begin
             // Update
-            ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+            //ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
+
+            //keys: "Item No.", "Variant Code", "Unit of Measure", "Reference Type", "Reference Type No.", "Reference No."
+            ItemReference.Rename(ItemReference."Item No.",
+                                ItemReference."Variant Code",
+                                ItemReference."Unit of Measure",
+                                ItemReference."Reference Type",
+                                ItemReference."Reference Type No.",
+                                p_ItemImportline."Original Item No.");
+
             ItemReference.Validate(Description, p_ItemImportline.Description);
             ItemReference.Modify(true);
         end else begin

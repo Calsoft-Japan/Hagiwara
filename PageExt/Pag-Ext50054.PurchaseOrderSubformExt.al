@@ -32,6 +32,11 @@ pageextension 50054 PurchaseOrderSubformExt extends "Purchase Order Subform"
 
                 ApplicationArea = all;
             }
+            field("Customer No."; Rec."Customer No.")
+            {
+
+                ApplicationArea = all;
+            }
             field("SO No."; rec."SO No.")
             {
 

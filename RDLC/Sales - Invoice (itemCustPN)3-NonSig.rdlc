@@ -4863,6 +4863,138 @@ Cstr(Fields!CompInfoBranchCode.Value), 1)</Hidden>
                     </TopBorder>
                   </Style>
                 </Textbox>
+                <Textbox Name="Textbox7">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value>=Code.GetData(15,1)</Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox7</rd:DefaultName>
+                  <Top>1.84897cm</Top>
+                  <Left>1.1778cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>7.7222cm</Width>
+                  <ZIndex>7</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox10">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value EvaluationMode="Constant">Sign.......................................................................</Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox10</rd:DefaultName>
+                  <Top>3.09251cm</Top>
+                  <Left>1.1778cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>6.95166cm</Width>
+                  <ZIndex>8</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox11">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value EvaluationMode="Constant">Sign.......................................................................</Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox10</rd:DefaultName>
+                  <Top>3.09251cm</Top>
+                  <Left>10.76974cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>6.95166cm</Width>
+                  <ZIndex>9</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
+                <Textbox Name="Textbox12">
+                  <CanGrow>true</CanGrow>
+                  <KeepTogether>true</KeepTogether>
+                  <Paragraphs>
+                    <Paragraph>
+                      <TextRuns>
+                        <TextRun>
+                          <Value EvaluationMode="Constant">Received By.</Value>
+                          <Style>
+                            <FontFamily>Segoe UI</FontFamily>
+                            <FontWeight>Bold</FontWeight>
+                          </Style>
+                        </TextRun>
+                      </TextRuns>
+                      <Style />
+                    </Paragraph>
+                  </Paragraphs>
+                  <rd:DefaultName>Textbox10</rd:DefaultName>
+                  <Top>1.91381cm</Top>
+                  <Left>10.76974cm</Left>
+                  <Height>0.6cm</Height>
+                  <Width>6.95166cm</Width>
+                  <ZIndex>10</ZIndex>
+                  <Style>
+                    <Border>
+                      <Style>None</Style>
+                    </Border>
+                    <PaddingLeft>2pt</PaddingLeft>
+                    <PaddingRight>2pt</PaddingRight>
+                    <PaddingTop>2pt</PaddingTop>
+                    <PaddingBottom>2pt</PaddingBottom>
+                  </Style>
+                </Textbox>
               </ReportItems>
               <KeepTogether>true</KeepTogether>
               <Left>0.0038in</Left>

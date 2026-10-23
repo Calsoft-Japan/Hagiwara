@@ -6,6 +6,11 @@ tableextension 50039 "Purchase Line Ext" extends "Purchase Line"
         {
             Description = 'king';
         }
+        field(50001; "Customer No."; Code[20])
+        {
+            FieldClass = FlowField;
+            CalcFormula = Lookup(Item."Customer No." WHERE("No." = FIELD("No.")));
+        }
         field(50010; "Customer Item No."; Code[20])
         {
             // cleaned
