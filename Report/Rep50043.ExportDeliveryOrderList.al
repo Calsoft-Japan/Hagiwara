@@ -150,7 +150,7 @@ report 50043 "Export Delivery Order List "
                     CSVBuffer.InsertEntry(LineNo, 21, '"' + Customer.Remarks4.replace('"', '""') + '"');
                     CSVBuffer.InsertEntry(LineNo, 22, '"' + Customer.Remarks5.replace('"', '""') + '"');
                     CSVBuffer.InsertEntry(LineNo, 23, Format("Sales Line"."Shipment Date", 0, '<Day,2>/<Month,2>/<Year4>'));
-                    CSVBuffer.InsertEntry(LineNo, 24, ItemType);
+                    CSVBuffer.InsertEntry(LineNo, 24, '"' + ItemType.replace('"', '""') + '"');
                     CSVBuffer.InsertEntry(LineNo, 25, "Sales Line"."Customer Order No.");
                     CSVBuffer.InsertEntry(LineNo, 26, "Sales Line"."Parts No.");
                     CSVBuffer.InsertEntry(LineNo, 27, "Sales Line".Rank);

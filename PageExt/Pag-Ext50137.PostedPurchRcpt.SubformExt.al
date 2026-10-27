@@ -16,6 +16,10 @@ pageextension 50137 PostedPurchRcptSubformExt extends "Posted Purchase Rcpt. Sub
 
         addafter("Quantity")
         {
+            field("Direct Unit Cost"; Rec."Direct Unit Cost")
+            {
+                ApplicationArea = all;
+            }
             field("Unit Price (LCY)"; Rec."Unit Price (LCY)")
             {
                 ApplicationArea = all;

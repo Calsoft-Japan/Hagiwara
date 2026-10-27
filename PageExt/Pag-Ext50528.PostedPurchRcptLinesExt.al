@@ -13,6 +13,10 @@ pageextension 50528 PostedPurchRcptLinesExt extends "Posted Purchase Receipt Lin
 
         addafter("Quantity")
         {
+            field("Direct Unit Cost"; Rec."Direct Unit Cost")
+            {
+                ApplicationArea = all;
+            }
             field("Unit Price (LCY)"; rec."Unit Price (LCY)")
             {
                 ApplicationArea = all;
