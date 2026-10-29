@@ -87,4 +87,34 @@ codeunit 56620 "Copy Doc. Mgt. Subscriber"
 
     end;
 
+    [EventSubscriber(ObjectType::Table, Database::"Return Receipt Line", OnBeforeInsertInvLineFromRetRcptLine, '', false, false)]
+    local procedure DoOnBeforeInsertInvLineFromRetRcptLine(var SalesLine: Record "Sales Line"; SalesOrderLine: Record "Sales Line"; var ReturnReceiptLine: Record "Return Receipt Line"; var IsHandled: Boolean; NextLineNo: Integer)
+
+    var
+    begin
+
+        //N005 Begin
+        SalesLine.Validate("Approval History Exists", false);
+        SalesLine.Validate("Approved Quantity", 0);
+        SalesLine.Validate("Approved Unit Price", 0);
+        //N005 End
+
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::"Return Shipment Line", OnBeforeInsertInvLineFromRetShptLine, '', false, false)]
+    local procedure DoOnBeforeInsertInvLineFromRetShptLine(var PurchLine: Record "Purchase Line"; var PurchOrderLine: Record "Purchase Line"; var ReturnShipmentLine: Record "Return Shipment Line"; var IsHandled: Boolean; var NextLineNo: Integer)
+
+    var
+    begin
+
+        //N005 Begin
+        PurchLine.Validate("Approval History Exists", false);
+        PurchLine.Validate("Approved Quantity", 0);
+        PurchLine.Validate("Approved Unit Cost", 0);
+        //N005 End
+
+    end;
+
+
+
 }
