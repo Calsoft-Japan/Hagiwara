@@ -158,6 +158,8 @@ page 50073 "Purch. Receipt Import Lines"
                                         PurchaseLine2.SETRANGE("CO No.", Staging."CO No.");
                                         IF PurchaseLine2.FINDFIRST THEN BEGIN
                                             PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, PurchaseLine2."Document No.");
+                                            Staging."PO No." := PurchaseLine2."Document No.";
+                                            Staging.MODIFY;
                                         END;
                                     END ELSE BEGIN
                                         PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, Staging."PO No.");
@@ -179,31 +181,14 @@ page 50073 "Purch. Receipt Import Lines"
 
                         //process starts here
 
-
-
                         Staging.SETCURRENTKEY(Status, "Batch No.");
                         Staging.SETFILTER(Staging.Status, '=%1', Staging.Status::OK);
                         Staging.SETRANGE(Staging."Batch No.", Rec."Batch No.");
                         IF Staging.FINDFIRST THEN
                             REPEAT
 
-                                IF (Staging."PO No." = '') OR (Staging."Line No." = 0) THEN BEGIN // CS079
-                                                                                                  //CS023 Begin
-                                    PurchaseLine2.RESET;
-                                    PurchaseLine2.SETRANGE("Document Type", PurchaseLine."Document Type"::Order);
-                                    PurchaseLine2.SETRANGE(Type, PurchaseLine.Type::Item);
-                                    PurchaseLine2.SETRANGE("CO No.", Staging."CO No.");
-                                    IF PurchaseLine2.FINDFIRST THEN BEGIN
-                                        PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, PurchaseLine2."Document No.");
-                                        Staging."PO No." := PurchaseLine2."Document No.";
-                                        Staging.MODIFY;
-                                    END;
-                                    //CS023 End
-                                    //CS079 Begin
-                                END ELSE BEGIN
-                                    PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, Staging."PO No.");
-                                END;
-                                //CS079 End
+                                PurchaseHeader.GET(PurchaseHeader."Document Type"::Order, Staging."PO No.");
+
                                 //PurchaseHeader.GET(PurchaseHeader."Document Type"::Order,Staging."PO No."); //CS023
                                 PurchaseHeader.VALIDATE("Posting Date", Staging."Closed Date");
                                 PurchaseHeader.VALIDATE("Goods Arrival Date", Staging."Arrival Date");
@@ -229,8 +214,7 @@ page 50073 "Purch. Receipt Import Lines"
                                 IF PurchaseLine2.FINDSET THEN BEGIN
                                     REPEAT
                                         PurchaseLine2.VALIDATE("Qty. to Receive", 0);
-                                        // PurchaseLine2.VALIDATE("Qty. to Invoice",0);
-
+                                        PurchaseLine2.VALIDATE("Qty. to Invoice", 0);
                                         PurchaseLine2.MODIFY;
 
                                     UNTIL PurchaseLine2.NEXT = 0;
@@ -274,7 +258,8 @@ page 50073 "Purch. Receipt Import Lines"
 
                             UNTIL Staging.NEXT = 0;
 
-
+                        //Performance up
+                        /*
                         PurchaseLine.RESET;
                         PurchReceiptImportStaging.RESET;
                         PurchReceiptImportStaging.SETFILTER(Status, 'Processed');
@@ -303,9 +288,10 @@ page 50073 "Purch. Receipt Import Lines"
 
                             UNTIL PurchReceiptImportStaging.NEXT = 0;
 
-
-                            MESSAGE('Validation & Process Completed.');
                         END
+                        */
+
+                        MESSAGE('Validation & Process Completed.');
 
                         // process ends here
 
