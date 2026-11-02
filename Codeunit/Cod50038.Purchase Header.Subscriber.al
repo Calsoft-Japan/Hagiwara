@@ -2,9 +2,22 @@ codeunit 50038 "Purchase Header Subscriber"
 {
     [EventSubscriber(ObjectType::Table, Database::"Purchase Header", OnAfterInitRecord, '', false, false)]
     local procedure DoOnAfterInitRecord(var PurchHeader: Record "Purchase Header")
+    var
+        recApprSetup: Record "Hagiwara Approval Setup";
     begin
 
         PurchHeader."Assigned User ID" := USERID; //HG10.00.02 NJ 01/06/2017
+
+        //N005 Begin
+        recApprSetup.Get();
+        if ((recApprSetup."Purchase Order") and (PurchHeader."Document Type" = PurchHeader."Document Type"::Order)
+            or (recApprSetup."Purchase Credit Memo") and (PurchHeader."Document Type" = PurchHeader."Document Type"::"Credit Memo")
+            or (recApprSetup."Purchase Return Order") and (PurchHeader."Document Type" = PurchHeader."Document Type"::"Return Order")
+                ) then begin
+            PurchHeader."Approval Status" := Enum::"Hagiwara Approval Status"::Required;
+        end;
+        //N005 End
+
     end;
 
     [EventSubscriber(ObjectType::Table, Database::"Purchase Header", OnAfterUpdatePurchLines, '', false, false)]
