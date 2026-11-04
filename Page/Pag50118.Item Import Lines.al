@@ -333,6 +333,12 @@ page 50118 "Item Import Lines"
                         ItemImportBatch: Record "Item Import Batch";
                     begin
 
+                        // -------check if completed data exists -------
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
+                        if not ItemImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         recApprSetup.Get();
                         if recApprSetup."Item" then begin
                             ItemImportBatch.get(G_BatchName);
@@ -358,6 +364,7 @@ page 50118 "Item Import Lines"
                         */
 
                         // -------check record contents-------
+                        ItemImportline.Reset();
                         ItemImportline.SetRange("Batch Name", G_BatchName);
                         if ItemImportline.FINDFIRST then
                             REPEAT
@@ -380,6 +387,13 @@ page 50118 "Item Import Lines"
                         ItemImportline: Record "Item Import Line";
                         recApprSetup: Record "Hagiwara Approval Setup";
                     begin
+
+                        // -------check if completed data exists -------
+                        ItemImportline.SetRange("Batch Name", G_BatchName);
+                        ItemImportline.SetFilter(Status, '%1', ItemImportline.Status::Completed);
+                        if not ItemImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         // -------check Approval Status -------
                         ItemImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
@@ -392,7 +406,7 @@ page 50118 "Item Import Lines"
 
                         //Re-validate
                         if Confirm('Re-validation will be performed. Do you want to continue?') then begin
-
+                            ItemImportline.Reset();
                             ItemImportline.SetRange("Batch Name", G_BatchName);
                             if ItemImportline.FINDFIRST then
                                 REPEAT

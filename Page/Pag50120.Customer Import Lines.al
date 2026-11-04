@@ -470,6 +470,13 @@ page 50120 "Customer Import Lines"
                         recApprSetup: Record "Hagiwara Approval Setup";
                         CustomerImportBatch: Record "Customer Import Batch";
                     begin
+
+                        // -------check if completed data exists -------
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
+                        if not CustomerImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         recApprSetup.Get();
                         if recApprSetup."Customer" then begin
                             CustomerImportBatch.get(G_BatchName);
@@ -496,6 +503,7 @@ page 50120 "Customer Import Lines"
                         // -------check record contents-------
                         GLSetup.Get();
                         Clear(CustomerNoList);
+                        CustomerImportline.Reset();
                         CustomerImportline.SetRange("Batch Name", G_BatchName);
                         if CustomerImportline.FINDFIRST then
                             REPEAT
@@ -526,6 +534,13 @@ page 50120 "Customer Import Lines"
                         CustomerImportline: Record "Customer Import Line";
                         recApprSetup: Record "Hagiwara Approval Setup";
                     begin
+
+                        // -------check if completed data exists -------
+                        CustomerImportline.SetRange("Batch Name", G_BatchName);
+                        CustomerImportline.SetFilter(Status, '%1', CustomerImportline.Status::Completed);
+                        if not CustomerImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         // -------check Approval Status -------
                         CustomerImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
@@ -541,6 +556,7 @@ page 50120 "Customer Import Lines"
 
                             // -------check record contents-------
                             Clear(CustomerNoList);
+                            CustomerImportline.Reset();
                             CustomerImportline.SetRange("Batch Name", G_BatchName);
                             if CustomerImportline.FINDFIRST then
                                 REPEAT

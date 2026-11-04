@@ -179,6 +179,11 @@ page 50107 "Price List Import Lines"
                         recApprSetup: Record "Hagiwara Approval Setup";
                         PriceListImportBatch: Record "Price List Import Batch";
                     begin
+                        // -------check if completed data exists -------
+                        PriceListImportline.SetRange("Batch Name", G_BatchName);
+                        PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Completed);
+                        if not PriceListImportline.IsEmpty then
+                            Error('The lines are completed.');
 
                         recApprSetup.Get();
                         if recApprSetup."Price List" then begin
@@ -205,6 +210,7 @@ page 50107 "Price List Import Lines"
 
                         // -------check record contents-------
                         Clear(PriceListNoList);
+                        PriceListImportline.Reset();
                         PriceListImportline.SetRange("Batch Name", G_BatchName);
                         if PriceListImportline.FINDFIRST then
                             REPEAT
@@ -232,6 +238,13 @@ page 50107 "Price List Import Lines"
                         PurchPriceLineNoStarter: Integer;
                         PriceListManagement: Codeunit "Price List Management";
                     begin
+
+                        // -------check if completed data exists -------
+                        PriceListImportline.SetRange("Batch Name", G_BatchName);
+                        PriceListImportline.SetFilter(Status, '%1', PriceListImportline.Status::Completed);
+                        if not PriceListImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         // -------check Approval Status -------
                         PriceListImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
@@ -247,6 +260,7 @@ page 50107 "Price List Import Lines"
 
                             // -------check record contents-------
                             Clear(PriceListNoList);
+                            PriceListImportline.Reset();
                             PriceListImportline.SetRange("Batch Name", G_BatchName);
 
                             if PriceListImportline.FINDFIRST then

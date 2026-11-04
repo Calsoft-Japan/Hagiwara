@@ -367,6 +367,12 @@ page 50114 "Vendor Import Lines"
                         VendorImportBatch: Record "Vendor Import Batch";
                     begin
 
+                        // -------check if completed data exists -------
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
+                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
+                        if not VendorImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         recApprSetup.Get();
                         if recApprSetup."Vendor" then begin
                             VendorImportBatch.get(G_BatchName);
@@ -392,6 +398,7 @@ page 50114 "Vendor Import Lines"
 
                         // -------check record contents-------
                         Clear(VendorNoList);
+                        VendorImportline.Reset();
                         VendorImportline.SetRange("Batch Name", G_BatchName);
                         if VendorImportline.FINDFIRST then
                             REPEAT
@@ -421,6 +428,13 @@ page 50114 "Vendor Import Lines"
                         VendorImportline: Record "Vendor Import Line";
                         recApprSetup: Record "Hagiwara Approval Setup";
                     begin
+
+                        // -------check if completed data exists -------
+                        VendorImportline.SetRange("Batch Name", G_BatchName);
+                        VendorImportline.SetFilter(Status, '%1', VendorImportline.Status::Completed);
+                        if not VendorImportline.IsEmpty then
+                            Error('The lines are completed.');
+
                         // -------check Approval Status -------
                         VendorImportBatch.GET(G_BatchName);
                         recApprSetup.Get();
@@ -436,6 +450,7 @@ page 50114 "Vendor Import Lines"
 
                             // -------check record contents-------
                             Clear(VendorNoList);
+                            VendorImportline.Reset();
                             VendorImportline.SetRange("Batch Name", G_BatchName);
                             if VendorImportline.FINDFIRST then
                                 REPEAT
