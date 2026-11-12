@@ -475,7 +475,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                 rec_Customer: Record Customer;
                 InvtSetup: Record "Inventory Setup";
                 NoSeries: Codeunit "No. Series";
-                g_NoSeries: Code[10];
             begin
 
                 CASE Type OF
@@ -519,7 +518,6 @@ tableextension 50037 "Sales Line Ext" extends "Sales Line"
                             //Siak Hui 20111122 - End
                             //Siak Hui 20111124 - Start
                             IF xRec."Booking No." = '' THEN BEGIN
-                                g_NoSeries := 'SN1';
                                 //GetInvtSetup;
                                 InvtSetup.Get();
                                 InvtSetup.TESTFIELD("Booking Serial Nos.");
