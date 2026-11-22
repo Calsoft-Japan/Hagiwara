@@ -710,13 +710,14 @@ page 50118 "Item Import Lines"
             //ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
 
             //keys: "Item No.", "Variant Code", "Unit of Measure", "Reference Type", "Reference Type No.", "Reference No."
-            ItemReference.Rename(ItemReference."Item No.",
-                                ItemReference."Variant Code",
-                                ItemReference."Unit of Measure",
-                                ItemReference."Reference Type",
-                                ItemReference."Reference Type No.",
-                                p_ItemImportline."Original Item No.");
-
+            if (p_ItemImportline."Original Item No." <> '') and (p_ItemImportline."Original Item No." <> ItemReference."Reference No.") then begin
+                ItemReference.Rename(ItemReference."Item No.",
+                                    ItemReference."Variant Code",
+                                    ItemReference."Unit of Measure",
+                                    ItemReference."Reference Type",
+                                    ItemReference."Reference Type No.",
+                                    p_ItemImportline."Original Item No.");
+            end;
             ItemReference.Validate(Description, p_ItemImportline.Description);
             ItemReference.Modify(true);
         end else begin
@@ -749,12 +750,14 @@ page 50118 "Item Import Lines"
             //ItemReference.Validate("Reference No.", p_ItemImportline."Original Item No.");
 
             //keys: "Item No.", "Variant Code", "Unit of Measure", "Reference Type", "Reference Type No.", "Reference No."
-            ItemReference.Rename(ItemReference."Item No.",
-                                ItemReference."Variant Code",
-                                ItemReference."Unit of Measure",
-                                ItemReference."Reference Type",
-                                ItemReference."Reference Type No.",
-                                p_ItemImportline."Original Item No.");
+            if (p_ItemImportline."Original Item No." <> '') and (p_ItemImportline."Original Item No." <> ItemReference."Reference No.") then begin
+                ItemReference.Rename(ItemReference."Item No.",
+                                    ItemReference."Variant Code",
+                                    ItemReference."Unit of Measure",
+                                    ItemReference."Reference Type",
+                                    ItemReference."Reference Type No.",
+                                    p_ItemImportline."Original Item No.");
+            end;
 
             ItemReference.Validate(Description, p_ItemImportline.Description);
             ItemReference.Modify(true);
@@ -802,10 +805,12 @@ page 50118 "Item Import Lines"
 
             //Only Inventory type needs to specify Costing Method as Average.
             //Also, the other two types can't specfity Costing method.
-            if Item.Type = Item.Type::Inventory then begin
-                Item.Validate("Costing Method", "Costing Method"::Average);
-            end else begin
-                Item.Validate("Costing Method", "Costing Method"::FIFO);
+            if Item.Type.AsInteger() <> p_ItemImportline.Type then begin
+                if Item.Type = Item.Type::Inventory then begin
+                    Item.Validate("Costing Method", "Costing Method"::Average);
+                end else begin
+                    Item.Validate("Costing Method", "Costing Method"::FIFO);
+                end;
             end;
 
             if Item."Familiar Name" <> p_ItemImportline."Familiar Name" then

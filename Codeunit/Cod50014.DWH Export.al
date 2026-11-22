@@ -1251,7 +1251,7 @@ codeunit 50014 "DWH Export"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, "Line Amount (Excl. VAT)"
                         */
 
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity"); //Outstanding Quantity
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, "Direct Unit Cost (Excl. VAT)"
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Order Amount, "Line Amount (Excl. VAT)"
                         //BC Upgrade begin
@@ -1309,8 +1309,7 @@ codeunit 50014 "DWH Export"
                         */
 
                         SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND((PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received") * PurchaseLineRec."Approved Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
-                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
-
+                        SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity"); //Outstanding Quantity
                         //BC Upgrade end
 
                         //SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.'';//Outstanding Quantity(Set blank for Purchase Invoice Line)
@@ -1419,7 +1418,8 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Customer Inventory Group';
             SaveString := SaveString + FORMAT(tabChar) + 'Item Code';
             SaveString := SaveString + FORMAT(tabChar) + 'Item Name';
-            SaveString := SaveString + FORMAT(tabChar) + 'Quantity';
+            //SaveString := SaveString + FORMAT(tabChar) + 'Quantity'; //CS093
+            SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity'; //CS093
             SaveString := SaveString + FORMAT(tabChar) + 'Order Price';
             SaveString := SaveString + FORMAT(tabChar) + 'Order Amount';
             SaveString := SaveString + FORMAT(tabChar) + 'Order Currency';
@@ -1436,7 +1436,8 @@ codeunit 50014 "DWH Export"
             SaveString := SaveString + FORMAT(tabChar) + 'Item Supplier Source';
             SaveString := SaveString + FORMAT(tabChar) + 'Location Code';
             SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Amount';
-            SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity';
+            //SaveString := SaveString + FORMAT(tabChar) + 'Outstanding Quantity'; //CS093
+            SaveString := SaveString + FORMAT(tabChar) + 'Quantity'; //CS093
             SaveString := SaveString + FORMAT(tabChar) + 'Quantity Invoiced';
             SaveString := SaveString + FORMAT(tabChar) + 'Quantity Received';
             SaveString := SaveString + FORMAT(tabChar) + 'Unit Cost';
@@ -1473,14 +1474,15 @@ codeunit 50014 "DWH Export"
                     //CS051 End
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec."No.";//Item Code
                     SaveString := SaveString + FORMAT(tabPlaceholder) + PurchaseLineRec.Description;//Item Name
-                    //BC Upgrade begin
-                    /*
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, Line Amount (Excl. VAT)
-                    */
+                                                                                                    //BC Upgrade begin
+                                                                                                    /*
+                                                                                                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec.Quantity);//Quantity
+                                                                                                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Direct Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
+                                                                                                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Line Amount");//Order Amount, Line Amount (Excl. VAT)
+                                                                                                    */
 
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity");//Quantity
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity");//Quantity
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Unit Cost");//Order Price, Direct Unit Cost (Excl. VAT)
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND(PurchaseLineRec."Approved Quantity" * PurchaseLineRec."Approved Unit Cost", 0.00001));//Order Amount, Line Amount (Excl. VAT)
 
@@ -1538,8 +1540,9 @@ codeunit 50014 "DWH Export"
                     */
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(ROUND((PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received") * PurchaseLineRec."Approved Unit Cost", 0.00001));//Outstanding Amount(Set blank for Purchase Invoice Line) //CS086
-                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
 
+                    //SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity" - PurchaseLineRec."Quantity Received");//Outstanding Quantity(Set blank for Purchase Invoice Line)
+                    SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Approved Quantity"); //Outstanding Quantity
                     //BC Upgrade end
 
                     SaveString := SaveString + FORMAT(tabPlaceholder) + FORMAT(PurchaseLineRec."Quantity Invoiced");//Quantity Invoiced(Set blank for Purchase Invoice Line)
