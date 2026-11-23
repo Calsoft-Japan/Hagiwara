@@ -150,6 +150,7 @@ report 50077 "Renesas PO Check List"
                 g_ItemNo := '    ';
                 g_PONo := ' ';
                 g_POQty := 0;
+                g_POQty_Check := 0;
                 g_Price := 0;
                 g_PriceMark := '';
                 g_DupRec := '     ';
@@ -206,26 +207,47 @@ report 50077 "Renesas PO Check List"
                 //---------------------------------------------------------------//
                 //                SEARCHING FOR RELEVANT CUSTOMER                //
                 //---------------------------------------------------------------//
-                IF (NOT rec_Customer.GET("OEM No.")) and (ind_Error = '0') THEN BEGIN
-                    g_DupRec := 'Customer (OEM) not found';
+                IF NOT rec_Customer.GET("OEM No.") THEN BEGIN
+                    g_DupRec := (ind_Error = '1') ? g_DupRec : 'Customer (OEM) not found';
                     g_NoCustomer := '**';
                     g_CreErr := g_CreErr + 1;
                     ind_Error := '1';
                 END;
                 //v20210226 End
 
+                //---------------------------------------------------------------//
+                //       SEARCHING FOR RELATED PURCHASE LINE USING CO NO.        //
+                //---------------------------------------------------------------//
+                IF Quantity < 0 THEN BEGIN
+                    rec_PurchLine.SETCURRENTKEY("CO No.");
+                    rec_PurchLine.SETRANGE(rec_PurchLine."CO No.", "CO No.");
+                    // rec_PurchLine.SETFILTER(rec_PurchLine."CO No.",'=%1',"CO No.");
+                    IF rec_PurchLine.FIND('-') THEN BEGIN
+                        g_PONo := rec_PurchLine."Document No.";
+                        g_POLineNo := rec_PurchLine."Line No.";
+                        g_POQty := rec_PurchLine.Quantity;
+                        g_ItemNo := rec_PurchLine."No.";
+                    END ELSE BEGIN
+                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'Purchase Line not found for negative quantity update';
+                        g_PONo := '***';
+                        //g_ItemNo := '****';
+                        g_UpdErr := g_UpdErr + 1;
+                        ind_Error := '1';
+                    END;
+                END;
+
                 //CS031 Start
                 //---------------------------------------------------------------//
                 //                SEARCHING FOR DUPLICATE CO NO.                 //
                 //---------------------------------------------------------------//
-                IF (Quantity < 0) and (ind_Error = '0') THEN BEGIN
+                IF Quantity < 0 THEN BEGIN
                     g_DupCnt := 0;
                     rec_RenPOInt.RESET;
                     rec_RenPOInt.SETRANGE(rec_RenPOInt.ProcFlag, '0');
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."CO No.", '=%1', "CO No.");
                     IF rec_RenPOInt.FINDSET THEN BEGIN
                         REPEAT
-                            g_POQty := g_POQty + rec_RenPOInt.Quantity;
+                            g_POQty_Check := g_POQty_Check + rec_RenPOInt.Quantity;
                             g_DupCnt := g_DupCnt + 1;
                         UNTIL rec_RenPOInt.NEXT = 0;
                     END;
@@ -235,25 +257,25 @@ report 50077 "Renesas PO Check List"
                     rec_PurchLine.SETFILTER(rec_PurchLine."CO No.", '=%1', "CO No.");
                     IF rec_PurchLine.FINDSET THEN BEGIN
                         REPEAT
-                            g_POQty := g_POQty + rec_PurchLine.Quantity;  //Existing PO
+                            g_POQty_Check := g_POQty_Check + rec_PurchLine.Quantity;  //Existing PO
                         UNTIL rec_PurchLine.NEXT = 0;
                     END;
 
-                    IF g_POQty < 0 THEN BEGIN
-                        g_DupRec := 'Total quantity becomes negative';
+                    IF g_POQty_Check < 0 THEN BEGIN
+                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'Total quantity becomes negative';
                         ind_Error := '1';
                         g_UpdErr := g_UpdErr + 1;
                     END
                     ELSE BEGIN
                         IF g_DupCnt > 1 THEN BEGIN
-                            g_DupRec := 'Duplicate negative entries';
+                            g_DupRec := (ind_Error = '1') ? g_DupRec : 'Duplicate negative entries';
                             g_UpdWar := g_UpdWar + 1;
                             ind_Error := '1';
                         END;
                     END;
 
                     rec_ApprSetup.Get();
-                    if (rec_ApprSetup."Purchase Order") and (ind_Error = '0') then begin
+                    if rec_ApprSetup."Purchase Order" then begin
                         rec_PurchLine.RESET;
                         rec_PurchLine.SETRANGE(rec_PurchLine."CO No.", "CO No.");
                         rec_PurchLine.SETFILTER(rec_PurchLine."CO No.", '=%1', "CO No.");
@@ -264,7 +286,7 @@ report 50077 "Renesas PO Check List"
                                         [Enum::"Hagiwara Approval Status"::Submitted,
                                         Enum::"Hagiwara Approval Status"::"Re-Submitted"] then begin
 
-                                        g_DupRec := 'PO is already submitted for approval';
+                                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'PO is already submitted for approval';
                                         ind_Error := '1';
                                         g_UpdErr := g_UpdErr + 1;
                                     end;
@@ -277,19 +299,19 @@ report 50077 "Renesas PO Check List"
                 //---------------------------------------------------------------//
                 //  SEARCHING FOR DUPLICATE RECORD IN RENESAS PO INTERFACE TABLE //
                 //---------------------------------------------------------------//
-                IF (Quantity > 0) and (ind_Error = '0') THEN BEGIN
+                IF Quantity > 0 THEN BEGIN
                     rec_RenPOInt.SETCURRENTKEY("Document Date", "OEM No.", "Currency Code", "Vendor Customer Code");
-                    rec_RenPOInt.SETRANGE(rec_RenPOInt.ProcFlag, '1');
+                    //rec_RenPOInt.SETRANGE(rec_RenPOInt.ProcFlag, '1');
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Document Date", '=%1', "Document Date");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Demand Date", '=%1', "Demand Date");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."OEM No.", '=%1', "OEM No.");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Currency Code", '=%1', "Currency Code");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt.Quantity, '=%1', Quantity);
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Vendor Customer Code", '=%1', "Vendor Customer Code");
-                    IF rec_RenPOInt.FIND('-') THEN BEGIN
+                    IF rec_RenPOInt.Count > 1 THEN BEGIN
                         IF rec_RenPOInt."Item Description" = "Item Description" THEN BEGIN
                             g_DupEntryNo := rec_RenPOInt."Entry No.";
-                            g_DupRec := 'Duplicate record found';
+                            g_DupRec := (ind_Error = '1') ? g_DupRec : 'Duplicate record found';
                             ind_Error := '1';
                             g_CreErr := g_CreErr + 1;
                         END;
@@ -299,19 +321,19 @@ report 50077 "Renesas PO Check List"
                 //---------------------------------------------------------------//
                 //  SEARCHING FOR DUPLICATE RECORD IN RENESAS PO INTERFACE TABLE //
                 //---------------------------------------------------------------//
-                IF (Quantity < 0) and (ind_Error = '0') THEN BEGIN
+                IF Quantity < 0 THEN BEGIN
                     rec_RenPOInt.SETCURRENTKEY("Document Date", "OEM No.", "Currency Code", "Vendor Customer Code");
-                    rec_RenPOInt.SETRANGE(rec_RenPOInt.ProcFlag, '1');
+                    //rec_RenPOInt.SETRANGE(rec_RenPOInt.ProcFlag, '1');
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Document Date", '=%1', "Document Date");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Demand Date", '=%1', "Demand Date");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."OEM No.", '=%1', "OEM No.");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Currency Code", '=%1', "Currency Code");
                     rec_RenPOInt.SETFILTER(rec_RenPOInt.Quantity, '=%1', Quantity);
                     rec_RenPOInt.SETFILTER(rec_RenPOInt."Vendor Customer Code", '=%1', "Vendor Customer Code");
-                    IF rec_RenPOInt.FIND('-') THEN BEGIN
+                    IF rec_RenPOInt.Count > 1 THEN BEGIN
                         //    IF  rec_RenPOInt.Quantity = Quantity THEN BEGIN
                         g_DupEntryNo := rec_RenPOInt."Entry No.";
-                        g_DupRec := 'Duplicate record found';
+                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'Duplicate record found';
                         ind_Error := '1';
                         g_UpdErr := g_UpdErr + 1;
                     END;
@@ -321,14 +343,14 @@ report 50077 "Renesas PO Check List"
                 //---------------------------------------------------------------//
                 //     SEARCHING FOR DUPLICATE RECORD IN PURCHASE LINE TABLE     //
                 //---------------------------------------------------------------//
-                IF (Quantity > 0) and (ind_Error = '0') THEN BEGIN
+                IF Quantity > 0 THEN BEGIN
                     rec_PurchLine.SETCURRENTKEY("CO No.");
                     rec_PurchLine.SETRANGE(rec_PurchLine."CO No.", "CO No.");
                     rec_PurchLine.SETFILTER(rec_PurchLine."CO No.", '=%1', "CO No.");
                     IF rec_PurchLine.FIND('-') THEN BEGIN
                         g_PONo := rec_PurchLine."Document No.";
                         g_POLineNo := rec_PurchLine."Line No.";
-                        g_DupRec := 'PO already exists';
+                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'PO already exists';
                         ind_Error := '1';
                         g_CreErr := g_CreErr + 1;
                     END;
@@ -354,33 +376,11 @@ report 50077 "Renesas PO Check List"
                 //// END;
                 //END;
 
-                //---------------------------------------------------------------//
-                //       SEARCHING FOR RELATED PURCHASE LINE USING CO NO.        //
-                //---------------------------------------------------------------//
-                g_POQty := 0;
-                IF (Quantity < 0) and (ind_Error = '0') THEN BEGIN
-                    rec_PurchLine.SETCURRENTKEY("CO No.");
-                    rec_PurchLine.SETRANGE(rec_PurchLine."CO No.", "CO No.");
-                    // rec_PurchLine.SETFILTER(rec_PurchLine."CO No.",'=%1',"CO No.");
-                    IF rec_PurchLine.FIND('-') THEN BEGIN
-                        g_PONo := rec_PurchLine."Document No.";
-                        g_POLineNo := rec_PurchLine."Line No.";
-                        g_POQty := rec_PurchLine.Quantity;
-                        g_ItemNo := rec_PurchLine."No.";
-                    END ELSE BEGIN
-                        g_DupRec := 'Purchase Line not found for negative quantity update';
-                        g_PONo := '***';
-                        g_ItemNo := '****';
-                        g_UpdErr := g_UpdErr + 1;
-                        ind_Error := '1';
-                    END;
-                END;
-
                 //BC Upgrade
                 //---------------------------------------------------------------//
                 //     Compare the Price in the imported file with the Direct Unit Cost in the Price List Line (indicating the price does not match)     //
                 //---------------------------------------------------------------//
-                IF (Quantity > 0) and (ind_Error = '0') THEN BEGIN
+                IF Quantity > 0 THEN BEGIN
                     rec_PriceListLine.Reset();
                     rec_PriceListLine.SetCurrentKey("Starting Date");
                     rec_PriceListLine.Ascending(false);
@@ -395,13 +395,13 @@ report 50077 "Renesas PO Check List"
                     rec_PriceListLine.SetFilter("Ending Date", '%1|%2..', 0D, "Document Date");
                     if rec_PriceListLine.FindFirst() then begin
                         if rec_PriceListLine."Direct Unit Cost" <> Price then begin
-                            g_DupRec := 'Price does not match Price List';
+                            g_DupRec := (ind_Error = '1') ? g_DupRec : 'Price does not match Price List';
                             ind_Error := '1';
                             g_CreErr := g_CreErr + 1;
                         end;
                     end else begin
                         // not found is also not match.
-                        g_DupRec := 'Price does not match Price List';
+                        g_DupRec := (ind_Error = '1') ? g_DupRec : 'Price does not match Price List';
                         ind_Error := '1';
                         g_CreErr := g_CreErr + 1;
                     end;
@@ -546,6 +546,7 @@ report 50077 "Renesas PO Check List"
         rec_ApprSetup: Record "Hagiwara Approval Setup";
         g_PONo: Code[20];
         g_POQty: Decimal;
+        g_POQty_Check: Decimal;
         g_PriceMark: Text[1];
         g_Price: Decimal;
         g_DupRec: Text[250];
@@ -570,7 +571,7 @@ report 50077 "Renesas PO Check List"
         Org_PO_QtyCaptionLbl: Label 'Org PO Qty';
         PO_No_CaptionLbl: Label 'PO No.';
         Item_No_CaptionLbl: Label 'Item No.';
-        DupliacateCaptionLbl: Label 'Dupliacate';
+        DupliacateCaptionLbl: Label 'Error';
         P__EntryCaptionLbl: Label 'P. Entry';
         PO_LineCaptionLbl: Label 'PO Line';
         rec_Customer: Record Customer;
